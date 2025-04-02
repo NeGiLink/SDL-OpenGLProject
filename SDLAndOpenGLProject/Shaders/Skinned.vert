@@ -24,11 +24,11 @@ layout(location = 2) in uvec4 inSkinBones;
 layout(location = 3) in vec4 inSkinWeights;
 layout(location = 4) in vec2 inTexCoord;
 
-// Any vertex outputs (other than position)
+// UV座標
 out vec2 fragTexCoord;
-// Normal (in world space)
+// 法線
 out vec3 fragNormal;
-// Position (in world space)
+// フラグメント位置（ワールド座標）
 out vec3 fragWorldPos;
 
 void main()

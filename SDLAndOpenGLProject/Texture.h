@@ -16,6 +16,7 @@ public:
 	void CreateForRendering(int width, int height, unsigned int format);
 
 	void SetActive(int index = 0);
+	void SetNoActive(int index = 0);
 
 	int GetWidth() const { return mWidth; }
 	int GetHeight() const { return mHeight; }

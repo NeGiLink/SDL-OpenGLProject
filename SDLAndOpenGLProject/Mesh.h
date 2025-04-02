@@ -4,11 +4,26 @@
 #include <array>
 #include "Collision.h"
 
+struct MaterialInfo
+{
+	Vector4 Color;
+	Vector3 Diffuse;
+	Vector3 Ambient;
+	Vector3 Specular;
+};
+
 class Mesh
 {
 public:
 	Mesh();
 	~Mesh();
+
+	enum RenderType
+	{
+		Tex,
+		Mat
+	};
+
 	// Load/unload mesh
 	bool Load(const std::string& fileName, class Renderer* renderer,int index);
 	void Unload();
@@ -27,12 +42,15 @@ public:
 	//float GetSpecPower() const { return mSpecPower; }
 	std::vector<float> GetSpecPowers() const { return mSpecPowers; }
 
-	class Shader* GetMaterialShader() { return mMaterialShader; }
+	const std::vector<MaterialInfo> GetMaterialInfo() const { return mMaterialInfo; }
+
+	const std::vector<RenderType> IsRenderType() const { return mRenderType; }
 
 	void SetTextures(const std::string& fileName, class Renderer* renderer);
 
 	int CheckMeshIndex(const std::string& fileName, class Renderer* renderer);
 private:
+
 	bool LoadFromJSON(const std::string& fileName, class Renderer* renderer, int index);
 	// FBXƒtƒ@ƒCƒ‹‚©‚çJSON‚É•ÏŠ·Load
 	bool LoadFromFBX(const std::string& fileName, class Renderer* renderer, int index);
@@ -50,6 +68,8 @@ private:
 	// Specular power of surface
 	//float mSpecPower;
 	std::vector<float> mSpecPowers;
-	//Material shader
-	class Shader* mMaterialShader;
+	//MaterialInfo
+	std::vector<MaterialInfo> mMaterialInfo;
+	//Material or Texture
+	std::vector<RenderType> mRenderType;
 };

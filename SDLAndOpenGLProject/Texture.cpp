@@ -144,5 +144,10 @@ void Texture::SetActive(int index)
 {
 	glActiveTexture(GL_TEXTURE0 + index);
 	glBindTexture(GL_TEXTURE_2D, mTextureID);
-	//glUniform1i(glGetUniformLocation(shaderProgram, "texture1"), 0);
+}
+
+void Texture::SetNoActive(int index)
+{
+	glActiveTexture(GL_TEXTURE0 + index);
+	glBindTexture(GL_TEXTURE_2D, 0);
 }
