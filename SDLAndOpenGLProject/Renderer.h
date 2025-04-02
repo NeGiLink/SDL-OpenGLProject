@@ -60,6 +60,11 @@ public:
 	class Texture* GetMirrorTexture() { return mMirrorTexture; }
 	class GBuffer* GetGBuffer() { return mGBuffer; }
 
+	// Mesh shader
+	class Shader* GetMeshShader() { return mMeshShader; }
+	// Skinned shader
+	class Shader* GetSkinnedShader() { return mSkinnedShader; }
+
 	SDL_Window* GetWindow() { return mWindow; }
 private:
 	// Chapter 14 additions

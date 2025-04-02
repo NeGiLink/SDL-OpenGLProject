@@ -158,6 +158,7 @@ bool Mesh::LoadFromJSON(const std::string& fileName, Renderer* renderer, int ind
 			}
 		}
 		mTextures.emplace_back(t);
+		mRenderType.push_back(RenderType::Tex);
 	}
 
 	// Load in the vertices
@@ -353,7 +354,7 @@ bool Mesh::LoadFromFBX(const std::string& fileName, Renderer* renderer, int inde
 					allWeight += bone->mWeights[weightIndex].mWeight;
 				}
 			}
-			/*
+			//ゼロ除算回避しつつ正規化
 			if (allWeight > 0.0f) {
 				//ウェイトの合計を1.0に正規化（ゼロ除算を回避)
 				allWeight = 1.0f / allWeight;
@@ -361,15 +362,6 @@ bool Mesh::LoadFromFBX(const std::string& fileName, Renderer* renderer, int inde
 				weight[1].f *= allWeight;
 				weight[2].f *= allWeight;
 				weight[3].f *= allWeight;
-			}
-			*/
-
-			//ゼロ除算回避しつつ正規化
-			if (allWeight > 0.0f) {
-				float invWeight = 1.0f / allWeight;
-				for (int w = 0; w < 4; w++) {
-					weight[w].f *= invWeight;
-				}
 			}
 
 			//ウェイト順にソート
@@ -407,13 +399,13 @@ bool Mesh::LoadFromFBX(const std::string& fileName, Renderer* renderer, int inde
 	radius = Math::Sqrt(radius);
 
 	std::unordered_map<std::string, Texture*> loadedTextures;
-
+	std::string texFile = "MaterialTetxure.png";
 	for (unsigned int i = 0; i < scene->mNumMaterials; i++) {
 		aiMaterial* material = scene->mMaterials[i];
 		aiString texturePath;
 
 		if (material->GetTexture(aiTextureType_DIFFUSE, 0, &texturePath) == AI_SUCCESS) {
-			std::string texFile = texturePath.C_Str();
+			texFile = texturePath.C_Str();
 
 			// 埋め込みテクスチャかどうかチェック
 			if (texFile[0] == '.') {
@@ -445,15 +437,32 @@ bool Mesh::LoadFromFBX(const std::string& fileName, Renderer* renderer, int inde
 
 			if (loadedTextures.find(texFile) != loadedTextures.end()) {
 				mTextures.push_back(loadedTextures[texFile]);
+				mRenderType.push_back(RenderType::Tex);
 			}
 		}
-
-		float shininess = 0.0f;
-		if (scene->HasMaterials()) {
-			mMaterialShader = new Shader();
-			if (mMaterialShader->Load("Shaders/VertexShader.vert", "Shaders/StandardShader.frag")) {
-				return false;
+		else 
+		{
+			if (loadedTextures.find(texFile) == loadedTextures.end()) {
+				Texture* newTex = new Texture();
+				if (newTex->Load(ASSETS_PATH + texFile)) {
+					loadedTextures[texFile] = newTex;
+				}
+				else {
+					delete newTex;
+				}
 			}
+
+			if (loadedTextures.find(texFile) != loadedTextures.end()) {
+				mTextures.push_back(loadedTextures[texFile]);
+			}
+
+			MaterialInfo info
+			{
+					Vector4(0,0,0,0),
+					Vector3(0,0,0),
+					Vector3(0,0,0),
+					Vector3(0,0,0),
+			};
 
 			// メッシュに関連付けられたマテリアルを取得
 			aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
@@ -461,7 +470,8 @@ bool Mesh::LoadFromFBX(const std::string& fileName, Renderer* renderer, int inde
 			aiColor4D diffuseColor;
 			if (AI_SUCCESS == aiGetMaterialColor(material, AI_MATKEY_COLOR_DIFFUSE, &diffuseColor)) {
 
-				mMaterialShader->SetMaterialColor(Vector4(diffuseColor.r, diffuseColor.g, diffuseColor.b, diffuseColor.a));
+				info.Color = Vector4(diffuseColor.r, diffuseColor.g, diffuseColor.b, diffuseColor.a);
+				SDL_Log("Diffuse Color: %f, %f, %f, %f", diffuseColor.r, diffuseColor.g, diffuseColor.b, diffuseColor.a);
 			}
 
 			// 拡散色（Diffuse Color）の取得
@@ -477,9 +487,16 @@ bool Mesh::LoadFromFBX(const std::string& fileName, Renderer* renderer, int inde
 			material->Get(AI_MATKEY_COLOR_SPECULAR, specular);
 
 			// シェーダーに値を送る（glUniform3f を使用）
-			mMaterialShader->SetMaterialUniform("ambientColor",Vector3(ambient.r, ambient.g, ambient.b));
-			mMaterialShader->SetMaterialUniform("diffuseColor",Vector3(diffuse.r, diffuse.g, diffuse.b));
-			mMaterialShader->SetMaterialUniform("specularColor",Vector3(specular.r, specular.g, specular.b));
+			info.Ambient = Vector3(ambient.r, ambient.g, ambient.b);
+			info.Diffuse = Vector3(diffuse.r, diffuse.g, diffuse.b);
+			info.Specular = Vector3(specular.r, specular.g, specular.b);
+
+			mMaterialInfo.push_back(info);
+			mRenderType.push_back(RenderType::Mat);
+		}
+
+		float shininess = 0.0f;
+		if (scene->HasMaterials()) {
 
 			if (AI_SUCCESS != material->Get(AI_MATKEY_SHININESS, shininess)) {
 				// デフォルト値を設定
@@ -510,8 +527,8 @@ bool Mesh::LoadFromFBX(const std::string& fileName, Renderer* renderer, int inde
 
 void Mesh::Unload()
 {
-	mMaterialShader->Unload();
-	delete mMaterialShader;
+	//mMaterialShader->Unload();
+	//delete mMaterialShader;
 	mVertexArrays.clear();
 }
 

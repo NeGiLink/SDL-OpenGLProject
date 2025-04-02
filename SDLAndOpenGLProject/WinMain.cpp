@@ -401,7 +401,8 @@ void WinMain::LoadData()
 	a = new TwoObjectActor(this);
 	a->SetPosition(Vector3(1000.0f,200.0f,0.0f));
 
-	//a = new YBotActor(this);
+	a = new YBotActor(this);
+
 	a = new TestCharacter(this);
 
 

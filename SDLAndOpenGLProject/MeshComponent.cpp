@@ -34,14 +34,28 @@ void MeshComponent::Draw(Shader* shader)
 					mOwner->GetWorldTransform());
 				// Set specular power
 				shader->SetFloatUniform("uSpecPower", mMeshs[i]->GetSpecPowers()[j]);
-				// Set the active texture
-				Texture* t = mMeshs[i]->GetTexture(i);
-				if (t)
-				{
-					t->SetActive();
+				Texture* t = nullptr;
+				if (mMeshs[i]->IsRenderType()[j] == Mesh::RenderType::Tex) {
+					// Set the active texture
+					t = mMeshs[i]->GetTexture(j);
+					if (t)
+					{
+						t->SetActive();
+					}
 				}
-				if (mMeshs[i]->GetMaterialShader()) {
-					mMeshs[i]->GetMaterialShader()->SetColorUniform("texture1");
+				else if(mMeshs[i]->IsRenderType()[j] == Mesh::RenderType::Mat)
+				{
+					// Set the active texture
+					t = mMeshs[i]->GetTexture(j);
+					if (t)
+					{
+						t->SetActive();
+					}
+					else {
+						shader->SetNoTexture();
+					}
+					MaterialInfo m = mMeshs[i]->GetMaterialInfo()[j];
+					shader->SetColorUniform("uTexture",m);
 				}
 				// Set the mesh's vertex array as active
 				VertexArray* va = mMeshs[i]->GetVertexArrays()[j];
