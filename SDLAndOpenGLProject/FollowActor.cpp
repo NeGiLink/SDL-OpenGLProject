@@ -1,19 +1,20 @@
 #include "FollowActor.h"
-#include "SkeletalMeshComponent.h"
+#include "SkeletalMeshRenderer.h"
 #include "WinMain.h"
+#include "BaseScene.h"
 #include "Renderer.h"
 #include "FollowCamera.h"
 #include "MoveComponent.h"
 #include "Animator.h"
 
-FollowActor::FollowActor(WinMain* game)
+FollowActor::FollowActor(BaseScene* game)
 	:ActorObject(game)
 	, mMoving(false)
 {
 	animator = new Animator();
 	GetGame()->GetAnimator(animatorName, animator);
-	mMeshComp = new SkeletalMeshComponent(this);
-	mMeshComp->SetMesh(GetGame()->GetRenderer()->GetMesh("Assets/CatWarrior.gpmesh"));
+	mMeshComp = new SkeletalMeshRenderer(this);
+	mMeshComp->SetMesh(game->GetWinMain()->GetRenderer()->GetMesh("Assets/CatWarrior.gpmesh"));
 	mMeshComp->SetSkeleton(GetGame()->GetSkeleton("Assets/CatWarrior.gpskel"));
 	animator->SetSkeleton(mMeshComp->GetSkeleton());
 	animator->Load("Assets/CatActionIdle.gpanim");

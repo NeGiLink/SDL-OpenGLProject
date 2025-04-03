@@ -21,7 +21,7 @@ namespace FMOD
 class AudioSystem
 {
 public:
-	AudioSystem(class WinMain* game);
+	AudioSystem(class BaseScene* game);
 	~AudioSystem();
 
 	bool Initialize();
@@ -50,7 +50,7 @@ private:
 	// Tracks the next ID to use for event instances
 	static unsigned int sNextID;
 
-	class WinMain* mGame;
+	class BaseScene* mGame;
 	// Map of loaded banks
 	std::unordered_map<std::string, FMOD::Studio::Bank*> mBanks;
 	// Map of event name to EventDescription

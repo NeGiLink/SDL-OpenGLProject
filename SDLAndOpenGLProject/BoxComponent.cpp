@@ -1,6 +1,6 @@
 #include "BoxComponent.h"
 #include "Actor.h"
-#include "WinMain.h"
+#include "BaseScene.h"
 #include "PhysWorld.h"
 
 BoxComponent::BoxComponent(ActorObject* owner, int updateOrder)

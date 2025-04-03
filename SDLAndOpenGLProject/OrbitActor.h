@@ -4,13 +4,13 @@
 class OrbitActor : public ActorObject
 {
 public:
-	OrbitActor(class WinMain* game);
+	OrbitActor(class BaseScene* game);
 
 	void ActorInput(const bool* keys) override;
 
 	void SetVisible(bool visible);
 private:
 	class OrbitCamera* mCameraComp;
-	class MeshComponent* mMeshComp;
+	class MeshRenderer* mMeshComp;
 };
 

@@ -114,7 +114,7 @@
     <ClCompile Include="InputComponent.cpp">
       <Filter>SourceFiles\Components</Filter>
     </ClCompile>
-    <ClCompile Include="MeshComponent.cpp">
+    <ClCompile Include="MeshRenderer.cpp">
       <Filter>SourceFiles\Components</Filter>
     </ClCompile>
     <ClCompile Include="MoveComponent.cpp">
@@ -123,7 +123,7 @@
     <ClCompile Include="PointLightComponent.cpp">
       <Filter>SourceFiles\Components</Filter>
     </ClCompile>
-    <ClCompile Include="SkeletalMeshComponent.cpp">
+    <ClCompile Include="SkeletalMeshRenderer.cpp">
       <Filter>SourceFiles\Components</Filter>
     </ClCompile>
     <ClCompile Include="SpriteComponent.cpp">
@@ -234,6 +234,15 @@
     <ClCompile Include="YBotActor.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="GameApp.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseScene.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Time.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actor.h">
@@ -284,7 +293,7 @@
     <ClInclude Include="InputComponent.h">
       <Filter>SourceFiles\Components</Filter>
     </ClInclude>
-    <ClInclude Include="MeshComponent.h">
+    <ClInclude Include="MeshRenderer.h">
       <Filter>SourceFiles\Components</Filter>
     </ClInclude>
     <ClInclude Include="MoveComponent.h">
@@ -293,7 +302,7 @@
     <ClInclude Include="PointLightComponent.h">
       <Filter>SourceFiles\Components</Filter>
     </ClInclude>
-    <ClInclude Include="SkeletalMeshComponent.h">
+    <ClInclude Include="SkeletalMeshRenderer.h">
       <Filter>SourceFiles\Components</Filter>
     </ClInclude>
     <ClInclude Include="TargetComponent.h">
@@ -417,6 +426,15 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="YBotActor.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="GameApp.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseScene.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Time.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

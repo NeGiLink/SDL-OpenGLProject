@@ -5,16 +5,19 @@
 #include "Shader.h"
 #include "VertexArray.h"
 #include "SpriteComponent.h"
-#include "MeshComponent.h"
+#include "MeshRenderer.h"
 #include "UIScreen.h"
 #include "WinMain.h"
+#include "BaseScene.h"
+#include "GameApp.h"
 #include <GL/glew.h>
-#include "SkeletalMeshComponent.h"
+#include "SkeletalMeshRenderer.h"
 #include "GBuffer.h"
 #include "PointLightComponent.h"
 
 Renderer::Renderer(WinMain* game)
 	:mGame(game)
+	, mNowScene(nullptr)
 	, mSpriteShader(nullptr)
 	, mMeshShader(nullptr)
 	, mSkinnedShader(nullptr)
@@ -52,7 +55,7 @@ bool Renderer::Initialize(float screenWidth, float screenHeight)
 	// Force OpenGL to use hardware acceleration
 	SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
 
-	mWindow = SDL_CreateWindow("SDLAndOpenGLProject",
+	mWindow = SDL_CreateWindow("SDL&OpenGLProject",
 		static_cast<int>(mScreenWidth), static_cast<int>(mScreenHeight), SDL_WINDOW_OPENGL);
 	if (!mWindow)
 	{
@@ -187,7 +190,7 @@ void Renderer::Draw()
 	}
 
 	// Draw any UI screens
-	for (auto ui : mGame->GetUIStack())
+	for (auto ui : mNowScene->GetUIStack())
 	{
 		ui->Draw(mSpriteShader);
 	}
@@ -222,11 +225,11 @@ void Renderer::RemoveSprite(SpriteComponent* sprite)
 	mSprites.erase(iter);
 }
 
-void Renderer::AddMeshComp(MeshComponent* mesh)
+void Renderer::AddMeshComp(MeshRenderer* mesh)
 {
 	if (mesh->GetIsSkeletal())
 	{
-		SkeletalMeshComponent* sk = static_cast<SkeletalMeshComponent*>(mesh);
+		SkeletalMeshRenderer* sk = static_cast<SkeletalMeshRenderer*>(mesh);
 		mSkeletalMeshes.emplace_back(sk);
 	}
 	else
@@ -235,11 +238,11 @@ void Renderer::AddMeshComp(MeshComponent* mesh)
 	}
 }
 
-void Renderer::RemoveMeshComp(MeshComponent* mesh)
+void Renderer::RemoveMeshComp(MeshRenderer* mesh)
 {
 	if (mesh->GetIsSkeletal())
 	{
-		SkeletalMeshComponent* sk = static_cast<SkeletalMeshComponent*>(mesh);
+		SkeletalMeshRenderer* sk = static_cast<SkeletalMeshRenderer*>(mesh);
 		auto iter = std::find(mSkeletalMeshes.begin(), mSkeletalMeshes.end(), sk);
 		mSkeletalMeshes.erase(iter);
 	}

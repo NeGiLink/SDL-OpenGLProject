@@ -29,7 +29,9 @@ uniform vec3 ambientColor;
 // ŠgUF
 uniform vec3 diffuseColor;   
 // ‹¾–Ê”½Ë
-uniform vec3 specularColor;  
+uniform vec3 specularColor;
+
+uniform float shininess;
 
 void main()
 {
@@ -37,8 +39,8 @@ void main()
     vec3 ambient = ambientColor;  
 	// ŠgUŒõ¬•ª
     vec3 diffuse = diffuseColor * texture(uTexture, fragTexCoord).rgb;  
-	// ‹¾–Ê”½Ëi‰¼j
-    vec3 specular = specularColor;  
+	// ‹¾–Ê”½Ë
+    vec3 specular = specularColor * shininess;
 
     vec3 finalColor = ambient + diffuse + specular;
 

@@ -1,12 +1,12 @@
 #pragma once
-#include "MeshComponent.h"
+#include "MeshRenderer.h"
 #include "MatrixPalette.h"
 #include "Animation.h"
 
-class SkeletalMeshComponent : public MeshComponent
+class SkeletalMeshRenderer : public MeshRenderer
 {
 public:
-	SkeletalMeshComponent(class ActorObject* owner);
+	SkeletalMeshRenderer(class ActorObject* owner);
 	// Draw this mesh component
 	void Draw(class Shader* shader) override;
 

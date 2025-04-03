@@ -2,10 +2,11 @@
 #include "Texture.h"
 #include "Shader.h"
 #include "WinMain.h"
+#include "BaseScene.h"
 #include "Renderer.h"
 #include "Font.h"
 
-UIScreen::UIScreen(WinMain* game)
+UIScreen::UIScreen(BaseScene* game)
 	:mGame(game)
 	, mTitle(nullptr)
 	, mBackground(nullptr)
@@ -17,8 +18,8 @@ UIScreen::UIScreen(WinMain* game)
 	// Add to UI Stack
 	mGame->PushUI(this);
 	mFont = mGame->GetFont("Assets/Carlito-Regular.ttf");
-	mButtonOn = mGame->GetRenderer()->GetTexture("Assets/ButtonYellow.png");
-	mButtonOff = mGame->GetRenderer()->GetTexture("Assets/ButtonBlue.png");
+	mButtonOn = game->GetWinMain()->GetRenderer()->GetTexture("Assets/ButtonYellow.png");
+	mButtonOff = game->GetWinMain()->GetRenderer()->GetTexture("Assets/ButtonBlue.png");
 }
 
 UIScreen::~UIScreen()
@@ -75,8 +76,8 @@ void UIScreen::ProcessInput(const bool* keys)
 		SDL_GetMouseState(&x, &y);
 		// Convert to (0,0) center coordinates
 		Vector2 mousePos(static_cast<float>(x), static_cast<float>(y));
-		mousePos.x -= mGame->GetRenderer()->GetScreenWidth() * 0.5f;
-		mousePos.y = mGame->GetRenderer()->GetScreenHeight() * 0.5f - mousePos.y;
+		mousePos.x -= mGame->GetWinMain()->GetRenderer()->GetScreenWidth() * 0.5f;
+		mousePos.y = mGame->GetWinMain()->GetRenderer()->GetScreenHeight() * 0.5f - mousePos.y;
 
 		// Highlight any buttons
 		for (auto b : mButtons)
@@ -170,13 +171,13 @@ void UIScreen::SetRelativeMouseMode(bool relative)
 {
 	if (relative)
 	{
-		SDL_SetWindowRelativeMouseMode(mGame->GetRenderer()->GetWindow(), true);
+		SDL_SetWindowRelativeMouseMode(mGame->GetWinMain()->GetRenderer()->GetWindow(), true);
 		// Make an initial call to get relative to clear out
 		SDL_GetRelativeMouseState(nullptr, nullptr);
 	}
 	else
 	{
-		SDL_SetWindowRelativeMouseMode(mGame->GetRenderer()->GetWindow(),false);
+		SDL_SetWindowRelativeMouseMode(mGame->GetWinMain()->GetRenderer()->GetWindow(),false);
 	}
 }
 

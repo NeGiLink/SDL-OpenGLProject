@@ -4,7 +4,7 @@
 class TwoObjectActor : public ActorObject
 {
 public:
-	TwoObjectActor(class WinMain* game);
+	TwoObjectActor(class BaseScene* game);
 private:
 
 };

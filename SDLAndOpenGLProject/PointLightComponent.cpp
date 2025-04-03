@@ -1,6 +1,7 @@
 #include "PointLightComponent.h"
 #include "Shader.h"
 #include "WinMain.h"
+#include "BaseScene.h"
 #include "Renderer.h"
 #include "Mesh.h"
 #include "VertexArray.h"
@@ -9,12 +10,12 @@
 PointLightComponent::PointLightComponent(ActorObject* owner)
 	:Component(owner)
 {
-	owner->GetGame()->GetRenderer()->AddPointLight(this);
+	owner->GetGame()->GetWinMain()->GetRenderer()->AddPointLight(this);
 }
 
 PointLightComponent::~PointLightComponent()
 {
-	mOwner->GetGame()->GetRenderer()->RemovePointLight(this);
+	GetOwner()->GetGame()->GetWinMain()->GetRenderer()->RemovePointLight(this);
 }
 
 void PointLightComponent::Draw(Shader* shader, Mesh* mesh)

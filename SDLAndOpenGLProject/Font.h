@@ -8,7 +8,7 @@
 class Font
 {
 public:
-	Font(class WinMain* game);
+	Font(class BaseScene* game);
 	~Font();
 
 	// Load/unload from a file
@@ -22,5 +22,5 @@ public:
 private:
 	// Map of point sizes to font data
 	std::unordered_map<int, TTF_Font*> mFontData;
-	class WinMain* mGame;
+	class BaseScene* mGame;
 };

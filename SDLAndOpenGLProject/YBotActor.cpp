@@ -1,19 +1,20 @@
 #include "YBotActor.h"
 #include "Mesh.h"
-#include "SkeletalMeshComponent.h"
+#include "SkeletalMeshRenderer.h"
 #include "Animator.h"
 #include "WinMain.h"
+#include "BaseScene.h"
 #include "Renderer.h"
 #include "BoxComponent.h"
 
-YBotActor::YBotActor(WinMain* game)
+YBotActor::YBotActor(BaseScene* game)
 	:ActorObject(game)
 {
 	SetPosition(Vector3(100.0f, -100.0f, 0.0f));
 	animator = new Animator();
 	GetGame()->GetAnimator(animatorName, animator);
-	mMeshComp = new SkeletalMeshComponent(this);
-	mMeshComp->SetMeshs(GetGame()->GetRenderer()->GetMeshs("Assets/Y Bot.fbx"));
+	mMeshComp = new SkeletalMeshRenderer(this);
+	mMeshComp->SetMeshs(game->GetWinMain()->GetRenderer()->GetMeshs("Assets/Y Bot.fbx"));
 	mMeshComp->SetSkeleton(GetGame()->GetSkeleton("Assets/Y Bot.fbx"));
 	animator->SetSkeleton(mMeshComp->GetSkeleton());
 	animator->Load("Assets/Idle.fbx");

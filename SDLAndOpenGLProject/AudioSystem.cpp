@@ -6,7 +6,7 @@
 
 unsigned int AudioSystem::sNextID = 0;
 
-AudioSystem::AudioSystem(WinMain* game)
+AudioSystem::AudioSystem(BaseScene* game)
 	:mGame(game)
 	, mSystem(nullptr)
 	, mLowLevelSystem(nullptr)

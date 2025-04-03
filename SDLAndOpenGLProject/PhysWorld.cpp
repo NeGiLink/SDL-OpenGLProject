@@ -3,7 +3,7 @@
 #include "BoxComponent.h"
 #include <SDL3/SDL.h>
 
-PhysWorld::PhysWorld(WinMain* game)
+PhysWorld::PhysWorld(BaseScene* game)
 	:mGame(game)
 {
 }

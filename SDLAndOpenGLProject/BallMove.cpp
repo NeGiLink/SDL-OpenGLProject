@@ -1,6 +1,6 @@
 #include "BallMove.h"
 #include "Actor.h"
-#include "WinMain.h"
+#include "BaseScene.h"
 #include "PhysWorld.h"
 #include "TargetActor.h"
 #include "BallActor.h"

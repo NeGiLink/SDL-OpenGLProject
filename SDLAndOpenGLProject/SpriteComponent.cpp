@@ -3,6 +3,7 @@
 #include "Shader.h"
 #include "Actor.h"
 #include "WinMain.h"
+#include "BaseScene.h"
 #include "Renderer.h"
 
 SpriteComponent::SpriteComponent(ActorObject* owner, int drawOrder)
@@ -13,12 +14,12 @@ SpriteComponent::SpriteComponent(ActorObject* owner, int drawOrder)
 	, mTexHeight(0)
 	, mVisible(true)
 {
-	mOwner->GetGame()->GetRenderer()->AddSprite(this);
+	owner->GetGame()->GetWinMain()->GetRenderer()->AddSprite(this);
 }
 
 SpriteComponent::~SpriteComponent()
 {
-	mOwner->GetGame()->GetRenderer()->RemoveSprite(this);
+	GetOwner()->GetGame()->GetWinMain()->GetRenderer()->RemoveSprite(this);
 }
 
 void SpriteComponent::Draw(Shader* shader)

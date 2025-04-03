@@ -1,19 +1,20 @@
 #include "TestCharacter.h"
 #include "Mesh.h"
-#include "SkeletalMeshComponent.h"
+#include "SkeletalMeshRenderer.h"
 #include "Animator.h"
 #include "WinMain.h"
+#include "BaseScene.h"
 #include "Renderer.h"
 #include "BoxComponent.h"
 
-TestCharacter::TestCharacter(WinMain* game)
+TestCharacter::TestCharacter(BaseScene* game)
 	:ActorObject(game)
 {
 	SetPosition(Vector3(0.0f, -100.0f, 0.0f));
 	animator = new Animator();
 	GetGame()->GetAnimator(animatorName, animator);
-	mMeshComp = new SkeletalMeshComponent(this);
-	mMeshComp->SetMeshs(GetGame()->GetRenderer()->GetMeshs("Assets/Paladin J Nordstrom.fbx"));
+	mMeshComp = new SkeletalMeshRenderer(this);
+	mMeshComp->SetMeshs(game->GetWinMain()->GetRenderer()->GetMeshs("Assets/Paladin J Nordstrom.fbx"));
 	mMeshComp->SetSkeleton(GetGame()->GetSkeleton("Assets/Paladin J Nordstrom.fbx"));
 	animator->SetSkeleton(mMeshComp->GetSkeleton());
 	animator->Load("Assets/Idle.fbx");

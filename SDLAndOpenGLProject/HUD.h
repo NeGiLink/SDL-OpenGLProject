@@ -6,7 +6,7 @@ class HUD : public UIScreen
 {
 public:
 	// (Lower draw order corresponds with further back)
-	HUD(class WinMain* game);
+	HUD(class BaseScene* game);
 	~HUD();
 
 	void Update(float deltaTime) override;

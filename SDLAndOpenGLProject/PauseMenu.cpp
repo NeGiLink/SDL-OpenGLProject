@@ -1,12 +1,13 @@
 #include "PauseMenu.h"
 #include "WinMain.h"
+#include "BaseScene.h"
 #include "DialogBox.h"
 #include <SDL3/SDL.h>
 
-PauseMenu::PauseMenu(WinMain* game)
+PauseMenu::PauseMenu(BaseScene* game)
 	:UIScreen(game)
 {
-	mGame->SetState(WinMain::EPaused);
+	GameStateClass::SetGameState(GameState::EPaused);
 	SetRelativeMouseMode(false);
 	SetTitle("PauseTitle");
 	AddButton("ResumeButton", [this]() {
@@ -15,7 +16,7 @@ PauseMenu::PauseMenu(WinMain* game)
 	AddButton("QuitButton", [this]() {
 		new DialogBox(mGame, "QuitText",
 			[this]() {
-				mGame->SetState(WinMain::EQuit);
+				GameStateClass::SetGameState(GameState::EQuit);
 			});
 		});
 }
@@ -23,7 +24,7 @@ PauseMenu::PauseMenu(WinMain* game)
 PauseMenu::~PauseMenu()
 {
 	SetRelativeMouseMode(true);
-	mGame->SetState(WinMain::EGameplay);
+	GameStateClass::SetGameState(GameState::EGameplay);
 }
 
 void PauseMenu::HandleKeyPress(int key)

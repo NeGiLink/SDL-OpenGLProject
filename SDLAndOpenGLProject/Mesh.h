@@ -4,12 +4,14 @@
 #include <array>
 #include "Collision.h"
 
+//マテリアル情報の構造体
 struct MaterialInfo
 {
 	Vector4 Color;
 	Vector3 Diffuse;
 	Vector3 Ambient;
 	Vector3 Specular;
+	float   Shininess;
 };
 
 class Mesh
@@ -17,59 +19,39 @@ class Mesh
 public:
 	Mesh();
 	~Mesh();
-
-	enum RenderType
-	{
-		Tex,
-		Mat
-	};
-
-	// Load/unload mesh
+	// Load
 	bool Load(const std::string& fileName, class Renderer* renderer,int index);
+	// Unload mesh
 	void Unload();
-	// Get the vertex array associated with this mesh
+	// MeshのVertexArrayを配列で取得
 	std::vector<class VertexArray*> GetVertexArrays() { return mVertexArrays; }
-	// Get a texture from specified index
+	// テクスチャを配列で取得
 	class Texture* GetTexture(size_t index);
-	// Get name of shader
+	// シェーダー名を取得
 	const std::string& GetShaderName() const { return mShaderName; }
-	// Get object space bounding sphere radius
-	//float GetRadius() const { return mRadius; }
+	// 球の半径を取得
 	std::vector<float> GetRadiusArray() const { return mRadiusArray; }
-	// Get object space bounding box
+	// モデルのボックス型の座標を取得
 	const std::vector<AABB> GetBoxs() const { return mBoxs; }
-	// Get specular power of mesh
-	//float GetSpecPower() const { return mSpecPower; }
-	std::vector<float> GetSpecPowers() const { return mSpecPowers; }
-
+	//マテリアル情報取得
 	const std::vector<MaterialInfo> GetMaterialInfo() const { return mMaterialInfo; }
-
-	const std::vector<RenderType> IsRenderType() const { return mRenderType; }
-
-	void SetTextures(const std::string& fileName, class Renderer* renderer);
-
+	//Meshの数を取得
 	int CheckMeshIndex(const std::string& fileName, class Renderer* renderer);
 private:
-
+	//JSONファイルの読み込み処理
 	bool LoadFromJSON(const std::string& fileName, class Renderer* renderer, int index);
-	// FBXファイルからJSONに変換Load
+	// FBXファイルからJSONに変換処理
 	bool LoadFromFBX(const std::string& fileName, class Renderer* renderer, int index);
-	// AABB collision
+	// AABBの当たり判定を配列で取得
 	std::vector<AABB> mBoxs;
-	// Textures associated with this mesh
+	// Meshのテクスチャを取得
 	std::vector<class Texture*> mTextures;
-	// Vertex array associated with this mesh
+	// MeshのVertexArrayの配列
 	std::vector<class VertexArray*> mVertexArrays;
-	// Name of shader specified by mesh
+	// シェーダー名
 	std::string mShaderName;
-	// Stores object space bounding sphere radius
-	//float mRadius;
+	// 球の半径
 	std::vector<float> mRadiusArray;
-	// Specular power of surface
-	//float mSpecPower;
-	std::vector<float> mSpecPowers;
-	//MaterialInfo
+	// マテリアル情報
 	std::vector<MaterialInfo> mMaterialInfo;
-	//Material or Texture
-	std::vector<RenderType> mRenderType;
 };

@@ -1,4 +1,4 @@
-#include "SkeletalMeshComponent.h"
+#include "SkeletalMeshRenderer.h"
 #include "Shader.h"
 #include "Mesh.h"
 #include "Actor.h"
@@ -9,13 +9,13 @@
 #include "Animation.h"
 #include "Skeleton.h"
 
-SkeletalMeshComponent::SkeletalMeshComponent(ActorObject* owner)
-	:MeshComponent(owner, true)
+SkeletalMeshRenderer::SkeletalMeshRenderer(ActorObject* owner)
+	:MeshRenderer(owner, true)
 	, mSkeleton(nullptr)
 {
 }
 
-void SkeletalMeshComponent::Draw(Shader* shader)
+void SkeletalMeshRenderer::Draw(Shader* shader)
 {
 	for (unsigned int i = 0; i < mMeshs.size(); i++) 
 	{
@@ -30,30 +30,19 @@ void SkeletalMeshComponent::Draw(Shader* shader)
 				shader->SetMatrixUniforms("uMatrixPalette", &mPalette.mEntry[0],
 					MAX_SKELETON_BONES);
 				// Set specular power
-				shader->SetFloatUniform("uSpecPower", mMeshs[i]->GetSpecPowers()[j]);
+				shader->SetFloatUniform("uSpecPower", mMeshs[i]->GetMaterialInfo()[j].Shininess);
 				Texture* t = nullptr;
-				if (mMeshs[i]->IsRenderType()[j] == Mesh::RenderType::Tex) {
-					// Set the active texture
-					t = mMeshs[i]->GetTexture(j);
-					if (t)
-					{
-						t->SetActive();
-					}
-				}
-				else if(mMeshs[i]->IsRenderType()[j] == Mesh::RenderType::Mat)
+				// Set the active texture
+				t = mMeshs[i]->GetTexture(j);
+				if (t)
 				{
-					// Set the active texture
-					t = mMeshs[i]->GetTexture(j);
-					if (t)
-					{
-						t->SetActive();
-					}
-					else {
-						shader->SetNoTexture();
-					}
-					MaterialInfo m = mMeshs[i]->GetMaterialInfo()[j];
-					shader->SetColorUniform("uTexture", m);
+					t->SetActive();
 				}
+				else {
+					shader->SetNoTexture();
+				}
+				MaterialInfo m = mMeshs[i]->GetMaterialInfo()[j];
+				shader->SetColorUniform("uTexture", m);
 				// Set the mesh's vertex array as active
 				VertexArray* va = mMeshs[i]->GetVertexArrays()[j];
 				va->SetActive();
@@ -64,7 +53,7 @@ void SkeletalMeshComponent::Draw(Shader* shader)
 	}
 }
 
-void SkeletalMeshComponent::Update(float deltaTime)
+void SkeletalMeshRenderer::Update(float deltaTime)
 {
 	if (mAnimation && mSkeleton)
 	{
@@ -80,7 +69,7 @@ void SkeletalMeshComponent::Update(float deltaTime)
 	}
 }
 
-float SkeletalMeshComponent::PlayAnimation(const Animation* anim, float playRate)
+float SkeletalMeshRenderer::PlayAnimation(const Animation* anim, float playRate)
 {
 	if (mAnimation == anim) { return 0.0f; }
 	mAnimation = anim;
@@ -94,7 +83,7 @@ float SkeletalMeshComponent::PlayAnimation(const Animation* anim, float playRate
 	return mAnimation->GetDuration();
 }
 
-void SkeletalMeshComponent::ComputeMatrixPalette()
+void SkeletalMeshRenderer::ComputeMatrixPalette()
 {
 	const std::vector<Matrix4>& globalInvBindPoses = mSkeleton->GetGlobalInvBindPoses();
 	std::vector<Matrix4> currentPoses;

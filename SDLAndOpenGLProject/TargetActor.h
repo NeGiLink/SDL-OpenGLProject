@@ -4,6 +4,6 @@
 class TargetActor : public ActorObject
 {
 public:
-	TargetActor(class WinMain* game);
+	TargetActor(class BaseScene* game);
 };
 
