@@ -1,17 +1,18 @@
 #include "DiceActor.h"
 #include "WinMain.h"
+#include "BaseScene.h"
 #include "Renderer.h"
-#include "MeshComponent.h"
+#include "MeshRenderer.h"
 #include "BoxComponent.h"
 #include "Mesh.h"
 
-DiceActor::DiceActor(WinMain* game)
+DiceActor::DiceActor(BaseScene* game)
 	:ActorObject(game)
 {
 	SetScale(100.0f);
 	//SetRotation(Quaternion(Vector3::UnitZ, Math::Pi));
-	MeshComponent* mc = new MeshComponent(this);
-	Mesh* mesh = GetGame()->GetRenderer()->GetMesh("Assets/TestCube.fbx");
+	MeshRenderer* mc = new MeshRenderer(this);
+	Mesh* mesh = game->GetWinMain()->GetRenderer()->GetMesh("Assets/TestCube.fbx");
 	mc->SetMesh(mesh);
 	// Add collision box
 	/*

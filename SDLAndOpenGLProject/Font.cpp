@@ -1,9 +1,9 @@
 #include "Font.h"
 #include "Texture.h"
 #include <vector>
-#include "WinMain.h"
+#include "BaseScene.h"
 
-Font::Font(class WinMain* game)
+Font::Font(class BaseScene* game)
 	:mGame(game)
 {
 

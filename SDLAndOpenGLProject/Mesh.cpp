@@ -50,16 +50,6 @@ bool Mesh::Load(const std::string& fileName, Renderer* renderer, int index)
 	return LoadFromJSON(fileName, renderer,index);
 }
 
-void Mesh::SetTextures(const std::string& fileName, Renderer* renderer)
-{
-	Texture* t = renderer->GetTexture(fileName);
-	if (t == nullptr)
-	{
-		t = renderer->GetTexture("Assets/Default.png");
-	}
-	mTextures.emplace_back(t);
-}
-
 int Mesh::CheckMeshIndex(const std::string& fileName, Renderer* renderer)
 {
 	int index = 0;
@@ -86,7 +76,7 @@ int Mesh::CheckMeshIndex(const std::string& fileName, Renderer* renderer)
 
 	return index;
 }
-
+//独自フォーマット用読み込み関数
 bool Mesh::LoadFromJSON(const std::string& fileName, Renderer* renderer, int index)
 {
 	std::ifstream file(fileName);
@@ -132,6 +122,14 @@ bool Mesh::LoadFromJSON(const std::string& fileName, Renderer* renderer, int ind
 		vertSize = 10;
 	}
 
+	MaterialInfo info
+	{
+			Vector4(1.0f,1.0f,1.0f,1.0f),
+			Vector3(0,0,0),
+			Vector3(0,0,0),
+			Vector3(0,0,0),
+			0
+	};
 	// Load textures
 	const rapidjson::Value& textures = doc["textures"];
 	if (!textures.IsArray() || textures.Size() < 1)
@@ -141,6 +139,7 @@ bool Mesh::LoadFromJSON(const std::string& fileName, Renderer* renderer, int ind
 	}
 
 	float specPower = static_cast<float>(doc["specularPower"].GetDouble());
+	info.Shininess = specPower / 128.0f;
 
 	for (rapidjson::SizeType i = 0; i < textures.Size(); i++)
 	{
@@ -158,7 +157,22 @@ bool Mesh::LoadFromJSON(const std::string& fileName, Renderer* renderer, int ind
 			}
 		}
 		mTextures.emplace_back(t);
-		mRenderType.push_back(RenderType::Tex);
+
+		// 拡散色（Diffuse Color）の取得
+		Vector3 diffuse(0.8f, 0.8f, 0.8f);
+
+		// 環境光（Ambient Color）の取得
+		Vector3 ambient(0.0f, 0.0f, 0.0f);
+
+		// 鏡面反射（Specular Color）の取得
+		Vector3 specular(0.2f, 0.2f, 0.2f);
+
+		// シェーダーに値を送る（glUniform3f を使用）
+		info.Ambient = ambient;
+		info.Diffuse = diffuse;
+		info.Specular = specular;
+
+		mMaterialInfo.push_back(info);
 	}
 
 	// Load in the vertices
@@ -254,7 +268,6 @@ bool Mesh::LoadFromJSON(const std::string& fileName, Renderer* renderer, int ind
 		indices.emplace_back(ind[2].GetUint());
 	}
 
-	mSpecPowers.push_back(specPower);
 	mRadiusArray.push_back(radius);
 	mBoxs.push_back(box);
 
@@ -264,22 +277,20 @@ bool Mesh::LoadFromJSON(const std::string& fileName, Renderer* renderer, int ind
 	mVertexArrays.push_back(va);
 	return true;
 }
-
+//FBX用読み込み関数
 bool Mesh::LoadFromFBX(const std::string& fileName, Renderer* renderer, int index)
 {
+	//ファイルチェック
 	std::ifstream fileCheck(fileName);
 	if (!fileCheck) {
 		SDL_Log("FBX file not found: %s", fileName.c_str());
 		return false;
 	}
-	else {
-		SDL_Log("FBX file exists: %s", fileName.c_str());
-	}
-
+	//モデル情報取得
 	Assimp::Importer importer;
 	const aiScene* scene = importer.ReadFile(fileName,
 		aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_GenNormals);
-
+	//MeshCheck
 	if (!scene || !scene->HasMeshes())
 	{
 		SDL_Log("Assimp Error: %s", importer.GetErrorString());
@@ -397,13 +408,14 @@ bool Mesh::LoadFromFBX(const std::string& fileName, Renderer* renderer, int inde
 	}
 
 	radius = Math::Sqrt(radius);
-
+	//テクスチャとマテリアルの読み込み
 	std::unordered_map<std::string, Texture*> loadedTextures;
 	std::string texFile = "MaterialTetxure.png";
 	for (unsigned int i = 0; i < scene->mNumMaterials; i++) {
-		aiMaterial* material = scene->mMaterials[i];
+		// メッシュに関連付けられたマテリアルを取得
+		aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
 		aiString texturePath;
-
+		//ファイルにFBXがあるか
 		if (material->GetTexture(aiTextureType_DIFFUSE, 0, &texturePath) == AI_SUCCESS) {
 			texFile = texturePath.C_Str();
 
@@ -437,11 +449,12 @@ bool Mesh::LoadFromFBX(const std::string& fileName, Renderer* renderer, int inde
 
 			if (loadedTextures.find(texFile) != loadedTextures.end()) {
 				mTextures.push_back(loadedTextures[texFile]);
-				mRenderType.push_back(RenderType::Tex);
 			}
 		}
+		//ないならマテリアル用のテクスチャロード
 		else 
 		{
+			//マテリアル用のテクスチャ取得
 			if (loadedTextures.find(texFile) == loadedTextures.end()) {
 				Texture* newTex = new Texture();
 				if (newTex->Load(ASSETS_PATH + texFile)) {
@@ -455,45 +468,42 @@ bool Mesh::LoadFromFBX(const std::string& fileName, Renderer* renderer, int inde
 			if (loadedTextures.find(texFile) != loadedTextures.end()) {
 				mTextures.push_back(loadedTextures[texFile]);
 			}
-
-			MaterialInfo info
-			{
-					Vector4(0,0,0,0),
-					Vector3(0,0,0),
-					Vector3(0,0,0),
-					Vector3(0,0,0),
-			};
-
-			// メッシュに関連付けられたマテリアルを取得
-			aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
-
-			aiColor4D diffuseColor;
-			if (AI_SUCCESS == aiGetMaterialColor(material, AI_MATKEY_COLOR_DIFFUSE, &diffuseColor)) {
-
-				info.Color = Vector4(diffuseColor.r, diffuseColor.g, diffuseColor.b, diffuseColor.a);
-				SDL_Log("Diffuse Color: %f, %f, %f, %f", diffuseColor.r, diffuseColor.g, diffuseColor.b, diffuseColor.a);
-			}
-
-			// 拡散色（Diffuse Color）の取得
-			aiColor3D diffuse(1.0f, 1.0f, 1.0f);
-			material->Get(AI_MATKEY_COLOR_DIFFUSE, diffuse);
-
-			// 環境光（Ambient Color）の取得
-			aiColor3D ambient(0.2f, 0.2f, 0.2f);
-			material->Get(AI_MATKEY_COLOR_AMBIENT, ambient);
-
-			// 鏡面反射（Specular Color）の取得
-			aiColor3D specular(0.5f, 0.5f, 0.5f);
-			material->Get(AI_MATKEY_COLOR_SPECULAR, specular);
-
-			// シェーダーに値を送る（glUniform3f を使用）
-			info.Ambient = Vector3(ambient.r, ambient.g, ambient.b);
-			info.Diffuse = Vector3(diffuse.r, diffuse.g, diffuse.b);
-			info.Specular = Vector3(specular.r, specular.g, specular.b);
-
-			mMaterialInfo.push_back(info);
-			mRenderType.push_back(RenderType::Mat);
 		}
+
+		MaterialInfo info
+		{
+				Vector4(0,0,0,0),
+				Vector3(0,0,0),
+				Vector3(0,0,0),
+				Vector3(0,0,0),
+				0
+		};
+
+		aiColor4D diffuseColor;
+		if (AI_SUCCESS == aiGetMaterialColor(material, AI_MATKEY_COLOR_DIFFUSE, &diffuseColor)) {
+
+			info.Color = Vector4(diffuseColor.r, diffuseColor.g, diffuseColor.b, diffuseColor.a);
+			SDL_Log("Diffuse Color: %f, %f, %f, %f", diffuseColor.r, diffuseColor.g, diffuseColor.b, diffuseColor.a);
+		}
+
+		// 拡散色（Diffuse Color）の取得
+		aiColor3D diffuse(1.0f, 1.0f, 1.0f);
+		material->Get(AI_MATKEY_COLOR_DIFFUSE, diffuse);
+
+		// 環境光（Ambient Color）の取得
+		aiColor3D ambient(0.2f, 0.2f, 0.2f);
+		material->Get(AI_MATKEY_COLOR_AMBIENT, ambient);
+
+		// 鏡面反射（Specular Color）の取得
+		aiColor3D specular(0.5f, 0.5f, 0.5f);
+		material->Get(AI_MATKEY_COLOR_SPECULAR, specular);
+
+		// シェーダーに値を送る（glUniform3f を使用）
+		info.Ambient = Vector3(ambient.r, ambient.g, ambient.b);
+		info.Diffuse = Vector3(diffuse.r, diffuse.g, diffuse.b);
+		info.Specular = Vector3(specular.r, specular.g, specular.b);
+
+		mMaterialInfo.push_back(info);
 
 		float shininess = 0.0f;
 		if (scene->HasMaterials()) {
@@ -502,11 +512,13 @@ bool Mesh::LoadFromFBX(const std::string& fileName, Renderer* renderer, int inde
 				// デフォルト値を設定
 				shininess = 100.0f;
 			}
+			shininess = shininess / 128.0f;
+
+			info.Shininess = shininess;
 		}
-		mSpecPowers.push_back(shininess);
 	}
 
-	//TODO : Skinの場合のLayout変更
+	//Skinの場合のLayout変更
 	VertexArray::Layout layout = VertexArray::PosNormTex;
 	unsigned int vertexCount = static_cast<unsigned>(vertices.size()) / 8;
 	if (mesh->HasBones())
@@ -527,8 +539,6 @@ bool Mesh::LoadFromFBX(const std::string& fileName, Renderer* renderer, int inde
 
 void Mesh::Unload()
 {
-	//mMaterialShader->Unload();
-	//delete mMaterialShader;
 	mVertexArrays.clear();
 }
 

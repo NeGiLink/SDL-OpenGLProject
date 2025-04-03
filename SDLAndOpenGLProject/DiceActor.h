@@ -4,6 +4,6 @@
 class DiceActor : public ActorObject
 {
 public:
-	DiceActor(class WinMain* game);
+	DiceActor(class BaseScene* game);
 };
 

@@ -4,14 +4,15 @@
 #include "Renderer.h"
 #include "AudioSystem.h"
 #include "WinMain.h"
+#include "BaseScene.h"
 #include "AudioComponent.h"
 #include "FPSCamera.h"
-#include "MeshComponent.h"
+#include "MeshRenderer.h"
 #include "BallActor.h"
 #include "BoxComponent.h"
 #include "PlaneActor.h"
 
-FPSActor::FPSActor(WinMain* game)
+FPSActor::FPSActor(BaseScene* game)
 	:ActorObject(game)
 {
 	mMoveComp = new MoveComponent(this);
@@ -25,7 +26,7 @@ FPSActor::FPSActor(WinMain* game)
 	mFPSModel = new ActorObject(game);
 	//mFPSModel->SetRotation(Quaternion(Vector3::UnitY, Math::PiOver2));
 	mFPSModel->SetScale(0.75f);
-	mMeshComp = new MeshComponent(mFPSModel);
+	mMeshComp = new MeshRenderer(mFPSModel);
 	mMeshComp->SetMesh(game->GetRenderer()->GetMesh("Assets/Rifle.gpmesh"));
 	*/
 
@@ -129,10 +130,10 @@ void FPSActor::Shoot()
 {
 	// Get start point (in center of screen on near plane)
 	Vector3 screenPoint(0.0f, 0.0f, 0.0f);
-	Vector3 start = GetGame()->GetRenderer()->Unproject(screenPoint);
+	Vector3 start = GetGame()->GetWinMain()->GetRenderer()->Unproject(screenPoint);
 	// Get end point (in center of screen, between near and far)
 	screenPoint.z = 0.9f;
-	Vector3 end = GetGame()->GetRenderer()->Unproject(screenPoint);
+	Vector3 end = GetGame()->GetWinMain()->GetRenderer()->Unproject(screenPoint);
 	// Get direction vector
 	Vector3 dir = end - start;
 	dir.Normalize();

@@ -5,7 +5,7 @@
 class YBotActor : public ActorObject
 {
 public:
-	YBotActor(class WinMain* game);
+	YBotActor(class BaseScene* game);
 	void ActorInput(const bool* keys) override;
 private:
 	enum State
@@ -14,7 +14,7 @@ private:
 		Capoeira
 	};
 
-	class SkeletalMeshComponent* mMeshComp;
+	class SkeletalMeshRenderer* mMeshComp;
 
 	class Animator* animator;
 

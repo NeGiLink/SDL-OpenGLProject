@@ -30,8 +30,8 @@ public:
 	void AddSprite(class SpriteComponent* sprite);
 	void RemoveSprite(class SpriteComponent* sprite);
 
-	void AddMeshComp(class MeshComponent* mesh);
-	void RemoveMeshComp(class MeshComponent* mesh);
+	void AddMeshComp(class MeshRenderer* mesh);
+	void RemoveMeshComp(class MeshRenderer* mesh);
 
 	void AddPointLight(class PointLightComponent* light);
 	void RemovePointLight(class PointLightComponent* light);
@@ -65,6 +65,8 @@ public:
 	// Skinned shader
 	class Shader* GetSkinnedShader() { return mSkinnedShader; }
 
+	void SetBaseScene(class BaseScene* scene) { mNowScene = scene; }
+
 	SDL_Window* GetWindow() { return mWindow; }
 private:
 	// Chapter 14 additions
@@ -87,11 +89,13 @@ private:
 	std::vector<class SpriteComponent*> mSprites;
 
 	// All (non-skeletal) mesh components drawn
-	std::vector<class MeshComponent*> mMeshComps;
-	std::vector<class SkeletalMeshComponent*> mSkeletalMeshes;
+	std::vector<class MeshRenderer*> mMeshComps;
+	std::vector<class SkeletalMeshRenderer*> mSkeletalMeshes;
 
 	// Game
 	class WinMain* mGame;
+
+	class BaseScene* mNowScene;
 
 	// Sprite shader
 	class Shader* mSpriteShader;

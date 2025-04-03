@@ -1,14 +1,15 @@
 #include "SplineActor.h"
-#include "MeshComponent.h"
+#include "MeshRenderer.h"
 #include "WinMain.h"
+#include "BaseScene.h"
 #include "Renderer.h"
 #include "SplineCamera.h"
 #include "MoveComponent.h"
 
-SplineActor::SplineActor(WinMain* game)
+SplineActor::SplineActor(BaseScene* game)
 	:ActorObject(game)
 {
-	//MeshComponent* mc = new MeshComponent(this);
+	//MeshRenderer* mc = new MeshRenderer(this);
 	//mc->SetMesh(game->GetRenderer()->GetMesh("Assets/RacingCar.gpmesh"));
 	//SetPosition(Vector3(0.0f, 0.0f, -100.0f));
 

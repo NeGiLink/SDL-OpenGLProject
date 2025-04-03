@@ -1,18 +1,19 @@
 #include "BallActor.h"
 #include "WinMain.h"
+#include "BaseScene.h"
 #include "Renderer.h"
-#include "MeshComponent.h"
+#include "MeshRenderer.h"
 #include "Mesh.h"
 #include "BallMove.h"
 #include "AudioComponent.h"
 
-BallActor::BallActor(WinMain* game)
+BallActor::BallActor(BaseScene* game)
 	:ActorObject(game)
 	, mLifeSpan(2.0f)
 {
 	//SetScale(10.0f);
-	MeshComponent* mc = new MeshComponent(this);
-	Mesh* mesh = GetGame()->GetRenderer()->GetMesh("Assets/Sphere.gpmesh");
+	MeshRenderer* mc = new MeshRenderer(this);
+	Mesh* mesh = game->GetWinMain()->GetRenderer()->GetMesh("Assets/Sphere.gpmesh");
 	mc->SetMesh(mesh);
 	mMyMove = new BallMove(this);
 	mMyMove->SetForwardSpeed(1500.0f);

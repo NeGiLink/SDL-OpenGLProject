@@ -39,7 +39,7 @@ private:
 class UIScreen
 {
 public:
-	UIScreen(class WinMain* game);
+	UIScreen(class BaseScene* game);
 	virtual ~UIScreen();
 	// UIScreen subclasses can override these
 	virtual void Update(float deltaTime);
@@ -69,7 +69,7 @@ protected:
 		float scale = 1.0f);
 	// Sets the mouse mode to relative or not
 	void SetRelativeMouseMode(bool relative);
-	class WinMain* mGame;
+	class BaseScene* mGame;
 
 	class Font* mFont;
 	class Texture* mTitle;

@@ -3,11 +3,11 @@
 #include <cstddef>
 #include <vector>
 
-class MeshComponent : public Component
+class MeshRenderer : public Component
 {
 public:
-	MeshComponent(class ActorObject* owner, bool isSkeletal = false);
-	~MeshComponent();
+	MeshRenderer(class ActorObject* owner, bool isSkeletal = false);
+	~MeshRenderer();
 	// Draw this mesh component
 	virtual void Draw(class Shader* shader);
 	// Set the mesh/texture index used by mesh component

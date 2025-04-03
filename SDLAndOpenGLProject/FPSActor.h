@@ -5,7 +5,7 @@
 class FPSActor : public ActorObject
 {
 public:
-	FPSActor(class WinMain* game);
+	FPSActor(class BaseScene* game);
 
 	void UpdateActor(float deltaTime) override;
 	void ActorInput(const bool* keys) override;
@@ -20,7 +20,7 @@ public:
 private:
 	class MoveComponent* mMoveComp;
 	class AudioComponent* mAudioComp;
-	class MeshComponent* mMeshComp;
+	class MeshRenderer* mMeshComp;
 	class FPSCamera* mCameraComp;
 	class BoxComponent* mBoxComp;
 	SoundEvent mFootstep;

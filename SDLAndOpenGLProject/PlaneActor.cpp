@@ -1,16 +1,17 @@
 #include "PlaneActor.h"
+#include "BaseScene.h"
 #include "WinMain.h"
 #include "Renderer.h"
-#include "MeshComponent.h"
+#include "MeshRenderer.h"
 #include "BoxComponent.h"
 #include "Mesh.h"
 
-PlaneActor::PlaneActor(WinMain* game)
+PlaneActor::PlaneActor(BaseScene* game)
 	:ActorObject(game)
 {
 	SetScale(10.0f);
-	MeshComponent* mc = new MeshComponent(this);
-	Mesh* mesh = GetGame()->GetRenderer()->GetMesh("Assets/Plane.gpmesh");
+	MeshRenderer* mc = new MeshRenderer(this);
+	Mesh* mesh = game->GetWinMain()->GetRenderer()->GetMesh("Assets/Plane.gpmesh");
 	mc->SetMesh(mesh);
 
 	// Add collision box

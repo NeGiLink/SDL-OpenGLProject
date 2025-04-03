@@ -1,11 +1,11 @@
 #pragma once
-#include "MeshComponent.h"
+#include "MeshRenderer.h"
 #include "MatrixPalette.h"
 
-class CharacterMeshComponent : public MeshComponent
+class CharacterMeshRenderer : public MeshRenderer
 {
 public:
-	CharacterMeshComponent(class ActorObject* owner);
+	CharacterMeshRenderer(class ActorObject* owner);
 
 	void Draw(class Shader* shader) override;
 	void Update(float deltaTime) override;

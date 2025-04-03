@@ -7,7 +7,7 @@
 class PhysWorld
 {
 public:
-	PhysWorld(class WinMain* game);
+	PhysWorld(class BaseScene* game);
 
 	// Used to give helpful information about collision results
 	struct CollisionInfo
@@ -35,6 +35,6 @@ public:
 	void AddBox(class BoxComponent* box);
 	void RemoveBox(class BoxComponent* box);
 private:
-	class WinMain* mGame;
+	class BaseScene* mGame;
 	std::vector<class BoxComponent*> mBoxes;
 };

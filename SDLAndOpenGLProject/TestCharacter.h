@@ -5,7 +5,7 @@
 class TestCharacter : public ActorObject
 {
 public:
-	TestCharacter(class WinMain* game);
+	TestCharacter(class BaseScene* game);
 
 	void ActorInput(const bool* keys) override;
 private:
@@ -15,7 +15,7 @@ private:
 		Capoeira
 	};
 
-	class SkeletalMeshComponent* mMeshComp;
+	class SkeletalMeshRenderer* mMeshComp;
 
 	class Animator* animator;
 

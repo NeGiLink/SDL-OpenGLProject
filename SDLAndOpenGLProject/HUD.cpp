@@ -1,6 +1,7 @@
 #include "HUD.h"
 #include "Texture.h"
 #include "Shader.h"
+#include "BaseScene.h"
 #include "WinMain.h"
 #include "Renderer.h"
 #include "PhysWorld.h"
@@ -9,13 +10,13 @@
 #include <algorithm>
 #include "TargetComponent.h"
 
-HUD::HUD(WinMain* game)
+HUD::HUD(BaseScene* game)
 	:UIScreen(game)
 	, mRadarRange(2000.0f)
 	, mRadarRadius(92.0f)
 	, mTargetEnemy(false)
 {
-	Renderer* r = mGame->GetRenderer();
+	Renderer* r = game->GetWinMain()->GetRenderer();
 	mHealthBar = r->GetTexture("Assets/HealthBar.png");
 	mRadar = r->GetTexture("Assets/Radar.png");
 	mCrosshair = r->GetTexture("Assets/Crosshair.png");
@@ -76,7 +77,7 @@ void HUD::UpdateCrosshair(float deltaTime)
 	// Make a line segment
 	const float cAimDist = 5000.0f;
 	Vector3 start, dir;
-	mGame->GetRenderer()->GetScreenDirection(start, dir);
+	mGame->GetWinMain()->GetRenderer()->GetScreenDirection(start, dir);
 	LineSegment l(start, start + dir * cAimDist);
 	// Segment cast
 	PhysWorld::CollisionInfo info;
@@ -100,10 +101,10 @@ void HUD::UpdateRadar(float deltaTime)
 	mBlips.clear();
 
 	// Convert player position to radar coordinates (x forward, z up)
-	Vector3 playerPos = mGame->GetFPSPlayer()->GetPosition();
+	Vector3 playerPos = mGame->GetPlayer()->GetPosition();
 	Vector2 playerPos2D(playerPos.x, playerPos.z);
 	// Ditto for player forward
-	Vector3 playerForward = mGame->GetFPSPlayer()->GetForward();
+	Vector3 playerForward = mGame->GetPlayer()->GetForward();
 	Vector2 playerForward2D(playerForward.z, playerForward.x);
 
 	// Use atan2 to get rotation of radar

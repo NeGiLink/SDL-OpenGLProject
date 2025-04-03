@@ -119,6 +119,9 @@ void Shader::SetColorUniform(const char* name, const MaterialInfo info)
 	loc = glGetUniformLocation(mShaderProgram, "specularColor");
 	glUniform3f(loc, info.Specular.x, info.Specular.y, info.Specular.z);
 
+	loc = glGetUniformLocation(mShaderProgram, "shininess");
+	glUniform1f(loc, info.Shininess);
+
 	loc = glGetUniformLocation(mShaderProgram, name);
 	glUniform4fv(loc, 1, mMaterialColor.GetAsFloatPtr());
 }

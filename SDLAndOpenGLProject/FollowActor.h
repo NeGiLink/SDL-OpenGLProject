@@ -5,7 +5,7 @@
 class FollowActor : public ActorObject
 {
 public:
-	FollowActor(class WinMain* game);
+	FollowActor(class BaseScene* game);
 
 	void ActorInput(const bool* keys) override;
 
@@ -20,7 +20,7 @@ private:
 
 	class MoveComponent* mMoveComp;
 	class FollowCamera* mCameraComp;
-	class SkeletalMeshComponent* mMeshComp;
+	class SkeletalMeshRenderer* mMeshComp;
 	class Animator* animator;
 	bool mMoving;
 

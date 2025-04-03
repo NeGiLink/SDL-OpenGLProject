@@ -1,9 +1,9 @@
 #include "Actor.h"
-#include "WinMain.h"
+#include "BaseScene.h"
 #include "Component.h"
 #include <algorithm>
 
-ActorObject::ActorObject(WinMain* game)
+ActorObject::ActorObject(BaseScene* game)
 	:mState(EActive)
 	, mPosition(Vector3::Zero)
 	, mRotation(Quaternion::Identity)

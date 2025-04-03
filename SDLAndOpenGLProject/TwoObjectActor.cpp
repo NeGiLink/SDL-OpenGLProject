@@ -1,14 +1,15 @@
 #include "TwoObjectActor.h"
 #include "WinMain.h"
+#include "BaseScene.h"
 #include "Renderer.h"
-#include "MeshComponent.h"
+#include "MeshRenderer.h"
 #include "BoxComponent.h"
 #include "Mesh.h"
 
-TwoObjectActor::TwoObjectActor(WinMain* game)
+TwoObjectActor::TwoObjectActor(BaseScene* game)
 	:ActorObject(game)
 {
 	SetScale(100.0f);
-	MeshComponent* mc = new MeshComponent(this);
-	mc->SetMeshs(GetGame()->GetRenderer()->GetMeshs("Assets/TwoCube.fbx"));
+	MeshRenderer* mc = new MeshRenderer(this);
+	mc->SetMeshs(game->GetWinMain()->GetRenderer()->GetMeshs("Assets/TwoCube.fbx"));
 }

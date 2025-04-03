@@ -14,7 +14,7 @@ public:
 		EDead
 	};
 
-	ActorObject(class WinMain* game);
+	ActorObject(class BaseScene* game);
 	virtual ~ActorObject();
 
 	// Update function called from Game (not overridable)
@@ -48,7 +48,7 @@ public:
 	State GetState() const { return mState; }
 	void SetState(State state) { mState = state; }
 
-	class WinMain* GetGame() { return mGame; }
+	class BaseScene* GetGame() { return mGame; }
 
 
 	// Add/remove components
@@ -66,5 +66,5 @@ private:
 	bool mRecomputeWorldTransform;
 
 	std::vector<class Component*> mComponents;
-	class WinMain* mGame;
+	class BaseScene* mGame;
 };

@@ -1,15 +1,16 @@
 #include "OrbitActor.h"
-#include "MeshComponent.h"
+#include "MeshRenderer.h"
 #include "WinMain.h"
+#include "BaseScene.h"
 #include "Renderer.h"
 #include "OrbitCamera.h"
 #include "MoveComponent.h"
 
-OrbitActor::OrbitActor(WinMain* game)
+OrbitActor::OrbitActor(BaseScene* game)
 	:ActorObject(game)
 {
-	mMeshComp = new MeshComponent(this);
-	mMeshComp->SetMesh(game->GetRenderer()->GetMesh("Assets/RacingCar.gpmesh"));
+	mMeshComp = new MeshRenderer(this);
+	mMeshComp->SetMesh(game->GetWinMain()->GetRenderer()->GetMesh("Assets/RacingCar.gpmesh"));
 	SetPosition(Vector3(0.0f, 0.0f, -100.0f));
 
 	mCameraComp = new OrbitCamera(this);
