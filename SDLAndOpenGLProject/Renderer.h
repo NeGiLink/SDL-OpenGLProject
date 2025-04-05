@@ -1,9 +1,5 @@
 #pragma once
-#include <string>
-#include <vector>
-#include <unordered_map>
-#include <SDL3/SDL.h>
-#include "Math.h"
+#include "SDL3.h"
 
 struct DirectionalLight
 {

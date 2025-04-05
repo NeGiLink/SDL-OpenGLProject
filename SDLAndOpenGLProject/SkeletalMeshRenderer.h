@@ -2,6 +2,7 @@
 #include "MeshRenderer.h"
 #include "MatrixPalette.h"
 #include "Animation.h"
+#include "Skeleton.h"
 
 class SkeletalMeshRenderer : public MeshRenderer
 {

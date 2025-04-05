@@ -14,8 +14,8 @@ TestCharacter::TestCharacter(BaseScene* game)
 	animator = new Animator();
 	GetGame()->GetAnimator(animatorName, animator);
 	mMeshComp = new SkeletalMeshRenderer(this);
-	mMeshComp->SetMeshs(game->GetWinMain()->GetRenderer()->GetMeshs("Assets/Paladin J Nordstrom.fbx"));
-	mMeshComp->SetSkeleton(GetGame()->GetSkeleton("Assets/Paladin J Nordstrom.fbx"));
+	mMeshComp->SetMeshs(game->GetWinMain()->GetRenderer()->GetMeshs("Paladin J Nordstrom.fbx"));
+	mMeshComp->SetSkeleton(GetGame()->GetSkeleton("Assets/Models/Paladin J Nordstrom.fbx"));
 	animator->SetSkeleton(mMeshComp->GetSkeleton());
 	animator->Load("Assets/Idle.fbx");
 	animator->Load("Assets/Capoeira.fbx");

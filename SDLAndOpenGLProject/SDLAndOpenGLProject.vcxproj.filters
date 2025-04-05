@@ -22,9 +22,6 @@
     <Filter Include="SourceFiles\GameObjects">
       <UniqueIdentifier>{531719a1-6d92-4b9b-a699-00233e6ee899}</UniqueIdentifier>
     </Filter>
-    <Filter Include="SourceFiles\Audio">
-      <UniqueIdentifier>{16a817e6-11b2-4826-92a5-16c023fb8537}</UniqueIdentifier>
-    </Filter>
     <Filter Include="SourceFiles\GameObjects\Base">
       <UniqueIdentifier>{65e17607-1ec7-4aab-a133-8a9fda7250bb}</UniqueIdentifier>
     </Filter>
@@ -43,14 +40,26 @@
     <Filter Include="SourceFiles\Cameras\Base">
       <UniqueIdentifier>{458257fe-9f4f-4cc1-9a97-0ec9e1d4404c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="SourceFiles\Animation">
-      <UniqueIdentifier>{951c41e7-f311-4c95-a568-c8286a7b9b6b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="SourceFiles\Collision">
-      <UniqueIdentifier>{6c153ca1-6e7f-4e22-9ecf-8dca3d0d9dd4}</UniqueIdentifier>
-    </Filter>
     <Filter Include="SourceFiles\Renderers\Utilitys">
       <UniqueIdentifier>{d595bc1c-3b9f-4f68-968d-793bcd77046b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceFiles\Scenes">
+      <UniqueIdentifier>{d75df269-da34-4515-a3cf-1c3e3b66d3e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceFiles\Libs">
+      <UniqueIdentifier>{63f3a5bc-17d7-469f-a700-9a784f864369}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceFiles\Defines">
+      <UniqueIdentifier>{f9cd43ee-397a-40bb-b8d5-0bc167d5dcfa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceFiles\Collisions">
+      <UniqueIdentifier>{6c153ca1-6e7f-4e22-9ecf-8dca3d0d9dd4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceFiles\Audios">
+      <UniqueIdentifier>{16a817e6-11b2-4826-92a5-16c023fb8537}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceFiles\Animations">
+      <UniqueIdentifier>{951c41e7-f311-4c95-a568-c8286a7b9b6b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -58,10 +67,10 @@
       <Filter>SourceFiles\GameObjects\Base</Filter>
     </ClCompile>
     <ClCompile Include="AudioSystem.cpp">
-      <Filter>SourceFiles\Audio</Filter>
+      <Filter>SourceFiles\Audios</Filter>
     </ClCompile>
     <ClCompile Include="SoundEvent.cpp">
-      <Filter>SourceFiles\Audio</Filter>
+      <Filter>SourceFiles\Audios</Filter>
     </ClCompile>
     <ClCompile Include="Asteroid.cpp">
       <Filter>SourceFiles\GameObjects</Filter>
@@ -154,7 +163,7 @@
       <Filter>SourceFiles\Cameras</Filter>
     </ClCompile>
     <ClCompile Include="Animation.cpp">
-      <Filter>SourceFiles\Animation</Filter>
+      <Filter>SourceFiles\Animations</Filter>
     </ClCompile>
     <ClCompile Include="Collision.cpp">
       <Filter>SourceFiles\Renderers\Utilitys</Filter>
@@ -213,34 +222,40 @@
     <ClCompile Include="Main.cpp">
       <Filter>SourceFiles</Filter>
     </ClCompile>
-    <ClCompile Include="DiceActor.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="TwoObjectActor.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="GameScene.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="TestCharacter.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="CharacterMeshComponent.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Animator.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="YBotActor.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="GameApp.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="BaseScene.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>SourceFiles\Animations</Filter>
     </ClCompile>
     <ClCompile Include="Time.cpp">
+      <Filter>SourceFiles\Renderers\Utilitys</Filter>
+    </ClCompile>
+    <ClCompile Include="YBotActor.cpp">
+      <Filter>SourceFiles\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="TwoObjectActor.cpp">
+      <Filter>SourceFiles\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="TestCharacter.cpp">
+      <Filter>SourceFiles\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="DiceActor.cpp">
+      <Filter>SourceFiles\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="GameScene.cpp">
+      <Filter>SourceFiles\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseScene.cpp">
+      <Filter>SourceFiles\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="GameApp.cpp">
+      <Filter>SourceFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameRate.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Sword.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Transform.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -312,10 +327,10 @@
       <Filter>SourceFiles\Components</Filter>
     </ClInclude>
     <ClInclude Include="AudioSystem.h">
-      <Filter>SourceFiles\Audio</Filter>
+      <Filter>SourceFiles\Audios</Filter>
     </ClInclude>
     <ClInclude Include="SoundEvent.h">
-      <Filter>SourceFiles\Audio</Filter>
+      <Filter>SourceFiles\Audios</Filter>
     </ClInclude>
     <ClInclude Include="Renderer.h">
       <Filter>SourceFiles\Renderers</Filter>
@@ -375,13 +390,13 @@
       <Filter>SourceFiles\Cameras</Filter>
     </ClInclude>
     <ClInclude Include="Animation.h">
-      <Filter>SourceFiles\Animation</Filter>
+      <Filter>SourceFiles\Animations</Filter>
     </ClInclude>
     <ClInclude Include="BallMove.h">
       <Filter>SourceFiles\Components</Filter>
     </ClInclude>
     <ClInclude Include="Collision.h">
-      <Filter>SourceFiles\Collision</Filter>
+      <Filter>SourceFiles\Collisions</Filter>
     </ClInclude>
     <ClInclude Include="BoneTransform.h">
       <Filter>SourceFiles\Renderers\Utilitys</Filter>
@@ -404,37 +419,61 @@
     <ClInclude Include="WinMain.h">
       <Filter>SourceFiles</Filter>
     </ClInclude>
-    <ClInclude Include="DiceActor.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="TwoObjectActor.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="GameScene.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="TestCharacter.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="FilePath.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>SourceFiles\Defines</Filter>
     </ClInclude>
-    <ClInclude Include="CharacterMeshComponent.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="MeshFilePath.h">
+      <Filter>SourceFiles\Defines</Filter>
+    </ClInclude>
+    <ClInclude Include="FontFilePath.h">
+      <Filter>SourceFiles\Defines</Filter>
     </ClInclude>
     <ClInclude Include="Animator.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>SourceFiles\Animations</Filter>
     </ClInclude>
-    <ClInclude Include="YBotActor.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="STD.h">
+      <Filter>SourceFiles\Libs</Filter>
     </ClInclude>
-    <ClInclude Include="GameApp.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="SDL3.h">
+      <Filter>SourceFiles\Libs</Filter>
     </ClInclude>
-    <ClInclude Include="BaseScene.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Assimp.h">
+      <Filter>SourceFiles\Libs</Filter>
     </ClInclude>
     <ClInclude Include="Time.h">
+      <Filter>SourceFiles\Renderers\Utilitys</Filter>
+    </ClInclude>
+    <ClInclude Include="YBotActor.h">
+      <Filter>SourceFiles\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="TwoObjectActor.h">
+      <Filter>SourceFiles\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="TestCharacter.h">
+      <Filter>SourceFiles\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="DiceActor.h">
+      <Filter>SourceFiles\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="GameScene.h">
+      <Filter>SourceFiles\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseScene.h">
+      <Filter>SourceFiles\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="GameApp.h">
+      <Filter>SourceFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameRate.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Sword.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Transform.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
@@ -479,5 +518,10 @@
     <None Include="Shaders\VertexShader.vert">
       <Filter>Shaders</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="SDLAndOpenGLProject.rc">
+      <Filter>リソース ファイル</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

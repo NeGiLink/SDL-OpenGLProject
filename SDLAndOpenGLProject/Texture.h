@@ -1,7 +1,6 @@
 #pragma once
-
-#include <string>
-#include <assimp/texture.h>
+#include "Assimp.h"
+#include "SDL3.h"
 
 class Texture
 {

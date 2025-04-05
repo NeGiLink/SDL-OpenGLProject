@@ -146,7 +146,6 @@
     <ClCompile Include="BoxComponent.cpp" />
     <ClCompile Include="CameraActor.cpp" />
     <ClCompile Include="CameraComponent.cpp" />
-    <ClCompile Include="CharacterMeshComponent.cpp" />
     <ClCompile Include="CircleComponent.cpp" />
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="Component.cpp" />
@@ -157,8 +156,11 @@
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="FPSActor.cpp" />
     <ClCompile Include="FPSCamera.cpp" />
+    <ClCompile Include="FrameRate.cpp" />
     <ClCompile Include="GameApp.cpp" />
+    <ClCompile Include="Sword.cpp" />
     <ClCompile Include="Time.cpp" />
+    <ClCompile Include="Transform.cpp" />
     <ClCompile Include="WinMain.cpp" />
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="GBuffer.cpp" />
@@ -200,6 +202,7 @@
     <ClInclude Include="Animation.h" />
     <ClInclude Include="Animator.h" />
     <ClInclude Include="AnimSpriteComponent.h" />
+    <ClInclude Include="Assimp.h" />
     <ClInclude Include="Asteroid.h" />
     <ClInclude Include="AudioComponent.h" />
     <ClInclude Include="AudioSystem.h" />
@@ -211,7 +214,6 @@
     <ClInclude Include="BoxComponent.h" />
     <ClInclude Include="CameraActor.h" />
     <ClInclude Include="CameraComponent.h" />
-    <ClInclude Include="CharacterMeshComponent.h" />
     <ClInclude Include="CircleComponent.h" />
     <ClInclude Include="Collision.h" />
     <ClInclude Include="Component.h" />
@@ -221,10 +223,18 @@
     <ClInclude Include="FollowActor.h" />
     <ClInclude Include="FollowCamera.h" />
     <ClInclude Include="Font.h" />
+    <ClInclude Include="FontFilePath.h" />
     <ClInclude Include="FPSActor.h" />
     <ClInclude Include="FPSCamera.h" />
+    <ClInclude Include="FrameRate.h" />
     <ClInclude Include="GameApp.h" />
+    <ClInclude Include="MeshFilePath.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="SDL3.h" />
+    <ClInclude Include="STD.h" />
+    <ClInclude Include="Sword.h" />
     <ClInclude Include="Time.h" />
+    <ClInclude Include="Transform.h" />
     <ClInclude Include="WinMain.h" />
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="GBuffer.h" />
@@ -276,6 +286,9 @@
     <None Include="Shaders\Sprite.vert" />
     <None Include="Shaders\StandardShader.frag" />
     <None Include="Shaders\VertexShader.vert" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="SDLAndOpenGLProject.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,11 +1,7 @@
 #pragma once
-#include <unordered_map>
-#include <string>
-#include <vector>
-#include "Math.h"
 #include "SoundEvent.h"
 #include "Time.h"
-#include <stdint.h>
+#include "GameApp.h"
 
 enum GameState
 {
@@ -39,5 +35,5 @@ private:
 	class Renderer* mRenderer;
 
 	//ƒQ[ƒ€“àˆ—
-	class GameApp* mGameApp;
+	GameApp* mGameApp;
 };

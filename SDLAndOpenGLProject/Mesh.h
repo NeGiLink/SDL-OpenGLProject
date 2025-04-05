@@ -1,7 +1,6 @@
 #pragma once
-#include <vector>
-#include <string>
-#include <array>
+#include "SDL3.h"
+#include "Assimp.h"
 #include "Collision.h"
 
 //マテリアル情報の構造体

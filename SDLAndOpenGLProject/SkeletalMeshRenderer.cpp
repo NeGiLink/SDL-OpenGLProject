@@ -7,7 +7,6 @@
 #include "Texture.h"
 #include "VertexArray.h"
 #include "Animation.h"
-#include "Skeleton.h"
 
 SkeletalMeshRenderer::SkeletalMeshRenderer(ActorObject* owner)
 	:MeshRenderer(owner, true)
@@ -94,17 +93,5 @@ void SkeletalMeshRenderer::ComputeMatrixPalette()
 	{
 		// Global inverse bind pose matrix times current pose matrix
 		mPalette.mEntry[i] = globalInvBindPoses[i] * currentPoses[i];
-		/*
-		// çsóÒÇÉçÉOÇ…èoóÕ
-		SDL_Log("Bone %zu Matrix:", i);
-		for (int row = 0; row < 4; row++)
-		{
-			SDL_Log("%f %f %f %f",
-				mPalette.mEntry[i].mat[row][0],
-				mPalette.mEntry[i].mat[row][1],
-				mPalette.mEntry[i].mat[row][2],
-				mPalette.mEntry[i].mat[row][3]);
-		}
-		*/
 	}
 }

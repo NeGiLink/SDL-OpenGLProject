@@ -1,13 +1,6 @@
 #include "Animation.h"
 #include "Skeleton.h"
-#include <fstream>
-#include <sstream>
 #include <rapidjson/document.h>
-#include <SDL3/SDL_log.h>
-
-#include <assimp/Importer.hpp>
-#include <assimp/scene.h>
-#include <assimp/postprocess.h>
 
 
 Animation::Animation(Skeleton* skeleton)
@@ -211,10 +204,12 @@ bool Animation::LoadFromFBX(const std::string& fileName)
 				temp.mScale = Vector3(scale.x, scale.y, scale.z);
 			}
 			else {
-				temp.mScale = Vector3(1.0f, 1.0f, 1.0f); // デフォルトスケール
+				// デフォルトスケール
+				temp.mScale = Vector3(1.0f, 1.0f, 1.0f); 
 			}
 
-			mTracks[boneIndex][j] = temp; // `emplace_back()` ではなく、インデックス代入
+			// `emplace_back()` ではなく、インデックス代入
+			mTracks[boneIndex][j] = temp;
 		}
 	}
 

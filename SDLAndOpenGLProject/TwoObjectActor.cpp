@@ -11,5 +11,5 @@ TwoObjectActor::TwoObjectActor(BaseScene* game)
 {
 	SetScale(100.0f);
 	MeshRenderer* mc = new MeshRenderer(this);
-	mc->SetMeshs(game->GetWinMain()->GetRenderer()->GetMeshs("Assets/TwoCube.fbx"));
+	mc->SetMeshs(game->GetWinMain()->GetRenderer()->GetMeshs("TwoCube.fbx"));
 }

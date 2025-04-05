@@ -14,7 +14,7 @@ FollowActor::FollowActor(BaseScene* game)
 	animator = new Animator();
 	GetGame()->GetAnimator(animatorName, animator);
 	mMeshComp = new SkeletalMeshRenderer(this);
-	mMeshComp->SetMesh(game->GetWinMain()->GetRenderer()->GetMesh("Assets/CatWarrior.gpmesh"));
+	mMeshComp->SetMesh(game->GetWinMain()->GetRenderer()->GetMesh("CatWarrior.gpmesh"));
 	mMeshComp->SetSkeleton(GetGame()->GetSkeleton("Assets/CatWarrior.gpskel"));
 	animator->SetSkeleton(mMeshComp->GetSkeleton());
 	animator->Load("Assets/CatActionIdle.gpanim");

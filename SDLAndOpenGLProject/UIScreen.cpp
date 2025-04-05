@@ -17,7 +17,7 @@ UIScreen::UIScreen(BaseScene* game)
 {
 	// Add to UI Stack
 	mGame->PushUI(this);
-	mFont = mGame->GetFont("Assets/Carlito-Regular.ttf");
+	mFont = mGame->GetFont("Assets/Fonts/Carlito-Regular.ttf");
 	mButtonOn = game->GetWinMain()->GetRenderer()->GetTexture("Assets/ButtonYellow.png");
 	mButtonOff = game->GetWinMain()->GetRenderer()->GetTexture("Assets/ButtonBlue.png");
 }
