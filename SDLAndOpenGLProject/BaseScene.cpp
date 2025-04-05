@@ -9,7 +9,7 @@
 #include "Skeleton.h"
 #include "Animation.h"
 #include "Animator.h"
-
+#include "MeshFilePath.h"
 #include "Time.h"
 
 BaseScene::BaseScene(WinMain* winMain)

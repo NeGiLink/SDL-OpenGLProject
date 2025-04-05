@@ -2,20 +2,10 @@
 #include "Renderer.h"
 #include "Texture.h"
 #include "VertexArray.h"
-#include <fstream>
-#include <sstream>
 #include <rapidjson/document.h>
-#include <SDL3/SDL_log.h>
-#include "Math.h"
 #include "Shader.h"
-
-#include <assimp/Importer.hpp>
-#include <assimp/scene.h>
-#include <assimp/postprocess.h>
 #include <GL/glew.h>
-#include <vector>
-#include <iostream>
-#include "FilePath.h"
+#include "MeshFilePath.h"
 
 
 namespace
@@ -153,7 +143,7 @@ bool Mesh::LoadFromJSON(const std::string& fileName, Renderer* renderer, int ind
 			if (t == nullptr)
 			{
 				// If it's still null, just use the default texture
-				t = renderer->GetTexture("Assets/Default.png");
+				t = renderer->GetTexture(Model::ModelTexturePath + "Default.png");
 			}
 		}
 		mTextures.emplace_back(t);
@@ -438,7 +428,7 @@ bool Mesh::LoadFromFBX(const std::string& fileName, Renderer* renderer, int inde
 			else {
 				if (loadedTextures.find(texFile) == loadedTextures.end()) {
 					Texture* newTex = new Texture();
-					if (newTex->Load(ASSETS_PATH + texFile)) {
+					if (newTex->Load(Model::ModelTexturePath + texFile)) {
 						loadedTextures[texFile] = newTex;
 					}
 					else {
@@ -457,7 +447,7 @@ bool Mesh::LoadFromFBX(const std::string& fileName, Renderer* renderer, int inde
 			//マテリアル用のテクスチャ取得
 			if (loadedTextures.find(texFile) == loadedTextures.end()) {
 				Texture* newTex = new Texture();
-				if (newTex->Load(ASSETS_PATH + texFile)) {
+				if (newTex->Load(Model::ModelTexturePath + texFile)) {
 					loadedTextures[texFile] = newTex;
 				}
 				else {

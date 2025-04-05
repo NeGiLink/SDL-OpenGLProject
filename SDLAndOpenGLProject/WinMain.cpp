@@ -1,13 +1,6 @@
 #include "WinMain.h"
-#include <algorithm>
 #include "Renderer.h"
-#include <SDL3/SDL.h>
-#include <SDL3_ttf/SDL_ttf.h>
-#include <fstream>
-#include <sstream>
 #include <rapidjson/document.h>
-
-#include "GameApp.h"
 
 // ここで定義（初期値を指定してもOK）
 GameState GameStateClass::mGameState = GameState::EGameplay;

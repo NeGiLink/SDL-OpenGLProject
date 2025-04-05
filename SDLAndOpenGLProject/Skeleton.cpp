@@ -161,11 +161,13 @@ bool Skeleton::LoadFromFBX(const std::string& fileName)
 		for (unsigned int j = 0; j < mesh->mNumBones; j++) {
 			aiBone* bone = mesh->mBones[j];
 			std::string boneName = bone->mName.C_Str();
+			std::string boneGetName = ConvertSimpleBoneName(bone->mName.C_Str());
 
 			if (boneNameToIndex.find(boneName) != boneNameToIndex.end()) continue;
 
 			Bone newBone;
 			newBone.mName = boneName;
+			newBone.mGetName = boneGetName;
 			newBone.mParent = -1;  // 後で SetParentBones() で設定する
 
 			// バインドポーズの変換
@@ -180,6 +182,7 @@ bool Skeleton::LoadFromFBX(const std::string& fileName)
 			newBone.mLocalBindPose.mScale = Vector3(scale.x, scale.y, scale.z);
 
 			boneNameToIndex[boneName] = static_cast<int>(mBones.size());
+			mBoneTransform[newBone.mGetName] = newBone;
 			mBones.push_back(newBone);
 
 			//TODO : assimpではオフセット行列をそのまま利用
@@ -191,29 +194,9 @@ bool Skeleton::LoadFromFBX(const std::string& fileName)
 	SetParentBones(scene->mRootNode, -1);
 
 	//TODO : assimpではオフセット行列をそのまま利用するため不要
-// グローバル逆バインドポーズを計算
-//ComputeGlobalInvBindPose();
+	// グローバル逆バインドポーズを計算
+	//ComputeGlobalInvBindPose();
 	return true;
-}
-
-void Skeleton::LoadBonesFromNode(aiNode* node, int parentIndex)
-{
-	std::string nodeName = node->mName.C_Str();
-
-	if (boneNameToIndex.find(nodeName) == boneNameToIndex.end()) {
-		Bone newBone;
-		newBone.mName = nodeName;
-		newBone.mParent = parentIndex;
-
-		boneNameToIndex[nodeName] = static_cast<int>(mBones.size());
-		mBones.push_back(newBone);
-	}
-
-	int currentIndex = boneNameToIndex[nodeName];
-
-	for (unsigned int i = 0; i < node->mNumChildren; i++) {
-		LoadBonesFromNode(node->mChildren[i], currentIndex);
-	}
 }
 
 void Skeleton::SetParentBones(aiNode* node, int parentIndex)
@@ -235,6 +218,42 @@ void Skeleton::SetParentBones(aiNode* node, int parentIndex)
 	}
 }
 
+std::string Skeleton::ConvertSimpleBoneName(std::string boneName)
+{
+	std::string bone = boneName;
+	// We support these font sizes
+	std::vector<std::string> bns = {
+		"Hips","Spine","Chest","Neck","Head",
+		"LeftShoulder","LeftArm","LeftForeArm","LeftHand",
+		"RightShoulder","RightArm","RightForeArm","RightHand",
+		"LeftUpLeg","LeftLeg","LeftFoot",
+		"RightUpLeg","RightLeg","RightFoot",
+	};
+	for (std::string bn : bns) 
+	{
+		if (bone.find(bn) != std::string::npos && endsWith(bone, bn)) 
+		{
+			bone = bn;
+		}
+	}
+	return bone;
+}
+
+bool Skeleton::endsWith(const std::string& str, const std::string& suffix)
+{
+	if (str.size() < suffix.size()) return false;
+	return str.substr(str.size() - suffix.size()) == suffix;
+}
+
+Skeleton::Bone* Skeleton::GetBone(std::string boneName)
+{
+	Bone* b = nullptr;
+	if (mBoneTransform.find(boneName) != mBoneTransform.end())
+	{
+		b = &mBoneTransform[boneName];
+	}
+	return b;
+}
 
 void Skeleton::ComputeGlobalInvBindPose()
 {

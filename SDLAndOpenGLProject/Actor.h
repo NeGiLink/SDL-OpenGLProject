@@ -54,17 +54,27 @@ public:
 	// Add/remove components
 	void AddComponent(class Component* component);
 	void RemoveComponent(class Component* component);
+	//子オブジェクトを追加
+	void AddChildActor(class ActorObject* actor);
+	void RemoveChildActor(class ActorObject* actor);
+	const class ActorObject* GetChildActor(class ActorObject* actor);
+	void SetParentActor(class ActorObject* parent) { mParentActor = parent; }
 private:
 	// Actor's state
 	State mState;
 
 	// Transform
 	Matrix4 mWorldTransform;
+	
 	Vector3 mPosition;
 	Quaternion mRotation;
 	float mScale;
 	bool mRecomputeWorldTransform;
 
 	std::vector<class Component*> mComponents;
+
+	class ActorObject* mParentActor;
+
+	std::vector<class ActorObject*> mChildActor;
 	class BaseScene* mGame;
 };

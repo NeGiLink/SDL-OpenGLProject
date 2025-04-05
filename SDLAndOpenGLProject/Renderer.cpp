@@ -1,7 +1,6 @@
 #include "Renderer.h"
 #include "Texture.h"
 #include "Mesh.h"
-#include <algorithm>
 #include "Shader.h"
 #include "VertexArray.h"
 #include "SpriteComponent.h"
@@ -14,6 +13,7 @@
 #include "SkeletalMeshRenderer.h"
 #include "GBuffer.h"
 #include "PointLightComponent.h"
+#include "MeshFilePath.h"
 
 Renderer::Renderer(WinMain* game)
 	:mGame(game)
@@ -106,7 +106,7 @@ bool Renderer::Initialize(float screenWidth, float screenHeight)
 	}
 
 	// Load point light mesh
-	mPointLightMesh = GetMesh("Assets/PointLight.gpmesh");
+	mPointLightMesh = GetMesh("PointLight.gpmesh");
 
 	return true;
 }
@@ -162,7 +162,7 @@ void Renderer::UnloadData()
 void Renderer::Draw()
 {
 	// Draw to the mirror texture first
-	Draw3DScene(mMirrorBuffer, mMirrorView, mProjection, 0.25f);
+	//Draw3DScene(mMirrorBuffer, mMirrorView, mProjection, 0.25f);
 	// Draw the 3D scene to the G-buffer
 	Draw3DScene(mGBuffer->GetBufferID(), mView, mProjection, 1.0f, false);
 	// Set the frame buffer back to zero (screen's frame buffer)
@@ -290,8 +290,9 @@ Texture* Renderer::GetTexture(const std::string& fileName)
 
 Mesh* Renderer::GetMesh(const std::string& fileName)
 {
+	std::string file = Model::ModelPath + fileName;
 	Mesh* m = nullptr;
-	auto iter = mMeshes.find(fileName);
+	auto iter = mMeshes.find(file);
 	if (iter != mMeshes.end())
 	{
 		m = iter->second;
@@ -299,9 +300,9 @@ Mesh* Renderer::GetMesh(const std::string& fileName)
 	else
 	{
 		m = new Mesh();
-		if (m->Load(fileName, this , 0))
+		if (m->Load(file, this , 0))
 		{
-			mMeshes.emplace(fileName, m);
+			mMeshes.emplace(file, m);
 		}
 		else
 		{
@@ -314,17 +315,18 @@ Mesh* Renderer::GetMesh(const std::string& fileName)
 
 std::vector<class Mesh*> Renderer::GetMeshs(const std::string& fileName)
 {
+	std::string file = Model::ModelPath + fileName;
 	//返す複数のメッシュ
 	std::vector<class Mesh*> ms;
 	//メッシュの数を確認する用
 	Mesh* m = nullptr;
 	m = new Mesh();
-	int maxMesh = m->CheckMeshIndex(fileName, this);
+	int maxMesh = m->CheckMeshIndex(file, this);
 	for (int i = 0; i < maxMesh; i++)
 	{
 		std::string inTex = std::to_string(i);
 		Mesh* mesh = nullptr;
-		auto iter = mMeshes.find(fileName + inTex.c_str());
+		auto iter = mMeshes.find(file + inTex.c_str());
 		if (iter != mMeshes.end())
 		{
 			mesh = iter->second;
@@ -332,9 +334,9 @@ std::vector<class Mesh*> Renderer::GetMeshs(const std::string& fileName)
 		else
 		{
 			mesh = new Mesh();
-			if (mesh->Load(fileName, this , i))
+			if (mesh->Load(file, this , i))
 			{
-				mMeshes.emplace(fileName + inTex.c_str(), mesh);
+				mMeshes.emplace(file + inTex.c_str(), mesh);
 			}
 			else
 			{

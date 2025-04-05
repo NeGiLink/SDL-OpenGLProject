@@ -6,6 +6,7 @@
 #include "BaseScene.h"
 #include "Renderer.h"
 #include "BoxComponent.h"
+#include "Sword.h"
 
 YBotActor::YBotActor(BaseScene* game)
 	:ActorObject(game)
@@ -14,12 +15,14 @@ YBotActor::YBotActor(BaseScene* game)
 	animator = new Animator();
 	GetGame()->GetAnimator(animatorName, animator);
 	mMeshComp = new SkeletalMeshRenderer(this);
-	mMeshComp->SetMeshs(game->GetWinMain()->GetRenderer()->GetMeshs("Assets/Y Bot.fbx"));
-	mMeshComp->SetSkeleton(GetGame()->GetSkeleton("Assets/Y Bot.fbx"));
+	mMeshComp->SetMeshs(game->GetWinMain()->GetRenderer()->GetMeshs("Y Bot.fbx"));
+	mMeshComp->SetSkeleton(GetGame()->GetSkeleton("Assets/Models/Y Bot.fbx"));
 	animator->SetSkeleton(mMeshComp->GetSkeleton());
 	animator->Load("Assets/Idle.fbx");
 	animator->Load("Assets/Capoeira.fbx");
 	mMeshComp->PlayAnimation(animator->GetAnimations()[State::Capoeira]);
+
+	mSword = new Sword(game,mMeshComp->GetSkeleton()->GetBone("RightHand"));
 }
 
 void YBotActor::ActorInput(const bool* keys)
@@ -32,4 +35,9 @@ void YBotActor::ActorInput(const bool* keys)
 	{
 		mMeshComp->PlayAnimation(animator->GetAnimations()[State::Capoeira]);
 	}
+}
+
+void YBotActor::UpdateActor(float deltaTime)
+{
+	mSword->UpdateRightHand(mMeshComp->GetSkeleton()->GetBone("RightHand"));
 }

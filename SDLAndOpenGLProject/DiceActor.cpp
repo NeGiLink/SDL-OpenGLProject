@@ -12,7 +12,7 @@ DiceActor::DiceActor(BaseScene* game)
 	SetScale(100.0f);
 	//SetRotation(Quaternion(Vector3::UnitZ, Math::Pi));
 	MeshRenderer* mc = new MeshRenderer(this);
-	Mesh* mesh = game->GetWinMain()->GetRenderer()->GetMesh("Assets/TestCube.fbx");
+	Mesh* mesh = game->GetWinMain()->GetRenderer()->GetMesh("TestCube.fbx");
 	mc->SetMesh(mesh);
 	// Add collision box
 	/*

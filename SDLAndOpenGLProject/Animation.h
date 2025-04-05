@@ -1,8 +1,7 @@
 #pragma once
 #include "BoneTransform.h"
-#include <vector>
-#include <string>
-#include <algorithm>
+#include "Assimp.h"
+#include "SDL3.h"
 
 class Animation
 {

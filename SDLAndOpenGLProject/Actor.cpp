@@ -78,6 +78,12 @@ void ActorObject::ComputeWorldTransform()
 		mWorldTransform *= Matrix4::CreateFromQuaternion(mRotation);
 		mWorldTransform *= Matrix4::CreateTranslation(mPosition);
 
+		// 親がいれば親のワールド行列を適用（ローカル→ワールド）
+		if (mParentActor)
+		{
+			mWorldTransform *= mParentActor->GetWorldTransform();
+		}
+
 		// Inform components world transform updated
 		for (auto comp : mComponents)
 		{
@@ -137,4 +143,33 @@ void ActorObject::RemoveComponent(Component* component)
 	{
 		mComponents.erase(iter);
 	}
+}
+
+void ActorObject::AddChildActor(ActorObject* actor)
+{
+	for (ActorObject* a : mChildActor) {
+		if (a == actor) { return; }
+	}
+	actor->SetParentActor(this);
+	mChildActor.push_back(actor);
+}
+
+void ActorObject::RemoveChildActor(ActorObject* actor)
+{
+	auto iter = std::find(mChildActor.begin(), mChildActor.end(), actor);
+	if (iter != mChildActor.end())
+	{
+		actor->SetParentActor(nullptr);
+		mChildActor.erase(iter);
+	}
+}
+
+const ActorObject* ActorObject::GetChildActor(ActorObject* actor)
+{
+	for (ActorObject* a : mChildActor) {
+		if (a == actor) {
+			return a;
+		}
+	}
+	return nullptr;
 }

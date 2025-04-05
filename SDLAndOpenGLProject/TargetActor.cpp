@@ -13,13 +13,13 @@ TargetActor::TargetActor(BaseScene* game)
 	//SetScale(10.0f);
 	SetRotation(Quaternion(Vector3::UnitZ, Math::Pi));
 	MeshRenderer* mc = new MeshRenderer(this);
-	Mesh* mesh = game->GetWinMain()->GetRenderer()->GetMesh("Assets/Target.gpmesh");
+	Mesh* mesh = game->GetWinMain()->GetRenderer()->GetMesh("Target.gpmesh");
 	mc->SetMesh(mesh);
 	// Add collision box
 	/*
 	BoxComponent* bc = new BoxComponent(this);
 	bc->SetObjectBox(mesh->GetBox());
-	new TargetComponent(this);
 	*/
+	new TargetComponent(this);
 
 }

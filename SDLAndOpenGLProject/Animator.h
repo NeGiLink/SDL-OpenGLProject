@@ -11,6 +11,8 @@ public:
 	std::vector<Animation*> GetAnimations() { return mAnimations; }
 
 	void SetSkeleton(class Skeleton* skeleton) { mSkeleton = skeleton; }
+
+	
 private:
 
 	std::vector<Animation*> mAnimations;

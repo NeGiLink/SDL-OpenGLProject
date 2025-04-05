@@ -1,5 +1,7 @@
 #pragma once
-#include <string>
+#include "STD.h"
 
-std::string assetPath = "Assets/";
-#define ASSETS_PATH assetPath
+namespace File 
+{
+	std::string assetPath = "Assets/";
+}

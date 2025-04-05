@@ -13,7 +13,7 @@ BallActor::BallActor(BaseScene* game)
 {
 	//SetScale(10.0f);
 	MeshRenderer* mc = new MeshRenderer(this);
-	Mesh* mesh = game->GetWinMain()->GetRenderer()->GetMesh("Assets/Sphere.gpmesh");
+	Mesh* mesh = game->GetWinMain()->GetRenderer()->GetMesh("Sphere.gpmesh");
 	mc->SetMesh(mesh);
 	mMyMove = new BallMove(this);
 	mMyMove->SetForwardSpeed(1500.0f);

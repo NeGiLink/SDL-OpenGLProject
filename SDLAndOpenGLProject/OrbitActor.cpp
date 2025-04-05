@@ -10,7 +10,7 @@ OrbitActor::OrbitActor(BaseScene* game)
 	:ActorObject(game)
 {
 	mMeshComp = new MeshRenderer(this);
-	mMeshComp->SetMesh(game->GetWinMain()->GetRenderer()->GetMesh("Assets/RacingCar.gpmesh"));
+	mMeshComp->SetMesh(game->GetWinMain()->GetRenderer()->GetMesh("RacingCar.gpmesh"));
 	SetPosition(Vector3(0.0f, 0.0f, -100.0f));
 
 	mCameraComp = new OrbitCamera(this);

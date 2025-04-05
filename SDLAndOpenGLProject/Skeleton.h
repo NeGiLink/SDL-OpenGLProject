@@ -8,11 +8,17 @@
 class Skeleton
 {
 public:
+	enum SkeletonType 
+	{
+		Humanoid,
+		Generic
+	};
 	// Definition for each bone in the skeleton
 	struct Bone
 	{
 		BoneTransform mLocalBindPose;
 		std::string mName;
+		std::string mGetName;
 		int mParent;
 	};
 
@@ -23,9 +29,11 @@ public:
 
 	bool LoadFromFBX(const std::string& fileName);
 
-	void LoadBonesFromNode(aiNode* node, int parentIndex);
-
 	void SetParentBones(aiNode* node, int parentIndex);
+
+	std::string ConvertSimpleBoneName(std::string boneName);
+
+	bool endsWith(const std::string& str, const std::string& suffix);
 
 	// Getter functions
 	size_t GetNumBones() const { return mBones.size(); }
@@ -33,6 +41,7 @@ public:
 	const std::vector<Bone>& GetBones() const { return mBones; }
 	const std::vector<Matrix4>& GetGlobalInvBindPoses() const { return mGlobalInvBindPoses; }
 	const std::unordered_map<std::string, int>& GetBoneNameToIndex() const { return boneNameToIndex; }
+	Bone* GetBone(std::string boneName);
 protected:
 	// Called automatically when the skeleton is loaded
 	// Computes the global inverse bind pose for each bone
@@ -44,4 +53,8 @@ private:
 	std::vector<Matrix4> mGlobalInvBindPoses;
 
 	std::unordered_map<std::string, int> boneNameToIndex;
+
+	std::unordered_map<std::string,Bone> mBoneTransform;
+
+	SkeletonType mSkeletonType;
 };
