@@ -11,7 +11,7 @@
 YBotActor::YBotActor(BaseScene* game)
 	:ActorObject(game)
 {
-	SetPosition(Vector3(100.0f, -100.0f, 0.0f));
+	SetPosition(Vector3(400.0f, -100.0f, 0.0f));
 	animator = new Animator();
 	GetGame()->GetAnimator(animatorName, animator);
 	mMeshComp = new SkeletalMeshRenderer(this);
@@ -19,10 +19,10 @@ YBotActor::YBotActor(BaseScene* game)
 	mMeshComp->SetSkeleton(GetGame()->GetSkeleton("Assets/Models/Y Bot.fbx"));
 	animator->SetSkeleton(mMeshComp->GetSkeleton());
 	animator->Load("Assets/Idle.fbx");
-	animator->Load("Assets/Capoeira.fbx");
+	animator->Load("Assets/T-Pose.fbx");
 	mMeshComp->PlayAnimation(animator->GetAnimations()[State::Capoeira]);
 
-	mSword = new Sword(game,mMeshComp->GetSkeleton()->GetBone("RightHand"));
+	mSword = new Sword(game);
 }
 
 void YBotActor::ActorInput(const bool* keys)
@@ -39,5 +39,13 @@ void YBotActor::ActorInput(const bool* keys)
 
 void YBotActor::UpdateActor(float deltaTime)
 {
-	mSword->UpdateRightHand(mMeshComp->GetSkeleton()->GetBone("RightHand"));
+	Matrix4 mat = mMeshComp->GetSkeleton()->GetBonePosition("RightHand");
+	Vector3 pos = mPosition + mat.GetTranslation();
+	mSword->SetPosition(pos);
+	Quaternion r = mat.GetRotation();
+	r.RotateByAxisAngle(Vector3::UnitX, 240);
+	r.RotateByAxisAngle(Vector3::UnitY, -45);
+	mSword->SetRotation(r);
+	/*
+	*/
 }

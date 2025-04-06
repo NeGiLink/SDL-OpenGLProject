@@ -8,6 +8,7 @@ public:
 	TestCharacter(class BaseScene* game);
 
 	void ActorInput(const bool* keys) override;
+	void UpdateActor(float deltaTime) override;
 private:
 	enum State
 	{
@@ -19,6 +20,7 @@ private:
 
 	class Animator* animator;
 
+	class Sword* mSword;
+
 	std::string animatorName = "TestCharacter";
 };
-

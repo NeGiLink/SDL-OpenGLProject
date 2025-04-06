@@ -31,21 +31,31 @@ public:
 
 	// Getters/setters
 	const Vector3& GetPosition() const { return mPosition; }
+
 	void SetPosition(const Vector3& pos) { mPosition = pos; mRecomputeWorldTransform = true; }
-	float GetScale() const { return mScale; }
-	void SetScale(float scale) { mScale = scale;  mRecomputeWorldTransform = true; }
+	
+	Vector3 GetScale() const { return mScale; }
+	
+	void SetScale(Vector3 scale) { mScale = scale;  mRecomputeWorldTransform = true; }
+	
+	void SetScale(float scale) { mScale = Vector3(scale,scale,scale);  mRecomputeWorldTransform = true; }
+	
 	const Quaternion& GetRotation() const { return mRotation; }
+	
 	void SetRotation(const Quaternion& rotation) { mRotation = rotation;  mRecomputeWorldTransform = true; }
 
 	void ComputeWorldTransform();
+	
 	const Matrix4& GetWorldTransform() const { return mWorldTransform; }
 
 	Vector3 GetForward() const { return Vector3::Transform(Vector3::UnitZ, mRotation); }
+	
 	Vector3 GetRight() const { return Vector3::Transform(Vector3::UnitX, mRotation); }
 
 	void RotateToNewForward(const Vector3& forward);
 
 	State GetState() const { return mState; }
+	
 	void SetState(State state) { mState = state; }
 
 	class BaseScene* GetGame() { return mGame; }
@@ -53,22 +63,29 @@ public:
 
 	// Add/remove components
 	void AddComponent(class Component* component);
+	
 	void RemoveComponent(class Component* component);
 	//子オブジェクトを追加
 	void AddChildActor(class ActorObject* actor);
+	
 	void RemoveChildActor(class ActorObject* actor);
+	
 	const class ActorObject* GetChildActor(class ActorObject* actor);
+	
 	void SetParentActor(class ActorObject* parent) { mParentActor = parent; }
 private:
+	// Transform
+	Matrix4 mWorldTransform;
+protected:
 	// Actor's state
 	State mState;
 
-	// Transform
-	Matrix4 mWorldTransform;
-	
 	Vector3 mPosition;
+
 	Quaternion mRotation;
-	float mScale;
+
+	Vector3 mScale;
+
 	bool mRecomputeWorldTransform;
 
 	std::vector<class Component*> mComponents;
@@ -76,5 +93,6 @@ private:
 	class ActorObject* mParentActor;
 
 	std::vector<class ActorObject*> mChildActor;
+
 	class BaseScene* mGame;
 };

@@ -6,6 +6,7 @@
 #include "BaseScene.h"
 #include "Renderer.h"
 #include "BoxComponent.h"
+#include "Sword.h"
 
 TestCharacter::TestCharacter(BaseScene* game)
 	:ActorObject(game)
@@ -18,8 +19,10 @@ TestCharacter::TestCharacter(BaseScene* game)
 	mMeshComp->SetSkeleton(GetGame()->GetSkeleton("Assets/Models/Paladin J Nordstrom.fbx"));
 	animator->SetSkeleton(mMeshComp->GetSkeleton());
 	animator->Load("Assets/Idle.fbx");
-	animator->Load("Assets/Capoeira.fbx");
+	animator->Load("Assets/T-Pose.fbx");
 	mMeshComp->PlayAnimation(animator->GetAnimations()[State::Capoeira]);
+
+	mSword = new Sword(game);
 }
 
 void TestCharacter::ActorInput(const bool* keys)
@@ -32,4 +35,17 @@ void TestCharacter::ActorInput(const bool* keys)
 	{
 		mMeshComp->PlayAnimation(animator->GetAnimations()[State::Capoeira]);
 	}
+}
+
+void TestCharacter::UpdateActor(float deltaTime)
+{
+	Matrix4 mat = mMeshComp->GetSkeleton()->GetBonePosition("RightHand");
+	Vector3 pos = mPosition + mat.GetTranslation();
+	mSword->SetPosition(pos);
+	Quaternion r = mat.GetRotation();
+	r.RotateByAxisAngle(Vector3::UnitX, 240);
+	r.RotateByAxisAngle(Vector3::UnitY, -45);
+	mSword->SetRotation(r);
+	/*
+	*/
 }

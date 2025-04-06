@@ -87,7 +87,7 @@ void SkeletalMeshRenderer::ComputeMatrixPalette()
 	const std::vector<Matrix4>& globalInvBindPoses = mSkeleton->GetGlobalInvBindPoses();
 	std::vector<Matrix4> currentPoses;
 	mAnimation->GetGlobalPoseAtTime(currentPoses, mSkeleton, mAnimTime);
-
+	mSkeleton->SetGlobalCurrentPoses(currentPoses);
 	// Setup the palette for each bone
 	for (size_t i = 0; i < mSkeleton->GetNumBones(); i++)
 	{

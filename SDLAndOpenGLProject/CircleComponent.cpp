@@ -13,7 +13,7 @@ const Vector3& CircleComponent::GetCenter() const
 	return mOwner->GetPosition();
 }
 
-float CircleComponent::GetRadius() const
+Vector3 CircleComponent::GetRadius() const
 {
 	return mOwner->GetScale() * mRadius;
 }
@@ -25,8 +25,8 @@ bool Intersect(const CircleComponent& a, const CircleComponent& b)
 	float distSq = diff.LengthSq();
 
 	// Calculate sum of radii squared
-	float radiiSq = a.GetRadius() + b.GetRadius();
+	Vector3 radiiSq = a.GetRadius() + b.GetRadius();
 	radiiSq *= radiiSq;
 
-	return distSq <= radiiSq;
+	return distSq <= radiiSq.Length();
 }

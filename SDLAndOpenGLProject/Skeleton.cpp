@@ -128,9 +128,9 @@ bool Skeleton::LoadFromJSON(const std::string& fileName)
 		temp.mLocalBindPose.mRotation.z = rot[2].GetDouble();
 		temp.mLocalBindPose.mRotation.w = rot[3].GetDouble();
 
-		temp.mLocalBindPose.mTranslation.x = trans[0].GetDouble();
-		temp.mLocalBindPose.mTranslation.y = trans[1].GetDouble();
-		temp.mLocalBindPose.mTranslation.z = trans[2].GetDouble();
+		temp.mLocalBindPose.mPosition.x = trans[0].GetDouble();
+		temp.mLocalBindPose.mPosition.y = trans[1].GetDouble();
+		temp.mLocalBindPose.mPosition.z = trans[2].GetDouble();
 
 		mBones.emplace_back(temp);
 	}
@@ -178,11 +178,11 @@ bool Skeleton::LoadFromFBX(const std::string& fileName)
 			bindPose.Decompose(scale, rot, pos);
 
 			newBone.mLocalBindPose.mRotation = Quaternion(rot.x, rot.y, rot.z, rot.w);
-			newBone.mLocalBindPose.mTranslation = Vector3(pos.x, pos.y, pos.z);
+			newBone.mLocalBindPose.mPosition = Vector3(pos.x, pos.y, pos.z);
 			newBone.mLocalBindPose.mScale = Vector3(scale.x, scale.y, scale.z);
 
 			boneNameToIndex[boneName] = static_cast<int>(mBones.size());
-			mBoneTransform[newBone.mGetName] = newBone;
+			mBoneTransform[newBone.mGetName] = static_cast<int>(mBones.size());
 			mBones.push_back(newBone);
 
 			//TODO : assimpではオフセット行列をそのまま利用
@@ -231,7 +231,7 @@ std::string Skeleton::ConvertSimpleBoneName(std::string boneName)
 	};
 	for (std::string bn : bns) 
 	{
-		if (bone.find(bn) != std::string::npos && endsWith(bone, bn)) 
+		if (bone.find(bn) != std::string::npos && EndsWith(bone, bn)) 
 		{
 			bone = bn;
 		}
@@ -239,20 +239,23 @@ std::string Skeleton::ConvertSimpleBoneName(std::string boneName)
 	return bone;
 }
 
-bool Skeleton::endsWith(const std::string& str, const std::string& suffix)
+bool Skeleton::EndsWith(const std::string& str, const std::string& suffix)
 {
 	if (str.size() < suffix.size()) return false;
 	return str.substr(str.size() - suffix.size()) == suffix;
 }
 
-Skeleton::Bone* Skeleton::GetBone(std::string boneName)
+Matrix4 Skeleton::GetBonePosition(std::string boneName)
 {
-	Bone* b = nullptr;
+	Matrix4 bonePos;
+	int index = 0;
 	if (mBoneTransform.find(boneName) != mBoneTransform.end())
 	{
-		b = &mBoneTransform[boneName];
+		index = mBoneTransform[boneName];
 	}
-	return b;
+	bonePos = mGlobalCurrentPoses[index];
+	
+	return bonePos;
 }
 
 void Skeleton::ComputeGlobalInvBindPose()

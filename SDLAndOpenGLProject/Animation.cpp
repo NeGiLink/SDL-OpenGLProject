@@ -127,9 +127,9 @@ bool Animation::LoadFromJSON(const std::string& fileName)
 			temp.mRotation.z = rot[2].GetDouble();
 			temp.mRotation.w = rot[3].GetDouble();
 
-			temp.mTranslation.x = trans[0].GetDouble();
-			temp.mTranslation.y = trans[1].GetDouble();
-			temp.mTranslation.z = trans[2].GetDouble();
+			temp.mPosition.x = trans[0].GetDouble();
+			temp.mPosition.y = trans[1].GetDouble();
+			temp.mPosition.z = trans[2].GetDouble();
 
 			mTracks[boneIndex].emplace_back(temp);
 		}
@@ -188,14 +188,13 @@ bool Animation::LoadFromFBX(const std::string& fileName)
 			// 位置キーの適用
 			if (j < channel->mNumPositionKeys) {
 				aiVector3D pos = channel->mPositionKeys[j].mValue;
-				temp.mTranslation = Vector3(pos.x, pos.y, pos.z);
+				temp.mPosition = Vector3(pos.x, pos.y, pos.z);
 			}
 
 			// 回転キーの適用
 			if (j < channel->mNumRotationKeys) {
 				aiQuaternion rot = channel->mRotationKeys[j].mValue;
 				temp.mRotation = Quaternion(rot.x, rot.y, rot.z, rot.w);
-				//SDL_Log("Bone %s - Frame %d: Rotation (%f, %f, %f, %f)", boneName.c_str(), j, rot.x, rot.y, rot.z, rot.w);
 			}
 
 			// スケールキーの適用
