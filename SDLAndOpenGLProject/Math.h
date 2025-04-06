@@ -305,6 +305,11 @@ public:
 		return Vector3(vec.x * scalar, vec.y * scalar, vec.z * scalar);
 	}
 
+	friend Vector3 operator/(const Vector3& vec, float scalar)
+	{
+		return Vector3(vec.x / scalar, vec.y / scalar, vec.z / scalar);
+	}
+
 	// Scalar multiplication
 	friend Vector3 operator*(float scalar, const Vector3& vec)
 	{
@@ -312,6 +317,14 @@ public:
 	}
 
 	// Scalar *=
+	Vector3& operator*=(Vector3 scalar)
+	{
+		x *= scalar.x;
+		y *= scalar.y;
+		z *= scalar.z;
+		return *this;
+	}
+
 	Vector3& operator*=(float scalar)
 	{
 		x *= scalar;
@@ -706,6 +719,233 @@ public:
 	static const Matrix3 Identity;
 };
 
+// (Unit) Quaternion
+class Quaternion
+{
+public:
+	float x;
+	float y;
+	float z;
+	float w;
+
+	Quaternion()
+	{
+		*this = Quaternion::Identity;
+	}
+
+	// This directly sets the quaternion components --
+	// don't use for axis/angle
+	explicit Quaternion(float inX, float inY, float inZ, float inW)
+	{
+		Set(inX, inY, inZ, inW);
+	}
+
+	// Construct the quaternion from an axis and angle
+	// It is assumed that axis is already normalized,
+	// and the angle is in radians
+	explicit Quaternion(const Vector3& axis, float angle)
+	{
+		float scalar = Math::Sin(angle / 2.0f);
+		x = axis.x * scalar;
+		y = axis.y * scalar;
+		z = axis.z * scalar;
+		w = Math::Cos(angle / 2.0f);
+	}
+
+	// Directly set the internal components
+	void Set(float inX, float inY, float inZ, float inW)
+	{
+		x = inX;
+		y = inY;
+		z = inZ;
+		w = inW;
+	}
+
+	void Conjugate()
+	{
+		x *= -1.0f;
+		y *= -1.0f;
+		z *= -1.0f;
+	}
+
+	float LengthSq() const
+	{
+		return (x * x + y * y + z * z + w * w);
+	}
+
+	float Length() const
+	{
+		return Math::Sqrt(LengthSq());
+	}
+
+	void Normalize()
+	{
+		float length = Length();
+		x /= length;
+		y /= length;
+		z /= length;
+		w /= length;
+	}
+
+	// Normalize the provided quaternion
+	static Quaternion Normalize(const Quaternion& q)
+	{
+		Quaternion retVal = q;
+		retVal.Normalize();
+		return retVal;
+	}
+
+	// Linear interpolation
+	static Quaternion Lerp(const Quaternion& a, const Quaternion& b, float f)
+	{
+		Quaternion retVal;
+		retVal.x = Math::Lerp(a.x, b.x, f);
+		retVal.y = Math::Lerp(a.y, b.y, f);
+		retVal.z = Math::Lerp(a.z, b.z, f);
+		retVal.w = Math::Lerp(a.w, b.w, f);
+		retVal.Normalize();
+		return retVal;
+	}
+
+	static float Dot(const Quaternion& a, const Quaternion& b)
+	{
+		return a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w;
+	}
+
+	// Spherical Linear Interpolation
+	static Quaternion Slerp(const Quaternion& a, const Quaternion& b, float f)
+	{
+		float rawCosm = Quaternion::Dot(a, b);
+
+		float cosom = -rawCosm;
+		if (rawCosm >= 0.0f)
+		{
+			cosom = rawCosm;
+		}
+
+		float scale0, scale1;
+
+		if (cosom < 0.9999f)
+		{
+			const float omega = Math::Acos(cosom);
+			const float invSin = 1.f / Math::Sin(omega);
+			scale0 = Math::Sin((1.f - f) * omega) * invSin;
+			scale1 = Math::Sin(f * omega) * invSin;
+		}
+		else
+		{
+			// Use linear interpolation if the quaternions
+			// are collinear
+			scale0 = 1.0f - f;
+			scale1 = f;
+		}
+
+		if (rawCosm < 0.0f)
+		{
+			scale1 = -scale1;
+		}
+
+		Quaternion retVal;
+		retVal.x = scale0 * a.x + scale1 * b.x;
+		retVal.y = scale0 * a.y + scale1 * b.y;
+		retVal.z = scale0 * a.z + scale1 * b.z;
+		retVal.w = scale0 * a.w + scale1 * b.w;
+		retVal.Normalize();
+		return retVal;
+	}
+
+	// Concatenate
+	// Rotate by q FOLLOWED BY p
+	static Quaternion Concatenate(const Quaternion& q, const Quaternion& p)
+	{
+		Quaternion retVal;
+
+		// Vector component is:
+		// ps * qv + qs * pv + pv x qv
+		Vector3 qv(q.x, q.y, q.z);
+		Vector3 pv(p.x, p.y, p.z);
+		Vector3 newVec = p.w * qv + q.w * pv + Vector3::Cross(pv, qv);
+		retVal.x = newVec.x;
+		retVal.y = newVec.y;
+		retVal.z = newVec.z;
+
+		// Scalar component is:
+		// ps * qs - pv . qv
+		retVal.w = p.w * q.w - Vector3::Dot(pv, qv);
+
+		return retVal;
+	}
+
+	// 四元数の逆行列を計算するメソッド
+	Quaternion Inverse() const {
+		// ノルムの2乗
+		float normSquared = x * x + y * y + z * z + w * w;
+		if (normSquared == 0) 
+		{
+			// ゼロ除算を防ぐため、逆行列は存在しないとする場合
+			// もしくは例外を投げる等
+			return Quaternion(0, 0, 0, 0);  
+		}
+
+		// 共役を取る（虚部を反転させる）
+		return Quaternion(-x / normSquared, -y / normSquared, -z / normSquared, w / normSquared);
+	}
+
+	static Vector3 RotateVector(const Vector3 scale,const Quaternion& parent)
+	{
+		// ベクトルをクォータニオン形式に変換
+		Quaternion qv = Quaternion(0, scale.x, scale.y, scale.z);
+		// 回転を適用
+		qv = parent * qv * parent.Inverse();
+		// 回転後のベクトルを返す
+		return Vector3(qv.x, qv.y, qv.z);
+	}
+
+	// 指定軸と角度で回転クォータニオンを作成して返す関数（角度は度数）
+	static Quaternion CreateFromAxisAngle(const Vector3& axis, float angleDegrees)
+	{
+		// 角度をラジアンに変換
+		float angleRadians = Math::ToRadians(angleDegrees);
+		// axisが正規化されていることを前提にしているが、念のためNormalizeしてもOK
+		Vector3 normAxis = Vector3::Normalize(axis);
+		return Quaternion(normAxis, angleRadians);
+	}
+
+	// 自身の回転に、指定軸と角度の回転を追加する（角度は度数）
+	void RotateByAxisAngle(const Vector3& axis, float angleDegrees)
+	{
+		float angleRadians = Math::ToRadians(angleDegrees);
+		Quaternion deltaRot(axis, angleRadians); // 追加回転を生成
+		*this = deltaRot * (*this);              // deltaRotを先に掛ける（後から回転）
+	}
+
+	static const Quaternion Identity;
+
+	Quaternion& operator*=(const Quaternion& q)
+	{
+		float newX = w * q.x + x * q.w + y * q.z - z * q.y;
+		float newY = w * q.y - x * q.z + y * q.w + z * q.x;
+		float newZ = w * q.z + x * q.y - y * q.x + z * q.w;
+		float newW = w * q.w - x * q.x - y * q.y - z * q.z;
+
+		x = newX;
+		y = newY;
+		z = newZ;
+		w = newW;
+
+		return *this;
+	}
+
+	friend Quaternion operator*(const Quaternion& q1, const Quaternion& q2)
+	{
+		return Quaternion(
+			q1.w * q2.x + q1.x * q2.w + q1.y * q2.z - q1.z * q2.y,
+			q1.w * q2.y - q1.x * q2.z + q1.y * q2.w + q1.z * q2.x,
+			q1.w * q2.z + q1.x * q2.y - q1.y * q2.x + q1.z * q2.w,
+			q1.w * q2.w - q1.x * q2.x - q1.y * q2.y - q1.z * q2.z
+		);
+	}
+};
 // 4x4 Matrix
 class Matrix4
 {
@@ -878,6 +1118,50 @@ public:
 		return retVal;
 	}
 
+	Quaternion GetRotation() const
+	{
+		Quaternion q;
+		float trace = mat[0][0] + mat[1][1] + mat[2][2];
+
+		if (trace > 0.0f)
+		{
+			float s = sqrtf(trace + 1.0f) * 2.0f;
+			q.w = 0.25f * s;
+			q.x = (mat[2][1] - mat[1][2]) / s;
+			q.y = (mat[0][2] - mat[2][0]) / s;
+			q.z = (mat[1][0] - mat[0][1]) / s;
+		}
+		else
+		{
+			if (mat[0][0] > mat[1][1] && mat[0][0] > mat[2][2])
+			{
+				float s = sqrtf(1.0f + mat[0][0] - mat[1][1] - mat[2][2]) * 2.0f;
+				q.w = (mat[2][1] - mat[1][2]) / s;
+				q.x = 0.25f * s;
+				q.y = (mat[0][1] + mat[1][0]) / s;
+				q.z = (mat[0][2] + mat[2][0]) / s;
+			}
+			else if (mat[1][1] > mat[2][2])
+			{
+				float s = sqrtf(1.0f + mat[1][1] - mat[0][0] - mat[2][2]) * 2.0f;
+				q.w = (mat[0][2] - mat[2][0]) / s;
+				q.x = (mat[0][1] + mat[1][0]) / s;
+				q.y = 0.25f * s;
+				q.z = (mat[1][2] + mat[2][1]) / s;
+			}
+			else
+			{
+				float s = sqrtf(1.0f + mat[2][2] - mat[0][0] - mat[1][1]) * 2.0f;
+				q.w = (mat[1][0] - mat[0][1]) / s;
+				q.x = (mat[0][2] + mat[2][0]) / s;
+				q.y = (mat[1][2] + mat[2][1]) / s;
+				q.z = 0.25f * s;
+			}
+		}
+
+		return q;
+	}
+
 	// Create a scale matrix with x, y, and z scales
 	static Matrix4 CreateScale(float xScale, float yScale, float zScale)
 	{
@@ -1019,165 +1303,6 @@ public:
 	static const Matrix4 Identity;
 };
 
-// (Unit) Quaternion
-class Quaternion
-{
-public:
-	float x;
-	float y;
-	float z;
-	float w;
-
-	Quaternion()
-	{
-		*this = Quaternion::Identity;
-	}
-
-	// This directly sets the quaternion components --
-	// don't use for axis/angle
-	explicit Quaternion(float inX, float inY, float inZ, float inW)
-	{
-		Set(inX, inY, inZ, inW);
-	}
-
-	// Construct the quaternion from an axis and angle
-	// It is assumed that axis is already normalized,
-	// and the angle is in radians
-	explicit Quaternion(const Vector3& axis, float angle)
-	{
-		float scalar = Math::Sin(angle / 2.0f);
-		x = axis.x * scalar;
-		y = axis.y * scalar;
-		z = axis.z * scalar;
-		w = Math::Cos(angle / 2.0f);
-	}
-
-	// Directly set the internal components
-	void Set(float inX, float inY, float inZ, float inW)
-	{
-		x = inX;
-		y = inY;
-		z = inZ;
-		w = inW;
-	}
-
-	void Conjugate()
-	{
-		x *= -1.0f;
-		y *= -1.0f;
-		z *= -1.0f;
-	}
-
-	float LengthSq() const
-	{
-		return (x * x + y * y + z * z + w * w);
-	}
-
-	float Length() const
-	{
-		return Math::Sqrt(LengthSq());
-	}
-
-	void Normalize()
-	{
-		float length = Length();
-		x /= length;
-		y /= length;
-		z /= length;
-		w /= length;
-	}
-
-	// Normalize the provided quaternion
-	static Quaternion Normalize(const Quaternion& q)
-	{
-		Quaternion retVal = q;
-		retVal.Normalize();
-		return retVal;
-	}
-
-	// Linear interpolation
-	static Quaternion Lerp(const Quaternion& a, const Quaternion& b, float f)
-	{
-		Quaternion retVal;
-		retVal.x = Math::Lerp(a.x, b.x, f);
-		retVal.y = Math::Lerp(a.y, b.y, f);
-		retVal.z = Math::Lerp(a.z, b.z, f);
-		retVal.w = Math::Lerp(a.w, b.w, f);
-		retVal.Normalize();
-		return retVal;
-	}
-
-	static float Dot(const Quaternion& a, const Quaternion& b)
-	{
-		return a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w;
-	}
-
-	// Spherical Linear Interpolation
-	static Quaternion Slerp(const Quaternion& a, const Quaternion& b, float f)
-	{
-		float rawCosm = Quaternion::Dot(a, b);
-
-		float cosom = -rawCosm;
-		if (rawCosm >= 0.0f)
-		{
-			cosom = rawCosm;
-		}
-
-		float scale0, scale1;
-
-		if (cosom < 0.9999f)
-		{
-			const float omega = Math::Acos(cosom);
-			const float invSin = 1.f / Math::Sin(omega);
-			scale0 = Math::Sin((1.f - f) * omega) * invSin;
-			scale1 = Math::Sin(f * omega) * invSin;
-		}
-		else
-		{
-			// Use linear interpolation if the quaternions
-			// are collinear
-			scale0 = 1.0f - f;
-			scale1 = f;
-		}
-
-		if (rawCosm < 0.0f)
-		{
-			scale1 = -scale1;
-		}
-
-		Quaternion retVal;
-		retVal.x = scale0 * a.x + scale1 * b.x;
-		retVal.y = scale0 * a.y + scale1 * b.y;
-		retVal.z = scale0 * a.z + scale1 * b.z;
-		retVal.w = scale0 * a.w + scale1 * b.w;
-		retVal.Normalize();
-		return retVal;
-	}
-
-	// Concatenate
-	// Rotate by q FOLLOWED BY p
-	static Quaternion Concatenate(const Quaternion& q, const Quaternion& p)
-	{
-		Quaternion retVal;
-
-		// Vector component is:
-		// ps * qv + qs * pv + pv x qv
-		Vector3 qv(q.x, q.y, q.z);
-		Vector3 pv(p.x, p.y, p.z);
-		Vector3 newVec = p.w * qv + q.w * pv + Vector3::Cross(pv, qv);
-		retVal.x = newVec.x;
-		retVal.y = newVec.y;
-		retVal.z = newVec.z;
-
-		// Scalar component is:
-		// ps * qs - pv . qv
-		retVal.w = p.w * q.w - Vector3::Dot(pv, qv);
-
-		return retVal;
-	}
-
-	static const Quaternion Identity;
-};
 
 namespace Color
 {

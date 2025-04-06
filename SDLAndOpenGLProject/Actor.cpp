@@ -7,7 +7,7 @@ ActorObject::ActorObject(BaseScene* game)
 	:mState(EActive)
 	, mPosition(Vector3::Zero)
 	, mRotation(Quaternion::Identity)
-	, mScale(1.0f)
+	, mScale(Vector3(1.0f,1.0f,1.0f))
 	, mGame(game)
 	, mRecomputeWorldTransform(true)
 {
@@ -74,16 +74,24 @@ void ActorObject::ComputeWorldTransform()
 	{
 		mRecomputeWorldTransform = false;
 		// Scale, then rotate, then translate
-		mWorldTransform = Matrix4::CreateScale(mScale);
-		mWorldTransform *= Matrix4::CreateFromQuaternion(mRotation);
-		mWorldTransform *= Matrix4::CreateTranslation(mPosition);
-
 		// 親がいれば親のワールド行列を適用（ローカル→ワールド）
 		if (mParentActor)
 		{
-			mWorldTransform *= mParentActor->GetWorldTransform();
-		}
+			Vector3 worldScale = mParentActor->GetScale() * mScale;
+			Quaternion worldRotation = mParentActor->GetRotation() * mRotation;
+			// ローカル位置をスケールして回転させた後、親の位置に足す
+			Vector3 worldPosition = mParentActor->GetRotation().RotateVector(mParentActor->GetScale() * mScale, mParentActor->GetRotation()) + mParentActor->GetPosition();
 
+			mWorldTransform = Matrix4::CreateScale(worldScale);
+			mWorldTransform *= Matrix4::CreateFromQuaternion(worldRotation);
+			mWorldTransform *= Matrix4::CreateTranslation(worldPosition);
+		}
+		else 
+		{
+			mWorldTransform = Matrix4::CreateScale(mScale);
+			mWorldTransform *= Matrix4::CreateFromQuaternion(mRotation);
+			mWorldTransform *= Matrix4::CreateTranslation(mPosition);
+		}
 		// Inform components world transform updated
 		for (auto comp : mComponents)
 		{

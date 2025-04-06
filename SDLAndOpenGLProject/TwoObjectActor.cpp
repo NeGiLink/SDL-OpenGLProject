@@ -13,3 +13,7 @@ TwoObjectActor::TwoObjectActor(BaseScene* game)
 	MeshRenderer* mc = new MeshRenderer(this);
 	mc->SetMeshs(game->GetWinMain()->GetRenderer()->GetMeshs("TwoCube.fbx"));
 }
+
+void TwoObjectActor::UpdateActor(float deltaTime)
+{
+}

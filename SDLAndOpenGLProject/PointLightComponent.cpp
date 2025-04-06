@@ -26,8 +26,7 @@ void PointLightComponent::Draw(Shader* shader, Mesh* mesh)
 
 		// World transform is scaled to the outer radius (divided by the mesh radius)
 		// and positioned to the world position
-		Matrix4 scale = Matrix4::CreateScale(mOwner->GetScale() *
-			mOuterRadius / mesh->GetRadiusArray()[i]);
+		Matrix4 scale = Matrix4::CreateScale(mOwner->GetScale() * mOuterRadius / mesh->GetRadiusArray()[i]);
 		Matrix4 trans = Matrix4::CreateTranslation(mOwner->GetPosition());
 		Matrix4 worldTransform = scale * trans;
 		shader->SetMatrixUniform("uWorldTransform", worldTransform);

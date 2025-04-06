@@ -33,15 +33,24 @@ public:
 
 	std::string ConvertSimpleBoneName(std::string boneName);
 
-	bool endsWith(const std::string& str, const std::string& suffix);
+	bool EndsWith(const std::string& str, const std::string& suffix);
+
+
 
 	// Getter functions
 	size_t GetNumBones() const { return mBones.size(); }
+
 	const Bone& GetBone(size_t idx) const { return mBones[idx]; }
+	
 	const std::vector<Bone>& GetBones() const { return mBones; }
+	
 	const std::vector<Matrix4>& GetGlobalInvBindPoses() const { return mGlobalInvBindPoses; }
+	const std::vector<Matrix4>& GetGlobalCurrentPoses() const { return mGlobalCurrentPoses; }
+	void SetGlobalCurrentPoses(std::vector<Matrix4>& poses) { mGlobalCurrentPoses = poses; }
+	
 	const std::unordered_map<std::string, int>& GetBoneNameToIndex() const { return boneNameToIndex; }
-	Bone* GetBone(std::string boneName);
+
+	Matrix4 GetBonePosition(std::string boneName);
 protected:
 	// Called automatically when the skeleton is loaded
 	// Computes the global inverse bind pose for each bone
@@ -52,9 +61,11 @@ private:
 	// The global inverse bind poses for each bone
 	std::vector<Matrix4> mGlobalInvBindPoses;
 
+	std::vector<Matrix4> mGlobalCurrentPoses;
+
 	std::unordered_map<std::string, int> boneNameToIndex;
 
-	std::unordered_map<std::string,Bone> mBoneTransform;
+	std::unordered_map<std::string,int> mBoneTransform;
 
 	SkeletonType mSkeletonType;
 };

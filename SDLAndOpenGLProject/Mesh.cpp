@@ -320,7 +320,7 @@ bool Mesh::LoadFromFBX(const std::string& fileName, Renderer* renderer, int inde
 
 		v.f = norm.z; vertices.push_back(v);
 
-		//TODO : 頂点にウェイト追加、簡易のため複数メッシュの場合など不足あり
+		//TODO : 頂点にウェイト追加、簡易のため複数メッシュの場合など不足あり(修正済み)
 		if (mesh->HasBones())
 		{
 			Vertex boneIndex = { 0 };
@@ -335,18 +335,18 @@ bool Mesh::LoadFromFBX(const std::string& fileName, Renderer* renderer, int inde
 						continue;
 					}
 					float weightValue = bone->mWeights[weightIndex].mWeight;
-					// **現在のウェイトが上位4つに入るか判定**
+					//現在のウェイトが上位4つに入るか判定
 					for (unsigned int w = 0; w < 4; w++)
 					{
 						if (weight[w].f < weightValue)
 						{
-							// **シフトして挿入（現在のw以降を後ろにずらす）**
+							// シフトして挿入（現在のw以降を後ろにずらす）
 							for (int k = 3; k > w; k--)
 							{
 								weight[k] = weight[k - 1];
 								boneIndex.b[k] = boneIndex.b[k - 1];
 							}
-							// **新しい値を挿入**
+							//新しい値を挿入
 							weight[w].f = weightValue;
 							boneIndex.b[w] = j;
 							break;

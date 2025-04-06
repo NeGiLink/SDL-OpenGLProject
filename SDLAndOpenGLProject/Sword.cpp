@@ -6,7 +6,7 @@
 #include "BoxComponent.h"
 #include "Mesh.h"
 
-Sword::Sword(BaseScene* game,Skeleton::Bone* rightHand)
+Sword::Sword(BaseScene* game)
 	:ActorObject(game)
 {
 	SetScale(100.0f);
@@ -14,11 +14,17 @@ Sword::Sword(BaseScene* game,Skeleton::Bone* rightHand)
 	MeshRenderer* mc = new MeshRenderer(this);
 	Mesh* mesh = game->GetWinMain()->GetRenderer()->GetMesh("Sword.fbx");
 	mc->SetMesh(mesh);
-	mRightHand = rightHand;
+}
+
+void Sword::UpdateActor(float deltaTime)
+{
+	if (mParentActor) {
+		SetPosition(mParentActor->GetPosition());
+	}
 }
 
 void Sword::UpdateRightHand(Skeleton::Bone* hand)
 {
-	SetPosition(hand->mLocalBindPose.mTranslation);
+	SetPosition(hand->mLocalBindPose.mPosition);
 	SetRotation(hand->mLocalBindPose.mRotation);
 }

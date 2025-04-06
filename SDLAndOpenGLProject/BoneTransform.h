@@ -7,7 +7,7 @@ public:
 	// For now, just make this data public
 	Vector3 mScale;
 	Quaternion mRotation;
-	Vector3 mTranslation;
+	Vector3 mPosition;
 
 	Matrix4 ToMatrix() const;
 

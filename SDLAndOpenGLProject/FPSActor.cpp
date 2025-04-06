@@ -11,6 +11,7 @@
 #include "BallActor.h"
 #include "BoxComponent.h"
 #include "PlaneActor.h"
+#include "Sword.h"
 
 FPSActor::FPSActor(BaseScene* game)
 	:ActorObject(game)
@@ -36,6 +37,9 @@ FPSActor::FPSActor(BaseScene* game)
 		Vector3(25.0f, 87.5f, 25.0f));
 	mBoxComp->SetObjectBox(myBox);
 	mBoxComp->SetShouldRotate(false);
+
+	Sword* s = new Sword(game);
+	AddChildActor(s);
 }
 
 void FPSActor::UpdateActor(float deltaTime)
