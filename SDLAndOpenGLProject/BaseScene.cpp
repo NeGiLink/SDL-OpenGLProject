@@ -4,6 +4,7 @@
 #include "PhysWorld.h"
 #include "Actor.h"
 #include "UIScreen.h"
+#include "Image.h"
 #include "HUD.h"
 #include "Font.h"
 #include "Skeleton.h"
@@ -199,6 +200,11 @@ void BaseScene::PushUI(UIScreen* screen)
 	mUIStack.emplace_back(screen);
 }
 
+void BaseScene::PushImage(Image* screen)
+{
+	mImageStack.emplace_back(screen);
+}
+
 void BaseScene::AddPlane(PlaneActor* plane)
 {
 	mPlanes.emplace_back(plane);
@@ -259,6 +265,13 @@ void BaseScene::UpdateGame()
 			ui->Update(Time::deltaTime);
 		}
 	}
+	for (auto image : mImageStack) 
+	{
+		if (image->GetState() == Image::EActive)
+		{
+			image->Update(Time::deltaTime);
+		}
+	}
 	// Delete any UIScreens that are closed
 	auto iter = mUIStack.begin();
 	while (iter != mUIStack.end())
@@ -271,6 +284,19 @@ void BaseScene::UpdateGame()
 		else
 		{
 			++iter;
+		}
+	}
+	auto image = mImageStack.begin();
+	while (image != mImageStack.end())
+	{
+		if ((*image)->GetState() == Image::EClosing)
+		{
+			delete* image;
+			image = mImageStack.erase(image);
+		}
+		else
+		{
+			++image;
 		}
 	}
 }
@@ -289,6 +315,12 @@ void BaseScene::UnloadData()
 	{
 		delete mUIStack.back();
 		mUIStack.pop_back();
+	}
+
+	while (!mImageStack.empty())
+	{
+		delete mImageStack.back();
+		mImageStack.pop_back();
 	}
 
 	// Unload fonts

@@ -12,7 +12,10 @@ public:
 private:
 	enum State
 	{
+		TPose,
 		Idle,
+		Run,
+		Jump,
 		Capoeira
 	};
 

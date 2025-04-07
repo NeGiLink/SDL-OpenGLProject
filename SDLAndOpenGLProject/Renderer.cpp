@@ -181,6 +181,7 @@ void Renderer::Draw()
 	// Set shader/vao as active
 	mSpriteShader->SetActive();
 	mSpriteVerts->SetActive();
+
 	for (auto sprite : mSprites)
 	{
 		if (sprite->GetVisible())
@@ -190,6 +191,7 @@ void Renderer::Draw()
 	}
 
 	// Draw any UI screens
+	//ƒQ[ƒ€’†‚ÌUI‚ð‚Ü‚Æ‚ß‚Ä•`‰æ
 	for (auto ui : mNowScene->GetUIStack())
 	{
 		ui->Draw(mSpriteShader);

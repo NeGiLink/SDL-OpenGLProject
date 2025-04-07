@@ -41,6 +41,9 @@ public:
 	const std::vector<class UIScreen*>& GetUIStack() { return mUIStack; }
 	void PushUI(class UIScreen* screen);
 
+	const std::vector<class Image*>& GetImageStack() { return mImageStack; }
+	void PushImage(class Image* screen);
+
 	// Game-specific
 	void AddPlane(class PlaneActor* plane);
 	void RemovePlane(class PlaneActor* plane);
@@ -57,6 +60,7 @@ protected:
 	// All the actors in the game
 	std::vector<class ActorObject*> mActors;
 	std::vector<class UIScreen*> mUIStack;
+	std::vector<class Image*> mImageStack;
 	// Map for fonts
 	std::unordered_map<std::string, class Font*> mFonts;
 	// Map of loaded skeletons

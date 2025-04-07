@@ -158,6 +158,7 @@
     <ClCompile Include="FPSCamera.cpp" />
     <ClCompile Include="FrameRate.cpp" />
     <ClCompile Include="GameApp.cpp" />
+    <ClCompile Include="Image.cpp" />
     <ClCompile Include="Sword.cpp" />
     <ClCompile Include="Time.cpp" />
     <ClCompile Include="Transform.cpp" />
@@ -228,6 +229,7 @@
     <ClInclude Include="FPSCamera.h" />
     <ClInclude Include="FrameRate.h" />
     <ClInclude Include="GameApp.h" />
+    <ClInclude Include="Image.h" />
     <ClInclude Include="MeshFilePath.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="SDL3.h" />
