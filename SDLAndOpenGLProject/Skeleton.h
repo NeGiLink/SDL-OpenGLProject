@@ -16,6 +16,11 @@ public:
 	// Definition for each bone in the skeleton
 	struct Bone
 	{
+		//TODO：後の計算用にオフセットを追加
+		//		※今回は親子関係構築後にmLocalBindPoseを求めるのを楽するため追加
+		//		このままだとゲームのBone情報にassimpの情報を含めてしまうため変更するべき
+		aiMatrix4x4 mOffsetMatrix;
+
 		BoneTransform mLocalBindPose;
 		std::string mName;
 		std::string mGetName;

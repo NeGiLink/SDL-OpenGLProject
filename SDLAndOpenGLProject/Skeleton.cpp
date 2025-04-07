@@ -166,6 +166,9 @@ bool Skeleton::LoadFromFBX(const std::string& fileName)
 			if (boneNameToIndex.find(boneName) != boneNameToIndex.end()) continue;
 
 			Bone newBone;
+			//TODO：後の計算用にオフセットを保存しておく
+			//		※このままだとゲームのBone情報にassimpの情報を含めてしまうため変更するべき
+			newBone.mOffsetMatrix = bone->mOffsetMatrix;
 			newBone.mName = boneName;
 			newBone.mGetName = boneGetName;
 			newBone.mParent = -1;  // 後で SetParentBones() で設定する
@@ -210,6 +213,24 @@ void Skeleton::SetParentBones(aiNode* node, int parentIndex)
 		int boneIndex = boneNameToIndex[nodeName];
 		mBones[boneIndex].mParent = parentIndex;
 		nextIndex = boneIndex;
+
+		//TODO：バインドポーズをローカル情報に変換
+		auto localMatrix = mBones[boneIndex].mOffsetMatrix;
+		localMatrix = localMatrix.Inverse();
+
+		if (parentIndex >= 0)
+		{
+			auto parentMatrixInv = mBones[parentIndex].mOffsetMatrix;
+			localMatrix = parentMatrixInv * localMatrix;
+		}
+		aiVector3D pos;
+		aiQuaternion rot;
+		aiVector3D scale;
+		localMatrix.Decompose(scale, rot, pos);
+
+		mBones[boneIndex].mLocalBindPose.mRotation = Quaternion(rot.x, rot.y, rot.z, rot.w);
+		mBones[boneIndex].mLocalBindPose.mPosition = Vector3(pos.x, pos.y, pos.z);
+		mBones[boneIndex].mLocalBindPose.mScale = Vector3(scale.x, scale.y, scale.z);
 	}
 
 	// 子ノードを再帰的に処理

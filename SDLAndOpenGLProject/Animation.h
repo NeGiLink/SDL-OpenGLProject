@@ -25,6 +25,17 @@ private:
 	bool LoadFromJSON(const std::string& fileName);
 	bool LoadFromFBX(const std::string& fileName);
 
+	size_t FindTranslation(float AnimationTime, const aiNodeAnim* pNodeAnim);
+
+	void CalcInterpolatedTranslation(aiVector3D& Out, float AnimationTime, const aiNodeAnim* pNodeAnim);
+
+	size_t FindRotation(float AnimationTime, const aiNodeAnim* pNodeAnim);
+
+	void CalcInterpolatedRotation(aiQuaternion& Out, float AnimationTime, const aiNodeAnim* pNodeAnim);
+
+	size_t FindScaling(float AnimationTime, const aiNodeAnim* pNodeAnim);
+
+	void CalcInterpolatedScaling(aiVector3D& Out, float AnimationTime, const aiNodeAnim* pNodeAnim);
 	// Number of bones for the animation
 	size_t mNumBones;
 	// Number of frames in the animation

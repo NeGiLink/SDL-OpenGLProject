@@ -18,9 +18,12 @@ YBotActor::YBotActor(BaseScene* game)
 	mMeshComp->SetMeshs(game->GetWinMain()->GetRenderer()->GetMeshs("Y Bot.fbx"));
 	mMeshComp->SetSkeleton(GetGame()->GetSkeleton("Assets/Models/Y Bot.fbx"));
 	animator->SetSkeleton(mMeshComp->GetSkeleton());
-	animator->Load("Assets/Idle.fbx");
 	animator->Load("Assets/T-Pose.fbx");
-	mMeshComp->PlayAnimation(animator->GetAnimations()[State::Capoeira]);
+	animator->Load("Assets/Idle.fbx");
+	animator->Load("Assets/Running.fbx");
+	animator->Load("Assets/Jumping.fbx");
+	animator->Load("Assets/Capoeira.fbx");
+	mMeshComp->PlayAnimation(animator->GetAnimations()[State::TPose]);
 
 	mSword = new Sword(game);
 }
@@ -29,9 +32,21 @@ void YBotActor::ActorInput(const bool* keys)
 {
 	if (keys[SDL_SCANCODE_1])
 	{
-		mMeshComp->PlayAnimation(animator->GetAnimations()[State::Idle]);
+		mMeshComp->PlayAnimation(animator->GetAnimations()[State::TPose]);
 	}
 	else if (keys[SDL_SCANCODE_2])
+	{
+		mMeshComp->PlayAnimation(animator->GetAnimations()[State::Idle]);
+	}
+	else if (keys[SDL_SCANCODE_3]) 
+	{
+		mMeshComp->PlayAnimation(animator->GetAnimations()[State::Run]);
+	}
+	else if (keys[SDL_SCANCODE_4])
+	{
+		mMeshComp->PlayAnimation(animator->GetAnimations()[State::Jump]);
+	}
+	else if (keys[SDL_SCANCODE_5])
 	{
 		mMeshComp->PlayAnimation(animator->GetAnimations()[State::Capoeira]);
 	}
