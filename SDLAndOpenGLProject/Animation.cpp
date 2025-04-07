@@ -221,13 +221,21 @@ void Animation::GetGlobalPoseAtTime(std::vector<Matrix4>& outPoses, const Skelet
 	{
 		outPoses.resize(mNumBones);
 	}
-
+	/*
 	// Figure out the current frame index and next frame
 	// (This assumes inTime is bounded by [0, AnimDuration]
 	size_t frame = static_cast<size_t>(inTime / mFrameDuration);
 	size_t nextFrame = frame + 1;
 	// Calculate fractional value between frame and next frame
 	float pct = inTime / mFrameDuration - frame;
+	*/
+	size_t frame = static_cast<size_t>(inTime / mFrameDuration);
+	if (frame >= mNumFrames - 1)
+	{
+		frame = mNumFrames - 2; // ÅŒã‚Ì•âŠÔ—p
+	}
+	size_t nextFrame = frame + 1;
+	float pct = (inTime / mFrameDuration) - frame;
 
 	// Setup the pose for the root
 	if (mTracks[0].size() > 0)
