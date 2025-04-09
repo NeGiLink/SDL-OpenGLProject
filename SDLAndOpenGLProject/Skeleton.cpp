@@ -166,12 +166,11 @@ bool Skeleton::LoadFromFBX(const std::string& fileName)
 			if (boneNameToIndex.find(boneName) != boneNameToIndex.end()) continue;
 
 			Bone newBone;
-			//TODO：後の計算用にオフセットを保存しておく
-			//		※このままだとゲームのBone情報にassimpの情報を含めてしまうため変更するべき
-			newBone.mOffsetMatrix = bone->mOffsetMatrix;
+			mOffsetMatrix.push_back(bone->mOffsetMatrix);
 			newBone.mName = boneName;
 			newBone.mGetName = boneGetName;
-			newBone.mParent = -1;  // 後で SetParentBones() で設定する
+			// 後で SetParentBones() で設定する
+			newBone.mParent = -1;  
 
 			// バインドポーズの変換
 			aiMatrix4x4 bindPose = bone->mOffsetMatrix;
@@ -188,17 +187,13 @@ bool Skeleton::LoadFromFBX(const std::string& fileName)
 			mBoneTransform[newBone.mGetName] = static_cast<int>(mBones.size());
 			mBones.push_back(newBone);
 
-			//TODO : assimpではオフセット行列をそのまま利用
+			//assimpではオフセット行列をそのまま利用
 			mGlobalInvBindPoses.push_back(newBone.mLocalBindPose.ToMatrix());
 		}
 	}
 
 	// 親子関係を設定
 	SetParentBones(scene->mRootNode, -1);
-
-	//TODO : assimpではオフセット行列をそのまま利用するため不要
-	// グローバル逆バインドポーズを計算
-	//ComputeGlobalInvBindPose();
 	return true;
 }
 
@@ -215,12 +210,12 @@ void Skeleton::SetParentBones(aiNode* node, int parentIndex)
 		nextIndex = boneIndex;
 
 		//TODO：バインドポーズをローカル情報に変換
-		auto localMatrix = mBones[boneIndex].mOffsetMatrix;
+		aiMatrix4x4 localMatrix = mOffsetMatrix[boneIndex];
 		localMatrix = localMatrix.Inverse();
 
 		if (parentIndex >= 0)
 		{
-			auto parentMatrixInv = mBones[parentIndex].mOffsetMatrix;
+			aiMatrix4x4 parentMatrixInv = mOffsetMatrix[parentIndex];
 			localMatrix = parentMatrixInv * localMatrix;
 		}
 		aiVector3D pos;

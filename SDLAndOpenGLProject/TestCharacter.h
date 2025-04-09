@@ -12,11 +12,11 @@ public:
 private:
 	enum State
 	{
-		TPose,
 		Idle,
 		Run,
 		Jump,
-		Capoeira
+		Capoeira,
+		TPose
 	};
 
 	class SkeletalMeshRenderer* mMeshComp;

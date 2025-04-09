@@ -19,6 +19,10 @@ public:
 	class Texture* RenderText(const std::string& textKey,
 		const Vector3& color = Color::White,
 		int pointSize = 30);
+	// Given string and this font, draw to a texture
+	class Texture* RenderFreeText(const std::string& textKey,
+		const Vector3& color = Color::White,
+		int pointSize = 30);
 private:
 	// Map of point sizes to font data
 	std::unordered_map<int, TTF_Font*> mFontData;

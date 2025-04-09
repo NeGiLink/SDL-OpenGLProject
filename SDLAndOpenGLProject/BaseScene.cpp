@@ -158,6 +158,21 @@ const std::string& BaseScene::GetText(const std::string& key)
 	}
 }
 
+const std::string& BaseScene::GetFreeText(const std::string& key)
+{
+	static std::string errorMsg("**KEY NOT FOUND**");
+	// Find this text in the map, if it exists
+	auto iter = mText.find(key);
+	if (iter != mText.end())
+	{
+		return iter->second;
+	}
+	else
+	{
+		return errorMsg;
+	}
+}
+
 Skeleton* BaseScene::GetSkeleton(const std::string& fileName)
 {
 	auto iter = mSkeletons.find(fileName);

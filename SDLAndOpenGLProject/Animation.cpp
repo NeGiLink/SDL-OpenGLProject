@@ -153,7 +153,7 @@ bool Animation::LoadFromFBX(const std::string& fileName)
 	float ticksPerSecond = (anim->mTicksPerSecond != 0) ? anim->mTicksPerSecond : 25.0f;
 	mDuration = static_cast<float>(anim->mDuration / ticksPerSecond);
 
-	// mNumFrames をキーの最大値に合わせる
+	//mNumFrames をキーの最大値に合わせる
 	mNumFrames = 0;
 	for (unsigned int i = 0; i < anim->mNumChannels; i++) {
 		aiNodeAnim* channel = anim->mChannels[i];
@@ -166,7 +166,7 @@ bool Animation::LoadFromFBX(const std::string& fileName)
 	mNumBones = mSkeleton->GetBones().size();
 	mTracks.resize(mNumBones);
 
-	//TODO:アニメーションンに含まれていないボーンのためにバインドポーズをそのまま利用
+	//アニメーションに含まれていないボーンのためにバインドポーズをそのまま利用
 	for (unsigned int i = 0; i < mNumBones; i++) {
 		mTracks[i].resize(mNumFrames);
 		auto& localBindPose = mSkeleton->GetBone(i).mLocalBindPose;
@@ -189,7 +189,7 @@ bool Animation::LoadFromFBX(const std::string& fileName)
 
 		mTracks[boneIndex].resize(mNumFrames);
 
-		//TODO:計算を全て補間を利用
+		//計算を全て補間を利用
 		// フレームごとに `BoneTransform` を作成
 		for (size_t j = 0; j < mNumFrames; j++) {
 			BoneTransform temp = mSkeleton->GetBone(boneIndex).mLocalBindPose;
@@ -201,6 +201,7 @@ bool Animation::LoadFromFBX(const std::string& fileName)
 			//		※このままだと初期状態で移動している場合は適用されないので注意！
 			//			本来はボーンの元の状態から変化を計算する
 			aiVector3D basePos = channel->mPositionKeys[0].mValue;
+			//aiVector3D basePos = aiVector3D(temp.mPosition.x, temp.mPosition.y, temp.mPosition.z);
 			temp.mPosition += Vector3(pos.x - basePos.x, pos.y - basePos.y, pos.z - basePos.z);
 
 			// 回転キーの適用
@@ -237,7 +238,7 @@ void Animation::GetGlobalPoseAtTime(std::vector<Matrix4>& outPoses, const Skelet
 	// Setup the pose for the root
 	if (mTracks[0].size() > 0)
 	{
-		//TODO:nextFrameが最大数を超えていることがあるため対策
+		//nextFrameが最大数を超えていることがあるため対策
 		if (frame >= mTracks[0].size() || nextFrame >= mTracks[0].size())
 		{
 			outPoses[0] = mTracks[0][mTracks[0].size() - 1].ToMatrix();
@@ -262,7 +263,7 @@ void Animation::GetGlobalPoseAtTime(std::vector<Matrix4>& outPoses, const Skelet
 		Matrix4 localMat; // (Defaults to identity)
 		if (mTracks[bone].size() > 0)
 		{
-			//TODO:nextFrameが最大数を超えていることがあるため対策
+			//nextFrameが最大数を超えていることがあるため対策
 			if (frame >= mTracks[bone].size() || nextFrame >= mTracks[bone].size())
 			{
 				localMat = mTracks[bone][mTracks[bone].size() - 1].ToMatrix();
@@ -274,7 +275,7 @@ void Animation::GetGlobalPoseAtTime(std::vector<Matrix4>& outPoses, const Skelet
 				localMat = interp.ToMatrix();
 			}
 		}
-		//TODO : 親がいない場合の対処
+		//親がいない場合の対処
 		if (bones[bone].mParent < 0)
 		{
 			outPoses[bone] = localMat;
@@ -285,7 +286,7 @@ void Animation::GetGlobalPoseAtTime(std::vector<Matrix4>& outPoses, const Skelet
 	}
 }
 
-//TODO:補間情報の計算、チュートリアルから引用
+//補間情報の計算、チュートリアルから引用
 // https://ogldev.org/www/tutorial38/tutorial38.html
 size_t Animation::FindTranslation(float AnimationTime, const aiNodeAnim* pNodeAnim)
 {

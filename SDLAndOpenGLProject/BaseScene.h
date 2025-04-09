@@ -29,6 +29,7 @@ public:
 
 	void LoadText(const std::string& fileName);
 	const std::string& GetText(const std::string& key);
+	const std::string& GetFreeText(const std::string& key);
 
 	class Skeleton* GetSkeleton(const std::string& fileName);
 

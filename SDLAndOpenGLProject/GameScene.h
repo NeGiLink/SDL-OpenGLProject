@@ -25,4 +25,7 @@ private:
 	std::vector<class PlaneActor*> mPlanes;
 	class SpriteComponent* mCrosshair;
 	SoundEvent mMusicEvent;
+
+	class Image* mTestImage;
+	class Text* mTestText;
 };

@@ -7,9 +7,17 @@ class Sword : public ActorObject
 {
 public:
 	Sword(class BaseScene* game);
-	void UpdateActor(float deltaTime) override;
+	void ActorInput(const bool* keys) override;
 	void UpdateRightHand(Skeleton::Bone* hand);
 private:
 	Skeleton::Bone* mRightHand;
+
+	Vector3 mPos;
+
+	float mAngleY;
+	float mAngleX;
+	float mAngleZ;
+
+	Vector3 mS;
 };
 

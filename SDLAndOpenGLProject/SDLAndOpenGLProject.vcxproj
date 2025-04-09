@@ -149,6 +149,7 @@
     <ClCompile Include="CircleComponent.cpp" />
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="Component.cpp" />
+    <ClCompile Include="ConvertNumToString.cpp" />
     <ClCompile Include="DialogBox.cpp" />
     <ClCompile Include="DiceActor.cpp" />
     <ClCompile Include="FollowActor.cpp" />
@@ -156,12 +157,12 @@
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="FPSActor.cpp" />
     <ClCompile Include="FPSCamera.cpp" />
-    <ClCompile Include="FrameRate.cpp" />
     <ClCompile Include="GameApp.cpp" />
     <ClCompile Include="Image.cpp" />
+    <ClCompile Include="SmallCharacter.cpp" />
     <ClCompile Include="Sword.cpp" />
+    <ClCompile Include="Text.cpp" />
     <ClCompile Include="Time.cpp" />
-    <ClCompile Include="Transform.cpp" />
     <ClCompile Include="WinMain.cpp" />
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="GBuffer.cpp" />
@@ -218,6 +219,7 @@
     <ClInclude Include="CircleComponent.h" />
     <ClInclude Include="Collision.h" />
     <ClInclude Include="Component.h" />
+    <ClInclude Include="ConvertNumToString.h" />
     <ClInclude Include="DialogBox.h" />
     <ClInclude Include="DiceActor.h" />
     <ClInclude Include="FilePath.h" />
@@ -227,16 +229,16 @@
     <ClInclude Include="FontFilePath.h" />
     <ClInclude Include="FPSActor.h" />
     <ClInclude Include="FPSCamera.h" />
-    <ClInclude Include="FrameRate.h" />
     <ClInclude Include="GameApp.h" />
     <ClInclude Include="Image.h" />
     <ClInclude Include="MeshFilePath.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="SDL3.h" />
+    <ClInclude Include="SmallCharacter.h" />
     <ClInclude Include="STD.h" />
     <ClInclude Include="Sword.h" />
+    <ClInclude Include="Text.h" />
     <ClInclude Include="Time.h" />
-    <ClInclude Include="Transform.h" />
     <ClInclude Include="WinMain.h" />
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="GBuffer.h" />
@@ -275,19 +277,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="Shaders\BasicMesh.frag" />
     <None Include="Shaders\BasicMesh.vert" />
     <None Include="Shaders\GBufferGlobal.frag" />
     <None Include="Shaders\GBufferGlobal.vert" />
     <None Include="Shaders\GBufferPointLight.frag" />
     <None Include="Shaders\GBufferWrite.frag" />
-    <None Include="Shaders\Phong.frag" />
     <None Include="Shaders\Phong.vert" />
     <None Include="Shaders\Skinned.vert" />
     <None Include="Shaders\Sprite.frag" />
     <None Include="Shaders\Sprite.vert" />
-    <None Include="Shaders\StandardShader.frag" />
-    <None Include="Shaders\VertexShader.vert" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="SDLAndOpenGLProject.rc" />
