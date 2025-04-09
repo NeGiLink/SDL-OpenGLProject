@@ -48,9 +48,6 @@ int Mesh::CheckMeshIndex(const std::string& fileName, Renderer* renderer)
 		SDL_Log("FBX file not found: %s", fileName.c_str());
 		return false;
 	}
-	else {
-		SDL_Log("FBX file exists: %s", fileName.c_str());
-	}
 
 	Assimp::Importer importer;
 	const aiScene* scene = importer.ReadFile(fileName,
@@ -263,8 +260,10 @@ bool Mesh::LoadFromJSON(const std::string& fileName, Renderer* renderer, int ind
 
 	VertexArray* va = new VertexArray(vertices.data(), static_cast<unsigned>(vertices.size()) / vertSize,
 		layout, indices.data(), static_cast<unsigned>(indices.size()));
-	// Now create a vertex array
+	//頂点配列の作成
 	mVertexArrays.push_back(va);
+
+	SDL_Log("JSON file exists: %s", fileName.c_str());
 	return true;
 }
 //FBX用読み込み関数
@@ -296,7 +295,7 @@ bool Mesh::LoadFromFBX(const std::string& fileName, Renderer* renderer, int inde
 
 	mesh = scene->mMeshes[index];
 
-	// **頂点データの変換**
+	//頂点データの変換
 	for (unsigned int i = 0; i < mesh->mNumVertices; i++)
 	{
 		aiVector3D pos = mesh->mVertices[i];
@@ -473,7 +472,6 @@ bool Mesh::LoadFromFBX(const std::string& fileName, Renderer* renderer, int inde
 		if (AI_SUCCESS == aiGetMaterialColor(material, AI_MATKEY_COLOR_DIFFUSE, &diffuseColor)) {
 
 			info.Color = Vector4(diffuseColor.r, diffuseColor.g, diffuseColor.b, diffuseColor.a);
-			SDL_Log("Diffuse Color: %f, %f, %f, %f", diffuseColor.r, diffuseColor.g, diffuseColor.b, diffuseColor.a);
 		}
 
 		// 拡散色（Diffuse Color）の取得
@@ -521,9 +519,9 @@ bool Mesh::LoadFromFBX(const std::string& fileName, Renderer* renderer, int inde
 	mBoxs.push_back(box);
 
 	VertexArray* va = new VertexArray(vertices.data(), vertexCount, layout, indices.data(), static_cast<unsigned>(indices.size()));
-	// **頂点配列の作成**
+	//頂点配列の作成
 	mVertexArrays.push_back(va);
-
+	SDL_Log("FBX file exists: %s", fileName.c_str());
 	return true;
 }
 

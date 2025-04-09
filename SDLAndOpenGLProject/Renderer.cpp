@@ -6,6 +6,7 @@
 #include "SpriteComponent.h"
 #include "MeshRenderer.h"
 #include "UIScreen.h"
+#include "Image.h"
 #include "WinMain.h"
 #include "BaseScene.h"
 #include "GameApp.h"
@@ -193,6 +194,11 @@ void Renderer::Draw()
 	// Draw any UI screens
 	//ƒQ[ƒ€’†‚ÌUI‚ð‚Ü‚Æ‚ß‚Ä•`‰æ
 	for (auto ui : mNowScene->GetUIStack())
+	{
+		ui->Draw(mSpriteShader);
+	}
+
+	for (auto ui : mNowScene->GetImageStack())
 	{
 		ui->Draw(mSpriteShader);
 	}

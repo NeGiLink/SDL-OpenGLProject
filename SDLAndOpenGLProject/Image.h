@@ -37,8 +37,6 @@ protected:
 
 	// Configure positions
 	Vector2 mTexturePos;
-	Vector2 mNextButtonPos;
-	Vector2 mBGPos;
 
 	// State
 	UIState mState;

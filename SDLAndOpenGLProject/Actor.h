@@ -32,7 +32,17 @@ public:
 	// Getters/setters
 	const Vector3& GetPosition() const { return mPosition; }
 
-	void SetPosition(const Vector3& pos) { mPosition = pos; mRecomputeWorldTransform = true; }
+	void SetPosition(const Vector3& pos) 
+	{
+		mPosition = pos; 
+		mRecomputeWorldTransform = true; 
+	}
+
+	void AddPosition(const Vector3& pos) 
+	{
+		mPosition += pos;
+		mRecomputeWorldTransform = true;
+	}
 	
 	Vector3 GetScale() const { return mScale; }
 	
@@ -43,6 +53,7 @@ public:
 	const Quaternion& GetRotation() const { return mRotation; }
 	
 	void SetRotation(const Quaternion& rotation) { mRotation = rotation;  mRecomputeWorldTransform = true; }
+	void AddRotation(const Quaternion& rotation) { mRotation = rotation;  mRecomputeWorldTransform = true; }
 
 	void ComputeWorldTransform();
 	
@@ -71,6 +82,8 @@ public:
 	void RemoveChildActor(class ActorObject* actor);
 	
 	const class ActorObject* GetChildActor(class ActorObject* actor);
+	//子オブジェクトの座標更新
+	void SetActive() { mRecomputeWorldTransform = true; }
 	
 	void SetParentActor(class ActorObject* parent) { mParentActor = parent; }
 private:

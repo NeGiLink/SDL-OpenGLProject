@@ -10,16 +10,11 @@ Image::Image(BaseScene* game)
 	,mTexture(nullptr)
 {
 	//BaseScene‚É‘—‚éˆ—
-
+	mGame->PushImage(this);
 }
 
 Image::~Image()
 {
-	if (mTexture)
-	{
-		mTexture->Unload();
-		delete mTexture;
-	}
 }
 
 void Image::Load(std::string file)

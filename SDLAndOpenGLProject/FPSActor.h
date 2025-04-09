@@ -25,4 +25,6 @@ private:
 	class BoxComponent* mBoxComp;
 	SoundEvent mFootstep;
 	float mLastFootstep;
+
+	class Sword* mSword;
 };

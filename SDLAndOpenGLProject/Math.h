@@ -419,6 +419,7 @@ public:
 	static const Vector3 UnitX;
 	static const Vector3 UnitY;
 	static const Vector3 UnitZ;
+	static const Vector3 UnitXYZ;
 	static const Vector3 NegUnitX;
 	static const Vector3 NegUnitY;
 	static const Vector3 NegUnitZ;
@@ -740,16 +741,22 @@ public:
 		Set(inX, inY, inZ, inW);
 	}
 
-	// Construct the quaternion from an axis and angle
-	// It is assumed that axis is already normalized,
-	// and the angle is in radians
-	explicit Quaternion(const Vector3& axis, float angle)
+	void Rotate(const Vector3& axis, float angle) 
 	{
 		float scalar = Math::Sin(angle / 2.0f);
 		x = axis.x * scalar;
 		y = axis.y * scalar;
 		z = axis.z * scalar;
 		w = Math::Cos(angle / 2.0f);
+	}
+
+
+	// Construct the quaternion from an axis and angle
+	// It is assumed that axis is already normalized,
+	// and the angle is in radians
+	explicit Quaternion(const Vector3& axis, float angle)
+	{
+		Rotate(axis, angle);
 	}
 
 	// Directly set the internal components
@@ -900,6 +907,15 @@ public:
 		// 回転後のベクトルを返す
 		return Vector3(qv.x, qv.y, qv.z);
 	}
+
+	Vector3 RotateVector(const Vector3& v) const
+	{
+		// q * v * q^-1 を実装している
+		Quaternion qv(v.x, v.y, v.z, 1.0f);
+		Quaternion result = (*this) * qv * Inverse();
+		return Vector3(result.x, result.y, result.z);
+	}
+
 
 	// 指定軸と角度で回転クォータニオンを作成して返す関数（角度は度数）
 	static Quaternion CreateFromAxisAngle(const Vector3& axis, float angleDegrees)

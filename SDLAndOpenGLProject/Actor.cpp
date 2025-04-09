@@ -48,6 +48,10 @@ void ActorObject::UpdateComponents(float deltaTime)
 
 void ActorObject::UpdateActor(float deltaTime)
 {
+	for (auto child : mChildActor) 
+	{
+		child->SetActive();
+	}
 }
 
 void ActorObject::ProcessInput(const bool* keyState)
@@ -79,8 +83,14 @@ void ActorObject::ComputeWorldTransform()
 		{
 			Vector3 worldScale = mParentActor->GetScale() * mScale;
 			Quaternion worldRotation = mParentActor->GetRotation() * mRotation;
-			// ローカル位置をスケールして回転させた後、親の位置に足す
-			Vector3 worldPosition = mParentActor->GetRotation().RotateVector(mParentActor->GetScale() * mScale, mParentActor->GetRotation()) + mParentActor->GetPosition();
+			// 3. ローカル位置を親のスケール分で拡大
+			Vector3 localPositionScaled = mParentActor->GetScale() * mPosition;
+
+			// 4. ローカル位置を親の回転で回す（親の向きを尊重）
+			Vector3 localPositionRotated = mParentActor->GetRotation().RotateVector(localPositionScaled);
+
+			// 5. ワールド座標を親の位置 + 相対位置で決定
+			Vector3 worldPosition = mParentActor->GetPosition() + localPositionRotated;
 
 			mWorldTransform = Matrix4::CreateScale(worldScale);
 			mWorldTransform *= Matrix4::CreateFromQuaternion(worldRotation);

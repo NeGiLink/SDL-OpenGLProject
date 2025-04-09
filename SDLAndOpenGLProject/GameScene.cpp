@@ -27,7 +27,11 @@
 #include "TwoObjectActor.h"
 #include "TestCharacter.h"
 #include "YBotActor.h"
+#include "SmallCharacter.h"
 #include "WinMain.h"
+
+#include "Image.h"
+#include "Text.h"
 
 GameScene::GameScene(WinMain* winMain)
 	:BaseScene(winMain)
@@ -123,7 +127,13 @@ bool GameScene::Initialize()
 	// UI elements
 	mHUD = new HUD(this);
 
+	mTestImage = new Image(this);
+	mTestImage->Load("Assets/onepiece01_luffy2.png");
+	mTestImage->SetPosition(Vector2(-500,0));
 
+	mTestText = new Text(this,GetFont("Assets/Fonts/Carlito-Regular.ttf"), Vector2(500, 350));
+	float time = Time::deltaTime;
+	mTestText->SetText(std::to_string(time));
 	// Start music
 	mMusicEvent = mAudioSystem->PlayEvent("event:/Music");
 
@@ -139,14 +149,16 @@ bool GameScene::Initialize()
 	mPlayer = mFPSActor;
 
 	a = new DiceActor(this);
-	a->SetPosition(Vector3(-500.0f, 0.0f, 0.0f));
+	a->SetPosition(Vector3(-500.0f, 0.0f, 500.0f));
 
 	a = new TwoObjectActor(this);
-	a->SetPosition(Vector3(1000.0f, 200.0f, 0.0f));
+	a->SetPosition(Vector3(1000.0f, 200.0f, 500.0f));
 
 	a = new YBotActor(this);
 
 	a = new TestCharacter(this);
+
+	a = new SmallCharacter(this);
 
 
 	// Create target actors
@@ -225,6 +237,10 @@ bool GameScene::Update()
 	{
 		mUIStack.back()->ProcessInput(state);
 	}
+
+	float time = Time::GetFrameRate();
+	mTestText->SetText("FPS : " + FloatToString::ToStringWithoutDecimal(time));
+	mTestText->SetFontSize(40);
 
 	return false;
 }

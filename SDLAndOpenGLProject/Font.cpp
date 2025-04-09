@@ -101,3 +101,54 @@ Texture* Font::RenderText(const std::string& textKey,
 
 	return texture;
 }
+
+Texture* Font::RenderFreeText(const std::string& textKey, const Vector3& color, int pointSize)
+{
+	Texture* texture = nullptr;
+
+	// Convert to SDL_Color
+	SDL_Color sdlColor;
+	sdlColor.r = static_cast<Uint8>(color.x * 255);
+	sdlColor.g = static_cast<Uint8>(color.y * 255);
+	sdlColor.b = static_cast<Uint8>(color.z * 255);
+	sdlColor.a = 255;
+
+	// Find the font data for this point size
+	auto iter = mFontData.find(pointSize);
+	if (iter != mFontData.end())
+	{
+		TTF_Font* font = iter->second;
+		const std::string& actualText = textKey;
+		// Draw this to a surface (blended for alpha)
+		SDL_Surface* pixelsSurf = TTF_RenderText_Blended(font, actualText.c_str(), actualText.length(), sdlColor);
+		if (!pixelsSurf) {
+			SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Failed to render text: %s", SDL_GetError());
+			return nullptr;
+		}
+
+		// ピクセルフォーマットを RGBA32 に変換
+		SDL_Surface* surf = SDL_ConvertSurface(pixelsSurf, SDL_PIXELFORMAT_RGBA32);
+		// 元のサーフェスは不要なので削除
+		SDL_DestroySurface(pixelsSurf);
+
+		if (!surf) {
+			SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Failed to convert surface format: %s", SDL_GetError());
+			return nullptr;
+		}
+
+		//SDL_Log("Rendering text: %s", actualText.c_str());
+		if (surf != nullptr)
+		{
+			// Convert from surface to texture
+			texture = new Texture();
+			texture->CreateFromSurface(surf);
+			SDL_DestroySurface(surf);
+		}
+	}
+	else
+	{
+		SDL_Log("Point size %d is unsupported", pointSize);
+	}
+
+	return texture;
+}

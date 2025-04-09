@@ -38,8 +38,10 @@ FPSActor::FPSActor(BaseScene* game)
 	mBoxComp->SetObjectBox(myBox);
 	mBoxComp->SetShouldRotate(false);
 
-	Sword* s = new Sword(game);
-	AddChildActor(s);
+	mSword = new Sword(game);
+	Vector3 pos = GetPosition();
+	mSword->SetPosition(pos);
+	AddChildActor(mSword);
 }
 
 void FPSActor::UpdateActor(float deltaTime)
@@ -128,6 +130,15 @@ void FPSActor::ActorInput(const bool* keys)
 		pitchSpeed *= maxPitchSpeed;
 	}
 	mCameraComp->SetPitchSpeed(pitchSpeed);
+
+	if (keys[SDL_SCANCODE_O]) 
+	{
+		RemoveChildActor(mSword);
+	}
+	else if (keys[SDL_SCANCODE_P]) 
+	{
+		AddChildActor(mSword);
+	}
 }
 
 void FPSActor::Shoot()
