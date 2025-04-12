@@ -23,15 +23,8 @@ FPSActor::FPSActor(BaseScene* game)
 	mFootstep.SetPaused(true);
 
 	mCameraComp = new FPSCamera(this);
-	/*
-	mFPSModel = new ActorObject(game);
-	//mFPSModel->SetRotation(Quaternion(Vector3::UnitY, Math::PiOver2));
-	mFPSModel->SetScale(0.75f);
-	mMeshComp = new MeshRenderer(mFPSModel);
-	mMeshComp->SetMesh(game->GetRenderer()->GetMesh("Assets/Rifle.gpmesh"));
-	*/
 
-	// Add a box component
+	// ボックスの当たり判定の機能を追加
 	mBoxComp = new BoxComponent(this);
 	AABB myBox(Vector3(-25.0f, -87.5f, -25.0f),
 		Vector3(25.0f, 87.5f, 25.0f));
@@ -50,7 +43,7 @@ void FPSActor::UpdateActor(float deltaTime)
 
 	FixCollisions();
 
-	// Play the footstep if we're moving and haven't recently
+	// 足音のSEを再生する処理
 	mLastFootstep -= deltaTime;
 	if ((!Math::NearZero(mMoveComp->GetForwardSpeed()) ||
 		!Math::NearZero(mMoveComp->GetStrafeSpeed())) &&
@@ -60,21 +53,6 @@ void FPSActor::UpdateActor(float deltaTime)
 		mFootstep.Restart();
 		mLastFootstep = 0.5f;
 	}
-
-	// Update position of FPS model relative to actor position
-	const Vector3 modelOffset(Vector3(10.0f, 10.0f, -10.0f));
-	Vector3 modelPos = GetPosition();
-	modelPos += GetForward() * modelOffset.x;
-	modelPos += GetRight() * modelOffset.y;
-	modelPos.z += modelOffset.z;
-	/*
-	mFPSModel->SetPosition(modelPos);
-	// Initialize rotation to actor rotation
-	Quaternion q = GetRotation();
-	// Rotate by pitch from camera
-	q = Quaternion::Concatenate(q, Quaternion(GetRight(), mCameraComp->GetPitch()));
-	mFPSModel->SetRotation(q);
-	*/
 }
 
 void FPSActor::ActorInput(const bool* keys)
@@ -102,35 +80,35 @@ void FPSActor::ActorInput(const bool* keys)
 	mMoveComp->SetForwardSpeed(forwardSpeed);
 	mMoveComp->SetStrafeSpeed(strafeSpeed);
 
-	// Mouse movement
-	// Get relative movement from SDL
+	//SDLでマウスの移動数値を取得
 	float x, y;
 	SDL_GetRelativeMouseState(&x, &y);
-	// Assume mouse movement is usually between -500 and +500
+	//マウスでの最大移動数値を設定
 	const int maxMouseSpeed = 500;
-	// Rotation/sec at maximum speed
+	// 最大速度での回転/秒
 	const float maxAngularSpeed = Math::Pi * 8;
 	float angularSpeed = 0.0f;
 	if (x != 0)
 	{
-		// Convert to ~[-1.0, 1.0]
+		// [-1.0, 1.0]に変換する
 		angularSpeed = static_cast<float>(x) / maxMouseSpeed;
-		// Multiply by rotation/sec
+		// 回転/秒で掛ける
 		angularSpeed *= maxAngularSpeed;
 	}
 	mMoveComp->SetAngularSpeed(angularSpeed);
 
-	// Compute pitch
+	// 音高を計算する
 	const float maxPitchSpeed = Math::Pi * 8;
 	float pitchSpeed = 0.0f;
 	if (y != 0)
 	{
-		// Convert to ~[-1.0, 1.0]
+		// [-1.0, 1.0]に変換する
 		pitchSpeed = static_cast<float>(y) / maxMouseSpeed;
 		pitchSpeed *= maxPitchSpeed;
 	}
 	mCameraComp->SetPitchSpeed(pitchSpeed);
 
+	//子オブジェクトを解除・セットする処理(テスト用)
 	if (keys[SDL_SCANCODE_O]) 
 	{
 		RemoveChildActor(mSword);
@@ -143,29 +121,29 @@ void FPSActor::ActorInput(const bool* keys)
 
 void FPSActor::Shoot()
 {
-	// Get start point (in center of screen on near plane)
+	// スタートポイントを取得する（近くの平面の画面の中心）
 	Vector3 screenPoint(0.0f, 0.0f, 0.0f);
 	Vector3 start = GetGame()->GetWinMain()->GetRenderer()->Unproject(screenPoint);
-	// Get end point (in center of screen, between near and far)
+	// 画面の中央、近くと遠くの間にエンドポイントを取得します。
 	screenPoint.z = 0.9f;
 	Vector3 end = GetGame()->GetWinMain()->GetRenderer()->Unproject(screenPoint);
-	// Get direction vector
+	// 方向ベクトルを取得する
 	Vector3 dir = end - start;
 	dir.Normalize();
-	// Spawn a ball
+	// ボールを生成する
 	BallActor* ball = new BallActor(GetGame());
 	ball->SetPlayer(this);
 	ball->SetPosition(start + dir * 20.0f);
-	// Rotate the ball to face new direction
+	// ボールを回転させて新しい方向を向ける
 	ball->RotateToNewForward(dir);
-	// Play shooting sound
+	// 発射音を再生する
 	mAudioComp->PlayEvent("event:/Shot");
 }
 
 void FPSActor::SetFootstepSurface(float value)
 {
-	// Pause here because the way I setup the parameter in FMOD
-	// changing it will play a footstep
+	//ここで一時停止します。
+	// FMODでパラメーターを設定した方法を変更すると、足音が再生されるため
 	mFootstep.SetPaused(true);
 	mFootstep.SetParameter("Surface", value);
 }
@@ -177,7 +155,7 @@ void FPSActor::SetVisible(bool visible)
 
 void FPSActor::FixCollisions()
 {
-	// Need to recompute my world transform to update world box
+	// ワールドボックスを更新するために、ワールド変換を再計算する必要があります。
 	ComputeWorldTransform();
 
 	const AABB& playerBox = mBoxComp->GetWorldBox();
@@ -187,11 +165,11 @@ void FPSActor::FixCollisions()
 	for (auto pa : planes)
 	{
 		for (unsigned int i = 0; i < pa->GetBoxs().size(); i++) {
-			// Do we collide with this PlaneActor?
+			//PlaneActorと衝突検知
 			const AABB& planeBox = pa->GetBoxs()[i]->GetWorldBox();
 			if (Intersect(playerBox, planeBox))
 			{
-				// Calculate all our differences
+				// 私たちのすべての違いを計算してください
 				float dx1 = planeBox.mMax.x - playerBox.mMin.x;
 				float dx2 = planeBox.mMin.x - playerBox.mMax.x;
 				float dy1 = planeBox.mMax.y - playerBox.mMin.y;
@@ -199,17 +177,17 @@ void FPSActor::FixCollisions()
 				float dz1 = planeBox.mMax.z - playerBox.mMin.z;
 				float dz2 = planeBox.mMin.z - playerBox.mMax.z;
 
-				// Set dx to whichever of dx1/dx2 have a lower abs
+				// dxをdx1またはdx2のうち、絶対値が低い方に設定します。
 				float dx = Math::Abs(dx1) < Math::Abs(dx2) ?
 					dx1 : dx2;
-				// Ditto for dy
+				// dyについても同様です
 				float dy = Math::Abs(dy1) < Math::Abs(dy2) ?
 					dy1 : dy2;
-				// Ditto for dz
+				// dzについても同様です
 				float dz = Math::Abs(dz1) < Math::Abs(dz2) ?
 					dz1 : dz2;
 
-				// Whichever is closest, adjust x/y position
+				// 最も近い方に応じてx/y位置を調整する
 				if (Math::Abs(dx) <= Math::Abs(dy) && Math::Abs(dx) <= Math::Abs(dz))
 				{
 					pos.x += dx;
@@ -223,7 +201,7 @@ void FPSActor::FixCollisions()
 					pos.z += dz;
 				}
 
-				// Need to set position and update box component
+				// ポジションを設定し、ボックスコンポーネントを更新する必要があります。
 				SetPosition(pos);
 				mBoxComp->OnUpdateWorldTransform();
 			}

@@ -11,18 +11,18 @@ public:
 	~Shader();
 	bool Load(const std::string& vertName, const std::string& fragName);
 	void Unload();
-	// Set this as the active shader program
+	// これをアクティブシェーダープログラムとして設定します。
 	void SetActive();
-	// Sets a Matrix uniform
+	// マトリックスの uniform を設定
 	void SetMatrixUniform(const char* name, const Matrix4& matrix);
-	// Sets an array of matrix uniforms
+	// マトリックス uniform の配列を設定
 	void SetMatrixUniforms(const char* name, Matrix4* matrices, unsigned count);
-	// Sets a Vector3 uniform
+	// Vector3のユニフォームを設定
 	void SetVectorUniform(const char* name, const Vector3& vector);
 	void SetVector2Uniform(const char* name, const Vector2& vector);
-	// Sets a float uniform
+	// 浮動小数点数のユニフォームを設定
 	void SetFloatUniform(const char* name, float value);
-	// Sets an integer uniform
+	// 整数のユニフォームを設定
 	void SetIntUniform(const char* name, int value);
 
 	void SetMaterialColor(const Vector4& color);
@@ -33,20 +33,20 @@ public:
 
 	void SetNoTexture();
 private:
-	// Tries to compile the specified shader
+	// 指定されたシェーダーのコンパイルを試みます
 	bool CompileShader(const std::string& fileName,
 		GLenum shaderType,
 		GLuint& outShader);
 
-	// Tests whether shader compiled successfully
+	// シェーダーが正常にコンパイルされたかどうかをテスト
 	bool IsCompiled(GLuint shader);
-	// Tests whether vertex/fragment programs link
+	// 頂点/フラグメントプログラムがリンクされるかどうかをテスト
 	bool IsValidProgram();
 private:
-	// Store the shader object IDs
-	GLuint mVertexShader;
-	GLuint mFragShader;
-	GLuint mShaderProgram;
+	// シェーダーオブジェクトIDを保存する
+	GLuint	mVertexShader;
+	GLuint	mFragShader;
+	GLuint	mShaderProgram;
 	Vector4 mMaterialColor;
 };
 
@@ -56,7 +56,7 @@ class MaterialShader
 	~MaterialShader();
 	bool Load(const std::string& vertName, const std::string& fragName);
 	void Unload();
-	// Set this as the active shader program
+	// これをアクティブシェーダープログラムとして設定します。
 	void SetActive();
 
 	void SetMaterialColor(const Vector4& color);
@@ -65,19 +65,19 @@ class MaterialShader
 
 	void SetMaterialUniform(const char* name, const Vector3& color);
 private:
-	// Tries to compile the specified shader
+	// 指定されたシェーダーのコンパイルを試みます
 	bool CompileShader(const std::string& fileName,
 		GLenum shaderType,
 		GLuint& outShader);
 
-	// Tests whether shader compiled successfully
+	// シェーダーが正常にコンパイルされたかどうかをテストします
 	bool IsCompiled(GLuint shader);
-	// Tests whether vertex/fragment programs link
+	// 頂点/フラグメントプログラムがリンクされるかどうかをテストします
 	bool IsValidProgram();
 private:
-	// Store the shader object IDs
-	GLuint mVertexShader;
-	GLuint mFragShader;
-	GLuint mShaderProgram;
+	// シェーダーオブジェクトIDを保存する
+	GLuint	mVertexShader;
+	GLuint	mFragShader;
+	GLuint	mShaderProgram;
 	Vector4 mMaterialColor;
 };

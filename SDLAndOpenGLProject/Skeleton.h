@@ -13,7 +13,7 @@ public:
 		Humanoid,
 		Generic
 	};
-	// Definition for each bone in the skeleton
+	// 骨格の各骨の定義
 	struct Bone
 	{
 		BoneTransform mLocalBindPose;
@@ -24,7 +24,7 @@ public:
 
 	bool Load(const std::string& fileName);
 
-	// Load from a file
+	// ファイルから読み込み
 	bool LoadFromJSON(const std::string& fileName);
 
 	bool LoadFromFBX(const std::string& fileName);
@@ -52,22 +52,22 @@ public:
 
 	Matrix4 GetBonePosition(std::string boneName);
 protected:
-	// Called automatically when the skeleton is loaded
-	// Computes the global inverse bind pose for each bone
+	// スケルトンがロードされると自動的に呼び出され、
+	// 各ボーンのグローバルインバインドポーズを計算。
 	void ComputeGlobalInvBindPose();
 private:
-	// The bones in the skeleton
-	std::vector<Bone> mBones;
+	// 骨格の骨
+	std::vector<Bone>						mBones;
 	//計算用のオフセット変数
-	std::vector<aiMatrix4x4> mOffsetMatrix;
-	// The global inverse bind poses for each bone
-	std::vector<Matrix4> mGlobalInvBindPoses;
+	std::vector<aiMatrix4x4>				mOffsetMatrix;
+	// 各骨に対するグローバル逆束縛ポーズ
+	std::vector<Matrix4>					mGlobalInvBindPoses;
 
-	std::vector<Matrix4> mGlobalCurrentPoses;
+	std::vector<Matrix4>					mGlobalCurrentPoses;
 
-	std::unordered_map<std::string, int> boneNameToIndex;
+	std::unordered_map<std::string, int>	boneNameToIndex;
 
-	std::unordered_map<std::string,int> mBoneTransform;
+	std::unordered_map<std::string,int>		mBoneTransform;
 
-	SkeletonType mSkeletonType;
+	SkeletonType							mSkeletonType;
 };

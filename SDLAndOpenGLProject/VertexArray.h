@@ -3,7 +3,7 @@
 class VertexArray
 {
 public:
-	// Different supported vertex layouts
+	// 頂点レイアウトタグ
 	enum Layout
 	{
 		PosNormTex,
@@ -18,14 +18,14 @@ public:
 	unsigned int GetNumIndices() const { return mNumIndices; }
 	unsigned int GetNumVerts() const { return mNumVerts; }
 private:
-	// How many vertices in the vertex buffer?
+	//vertex bufferの頂点数
 	unsigned int mNumVerts;
-	// How many indices in the index buffer
+	// index bufferのインデックス数
 	unsigned int mNumIndices;
-	// OpenGL ID of the vertex buffer
+	// 頂点バッファのOpenGL ID
 	unsigned int mVertexBuffer;
-	// OpenGL ID of the index buffer
+	// インデックスバッファのOpenGL ID
 	unsigned int mIndexBuffer;
-	// OpenGL ID of the vertex array object
+	// 頂点配列オブジェクトのOpenGL ID
 	unsigned int mVertexArray;
 };

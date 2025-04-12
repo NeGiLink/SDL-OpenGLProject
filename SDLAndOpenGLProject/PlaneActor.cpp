@@ -9,17 +9,18 @@
 PlaneActor::PlaneActor(BaseScene* game)
 	:ActorObject(game)
 {
-	SetScale(10.0f);
-	MeshRenderer* mc = new MeshRenderer(this);
-	Mesh* mesh = game->GetWinMain()->GetRenderer()->GetMesh("Plane.gpmesh");
-	mc->SetMesh(mesh);
+	SetScale(50.0f);
+	mMeshComp = new MeshRenderer(this);
+	mMeshComp->SetMeshs(game->GetWinMain()->GetRenderer()->GetMeshs("Plane.fbx"));
 
-	// Add collision box
-	for (unsigned int i = 0; i < mesh->GetBoxs().size(); i++) 
-	{
-		BoxComponent* box = new BoxComponent(this);
-		box->SetObjectBox(mesh->GetBoxs()[i]);
-		mBoxs.push_back(box);
+	for (unsigned int i = 0; i < mMeshComp->GetMeshs().size(); i++) {
+		// ボックスの当たり判定機能追加
+		for (unsigned int j = 0; j < mMeshComp->GetMeshs()[i]->GetBoxs().size(); j++)
+		{
+			BoxComponent* box = new BoxComponent(this);
+			box->SetObjectBox(mMeshComp->GetMeshs()[i]->GetBoxs()[j]);
+			mBoxs.push_back(box);
+		}
 	}
 
 	game->AddPlane(this);

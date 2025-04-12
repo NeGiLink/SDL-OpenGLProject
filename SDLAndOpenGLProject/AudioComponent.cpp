@@ -17,7 +17,7 @@ void AudioComponent::Update(float deltaTime)
 {
 	Component::Update(deltaTime);
 
-	// Remove invalid 2D events
+	// 無効な2Dイベントを削除する
 	auto iter = mEvents2D.begin();
 	while (iter != mEvents2D.end())
 	{
@@ -31,7 +31,7 @@ void AudioComponent::Update(float deltaTime)
 		}
 	}
 
-	// Remove invalid 3D events
+	// 無効な3Dイベントを削除する
 	iter = mEvents3D.begin();
 	while (iter != mEvents3D.end())
 	{
@@ -48,7 +48,7 @@ void AudioComponent::Update(float deltaTime)
 
 void AudioComponent::OnUpdateWorldTransform()
 {
-	// Update 3D events' world transforms
+	// 3Dイベントの世界が変わるアプデ
 	Matrix4 world = mOwner->GetWorldTransform();
 	for (auto& event : mEvents3D)
 	{
@@ -62,11 +62,11 @@ void AudioComponent::OnUpdateWorldTransform()
 SoundEvent AudioComponent::PlayEvent(const std::string& name)
 {
 	SoundEvent e = mOwner->GetGame()->GetAudioSystem()->PlayEvent(name);
-	// Is this 2D or 3D?
+	// 2D or 3D?
 	if (e.Is3D())
 	{
 		mEvents3D.emplace_back(e);
-		// Set initial 3D attributes
+		// 初期の3D属性を設定する
 		e.Set3DAttributes(mOwner->GetWorldTransform());
 	}
 	else
@@ -78,7 +78,7 @@ SoundEvent AudioComponent::PlayEvent(const std::string& name)
 
 void AudioComponent::StopAllEvents()
 {
-	// Stop all sounds
+	// すべての音を停止
 	for (auto& e : mEvents2D)
 	{
 		e.Stop();
@@ -87,7 +87,7 @@ void AudioComponent::StopAllEvents()
 	{
 		e.Stop();
 	}
-	// Clear events
+	// イベントをクリア
 	mEvents2D.clear();
 	mEvents3D.clear();
 }

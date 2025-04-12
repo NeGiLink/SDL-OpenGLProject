@@ -2,6 +2,7 @@
 #include "Assimp.h"
 #include "SDL3.h"
 
+//画像の読み込み、参照を行うことをカプセル化したクラス
 class Texture
 {
 public:
@@ -21,7 +22,9 @@ public:
 	int GetHeight() const { return mHeight; }
 	unsigned int GetTextureID() const { return mTextureID; }
 private:
-	unsigned int mTextureID;
-	int mWidth;
-	int mHeight;
+	unsigned int	mTextureID;
+
+	int				mWidth;
+	
+	int				mHeight;
 };

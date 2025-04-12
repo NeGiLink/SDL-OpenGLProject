@@ -10,8 +10,8 @@ public:
 
 	static float GetFrameRate() { return std::floor(frameRate * 10.0f) / 10.0f;; }
 
-	static float deltaTime;
-	static Uint64 mTicksCount;
+	static float	deltaTime;
+	static Uint64	mTicksCount;
 private:
-	static float frameRate;
+	static float	frameRate;
 };

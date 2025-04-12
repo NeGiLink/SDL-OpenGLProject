@@ -6,6 +6,9 @@
 #include "Renderer.h"
 #include "Font.h"
 
+#include "Image.h"
+#include "Text.h"
+
 UIScreen::UIScreen(BaseScene* game)
 	:mGame(game)
 	, mTitle(nullptr)
@@ -17,18 +20,33 @@ UIScreen::UIScreen(BaseScene* game)
 {
 	// Add to UI Stack
 	mGame->PushUI(this);
-	mFont = mGame->GetFont("Assets/Fonts/Carlito-Regular.ttf");
-	mButtonOn = game->GetWinMain()->GetRenderer()->GetTexture("Assets/ButtonYellow.png");
-	mButtonOff = game->GetWinMain()->GetRenderer()->GetTexture("Assets/ButtonBlue.png");
+	mTitleFont = new Text(game, mGame->GetFont("Assets/Fonts/Carlito-Regular.ttf"),Vector2::Zero,false);
+	
+	mButtonOn = new Image(game, false);
+	mButtonOn->Load("Assets/ButtonYellow.png");
+
+	mButtonOff = new Image(game, false);
+	mButtonOff->Load("Assets/ButtonBlue.png");
 }
 
 UIScreen::~UIScreen()
 {
+	/*
 	if (mTitle)
 	{
 		mTitle->Unload();
 		delete mTitle;
 	}
+	*/
+	//mFontは独自更新のためここでアンロード
+	if (mTitleFont) 
+	{
+		if (mTitleFont->GetTexture()) {
+			mTitleFont->GetTexture()->Unload();
+		}
+		delete mTitleFont;
+	}
+	
 
 	for (auto b : mButtons)
 	{
@@ -47,20 +65,28 @@ void UIScreen::Draw(Shader* shader)
 	// Draw background (if exists)
 	if (mBackground)
 	{
-		DrawTexture(shader, mBackground, mBGPos);
+		mBackground->SetPosition(mBGPos);
+		mBackground->Draw(shader);
+		//DrawTexture(shader, mBackground, mBGPos);
 	}
 	// Draw title (if exists)
-	if (mTitle)
+	if (mTitleFont)
 	{
-		DrawTexture(shader, mTitle, mTitlePos);
+		mTitleFont->SetPosition(mTitlePos);
+		mTitleFont->Draw(shader);
 	}
 	// Draw buttons
 	for (auto b : mButtons)
 	{
 		// Draw background of button
-		Texture* tex = b->GetHighlighted() ? mButtonOn : mButtonOff;
-		DrawTexture(shader, tex, b->GetPosition());
+		Image* tex = b->GetHighlighted() ? mButtonOn : mButtonOff;
+		tex->SetPosition(b->GetPosition());
+		tex->Draw(shader);
+		//DrawTexture(shader, tex, b->GetPosition());
 		// Draw text of button
+		//tex->SetTexture(b->GetNameTex());
+		//tex->SetPosition(b->GetPosition());
+		//tex->Draw(shader);
 		DrawTexture(shader, b->GetNameTex(), b->GetPosition());
 	}
 	// Override in subclasses to draw any textures
@@ -126,25 +152,30 @@ void UIScreen::SetTitle(const std::string& text,
 	int pointSize)
 {
 	// Clear out previous title texture if it exists
+	/*
 	if (mTitle)
 	{
 		mTitle->Unload();
 		delete mTitle;
 		mTitle = nullptr;
 	}
-	mTitle = mFont->RenderText(text, color, pointSize);
+	*/
+	mTitleFont->SetColor(color);
+	mTitleFont->SetFontSize(pointSize);
+	mTitleFont->SetText(text);
+	//mTitle = mFont->RenderText(text, color, pointSize);
 }
 
 void UIScreen::AddButton(const std::string& name, std::function<void()> onClick)
 {
-	Vector2 dims(static_cast<float>(mButtonOn->GetWidth()),
-		static_cast<float>(mButtonOn->GetHeight()));
-	Button* b = new Button(name, mFont, onClick, mNextButtonPos, dims);
+	Vector2 dims(static_cast<float>(mButtonOn->GetTexture()->GetWidth()),
+		static_cast<float>(mButtonOn->GetTexture()->GetHeight()));
+	Button* b = new Button(name, mTitleFont->GetFont(), onClick, mNextButtonPos, dims);
 	mButtons.emplace_back(b);
 
 	// Update position of next button
 	// Move down by height of button plus padding
-	mNextButtonPos.y -= mButtonOff->GetHeight() + 20.0f;
+	mNextButtonPos.y -= mButtonOff->GetTexture()->GetHeight() + 20.0f;
 }
 
 void UIScreen::DrawTexture(class Shader* shader, class Texture* texture,

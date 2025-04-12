@@ -21,22 +21,21 @@ PointLightComponent::~PointLightComponent()
 void PointLightComponent::Draw(Shader* shader, Mesh* mesh)
 {
 	for (unsigned int i = 0; i < mesh->GetVertexArrays().size(); i++) {
-		// We assume, coming into this function, that the shader is active
-		// and the sphere mesh is active
-
-		// World transform is scaled to the outer radius (divided by the mesh radius)
-		// and positioned to the world position
+		// この関数に入るにあたり、シェーダーがアクティブであり、
+		// 球メッシュもアクティブであると仮定します。
+		// ワールド変換は外半径にスケーリングされ
+		// （メッシュ半径で割ったもの）、ワールド位置に配置されます。
 		Matrix4 scale = Matrix4::CreateScale(mOwner->GetScale() * mOuterRadius / mesh->GetRadiusArray()[i]);
 		Matrix4 trans = Matrix4::CreateTranslation(mOwner->GetPosition());
 		Matrix4 worldTransform = scale * trans;
 		shader->SetMatrixUniform("uWorldTransform", worldTransform);
-		// Set point light shader constants
+		//ポイントライトシェーダー定数を設定する
 		shader->SetVectorUniform("uPointLight.mWorldPos", mOwner->GetPosition());
 		shader->SetVectorUniform("uPointLight.mDiffuseColor", mDiffuseColor);
 		shader->SetFloatUniform("uPointLight.mInnerRadius", mInnerRadius);
 		shader->SetFloatUniform("uPointLight.mOuterRadius", mOuterRadius);
 
-		// Draw the sphere
+		// 球を描画
 		glDrawElements(GL_TRIANGLES, mesh->GetVertexArrays()[i]->GetNumIndices(),
 			GL_UNSIGNED_INT, nullptr);
 	}

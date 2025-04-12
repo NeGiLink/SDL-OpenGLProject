@@ -235,38 +235,41 @@ void BaseScene::UpdateGame()
 {
 	//特定のシーンに読み込まれたオブジェクトやコンポーネントを
 	// まとめて処理する部分
-	
-	// Update all actors
-	mUpdatingActors = true;
-	for (auto actor : mActors)
+	if (GameStateClass::mGameState == EGameplay) 
 	{
-		actor->Update(Time::deltaTime);
-	}
-	mUpdatingActors = false;
-
-	// Move any pending actors to mActors
-	for (auto pending : mPendingActors)
-	{
-		pending->ComputeWorldTransform();
-		mActors.emplace_back(pending);
-	}
-	mPendingActors.clear();
-
-	// Add any dead actors to a temp vector
-	std::vector<ActorObject*> deadActors;
-	for (auto actor : mActors)
-	{
-		if (actor->GetState() == ActorObject::EDead)
+		// Update all actors
+		mUpdatingActors = true;
+		for (auto actor : mActors)
 		{
-			deadActors.emplace_back(actor);
+			actor->Update(Time::deltaTime);
+		}
+		mUpdatingActors = false;
+
+		// Move any pending actors to mActors
+		for (auto pending : mPendingActors)
+		{
+			pending->ComputeWorldTransform();
+			mActors.emplace_back(pending);
+		}
+		mPendingActors.clear();
+
+		// Add any dead actors to a temp vector
+		std::vector<ActorObject*> deadActors;
+		for (auto actor : mActors)
+		{
+			if (actor->GetState() == ActorObject::EDead)
+			{
+				deadActors.emplace_back(actor);
+			}
+		}
+
+		// Delete dead actors (which removes them from mActors)
+		for (auto actor : deadActors)
+		{
+			delete actor;
 		}
 	}
-
-	// Delete dead actors (which removes them from mActors)
-	for (auto actor : deadActors)
-	{
-		delete actor;
-	}
+	
 
 
 	// Update audio system
@@ -304,7 +307,7 @@ void BaseScene::UpdateGame()
 	auto image = mImageStack.begin();
 	while (image != mImageStack.end())
 	{
-		if ((*image)->GetState() == Image::EClosing)
+		if ((*image)->GetState() == Image::EDestroy)
 		{
 			delete* image;
 			image = mImageStack.erase(image);

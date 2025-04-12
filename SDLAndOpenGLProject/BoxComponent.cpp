@@ -19,7 +19,7 @@ BoxComponent::~BoxComponent()
 
 void BoxComponent::OnUpdateWorldTransform()
 {
-	// Reset to object space box
+	// オブジェクトボックスにリセットする
 	mWorldBox = mObjectBox;
 	// Scale
 	mWorldBox.mMin *= mOwner->GetScale();

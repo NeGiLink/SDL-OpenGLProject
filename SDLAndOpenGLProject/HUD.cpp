@@ -1,11 +1,11 @@
 #include "HUD.h"
 #include "Texture.h"
+#include "Image.h"
 #include "Shader.h"
 #include "BaseScene.h"
 #include "WinMain.h"
 #include "Renderer.h"
 #include "PhysWorld.h"
-#include "FollowActor.h"
 #include "FPSActor.h"
 #include <algorithm>
 #include "TargetComponent.h"
@@ -17,12 +17,20 @@ HUD::HUD(BaseScene* game)
 	, mTargetEnemy(false)
 {
 	Renderer* r = game->GetWinMain()->GetRenderer();
-	mHealthBar = r->GetTexture("Assets/HealthBar.png");
-	mRadar = r->GetTexture("Assets/Radar.png");
-	mCrosshair = r->GetTexture("Assets/Crosshair.png");
-	mCrosshairEnemy = r->GetTexture("Assets/CrosshairRed.png");
-	mBlipTex = r->GetTexture("Assets/Blip.png");
-	mRadarArrow = r->GetTexture("Assets/RadarArrow.png");
+	mRadar = new Image(game,false);
+	mRadar->Load("Assets/Radar.png");
+
+	mCrosshair = new Image(game,false);
+	mCrosshair->Load("Assets/Crosshair.png");
+
+	mCrosshairEnemy = new Image(game, false);
+	mCrosshairEnemy->Load("Assets/CrosshairRed.png");
+	
+	mBlipTex = new Image(game,false);
+	mBlipTex->Load("Assets/Blip.png");
+
+	mRadarArrow = new Image(game,false);
+	mRadarArrow->Load("Assets/RadarArrow.png");
 }
 
 HUD::~HUD()
@@ -40,22 +48,26 @@ void HUD::Update(float deltaTime)
 void HUD::Draw(Shader* shader)
 {
 	// Crosshair
-	Texture* cross = mTargetEnemy ? mCrosshairEnemy : mCrosshair;
-	DrawTexture(shader, cross, Vector2::Zero, 2.0f);
+	if (GameStateClass::mGameState == EPaused) { return; }
+	Image* crosshair = mTargetEnemy ? mCrosshairEnemy : mCrosshair;
+	crosshair->SetPosition(Vector2::Zero);
+	crosshair->SetScale(0.5f);
+	crosshair->Draw(shader);
 
 	// Radar
 	const Vector2 cRadarPos(-390.0f, 275.0f);
-	DrawTexture(shader, mRadar, cRadarPos, 1.0f);
+	mRadar->SetPosition(cRadarPos);
+	mRadar->Draw(shader);
 	// Blips
 	for (Vector2& blip : mBlips)
 	{
-		DrawTexture(shader, mBlipTex, cRadarPos + blip, 1.0f);
+		mBlipTex->SetPosition(cRadarPos + blip);
+		mBlipTex->Draw(shader);
 	}
-	// Radar arrow
-	DrawTexture(shader, mRadarArrow, cRadarPos);
 
-	//// Health bar
-	DrawTexture(shader, mHealthBar, Vector2(-350.0f, -350.0f));
+	// Radar arrow
+	mRadarArrow->SetPosition(cRadarPos);
+	mRadarArrow->Draw(shader);
 }
 
 void HUD::AddTargetComponent(TargetComponent* tc)

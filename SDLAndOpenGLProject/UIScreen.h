@@ -5,6 +5,7 @@
 #include <functional>
 #include <vector>
 
+//ボタンUIのクラス
 class Button
 {
 public:
@@ -13,7 +14,7 @@ public:
 		const Vector2& pos, const Vector2& dims);
 	~Button();
 
-	// Set the name of the button
+	// ボタンの名前を設定します
 	void SetName(const std::string& name);
 
 	// Getters/setters
@@ -22,68 +23,75 @@ public:
 	void SetHighlighted(bool sel) { mHighlighted = sel; }
 	bool GetHighlighted() const { return mHighlighted; }
 
-	// Returns true if the point is within the button's bounds
+	// ポイントがボタンの境界内にある場合はtrueを返します
 	bool ContainsPoint(const Vector2& pt) const;
-	// Called when button is clicked
+	// ボタンがクリックされたときに呼び出されます
 	void OnClick();
 private:
-	std::function<void()> mOnClick;
-	std::string mName;
-	class Texture* mNameTex;
-	class Font* mFont;
-	Vector2 mPosition;
-	Vector2 mDimensions;
-	bool mHighlighted;
+	std::function<void()>	mOnClick;
+	
+	std::string				mName;
+	
+	class Texture*			mNameTex;
+	
+	class Font*				mFont;
+	
+	Vector2					mPosition;
+	
+	Vector2					mDimensions;
+	
+	bool					mHighlighted;
 };
 
+//ポーズ、ダイアログなどのUIの基底クラス
 class UIScreen
 {
 public:
 	UIScreen(class BaseScene* game);
 	virtual ~UIScreen();
-	// UIScreen subclasses can override these
+	// UIScreenのサブクラスはこれらをオーバーライドできます
 	virtual void Update(float deltaTime);
 	virtual void Draw(class Shader* shader);
 	virtual void ProcessInput(const bool* keys);
 	virtual void HandleKeyPress(int key);
-	// Tracks if the UI is active or closing
+	// UIがアクティブを管理するタグ
 	enum UIState
 	{
 		EActive,
 		EClosing
 	};
-	// Set state to closing
+	// 状態を閉鎖に設定
 	void Close();
-	// Get state of UI screen
+	// UI画面の状態を取得する
 	UIState GetState() const { return mState; }
-	// Change the title text
+	// タイトルテキストを変更する
 	void SetTitle(const std::string& text,
 		const Vector3& color = Color::White,
 		int pointSize = 40);
-	// Add a button to this screen
+	// この画面にボタンを追加する関数
 	void AddButton(const std::string& name, std::function<void()> onClick);
 protected:
-	// Helper to draw a texture
+	// 画像を描画する関数
 	void DrawTexture(class Shader* shader, class Texture* texture,
 		const Vector2& offset = Vector2::Zero,
 		float scale = 1.0f);
-	// Sets the mouse mode to relative or not
+	// マウスモードを相対モードに設定するかどうか
 	void SetRelativeMouseMode(bool relative);
-	class BaseScene* mGame;
+	class BaseScene*		mGame;
 
-	class Font* mFont;
-	class Texture* mTitle;
-	class Texture* mBackground;
-	class Texture* mButtonOn;
-	class Texture* mButtonOff;
+	class Text*				mTitleFont;
+	class Image*			mTitle;
+	class Image*			mBackground;
+	class Image*			mButtonOn;
+	class Image*			mButtonOff;
 
-	// Configure positions
-	Vector2 mTitlePos;
-	Vector2 mNextButtonPos;
-	Vector2 mBGPos;
+	// 位置を設定する
+	Vector2					mTitlePos;
+	Vector2					mNextButtonPos;
+	Vector2					mBGPos;
 
-	// State
-	UIState mState;
-	// List of buttons
-	std::vector<Button*> mButtons;
+	// 状態
+	UIState					mState;
+	// ボタンのリスト
+	std::vector<Button*>	mButtons;
 };

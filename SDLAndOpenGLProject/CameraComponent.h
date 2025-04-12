@@ -2,6 +2,7 @@
 #include "Component.h"
 #include "Math.h"
 
+//ƒJƒƒ‰‚ÌŠî’êƒNƒ‰ƒX
 class CameraComponent : public Component
 {
 public:

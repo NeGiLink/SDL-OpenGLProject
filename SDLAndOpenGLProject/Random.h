@@ -7,20 +7,20 @@ class Random
 public:
 	static void Init();
 
-	// Seed the generator with the specified int
-	// NOTE: You should generally not need to manually use this
+	// 指定された整数でジェネレーターをシードします
+	// 注意：通常、手動で使用する必要はありません。
 	static void Seed(unsigned int seed);
 
-	// Get a float between 0.0f and 1.0f
+	// 0.0fから1.0fの間の浮動小数点数を取得。
 	static float GetFloat();
 
-	// Get a float from the specified range
+	// 指定された範囲から浮動小数点数を取得
 	static float GetFloatRange(float min, float max);
 
-	// Get an int from the specified range
+	// 指定された範囲から整数を取得
 	static int GetIntRange(int min, int max);
 
-	// Get a random vector given the min/max bounds
+	// 最小/最大の範囲を考慮してランダムなベクトルを取得
 	static Vector2 GetVector(const Vector2& min, const Vector2& max);
 	static Vector3 GetVector(const Vector3& min, const Vector3& max);
 private:

@@ -1,5 +1,6 @@
 #pragma once
 #include "Actor.h"
+//åªç›ñ¢é¿ëï
 /*
 class Laser : public Actor
 {

@@ -12,7 +12,7 @@ CameraComponent::CameraComponent(ActorObject* owner, int updateOrder)
 
 void CameraComponent::SetViewMatrix(const Matrix4& view)
 {
-	// Pass view matrix to renderer and audio system
+	// ビュー行列をレンダラーとオーディオシステムに渡す
 	BaseScene* game = mOwner->GetGame();
 	game->GetWinMain()->GetRenderer()->SetViewMatrix(view);
 	game->GetAudioSystem()->SetListener(view);

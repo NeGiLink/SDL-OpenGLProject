@@ -1,6 +1,8 @@
 #pragma once
 #include "Actor.h"
 
+//軌道カメラに使うオブジェクトのクラス
+//今後使うため残しています。
 class OrbitActor : public ActorObject
 {
 public:
@@ -10,7 +12,8 @@ public:
 
 	void SetVisible(bool visible);
 private:
-	class OrbitCamera* mCameraComp;
-	class MeshRenderer* mMeshComp;
+	class OrbitCamera*		mCameraComp;
+
+	class MeshRenderer*		mMeshComp;
 };
 

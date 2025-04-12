@@ -9,10 +9,8 @@
 Sword::Sword(BaseScene* game)
 	:ActorObject(game)
 {
-	mS = Vector3(100.0f, 100.0f, 100.0f);
-	SetScale(mS);
+	SetScale(Vector3(100.0f, 100.0f, 100.0f));
 	
-	//SetRotation(Quaternion(Vector3::UnitZ, Math::Pi));
 	MeshRenderer* mc = new MeshRenderer(this);
 	Mesh* mesh = game->GetWinMain()->GetRenderer()->GetMesh("Sword.fbx");
 	mc->SetMesh(mesh);
@@ -74,14 +72,14 @@ void Sword::ActorInput(const bool* keys)
 	{
 		mAngleZ -= 0.1f;
 	}
-	
+	Vector3 scale = GetScale();
 	if (keys[SDL_SCANCODE_M])
 	{
-		mS *= 1.5f;
+		scale *= 1.5f;
 	}
 	else if (keys[SDL_SCANCODE_N])
 	{
-		mS *= 0.5f;
+		scale *= 0.5f;
 	}
 	
 	rot = Quaternion(Vector3::UnitX, mAngleX);
@@ -89,7 +87,7 @@ void Sword::ActorInput(const bool* keys)
 	rot *= Quaternion(Vector3::UnitZ, mAngleZ);
 	SetRotation(rot);
 	AddPosition(pos);
-	SetScale(mS);
+	SetScale(scale);
 }
 
 void Sword::UpdateRightHand(Skeleton::Bone* hand)

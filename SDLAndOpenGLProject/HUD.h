@@ -1,11 +1,11 @@
 #pragma once
 #include "UIScreen.h"
 #include <vector>
-
+//ゲーム上のUIをまとめて処理するクラス
 class HUD : public UIScreen
 {
 public:
-	// (Lower draw order corresponds with further back)
+	// (下に引く順序は後ろに対応します)
 	HUD(class BaseScene* game);
 	~HUD();
 
@@ -18,21 +18,20 @@ protected:
 	void UpdateCrosshair(float deltaTime);
 	void UpdateRadar(float deltaTime);
 
-	class Texture* mHealthBar;
-	class Texture* mRadar;
-	class Texture* mCrosshair;
-	class Texture* mCrosshairEnemy;
-	class Texture* mBlipTex;
-	class Texture* mRadarArrow;
+	class Image*							mRadar;
+	class Image*							mCrosshair;
+	class Image*							mCrosshairEnemy;
+	class Image*							mBlipTex;
+	class Image*							mRadarArrow;
 
-	// All the target components in the game
-	std::vector<class TargetComponent*> mTargetComps;
-	// 2D offsets of blips relative to radar
-	std::vector<Vector2> mBlips;
-	// Adjust range of radar and radius
-	float mRadarRange;
-	float mRadarRadius;
-	// Whether the crosshair targets an enemy
-	bool mTargetEnemy;
+	// ゲーム内のすべてのターゲットコンポーネント
+	std::vector<class TargetComponent*>		mTargetComps;
+	// レーダーに対するブリップの2Dオフセット
+	std::vector<Vector2>					mBlips;
+	// レーダーの範囲と半径を調整する
+	float									mRadarRange;
+	float									mRadarRadius;
+	// クロスヘアが敵を狙っているかどうか
+	bool									mTargetEnemy;
 };
 

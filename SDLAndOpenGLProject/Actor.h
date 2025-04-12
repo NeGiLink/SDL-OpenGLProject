@@ -3,7 +3,8 @@
 #include <vector>
 #include "Math.h"
 #include <cstdint>
-
+//全3Dモデルの基底クラス
+//UnityのTransformに近い情報を持っている
 class ActorObject
 {
 public:
@@ -17,16 +18,16 @@ public:
 	ActorObject(class BaseScene* game);
 	virtual ~ActorObject();
 
-	// Update function called from Game (not overridable)
+	// ゲームから呼び出される更新関数（オーバーライド不可）
 	void Update(float deltaTime);
-	// Updates all the components attached to the actor (not overridable)
+	// Actorに接続されたすべてのコンポーネントを更新します（オーバーライド不可）
 	void UpdateComponents(float deltaTime);
-	// Any actor-specific update code (overridable)
+	// 任意のActor固有の更新コード（上書き可能）
 	virtual void UpdateActor(float deltaTime);
 
-	// ProcessInput function called from Game (not overridable)
+	// ゲームから呼び出されたProcessInput関数（オーバーライドできません）
 	void ProcessInput(const bool* keyState);
-	// Any actor-specific input code (overridable)
+	// 任意のActor特有の入力コード（上書き可能）
 	virtual void ActorInput(const bool* keyState);
 
 	// Getters/setters
@@ -43,16 +44,17 @@ public:
 		mPosition += pos;
 		mRecomputeWorldTransform = true;
 	}
-	
+	// Getters/setters
 	Vector3 GetScale() const { return mScale; }
 	
 	void SetScale(Vector3 scale) { mScale = scale;  mRecomputeWorldTransform = true; }
 	
 	void SetScale(float scale) { mScale = Vector3(scale,scale,scale);  mRecomputeWorldTransform = true; }
-	
+	// Getters/setters
 	const Quaternion& GetRotation() const { return mRotation; }
 	
 	void SetRotation(const Quaternion& rotation) { mRotation = rotation;  mRecomputeWorldTransform = true; }
+	
 	void AddRotation(const Quaternion& rotation) { mRotation = rotation;  mRecomputeWorldTransform = true; }
 
 	void ComputeWorldTransform();
@@ -65,6 +67,7 @@ public:
 
 	void RotateToNewForward(const Vector3& forward);
 
+	// Getters/setters
 	State GetState() const { return mState; }
 	
 	void SetState(State state) { mState = state; }
@@ -88,24 +91,24 @@ public:
 	void SetParentActor(class ActorObject* parent) { mParentActor = parent; }
 private:
 	// Transform
-	Matrix4 mWorldTransform;
+	Matrix4		mWorldTransform;
 protected:
 	// Actor's state
-	State mState;
+	State							mState;
 
-	Vector3 mPosition;
+	Vector3							mPosition;
 
-	Quaternion mRotation;
+	Quaternion						mRotation;
 
-	Vector3 mScale;
+	Vector3							mScale;
 
-	bool mRecomputeWorldTransform;
+	bool							mRecomputeWorldTransform;
 
-	std::vector<class Component*> mComponents;
-
-	class ActorObject* mParentActor;
-
+	std::vector<class Component*>	mComponents;
+	//親オブジェクト
+	class ActorObject*				mParentActor;
+	//子オブジェクトの配列
 	std::vector<class ActorObject*> mChildActor;
 
-	class BaseScene* mGame;
+	class BaseScene*				mGame;
 };

@@ -1,6 +1,7 @@
 #pragma once
 #include "CameraComponent.h"
 
+//一人称視点カメラのクラス
 class FPSCamera : public CameraComponent
 {
 public:
@@ -15,11 +16,11 @@ public:
 	void SetPitchSpeed(float speed) { mPitchSpeed = speed; }
 	void SetMaxPitch(float pitch) { mMaxPitch = pitch; }
 private:
-	// Rotation/sec speed of pitch
+	// ピッチの回転/秒速度。
 	float mPitchSpeed;
-	// Maximum pitch deviation from forward
+	// 前方からの最大ピッチ偏差。
 	float mMaxPitch;
-	// Current pitch
+	// 現在のピッチ。
 	float mPitch;
 };
 

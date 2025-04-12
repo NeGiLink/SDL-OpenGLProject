@@ -9,29 +9,30 @@ class PhysWorld
 public:
 	PhysWorld(class BaseScene* game);
 
-	// Used to give helpful information about collision results
+	// 衝突結果に関する情報をまとめている
 	struct CollisionInfo
 	{
-		// Point of collision
-		Vector3 mPoint;
-		// Normal at collision
-		Vector3 mNormal;
-		// Component collided with
+		// 衝突点
+		Vector3				mPoint;
+		// 衝突時の座標
+		Vector3				mNormal;
+		// ボックス衝突クラス
 		class BoxComponent* mBox;
-		// Owning actor of component
-		class ActorObject* mActor;
+		// コンポーネントの所有Actor
+		class ActorObject*	mActor;
 	};
 
-	// Test a line segment against boxes
-	// Returns true if it collides against a box
+	// 線分をボックスに対して判定します。
+	// ボックスに衝突する場合は真を返します。
 	bool SegmentCast(const LineSegment& l, CollisionInfo& outColl);
 
-	// Tests collisions using naive pairwise
+	//素朴なpairwise衝突判定
 	void TestPairwise(std::function<void(class ActorObject*, class ActorObject*)> f);
-	// Test collisions using sweep and prune
+
+	//sweepprune使用した衝突判定
 	void TestSweepAndPrune(std::function<void(class ActorObject*, class ActorObject*)> f);
 
-	// Add/remove box components from world
+	// 世界からボックスコンポーネントを追加/削除する
 	void AddBox(class BoxComponent* box);
 	void RemoveBox(class BoxComponent* box);
 private:

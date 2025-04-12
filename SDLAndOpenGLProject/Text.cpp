@@ -6,8 +6,8 @@
 #include "Renderer.h"
 #include "Font.h"
 
-Text::Text(class BaseScene* game, Font* font, const Vector2& pos)
-: Image(game)
+Text::Text(class BaseScene* game, Font* font, const Vector2& pos, bool active)
+: Image(game,active)
 , mFont(font)
 , mHighlighted(false)
 {

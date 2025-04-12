@@ -1,26 +1,27 @@
 #pragma once
 #include <cstdint>
 
+//コンポーネントの基底クラス
 class Component
 {
 public:
-	// Constructor
-	// (the lower the update order, the earlier the component updates)
+	// コンストラクタ
+	// （更新順序が低いほど、コンポーネントが早く更新される）
 	Component(class ActorObject* owner, int updateOrder = 100);
-	// Destructor
+	// デストラクター
 	virtual ~Component();
-	// Update this component by delta time
+	// デルタ時間でこのコンポーネントを更新してください
 	virtual void Update(float deltaTime);
-	// Process input for this component
+	// このコンポーネントの入力を処理する
 	virtual void ProcessInput(const bool* keyState) {}
-	// Called when world transform changes
+	// 世界の変化によって呼び出される
 	virtual void OnUpdateWorldTransform() { }
 
 	class ActorObject* GetOwner() { return mOwner; }
 	int GetUpdateOrder() const { return mUpdateOrder; }
 protected:
-	// Owning actor
+	// コンポーネント元のオブジェクト
 	class ActorObject* mOwner;
-	// Update order of component
+	// コンポーネントの順序を更新する
 	int mUpdateOrder;
 };

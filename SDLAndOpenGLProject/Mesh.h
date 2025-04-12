@@ -44,13 +44,13 @@ private:
 	// AABBの当たり判定を配列で取得
 	std::vector<AABB> mBoxs;
 	// Meshのテクスチャを取得
-	std::vector<class Texture*> mTextures;
+	std::vector<class Texture*>		mTextures;
 	// MeshのVertexArrayの配列
 	std::vector<class VertexArray*> mVertexArrays;
 	// シェーダー名
-	std::string mShaderName;
+	std::string						mShaderName;
 	// 球の半径
-	std::vector<float> mRadiusArray;
+	std::vector<float>				mRadiusArray;
 	// マテリアル情報
-	std::vector<MaterialInfo> mMaterialInfo;
+	std::vector<MaterialInfo>		mMaterialInfo;
 };

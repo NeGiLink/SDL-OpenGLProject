@@ -11,28 +11,27 @@ FPSCamera::FPSCamera(ActorObject* owner)
 
 void FPSCamera::Update(float deltaTime)
 {
-	// Call parent update (doesn't do anything right now)
+	// 親更新を呼び出す。（今は何もしない）
 	CameraComponent::Update(deltaTime);
-	// Camera position is owner position
+	// カメラの位置はオーナーの位置です。
 	Vector3 cameraPos = mOwner->GetPosition();
 
-	// Update pitch based on pitch speed
+	// ピッチ速度に基づいてピッチを更新する。
 	mPitch += mPitchSpeed * deltaTime;
-	// Clamp pitch to [-max, +max]
+	// クランプピッチを[-max, +max]に制限する。
 	mPitch = Math::Clamp(mPitch, -mMaxPitch, mMaxPitch);
-	// Make a quaternion representing pitch rotation,
-	// which is about owner's right vector
+	// オーナーの右ベクトルを軸とするピッチ回転を表す四元数を作成します。
 	Quaternion q(mOwner->GetRight(), mPitch);
 
-	// Rotate owner forward by pitch quaternion
+	// 所有者をピッチクォータニオンで前方に回転させる。
 	Vector3 viewForward = Vector3::Transform(
 		mOwner->GetForward(), q);
-	// Target position 100 units in front of view forward
+	// 視線の前方100ユニットのターゲット位置。
 	Vector3 target = cameraPos + viewForward * 100.0f;
-	// Also rotate up by pitch quaternion
+	// ピッチクォータニオンを回転。
 	Vector3 up = Vector3::Transform(Vector3::UnitY, q);
 
-	// Create look at matrix, set as view
+	// マトリックスを作成し、ビューとして設定します。
 	Matrix4 view = Matrix4::CreateLookAt(cameraPos, target, up);
 	SetViewMatrix(view);
 }

@@ -26,7 +26,7 @@ void SpriteComponent::Draw(Shader* shader)
 {
 	if (mTexture)
 	{
-		// Scale the quad by the width/height of texture
+		// テクスチャの幅/高さでクアッドをスケールします
 		Matrix4 scaleMat = Matrix4::CreateScale(
 			static_cast<float>(mTexWidth),
 			static_cast<float>(mTexHeight),
@@ -34,8 +34,8 @@ void SpriteComponent::Draw(Shader* shader)
 
 		Matrix4 world = scaleMat * mOwner->GetWorldTransform();
 
-		// Since all sprites use the same shader/vertices,
-		// the game first sets them active before any sprite draws
+		// すべてのスプライトが同じシェーダー/頂点を使用しているため、
+		// ゲームは最初にどのスプライトを描画する前にそれらをアクティブに設定します。
 
 		// Set world transform
 		shader->SetMatrixUniform("uWorldTransform", world);

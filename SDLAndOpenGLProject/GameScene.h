@@ -7,25 +7,28 @@
 #include "SoundEvent.h"
 #include <SDL3/SDL.h>
 #include <stdint.h>
-
+//ゲーム内の処理を行うクラス
 class GameScene : public BaseScene
 {
 public:
 	GameScene(class WinMain* winMain);
+	
 	bool Initialize();
+	
 	bool Update();
+	
 	void HandleKeyPress(int key);
 
 	class FPSActor* GetFPSPlayer() { return mFPSActor; }
-	class FollowActor* GetFollowPlayer() { return mFollowActor; }
 private:
 	// Game-specific code
-	class FollowActor* mFollowActor;
-	class FPSActor* mFPSActor;
-	std::vector<class PlaneActor*> mPlanes;
-	class SpriteComponent* mCrosshair;
-	SoundEvent mMusicEvent;
+	class FPSActor*					mFPSActor;
+	
+	std::vector<class PlaneActor*>	mPlanes;
+	
+	class SpriteComponent*			mCrosshair;
+	
+	SoundEvent						mMusicEvent;
 
-	class Image* mTestImage;
-	class Text* mTestText;
+	class Text*						mTestText;
 };

@@ -5,7 +5,7 @@
 class SpriteComponent : public Component
 {
 public:
-	// (Lower draw order corresponds with further back)
+	// (‰º‚Éˆø‚­‡˜‚ÍŒã‚ë‚É‘Î‰‚µ‚Ü‚·)
 	SpriteComponent(class ActorObject* owner, int drawOrder = 100);
 	~SpriteComponent();
 
@@ -19,9 +19,9 @@ public:
 	void SetVisible(bool visible) { mVisible = visible; }
 	bool GetVisible() const { return mVisible; }
 protected:
-	class Texture* mTexture;
-	int mDrawOrder;
-	float mTexWidth;
-	float mTexHeight;
-	bool mVisible;
+	class Texture*	mTexture;
+	int				mDrawOrder;
+	float			mTexWidth;
+	float			mTexHeight;
+	bool			mVisible;
 };

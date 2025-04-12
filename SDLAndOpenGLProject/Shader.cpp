@@ -19,7 +19,7 @@ Shader::~Shader()
 
 bool Shader::Load(const std::string& vertName, const std::string& fragName)
 {
-	// Compile vertex and pixel shaders
+	// 頂点シェーダーとピクセルシェーダーをコンパイルする
 	if (!CompileShader(vertName,
 		GL_VERTEX_SHADER,
 		mVertexShader) ||
@@ -30,14 +30,14 @@ bool Shader::Load(const std::string& vertName, const std::string& fragName)
 		return false;
 	}
 
-	// Now create a shader program that
-	// links together the vertex/frag shaders
+	// 頂点
+	// フラグシェーダーをリンクするシェーダープログラムを作成。
 	mShaderProgram = glCreateProgram();
 	glAttachShader(mShaderProgram, mVertexShader);
 	glAttachShader(mShaderProgram, mFragShader);
 	glLinkProgram(mShaderProgram);
 
-	// Verify that the program linked successfully
+	// プログラムが正常にリンクしたことを確認してください
 	if (!IsValidProgram())
 	{
 		return false;
@@ -48,7 +48,7 @@ bool Shader::Load(const std::string& vertName, const std::string& fragName)
 
 void Shader::Unload()
 {
-	// Delete the program/shaders
+	// プログラム/シェーダーを削除する
 	glDeleteProgram(mShaderProgram);
 	glDeleteShader(mVertexShader);
 	glDeleteShader(mFragShader);
@@ -56,50 +56,50 @@ void Shader::Unload()
 
 void Shader::SetActive()
 {
-	// Set this program as the active one
+	// このプログラムをアクティブなものとして設定します
 	glUseProgram(mShaderProgram);
 }
 
 void Shader::SetMatrixUniform(const char* name, const Matrix4& matrix)
 {
-	// Find the uniform by this name
+	// この名前のUniformLocationを見つける
 	GLuint loc = glGetUniformLocation(mShaderProgram, name);
-	// Send the matrix data to the uniform
+	// 行列データをユニフォームに送信
 	glUniformMatrix4fv(loc, 1, GL_TRUE, matrix.GetAsFloatPtr());
 }
 
 void Shader::SetMatrixUniforms(const char* name, Matrix4* matrices, unsigned count)
 {
 	GLuint loc = glGetUniformLocation(mShaderProgram, name);
-	// Send the matrix data to the uniform
+	// 行列データをユニフォームに送信
 	glUniformMatrix4fv(loc, count, GL_TRUE, matrices->GetAsFloatPtr());
 }
 
 void Shader::SetVectorUniform(const char* name, const Vector3& vector)
 {
 	GLuint loc = glGetUniformLocation(mShaderProgram, name);
-	// Send the vector data
+	// ベクトルデータを送信
 	glUniform3fv(loc, 1, vector.GetAsFloatPtr());
 }
 
 void Shader::SetVector2Uniform(const char* name, const Vector2& vector)
 {
 	GLuint loc = glGetUniformLocation(mShaderProgram, name);
-	// Send the vector data
+	// ベクトルデータを送信
 	glUniform2fv(loc, 1, vector.GetAsFloatPtr());
 }
 
 void Shader::SetFloatUniform(const char* name, float value)
 {
 	GLuint loc = glGetUniformLocation(mShaderProgram, name);
-	// Send the float data
+	// 浮動小数点データを送信
 	glUniform1f(loc, value);
 }
 
 void Shader::SetIntUniform(const char* name, int value)
 {
 	GLuint loc = glGetUniformLocation(mShaderProgram, name);
-	// Send the float data
+	// 浮動小数点データを送信
 	glUniform1i(loc, value);
 }
 
@@ -146,15 +146,15 @@ bool Shader::CompileShader(const std::string& fileName,
 	std::ifstream shaderFile(fileName);
 	if (shaderFile.is_open())
 	{
-		// Read all of the text into a string
+		// すべてのテキストを文字列に読み込み
 		std::stringstream sstream;
 		sstream << shaderFile.rdbuf();
 		std::string contents = sstream.str();
 		const char* contentsChar = contents.c_str();
 
-		// Create a shader of the specified type
+		// 指定されたタイプのシェーダーを作成します。
 		outShader = glCreateShader(shaderType);
-		// Set the source characters and try to compile
+		// ソース文字を設定して、コンパイルを試みる
 		glShaderSource(outShader, 1, &(contentsChar), nullptr);
 		glCompileShader(outShader);
 
@@ -176,7 +176,7 @@ bool Shader::CompileShader(const std::string& fileName,
 bool Shader::IsCompiled(GLuint shader)
 {
 	GLint status;
-	// Query the compile status
+	// コンパイル状況を照会する
 	glGetShaderiv(shader, GL_COMPILE_STATUS, &status);
 
 	if (status != GL_TRUE)
@@ -195,7 +195,7 @@ bool Shader::IsValidProgram()
 {
 
 	GLint status;
-	// Query the link status
+	// リンクの状態を照会する
 	glGetProgramiv(mShaderProgram, GL_LINK_STATUS, &status);
 	if (status != GL_TRUE)
 	{
@@ -215,7 +215,7 @@ MaterialShader::~MaterialShader()
 
 bool MaterialShader::Load(const std::string& vertName, const std::string& fragName)
 {
-	// Compile vertex and pixel shaders
+	// 頂点シェーダーとピクセルシェーダーをコンパイルする。
 	if (!CompileShader(vertName,
 		GL_VERTEX_SHADER,
 		mVertexShader) ||
@@ -226,14 +226,13 @@ bool MaterialShader::Load(const std::string& vertName, const std::string& fragNa
 		return false;
 	}
 
-	// Now create a shader program that
-	// links together the vertex/frag shaders
+	//頂点/フラグシェーダーをリンクするシェーダープログラムを作成。
 	mShaderProgram = glCreateProgram();
 	glAttachShader(mShaderProgram, mVertexShader);
 	glAttachShader(mShaderProgram, mFragShader);
 	glLinkProgram(mShaderProgram);
 
-	// Verify that the program linked successfully
+	// プログラムが正常にリンクしたことを確認してください。
 	if (!IsValidProgram())
 	{
 		return false;
@@ -244,7 +243,7 @@ bool MaterialShader::Load(const std::string& vertName, const std::string& fragNa
 
 void MaterialShader::Unload()
 {
-	// Delete the program/shaders
+	// プログラム/シェーダーを削除する。
 	glDeleteProgram(mShaderProgram);
 	glDeleteShader(mVertexShader);
 	glDeleteShader(mFragShader);
@@ -252,7 +251,7 @@ void MaterialShader::Unload()
 
 void MaterialShader::SetActive()
 {
-	// Set this program as the active one
+	// このプログラムをアクティブなものとして設定します。
 	glUseProgram(mShaderProgram);
 }
 
@@ -279,15 +278,15 @@ bool MaterialShader::CompileShader(const std::string& fileName, GLenum shaderTyp
 	std::ifstream shaderFile(fileName);
 	if (shaderFile.is_open())
 	{
-		// Read all of the text into a string
+		// すべてのテキストを文字列に読み込みます。
 		std::stringstream sstream;
 		sstream << shaderFile.rdbuf();
 		std::string contents = sstream.str();
 		const char* contentsChar = contents.c_str();
 
-		// Create a shader of the specified type
+		// 指定されたタイプのシェーダーを作成します。
 		outShader = glCreateShader(shaderType);
-		// Set the source characters and try to compile
+		// ソース文字を設定して、コンパイルを試みてください。
 		glShaderSource(outShader, 1, &(contentsChar), nullptr);
 		glCompileShader(outShader);
 
@@ -309,7 +308,7 @@ bool MaterialShader::CompileShader(const std::string& fileName, GLenum shaderTyp
 bool MaterialShader::IsCompiled(GLuint shader)
 {
 	GLint status;
-	// Query the compile status
+	// コンパイル状況を照会する。
 	glGetShaderiv(shader, GL_COMPILE_STATUS, &status);
 
 	if (status != GL_TRUE)
@@ -327,7 +326,7 @@ bool MaterialShader::IsCompiled(GLuint shader)
 bool MaterialShader::IsValidProgram()
 {
 	GLint status;
-	// Query the link status
+	// リンクのステータスを確認する。
 	glGetProgramiv(mShaderProgram, GL_LINK_STATUS, &status);
 	if (status != GL_TRUE)
 	{

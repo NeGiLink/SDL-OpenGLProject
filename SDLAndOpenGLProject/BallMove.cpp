@@ -12,25 +12,25 @@ BallMove::BallMove(ActorObject* owner)
 
 void BallMove::Update(float deltaTime)
 {
-	// Construct segment in direction of travel
+	// 移動方向に沿ってセグメントを構築する
 	const float segmentLength = 30.0f;
 	Vector3 start = mOwner->GetPosition();
 	Vector3 dir = mOwner->GetForward();
 	Vector3 end = start + dir * segmentLength;
 
-	// Create line segment
+	// 線分を作成する
 	LineSegment l(start, end);
 
-	// Test segment vs world
+	// テストセグメント対世界
 	PhysWorld* phys = mOwner->GetGame()->GetPhysWorld();
 	PhysWorld::CollisionInfo info;
-	// (Don't collide vs player)
+	// (プレイヤーと衝突しない)
 	if (phys->SegmentCast(l, info) && info.mActor != mPlayer)
 	{
-		// If we collided, reflect the ball about the normal
+		// もし衝突したら、法線に対してボールを反射
 		dir = Vector3::Reflect(dir, info.mNormal);
 		mOwner->RotateToNewForward(dir);
-		// Did we hit a target?
+		// ターゲットに衝突したかどうか
 		TargetActor* target = dynamic_cast<TargetActor*>(info.mActor);
 		if (target)
 		{
@@ -38,6 +38,6 @@ void BallMove::Update(float deltaTime)
 		}
 	}
 
-	// Base class update moves based on forward speed
+	// 基底クラスのアップデートは前方の速度に基づいて移動します
 	MoveComponent::Update(deltaTime);
 }

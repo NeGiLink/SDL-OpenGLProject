@@ -1,6 +1,7 @@
 #pragma once
 #include "CameraComponent.h"
 
+//軌道カメラのクラス
 class OrbitCamera : public CameraComponent
 {
 public:
@@ -14,13 +15,13 @@ public:
 	void SetPitchSpeed(float speed) { mPitchSpeed = speed; }
 	void SetYawSpeed(float speed) { mYawSpeed = speed; }
 private:
-	// Offset from target
+	// ターゲットのオフセット。
 	Vector3 mOffset;
-	// Up vector of camera
+	// カメラの上方向ベクトル。
 	Vector3 mUp;
-	// Rotation/sec speed of pitch
+	// ピッチの回転/秒速度。
 	float mPitchSpeed;
-	// Rotation/sec speed of yaw
+	// ヨーの回転/秒速度。
 	float mYawSpeed;
 };
 
