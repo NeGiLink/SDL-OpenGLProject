@@ -8,7 +8,7 @@ PhysWorld::PhysWorld(BaseScene* game)
 {
 }
 
-bool PhysWorld::SegmentCast(const LineSegment& l, CollisionInfo& outColl)
+bool PhysWorld::RayCast(const LineSegment& l, CollisionInfo& outColl)
 {
 	bool collided = false;
 	// closestTを無限大に初期化して、
@@ -20,7 +20,7 @@ bool PhysWorld::SegmentCast(const LineSegment& l, CollisionInfo& outColl)
 	{
 		float t;
 		// その線分はボックスと交差しているか判定
-		if (Intersect(l, box->GetWorldBox(), t, norm))
+		if (OnCollision(l, box->GetWorldBox(), t, norm))
 		{
 			// これは以前の交差点より近いか
 			if (t < closestT)
@@ -47,7 +47,7 @@ void PhysWorld::TestPairwise(std::function<void(ActorObject*, ActorObject*)> f)
 		{
 			BoxComponent* a = mBoxes[i];
 			BoxComponent* b = mBoxes[j];
-			if (Intersect(a->GetWorldBox(), b->GetWorldBox()))
+			if (OnCollision(a->GetWorldBox(), b->GetWorldBox()))
 			{
 				// 交差点を処理するために提供された関数を呼び出す
 				f(a->GetOwner(), b->GetOwner());
@@ -79,7 +79,7 @@ void PhysWorld::TestSweepAndPrune(std::function<void(ActorObject*, ActorObject*)
 			{
 				break;
 			}
-			else if (Intersect(a->GetWorldBox(), b->GetWorldBox()))
+			else if (OnCollision(a->GetWorldBox(), b->GetWorldBox()))
 			{
 				f(a->GetOwner(), b->GetOwner());
 			}

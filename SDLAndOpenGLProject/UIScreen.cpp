@@ -179,18 +179,20 @@ void UIScreen::AddButton(const std::string& name, std::function<void()> onClick)
 }
 
 void UIScreen::DrawTexture(class Shader* shader, class Texture* texture,
-	const Vector2& offset, float scale)
+	const Vector2& offset, Vector3 scale, float angle)
 {
 	// Scale the quad by the width/height of texture
 	Matrix4 scaleMat = Matrix4::CreateScale(
-		static_cast<float>(texture->GetWidth()) * scale,
-		static_cast<float>(texture->GetHeight()) * scale,
-		1.0f);
+		static_cast<float>(texture->GetWidth()) * scale.x,
+		static_cast<float>(texture->GetHeight()) * scale.y,
+		scale.z);
+	// ‰ñ“]iZŽ²‰ñ“]j
+	Matrix4 rotationMat = Matrix4::CreateRotationZ(angle);
 	// Translate to position on screen
 	Matrix4 transMat = Matrix4::CreateTranslation(
 		Vector3(offset.x, offset.y, 0.0f));
 	// Set world transform
-	Matrix4 world = scaleMat * transMat;
+	Matrix4 world = scaleMat * rotationMat * transMat;
 	shader->SetMatrixUniform("uWorldTransform", world);
 	// Set current texture
 	texture->SetActive();

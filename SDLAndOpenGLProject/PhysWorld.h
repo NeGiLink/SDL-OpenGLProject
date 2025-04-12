@@ -24,7 +24,7 @@ public:
 
 	// 線分をボックスに対して判定します。
 	// ボックスに衝突する場合は真を返します。
-	bool SegmentCast(const LineSegment& l, CollisionInfo& outColl);
+	bool RayCast(const LineSegment& l, CollisionInfo& outColl);
 
 	//素朴なpairwise衝突判定
 	void TestPairwise(std::function<void(class ActorObject*, class ActorObject*)> f);

@@ -167,9 +167,9 @@ void FPSActor::FixCollisions()
 		for (unsigned int i = 0; i < pa->GetBoxs().size(); i++) {
 			//PlaneActorと衝突検知
 			const AABB& planeBox = pa->GetBoxs()[i]->GetWorldBox();
-			if (Intersect(playerBox, planeBox))
+			if (OnCollision(playerBox, planeBox))
 			{
-				// 私たちのすべての違いを計算してください
+				// 平面の違いを計算
 				float dx1 = planeBox.mMax.x - playerBox.mMin.x;
 				float dx2 = planeBox.mMin.x - playerBox.mMax.x;
 				float dy1 = planeBox.mMax.y - playerBox.mMin.y;
@@ -177,17 +177,17 @@ void FPSActor::FixCollisions()
 				float dz1 = planeBox.mMax.z - playerBox.mMin.z;
 				float dz2 = planeBox.mMin.z - playerBox.mMax.z;
 
-				// dxをdx1またはdx2のうち、絶対値が低い方に設定します。
+				// dxをdx1またはdx2のうち、絶対値が低い方に設定。
 				float dx = Math::Abs(dx1) < Math::Abs(dx2) ?
 					dx1 : dx2;
-				// dyについても同様です
+				// dyについても同様
 				float dy = Math::Abs(dy1) < Math::Abs(dy2) ?
 					dy1 : dy2;
-				// dzについても同様です
+				// dzについても同様
 				float dz = Math::Abs(dz1) < Math::Abs(dz2) ?
 					dz1 : dz2;
 
-				// 最も近い方に応じてx/y位置を調整する
+				// 最も近い方に応じてx/y位置を調整
 				if (Math::Abs(dx) <= Math::Abs(dy) && Math::Abs(dx) <= Math::Abs(dz))
 				{
 					pos.x += dx;

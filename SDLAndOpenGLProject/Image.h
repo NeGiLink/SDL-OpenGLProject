@@ -14,7 +14,8 @@ public:
 	virtual void Load(std::string file);
 	virtual void SetTexture(class Texture* texture);
 	virtual void SetPosition(Vector2 pos);
-	virtual void SetScale(float scale);
+	virtual void SetScale(Vector3 scale);
+	virtual void SetAngleZ(float angle);
 	virtual void Update(float deltaTime);
 	virtual void Draw(class Shader* shader);
 	virtual void UnLoad();
@@ -39,7 +40,7 @@ protected:
 	// テクスチャを描くための関数
 	void DrawTexture(class Shader* shader, class Texture* texture,
 		const Vector2& offset = Vector2::Zero,
-		float scale = 1.0f);
+		Vector3 scale = Vector3(1.0f, 1.0f, 1.0f),float angle = 0);
 	class BaseScene*		mGame;
 
 	class Texture*			mTexture;
@@ -47,7 +48,9 @@ protected:
 	// Configure positions
 	Vector2					mTexturePos;
 
-	float					mScale;
+	Vector3					mTexScale;
+
+	float					mAngleZ;
 
 	// State
 	UIState					mState;

@@ -74,7 +74,7 @@ protected:
 	// 画像を描画する関数
 	void DrawTexture(class Shader* shader, class Texture* texture,
 		const Vector2& offset = Vector2::Zero,
-		float scale = 1.0f);
+		Vector3 scale = Vector3(1.0f, 1.0f, 1.0f), float angle = 0);
 	// マウスモードを相対モードに設定するかどうか
 	void SetRelativeMouseMode(bool relative);
 	class BaseScene*		mGame;

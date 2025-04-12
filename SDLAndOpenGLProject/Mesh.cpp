@@ -41,7 +41,7 @@ bool Mesh::Load(const std::string& fileName, Renderer* renderer, int index)
 		return LoadFromJSON(fileName, renderer, index);
 	}
 
-	return NULL; 
+	return false; 
 }
 
 int Mesh::CheckMeshIndex(const std::string& fileName, Renderer* renderer)

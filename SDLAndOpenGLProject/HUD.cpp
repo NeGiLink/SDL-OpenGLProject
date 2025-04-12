@@ -51,7 +51,10 @@ void HUD::Draw(Shader* shader)
 	if (GameStateClass::mGameState == EPaused) { return; }
 	Image* crosshair = mTargetEnemy ? mCrosshairEnemy : mCrosshair;
 	crosshair->SetPosition(Vector2::Zero);
-	crosshair->SetScale(0.5f);
+	mCrosshairAngle++;
+	crosshair->SetAngleZ(mCrosshairAngle);
+	crosshair->SetScale(Vector3(1.5f, 0.5f,1.0f));
+	
 	crosshair->Draw(shader);
 
 	// Radar
@@ -93,7 +96,7 @@ void HUD::UpdateCrosshair(float deltaTime)
 	LineSegment l(start, start + dir * cAimDist);
 	// Segment cast
 	PhysWorld::CollisionInfo info;
-	if (mGame->GetPhysWorld()->SegmentCast(l, info))
+	if (mGame->GetPhysWorld()->RayCast(l, info))
 	{
 		// Is this a target?
 		for (auto tc : mTargetComps)

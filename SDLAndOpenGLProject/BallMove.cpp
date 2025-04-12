@@ -25,7 +25,7 @@ void BallMove::Update(float deltaTime)
 	PhysWorld* phys = mOwner->GetGame()->GetPhysWorld();
 	PhysWorld::CollisionInfo info;
 	// (プレイヤーと衝突しない)
-	if (phys->SegmentCast(l, info) && info.mActor != mPlayer)
+	if (phys->RayCast(l, info) && info.mActor != mPlayer)
 	{
 		// もし衝突したら、法線に対してボールを反射
 		dir = Vector3::Reflect(dir, info.mNormal);
