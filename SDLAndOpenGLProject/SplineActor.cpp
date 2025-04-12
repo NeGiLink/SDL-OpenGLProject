@@ -9,13 +9,10 @@
 SplineActor::SplineActor(BaseScene* game)
 	:ActorObject(game)
 {
-	//MeshRenderer* mc = new MeshRenderer(this);
-	//mc->SetMesh(game->GetRenderer()->GetMesh("Assets/RacingCar.gpmesh"));
-	//SetPosition(Vector3(0.0f, 0.0f, -100.0f));
 
 	mCameraComp = new SplineCamera(this);
 
-	// Create a spline
+	// ƒXƒvƒ‰ƒCƒ“‚Ìì¬
 	Spline path;
 	path.mControlPoints.emplace_back(Vector3::Zero);
 	for (int i = 0; i < 5; i++)

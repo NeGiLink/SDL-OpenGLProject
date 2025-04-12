@@ -39,21 +39,21 @@ bool Renderer::Initialize(float screenWidth, float screenHeight)
 	mScreenWidth = screenWidth;
 	mScreenHeight = screenHeight;
 
-	// Set OpenGL attributes
-	// Use the core OpenGL profile
+	// OpenGLの属性を設定する
+	// コアOpenGLプロファイルを使用
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
-	// Specify version 3.3
+	// バージョン3.3を指定
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
-	// Request a color buffer with 8-bits per RGBA channel
+	// RGBAチャネルごとに8ビットのカラーバッファをリクエスト
 	SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
 	SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
 	SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 8);
 	SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE, 8);
 	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
-	// Enable double buffering
+	// ダブルバッファリングを有効にする
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-	// Force OpenGL to use hardware acceleration
+	// OpenGLにハードウェアアクセラレーションを使用
 	SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
 
 	mWindow = SDL_CreateWindow("SDL&OpenGLProject",
@@ -64,10 +64,10 @@ bool Renderer::Initialize(float screenWidth, float screenHeight)
 		return false;
 	}
 
-	// Create an OpenGL context
+	// OpenGLコンテキストを作成する
 	mContext = SDL_GL_CreateContext(mWindow);
 
-	// Initialize GLEW
+	// GLEWを初期化する
 	glewExperimental = GL_TRUE;
 	if (glewInit() != GLEW_OK)
 	{
@@ -75,28 +75,28 @@ bool Renderer::Initialize(float screenWidth, float screenHeight)
 		return false;
 	}
 
-	// On some platforms, GLEW will emit a benign error code,
-	// so clear it
+	// 一部のプラットフォームでは、GLEWが無害なエラーコードを出力するので、
+	// これをクリア。
 	glGetError();
 
-	// Make sure we can create/compile shaders
+	// シェーダーを作成/コンパイルできることを確認してください
 	if (!LoadShaders())
 	{
 		SDL_Log("Failed to load shaders.");
 		return false;
 	}
 
-	// Create quad for drawing sprites
+	// スプライトを描画するための四角形を作成する
 	CreateSpriteVerts();
 
-	// Create render target for mirror
+	// ミラー用のレンダーターゲットを作成する
 	if (!CreateMirrorTarget())
 	{
 		SDL_Log("Failed to create render target for mirror.");
 		return false;
 	}
 
-	// Create G-buffer
+	// Gバッファを作成する
 	mGBuffer = new GBuffer();
 	int width = static_cast<int>(mScreenWidth);
 	int height = static_cast<int>(mScreenHeight);
@@ -106,7 +106,7 @@ bool Renderer::Initialize(float screenWidth, float screenHeight)
 		return false;
 	}
 
-	// Load point light mesh
+	// ポイントライトメッシュをロードする
 	mPointLightMesh = GetMesh("PointLight.gpmesh");
 
 	return true;
@@ -114,20 +114,20 @@ bool Renderer::Initialize(float screenWidth, float screenHeight)
 
 void Renderer::Shutdown()
 {
-	// Get rid of any render target textures, if they exist
+	// 存在する場合は、レンダーターゲットテクスチャをすべて削除。
 	if (mMirrorTexture != nullptr)
 	{
 		glDeleteFramebuffers(1, &mMirrorBuffer);
 		mMirrorTexture->Unload();
 		delete mMirrorTexture;
 	}
-	// Get rid of G-buffer
+	// Gバッファを取り除く
 	if (mGBuffer != nullptr)
 	{
 		mGBuffer->Destroy();
 		delete mGBuffer;
 	}
-	// Delete point lights
+	// ポイントライトを削除する
 	while (!mPointLights.empty())
 	{
 		delete mPointLights.back();
@@ -143,7 +143,7 @@ void Renderer::Shutdown()
 
 void Renderer::UnloadData()
 {
-	// Destroy textures
+	// テクスチャを破壊する
 	for (auto i : mTextures)
 	{
 		i.second->Unload();
@@ -151,7 +151,7 @@ void Renderer::UnloadData()
 	}
 	mTextures.clear();
 
-	// Destroy meshes
+	// メッシュを破壊する
 	for (auto i : mMeshes)
 	{
 		i.second->Unload();
@@ -162,24 +162,24 @@ void Renderer::UnloadData()
 
 void Renderer::Draw()
 {
-	// Draw to the mirror texture first
-	//Draw3DScene(mMirrorBuffer, mMirrorView, mProjection, 0.25f);
-	// Draw the 3D scene to the G-buffer
+	// まず鏡のテクスチャを描画します。
+	// Draw3DScene(mMirrorBuffer, mMirrorView, mProjection, 0.25f);
+	// G-bufferに3Dシーンを描画します。
 	Draw3DScene(mGBuffer->GetBufferID(), mView, mProjection, 1.0f, false);
-	// Set the frame buffer back to zero (screen's frame buffer)
+	// フレームバッファをゼロ（スクリーンのフレームバッファ）に戻します
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	// Draw from the GBuffer
+	// Gバッファから描画する
 	DrawFromGBuffer();
 
-	// Draw all sprite components
-	// Disable depth buffering
+	// すべてのスプライトコンポーネントを描画する
+	// 深度バッファリングを無効にする
 	glDisable(GL_DEPTH_TEST);
-	// Enable alpha blending on the color buffer
+	// カラー バッファでアルファ ブレンディングを有効にします
 	glEnable(GL_BLEND);
 	glBlendEquationSeparate(GL_FUNC_ADD, GL_FUNC_ADD);
 	glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ZERO);
 
-	// Set shader/vao as active
+	// シェーダー/VAOをアクティブに設定
 	mSpriteShader->SetActive();
 	mSpriteVerts->SetActive();
 
@@ -200,17 +200,20 @@ void Renderer::Draw()
 
 	for (auto ui : mNowScene->GetImageStack())
 	{
-		ui->Draw(mSpriteShader);
+		if (ui->GetState() == Image::EActive) 
+		{
+			ui->Draw(mSpriteShader);
+		}
 	}
 
-	// Swap the buffers
+	// バッファを入れ替える
 	SDL_GL_SwapWindow(mWindow);
 }
 
 void Renderer::AddSprite(SpriteComponent* sprite)
 {
-	// Find the insertion point in the sorted vector
-	// (The first element with a higher draw order than me)
+	//ソートされたベクター内の挿入ポイントを見つける
+	// （現在よりも高い描画順序を持つ最初の要素）
 	int myDrawOrder = sprite->GetDrawOrder();
 	auto iter = mSprites.begin();
 	for (;
@@ -223,7 +226,7 @@ void Renderer::AddSprite(SpriteComponent* sprite)
 		}
 	}
 
-	// Inserts element before position of iterator
+	// イテレータの位置の前に要素を挿入します
 	mSprites.insert(iter, sprite);
 }
 
@@ -363,29 +366,29 @@ std::vector<class Mesh*> Renderer::GetMeshs(const std::string& fileName)
 void Renderer::Draw3DScene(unsigned int framebuffer, const Matrix4& view, const Matrix4& proj,
 	float viewPortScale, bool lit)
 {
-	// Set the current frame buffer
+	// 現在のフレームバッファを設定する
 	glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
 
-	// Set viewport size based on scale
+	// スケールに基づいてビューポートサイズを設定します
 	glViewport(0, 0,
 		static_cast<int>(mScreenWidth * viewPortScale),
 		static_cast<int>(mScreenHeight * viewPortScale)
 	);
 
-	// Clear color buffer/depth buffer
+	// カラー バッファ/深度バッファをクリア
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glDepthMask(GL_TRUE);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	// Draw mesh components
-	// Enable depth buffering/disable alpha blend
+	// メッシュコンポーネントを描画する深度バッファリングを有効にする
+	// アルファブレンドを無効にする
 	glEnable(GL_DEPTH_TEST);
 	glDisable(GL_BLEND);
-	// Set the mesh shader active
+	// メッシュシェーダーをアクティブに設定します
 	mMeshShader->SetActive();
-	// Update view-projection matrix
+	// ビュー投影行列を更新する
 	mMeshShader->SetMatrixUniform("uViewProj", view * proj);
-	// Update lighting uniforms
+	// 照明のユニフォームを更新する
 	if (lit)
 	{
 		SetLightUniforms(mMeshShader, view);
@@ -399,11 +402,11 @@ void Renderer::Draw3DScene(unsigned int framebuffer, const Matrix4& view, const 
 		}
 	}
 
-	// Draw any skinned meshes now
+	// スキンメッシュを有効
 	mSkinnedShader->SetActive();
-	// Update view-projection matrix
+	// ビュー投影行列を更新する
 	mSkinnedShader->SetMatrixUniform("uViewProj", view * proj);
-	// Update lighting uniforms
+	// 照明のユニフォームを更新する
 	if (lit)
 	{
 		SetLightUniforms(mSkinnedShader, view);
@@ -422,33 +425,33 @@ bool Renderer::CreateMirrorTarget()
 	int width = static_cast<int>(mScreenWidth) / 4;
 	int height = static_cast<int>(mScreenHeight) / 4;
 
-	// Generate a frame buffer for the mirror texture
+	// ミラーテクスチャのフレームバッファを生成する
 	glGenFramebuffers(1, &mMirrorBuffer);
 	glBindFramebuffer(GL_FRAMEBUFFER, mMirrorBuffer);
 
-	// Create the texture we'll use for rendering
+	// レンダリングに使用するテクスチャを作成します
 	mMirrorTexture = new Texture();
 	mMirrorTexture->CreateForRendering(width, height, GL_RGB);
 
-	// Add a depth buffer to this target
+	// このターゲットに深度バッファを追加してください
 	GLuint depthBuffer;
 	glGenRenderbuffers(1, &depthBuffer);
 	glBindRenderbuffer(GL_RENDERBUFFER, depthBuffer);
 	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, width, height);
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthBuffer);
 
-	// Attach mirror texture as the output target for the frame buffer
+	// フレームバッファの出力ターゲットとしてミラーテクスチャを付加する
 	glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, mMirrorTexture->GetTextureID(), 0);
 
-	// Set the list of buffers to draw to for this frame buffer
+	// このフレームバッファに描画するためのバッファのリストを設定します
 	GLenum drawBuffers[] = { GL_COLOR_ATTACHMENT0 };
 	glDrawBuffers(1, drawBuffers);
 
-	// Make sure everything worked
+	// すべてが正常に動作したことを確認
 	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
 	{
-		// If it didn't work, delete the framebuffer,
-		// unload/delete the texture and return false
+		// うまくいかなかった場合は、フレームバッファを削除し、
+		// テクスチャをアンロード/削除して偽を返します。
 		glDeleteFramebuffers(1, &mMirrorBuffer);
 		mMirrorTexture->Unload();
 		delete mMirrorTexture;
@@ -460,20 +463,20 @@ bool Renderer::CreateMirrorTarget()
 
 void Renderer::DrawFromGBuffer()
 {
-	// Disable depth testing for the global lighting pass
+	// グローバルライティングパスの深度テストを無効にします
 	glDisable(GL_DEPTH_TEST);
-	// Activate global G-buffer shader
+	// グローバルGバッファシェーダをアクティブにする
 	mGGlobalShader->SetActive();
-	// Activate sprite verts quad
+	// スプライトの頂点クアッドを有効化する
 	mSpriteVerts->SetActive();
-	// Set the G-buffer textures to sample
+	// Gバッファーテクスチャをサンプリングするように設定する
 	mGBuffer->SetTexturesActive();
-	// Set the lighting uniforms
+	// 照明ユニフォームを設定する
 	SetLightUniforms(mGGlobalShader, mView);
-	// Draw the triangles
+	// 三角形を描画
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 
-	// Copy depth buffer from G-buffer to default frame buffer
+	// Gバッファからデフォルトフレームバッファに深度バッファをコピーする
 	glBindFramebuffer(GL_READ_FRAMEBUFFER, mGBuffer->GetBufferID());
 	int width = static_cast<int>(mScreenWidth);
 	int height = static_cast<int>(mScreenHeight);
@@ -481,26 +484,26 @@ void Renderer::DrawFromGBuffer()
 		0, 0, width, height,
 		GL_DEPTH_BUFFER_BIT, GL_NEAREST);
 
-	// Enable depth test, but disable writes to depth buffer
+	// 深度テストを有効にしますが、深度バッファへの書き込みを無効にします。
 	glEnable(GL_DEPTH_TEST);
 	glDepthMask(GL_FALSE);
 
-	// Set the point light shader and mesh as active
+	// 点光源シェーダーとメッシュをアクティブに設定します。
 	mGPointLightShader->SetActive();
 	for (unsigned int i = 0; i < mPointLightMesh->GetVertexArrays().size(); i++) {
 		mPointLightMesh->GetVertexArrays()[i]->SetActive();
 	}
-	// Set the view-projection matrix
+	// ビュー投影行列を設定する
 	mGPointLightShader->SetMatrixUniform("uViewProj",
 		mView * mProjection);
-	// Set the G-buffer textures for sampling
+	// サンプリングのためにGバッファーのテクスチャを設定します
 	mGBuffer->SetTexturesActive();
 
-	// The point light color should add to existing color
+	// 点光源の色は既存の色に追加される
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_ONE, GL_ONE);
 
-	// Draw the point lights
+	// ポイントライトを描画
 	for (PointLightComponent* p : mPointLights)
 	{
 		p->Draw(mGPointLightShader, mPointLightMesh);
@@ -509,7 +512,7 @@ void Renderer::DrawFromGBuffer()
 
 bool Renderer::LoadShaders()
 {
-	// Create sprite shader
+	// スプライトシェーダーを作成する
 	mSpriteShader = new Shader();
 	if (!mSpriteShader->Load("Shaders/Sprite.vert", "Shaders/Sprite.frag"))
 	{
@@ -517,11 +520,11 @@ bool Renderer::LoadShaders()
 	}
 
 	mSpriteShader->SetActive();
-	// Set the view-projection matrix
+	// ビュー投影行列を設定する
 	Matrix4 spriteViewProj = Matrix4::CreateSimpleViewProj(mScreenWidth, mScreenHeight);
 	mSpriteShader->SetMatrixUniform("uViewProj", spriteViewProj);
 
-	// Create basic mesh shader
+	// 基本的なメッシュシェーダーを作成する
 	mMeshShader = new Shader();
 	if (!mMeshShader->Load("Shaders/Phong.vert", "Shaders/GBufferWrite.frag"))
 	{
@@ -529,13 +532,13 @@ bool Renderer::LoadShaders()
 	}
 
 	mMeshShader->SetActive();
-	// Set the view-projection matrix
+	// ビュー投影行列を設定する
 	mView = Matrix4::CreateLookAt(Vector3::Zero, Vector3::UnitX, Vector3::UnitZ);
 	mProjection = Matrix4::CreatePerspectiveFOV(Math::ToRadians(70.0f),
 		mScreenWidth, mScreenHeight, 10.0f, 10000.0f);
 	mMeshShader->SetMatrixUniform("uViewProj", mView * mProjection);
 
-	// Create skinned shader
+	// スキンシェーダーを作成する
 	mSkinnedShader = new Shader();
 	if (!mSkinnedShader->Load("Shaders/Skinned.vert", "Shaders/GBufferWrite.frag"))
 	{
@@ -545,32 +548,32 @@ bool Renderer::LoadShaders()
 	mSkinnedShader->SetActive();
 	mSkinnedShader->SetMatrixUniform("uViewProj", mView * mProjection);
 
-	// Create shader for drawing from GBuffer (global lighting)
+	// GBufferから描画するためのシェーダーを作成する（グローバルライティング）
 	mGGlobalShader = new Shader();
 	if (!mGGlobalShader->Load("Shaders/GBufferGlobal.vert", "Shaders/GBufferGlobal.frag"))
 	{
 		return false;
 	}
-	// For the GBuffer, we need to associate each sampler with an index
+	// GBufferのために、各サンプラーをインデックスに関連付ける
 	mGGlobalShader->SetActive();
 	mGGlobalShader->SetIntUniform("uGDiffuse", 0);
 	mGGlobalShader->SetIntUniform("uGNormal", 1);
 	mGGlobalShader->SetIntUniform("uGWorldPos", 2);
-	// The view projection is just the sprite one
+	// ビュー投影はただのスプライトのものです
 	mGGlobalShader->SetMatrixUniform("uViewProj", spriteViewProj);
-	// The world transform scales to the screen and flips y
+	// 世界の変形スケールが画面に適用され、yが反転します
 	Matrix4 gbufferWorld = Matrix4::CreateScale(mScreenWidth, -mScreenHeight,
 		1.0f);
 	mGGlobalShader->SetMatrixUniform("uWorldTransform", gbufferWorld);
 
-	// Create a shader for point lights from GBuffer
+	// GBufferからポイントライト用のシェーダーを作成する
 	mGPointLightShader = new Shader();
 	if (!mGPointLightShader->Load("Shaders/BasicMesh.vert",
 		"Shaders/GBufferPointLight.frag"))
 	{
 		return false;
 	}
-	// Set sampler indices
+	// サンプラーインデックスを設定する
 	mGPointLightShader->SetActive();
 	mGPointLightShader->SetIntUniform("uGDiffuse", 0);
 	mGPointLightShader->SetIntUniform("uGNormal", 1);
@@ -599,7 +602,7 @@ void Renderer::CreateSpriteVerts()
 
 void Renderer::SetLightUniforms(Shader* shader, const Matrix4& view)
 {
-	// Camera position is from inverted view
+	// カメラの位置は逆さまの視点からです
 	Matrix4 invView = view;
 	invView.Invert();
 	shader->SetVectorUniform("uCameraPos", invView.GetTranslation());
@@ -616,12 +619,12 @@ void Renderer::SetLightUniforms(Shader* shader, const Matrix4& view)
 
 Vector3 Renderer::Unproject(const Vector3& screenPoint) const
 {
-	// Convert screenPoint to device coordinates (between -1 and +1)
+	// screenPointをデバイス座標（-1から+1の間）に変換する
 	Vector3 deviceCoord = screenPoint;
 	deviceCoord.x /= (mScreenWidth) * 0.5f;
 	deviceCoord.y /= (mScreenHeight) * 0.5f;
 
-	// Transform vector by unprojection matrix
+	// 反投影行列でベクトルを変換する
 	Matrix4 unprojection = mView * mProjection;
 	unprojection.Invert();
 	return Vector3::TransformWithPerspDiv(deviceCoord, unprojection);
@@ -629,13 +632,13 @@ Vector3 Renderer::Unproject(const Vector3& screenPoint) const
 
 void Renderer::GetScreenDirection(Vector3& outStart, Vector3& outDir) const
 {
-	// Get start point (in center of screen on near plane)
+	// スタートポイントを取得する（近くの平面の画面の中心）
 	Vector3 screenPoint(0.0f, 0.0f, 0.0f);
 	outStart = Unproject(screenPoint);
-	// Get end point (in center of screen, between near and far)
+	// 画面の中央、近くと遠くの間にエンドポイントを取得します。
 	screenPoint.z = 0.9f;
 	Vector3 end = Unproject(screenPoint);
-	// Get direction vector
+	// 方向ベクトルを取得する
 	outDir = end - outStart;
 	outDir.Normalize();
 }

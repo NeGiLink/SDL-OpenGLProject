@@ -10,7 +10,7 @@ class Text : public Image
 {
 public:
 	Text(class BaseScene* game, class Font* font,
-		const Vector2& pos);
+		const Vector2& pos,bool active = true);
 	~Text();
 
 	// Set the name of the button
@@ -19,13 +19,18 @@ public:
 	void SetFontSize(int size);
 
 	void SetColor(Vector3 color);
+
+	class Font* GetFont()const { return mFont; }
 private:
-	std::string mName;
-	class Font* mFont;
-	Vector2 mDimensions;
-	bool mHighlighted;
+	std::string		mName;
+	
+	class Font*		mFont;
+	
+	Vector2			mDimensions;
 
-	int mFontSize;
+	bool			mHighlighted;
 
-	Vector3 mColor;
+	int				mFontSize;
+
+	Vector3			mColor;
 };

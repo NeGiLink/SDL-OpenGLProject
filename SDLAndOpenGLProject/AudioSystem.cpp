@@ -19,13 +19,13 @@ AudioSystem::~AudioSystem()
 
 bool AudioSystem::Initialize()
 {
-	// Initialize debug logging
+	// デバッグログを初期化する
 	FMOD::Debug_Initialize(
 		FMOD_DEBUG_LEVEL_ERROR, // Log only errors
 		FMOD_DEBUG_MODE_TTY // Output to stdout
 	);
 
-	// Create FMOD studio system object
+	// FMODスタジオシステムオブジェクトを作成
 	FMOD_RESULT result;
 	result = FMOD::Studio::System::create(&mSystem);
 	if (result != FMOD_OK)
@@ -34,12 +34,12 @@ bool AudioSystem::Initialize()
 		return false;
 	}
 
-	// Initialize FMOD studio system
+	// FMODスタジオシステムを初期化
 	result = mSystem->initialize(
-		512, // Max number of concurrent sounds
-		FMOD_STUDIO_INIT_NORMAL, // Use default settings
-		FMOD_INIT_NORMAL, // Use default settings
-		nullptr // Usually null
+		512, // 同時発音の最大数
+		FMOD_STUDIO_INIT_NORMAL, // デフォルト設定を使用する
+		FMOD_INIT_NORMAL, // デフォルト設定を使用する
+		nullptr // 通常は無効
 	);
 	if (result != FMOD_OK)
 	{
@@ -47,10 +47,10 @@ bool AudioSystem::Initialize()
 		return false;
 	}
 
-	// Save the low-level system pointer
+	// 低レベルシステムポインタを保存
 	mSystem->getLowLevelSystem(&mLowLevelSystem);
 
-	// Load the master banks (strings first)
+	// マスターバンクをロードします（最初に文字列を）
 	LoadBank("Assets/Master Bank.strings.bank");
 	LoadBank("Assets/Master Bank.bank");
 
@@ -59,9 +59,9 @@ bool AudioSystem::Initialize()
 
 void AudioSystem::Shutdown()
 {
-	// Unload all banks
+	// すべてのバンクをアンロードしてください
 	UnloadAllBanks();
-	// Shutdown FMOD system
+	// FMODシステムをシャットダウン
 	if (mSystem)
 	{
 		mSystem->release();
@@ -70,60 +70,61 @@ void AudioSystem::Shutdown()
 
 void AudioSystem::LoadBank(const std::string& name)
 {
-	// Prevent double-loading
+	// 二重ロードを防ぐ
 	if (mBanks.find(name) != mBanks.end())
 	{
 		return;
 	}
 
-	// Try to load bank
+	// バンクを読み込もうとしてください
 	FMOD::Studio::Bank* bank = nullptr;
 	FMOD_RESULT result = mSystem->loadBankFile(
-		name.c_str(), // File name of bank
-		FMOD_STUDIO_LOAD_BANK_NORMAL, // Normal loading
-		&bank // Save pointer to bank
+		name.c_str(), // バンクのファイル名
+		FMOD_STUDIO_LOAD_BANK_NORMAL, // 通常の読み込み
+		&bank // バンクへのポインタを保存する
 	);
 
 	const int maxPathLength = 512;
 	if (result == FMOD_OK)
 	{
-		// Add bank to map
+		// mapにバンクを追加する
 		mBanks.emplace(name, bank);
-		// Load all non-streaming sample data
+		// すべての非ストリーミングサンプルデータをロードする
 		bank->loadSampleData();
-		// Get the number of events in this bank
+		// このバンクのイベント数を取得する
 		int numEvents = 0;
 		bank->getEventCount(&numEvents);
 		if (numEvents > 0)
 		{
-			// Get list of event descriptions in this bank
+			// このバンクのイベントの説明のリストを取得します
 			std::vector<FMOD::Studio::EventDescription*> events(numEvents);
 			bank->getEventList(events.data(), numEvents, &numEvents);
 			char eventName[maxPathLength];
 			for (int i = 0; i < numEvents; i++)
 			{
 				FMOD::Studio::EventDescription* e = events[i];
-				// Get the path of this event (like event:/Explosion2D)
+				// このイベントのパスを取得します
+				// （例：event:/Explosion2D）
 				e->getPath(eventName, maxPathLength, nullptr);
-				// Add to event map
+				//イベントをmapに追加
 				mEvents.emplace(eventName, e);
 			}
 		}
-		// Get the number of buses in this bank
+		// このバンクにあるバスの数を取得してください
 		int numBuses = 0;
 		bank->getBusCount(&numBuses);
 		if (numBuses > 0)
 		{
-			// Get list of buses in this bank
+			// このバンクのバスのリストを取得する
 			std::vector<FMOD::Studio::Bus*> buses(numBuses);
 			bank->getBusList(buses.data(), numBuses, &numBuses);
 			char busName[512];
 			for (int i = 0; i < numBuses; i++)
 			{
 				FMOD::Studio::Bus* bus = buses[i];
-				// Get the path of this bus (like bus:/SFX)
+				// このバスのパスを取得してください（bus:/SFXのように）
 				bus->getPath(busName, 512, nullptr);
-				// Add to buses map
+				//バスをmapに追加
 				mBuses.emplace(busName, bus);
 			}
 		}

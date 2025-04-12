@@ -15,9 +15,8 @@ public:
 	float GetDuration() const { return mDuration; }
 	float GetFrameDuration() const { return mFrameDuration; }
 
-	// Fills the provided vector with the global (current) pose matrices for each
-	// bone at the specified time in the animation. It is expected that the time
-	// is >= 0.0f and <= mDuration
+	// 指定されたアニメーションの時間における各ボーンのグローバル（現在の）ポーズ行列を提供されたベクターに充填。
+	// 時間は0.0f以上でmDuration以下であること。
 	void GetGlobalPoseAtTime(std::vector<Matrix4>& outPoses, const class Skeleton* inSkeleton, float inTime) const;
 
 	void SetSkeleton(class Skeleton* skeleton) { mSkeleton = skeleton; }
@@ -36,17 +35,17 @@ private:
 	size_t FindScaling(float AnimationTime, const aiNodeAnim* pNodeAnim);
 
 	void CalcInterpolatedScaling(aiVector3D& Out, float AnimationTime, const aiNodeAnim* pNodeAnim);
-	// Number of bones for the animation
+	// アニメーションのための骨の数
 	size_t mNumBones;
-	// Number of frames in the animation
+	// アニメーションのフレーム数
 	size_t mNumFrames;
-	// Duration of the animation in seconds
+	// アニメーションの持続時間（秒）
 	float mDuration;
-	// Duration of each frame in the animation
+	// アニメーションにおける各フレームの持続時間
 	float mFrameDuration;
-	// Transform information for each frame on the track
-	// Each index in the outer vector is a bone, inner vector
-	// is a frame
+	// トラック上の各フレームに対する情報を変換。
+	// 外側のベクトルの各インデックスは骨であり、
+	// 内側のベクトルはフレームです。
 	std::vector<std::vector<BoneTransform>> mTracks;
 
 	class Skeleton* mSkeleton;

@@ -8,7 +8,7 @@ class SkeletalMeshRenderer : public MeshRenderer
 {
 public:
 	SkeletalMeshRenderer(class ActorObject* owner);
-	// Draw this mesh component
+	// スケルタルモデルの描画
 	void Draw(class Shader* shader) override;
 
 	void Update(float deltaTime) override;
@@ -18,7 +18,8 @@ public:
 
 	class Skeleton* GetSkeleton() { return mSkeleton; }
 
-	// Play an animation. Returns the length of the animation
+	// アニメーションを再生します。
+	// アニメーションの長さを返します。
 	float PlayAnimation(const class Animation* anim, float playRate = 1.0f);
 
 	const std::vector<class Animation*> GetAnimations() { return mAnimations;}
@@ -33,12 +34,12 @@ public:
 protected:
 	void ComputeMatrixPalette();
 
-	MatrixPalette mPalette;
-	class Skeleton* mSkeleton;
-	const class Animation* mAnimation;
+	MatrixPalette					mPalette;
+	class Skeleton*					mSkeleton;
+	const class Animation*			mAnimation;
 
-	std::vector<class Animation*> mAnimations;
+	std::vector<class Animation*>	mAnimations;
 
-	float mAnimPlayRate;
-	float mAnimTime;
+	float							mAnimPlayRate;
+	float							mAnimTime;
 };

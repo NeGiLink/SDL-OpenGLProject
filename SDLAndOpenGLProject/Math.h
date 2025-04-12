@@ -127,39 +127,39 @@ public:
 		return reinterpret_cast<const float*>(&x);
 	}
 
-	// Set both components in one line
+	// 両方のコンポーネントを1行に設定
 	void Set(float inX, float inY)
 	{
 		x = inX;
 		y = inY;
 	}
 
-	// Vector addition (a + b)
+	// ベクトル加算（a + b）
 	friend Vector2 operator+(const Vector2& a, const Vector2& b)
 	{
 		return Vector2(a.x + b.x, a.y + b.y);
 	}
 
-	// Vector subtraction (a - b)
+	// ベクトル減算（a - b）
 	friend Vector2 operator-(const Vector2& a, const Vector2& b)
 	{
 		return Vector2(a.x - b.x, a.y - b.y);
 	}
 
-	// Component-wise multiplication
+	// 要素ごとの乗算
 	// (a.x * b.x, ...)
 	friend Vector2 operator*(const Vector2& a, const Vector2& b)
 	{
 		return Vector2(a.x * b.x, a.y * b.y);
 	}
 
-	// Scalar multiplication
+	// スカラー乗算
 	friend Vector2 operator*(const Vector2& vec, float scalar)
 	{
 		return Vector2(vec.x * scalar, vec.y * scalar);
 	}
 
-	// Scalar multiplication
+	// スカラー乗算
 	friend Vector2 operator*(float scalar, const Vector2& vec)
 	{
 		return Vector2(vec.x * scalar, vec.y * scalar);
@@ -189,19 +189,19 @@ public:
 		return *this;
 	}
 
-	// Length squared of vector
+	// ベクトルの長さの二乗
 	float LengthSq() const
 	{
 		return (x * x + y * y);
 	}
 
-	// Length of vector
+	// ベクトルの長さ
 	float Length() const
 	{
 		return (Math::Sqrt(LengthSq()));
 	}
 
-	// Normalize this vector
+	// ベクトルを正規化
 	void Normalize()
 	{
 		float length = Length();
@@ -209,7 +209,7 @@ public:
 		y /= length;
 	}
 
-	// Normalize the provided vector
+	// 渡されたベクトルを正規化
 	static Vector2 Normalize(const Vector2& vec)
 	{
 		Vector2 temp = vec;
@@ -217,25 +217,25 @@ public:
 		return temp;
 	}
 
-	// Dot product between two vectors (a dot b)
+	// 二つのベクトル間のドット積（a・b）
 	static float Dot(const Vector2& a, const Vector2& b)
 	{
 		return (a.x * b.x + a.y * b.y);
 	}
 
-	// Lerp from A to B by f
+	// AからBへfによって線形補間
 	static Vector2 Lerp(const Vector2& a, const Vector2& b, float f)
 	{
 		return Vector2(a + f * (b - a));
 	}
 
-	// Reflect V about (normalized) N
+	// N（正規化された）について反射
 	static Vector2 Reflect(const Vector2& v, const Vector2& n)
 	{
 		return v - 2.0f * Vector2::Dot(v, n) * n;
 	}
 
-	// Transform vector by matrix
+	// 行列によってベクトルを変換する
 	static Vector2 Transform(const Vector2& vec, const class Matrix3& mat, float w = 1.0f);
 
 	static const Vector2 Zero;
@@ -267,13 +267,13 @@ public:
 	{
 	}
 
-	// Cast to a const float pointer
+	// const float ポインタにキャスト
 	const float* GetAsFloatPtr() const
 	{
 		return reinterpret_cast<const float*>(&x);
 	}
 
-	// Set all three components in one line
+	// すべての三つのコンポーネントを1行に設定
 	void Set(float inX, float inY, float inZ)
 	{
 		x = inX;
@@ -281,25 +281,25 @@ public:
 		z = inZ;
 	}
 
-	// Vector addition (a + b)
+	// ベクトル加算（a + b）
 	friend Vector3 operator+(const Vector3& a, const Vector3& b)
 	{
 		return Vector3(a.x + b.x, a.y + b.y, a.z + b.z);
 	}
 
-	// Vector subtraction (a - b)
+	// ベクトル減算（a - b）
 	friend Vector3 operator-(const Vector3& a, const Vector3& b)
 	{
 		return Vector3(a.x - b.x, a.y - b.y, a.z - b.z);
 	}
 
-	// Component-wise multiplication
+	// 要素ごとの乗算
 	friend Vector3 operator*(const Vector3& left, const Vector3& right)
 	{
 		return Vector3(left.x * right.x, left.y * right.y, left.z * right.z);
 	}
 
-	// Scalar multiplication
+	// スカラー乗算
 	friend Vector3 operator*(const Vector3& vec, float scalar)
 	{
 		return Vector3(vec.x * scalar, vec.y * scalar, vec.z * scalar);
@@ -310,7 +310,7 @@ public:
 		return Vector3(vec.x / scalar, vec.y / scalar, vec.z / scalar);
 	}
 
-	// Scalar multiplication
+	// スカラー乗算
 	friend Vector3 operator*(float scalar, const Vector3& vec)
 	{
 		return Vector3(vec.x * scalar, vec.y * scalar, vec.z * scalar);
@@ -351,19 +351,19 @@ public:
 		return *this;
 	}
 
-	// Length squared of vector
+	// ベクトルの長さの二乗
 	float LengthSq() const
 	{
 		return (x * x + y * y + z * z);
 	}
 
-	// Length of vector
+	// ベクトルの長さ
 	float Length() const
 	{
 		return (Math::Sqrt(LengthSq()));
 	}
 
-	// Normalize this vector
+	// ベクトルの正規化
 	void Normalize()
 	{
 		float length = Length();
@@ -372,7 +372,7 @@ public:
 		z /= length;
 	}
 
-	// Normalize the provided vector
+	// 渡されたベクトルを正規化
 	static Vector3 Normalize(const Vector3& vec)
 	{
 		Vector3 temp = vec;
@@ -380,13 +380,13 @@ public:
 		return temp;
 	}
 
-	// Dot product between two vectors (a dot b)
+	// 二つのベクトル間のドット積（a・b）
 	static float Dot(const Vector3& a, const Vector3& b)
 	{
 		return (a.x * b.x + a.y * b.y + a.z * b.z);
 	}
 
-	// Cross product between two vectors (a cross b)
+	// 二つのベクトルのクロス積（a × b）
 	static Vector3 Cross(const Vector3& a, const Vector3& b)
 	{
 		Vector3 temp;
@@ -396,23 +396,23 @@ public:
 		return temp;
 	}
 
-	// Lerp from A to B by f
+	// AからBへfによって線形補間
 	static Vector3 Lerp(const Vector3& a, const Vector3& b, float f)
 	{
 		return Vector3(a + f * (b - a));
 	}
 
-	// Reflect V about (normalized) N
+	// N（正規化された）について反射する
 	static Vector3 Reflect(const Vector3& v, const Vector3& n)
 	{
 		return v - 2.0f * Vector3::Dot(v, n) * n;
 	}
 
 	static Vector3 Transform(const Vector3& vec, const class Matrix4& mat, float w = 1.0f);
-	// This will transform the vector and renormalize the w component
+	// ベクトルを変換、w成分が再正規化
 	static Vector3 TransformWithPerspDiv(const Vector3& vec, const class Matrix4& mat, float w = 1.0f);
 
-	// Transform a Vector3 by a quaternion
+	// クォータニオンでベクトル3を変換
 	static Vector3 Transform(const Vector3& v, const class Quaternion& q);
 
 	static const Vector3 Zero;
@@ -427,7 +427,7 @@ public:
 	static const Vector3 NegInfinity;
 };
 
-// 3D Vector
+// 4D Vector
 class Vector4
 {
 public:
@@ -452,13 +452,13 @@ public:
 	{
 	}
 
-	// Cast to a const float pointer
+	// const float ポインタにキャスト
 	const float* GetAsFloatPtr() const
 	{
 		return reinterpret_cast<const float*>(&x);
 	}
 
-	// Set all three components in one line
+	// すべての三つのコンポーネントを1行に設定
 	void Set(float inX, float inY, float inZ, float inW)
 	{
 		x = inX;
@@ -467,31 +467,31 @@ public:
 		w = inW;
 	}
 
-	// Vector addition (a + b)
+	// ベクトル加算（a + b）
 	friend Vector4 operator+(const Vector4& a, const Vector4& b)
 	{
 		return Vector4(a.x + b.x, a.y + b.y, a.z + b.z,a.w + b.w);
 	}
 
-	// Vector subtraction (a - b)
+	// ベクトル減算 (a - b)
 	friend Vector4 operator-(const Vector4& a, const Vector4& b)
 	{
 		return Vector4(a.x - b.x, a.y - b.y, a.z - b.z, a.w - b.w);
 	}
 
-	// Component-wise multiplication
+	// 要素ごとの乗算
 	friend Vector4 operator*(const Vector4& left, const Vector4& right)
 	{
 		return Vector4(left.x * right.x, left.y * right.y, left.z * right.z, left.w * right.w);
 	}
 
-	// Scalar multiplication
+	// スカラー乗算
 	friend Vector4 operator*(const Vector4& vec, float scalar)
 	{
 		return Vector4(vec.x * scalar, vec.y * scalar, vec.z * scalar, vec.w * scalar);
 	}
 
-	// Scalar multiplication
+	// スカラー乗算
 	friend Vector4 operator*(float scalar, const Vector4& vec)
 	{
 		return Vector4(vec.x * scalar, vec.y * scalar, vec.z * scalar, vec.w * scalar);
@@ -527,19 +527,19 @@ public:
 		return *this;
 	}
 
-	// Length squared of vector
+	// ベクトルの長さの二乗
 	float LengthSq() const
 	{
 		return (x * x + y * y + z * z + w * w);
 	}
 
-	// Length of vector
+	// ベクトルの長さ
 	float Length() const
 	{
 		return (Math::Sqrt(LengthSq()));
 	}
 
-	// Normalize this vector
+	// ベクトルを正規化
 	void Normalize()
 	{
 		float length = Length();
@@ -549,7 +549,7 @@ public:
 		w /= length;
 	}
 
-	// Normalize the provided vector
+	// 渡されたベクトルを正規化
 	static Vector4 Normalize(const Vector4& vec)
 	{
 		Vector4 temp = vec;
@@ -557,19 +557,19 @@ public:
 		return temp;
 	}
 
-	// Dot product between two vectors (a dot b)
+	// 二つのベクトル間のドット積（a・b）
 	static float Dot(const Vector4& a, const Vector4& b)
 	{
 		return (a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w);
 	}
 
-	// Lerp from A to B by f
+	// AからBへfによって線形補間
 	static Vector4 Lerp(const Vector4& a, const Vector4& b, float f)
 	{
 		return Vector4(a + f * (b - a));
 	}
 
-	// Reflect V about (normalized) N
+	// N（正規化された）について反射
 	static Vector4 Reflect(const Vector4& v, const Vector4& n)
 	{
 		return v - 2.0f * Vector4::Dot(v, n) * n;
@@ -602,13 +602,13 @@ public:
 		memcpy(mat, inMat, 9 * sizeof(float));
 	}
 
-	// Cast to a const float pointer
+	// const floatポインタにキャスト
 	const float* GetAsFloatPtr() const
 	{
 		return reinterpret_cast<const float*>(&mat[0][0]);
 	}
 
-	// Matrix multiplication
+	// 行列の乗算
 	friend Matrix3 operator*(const Matrix3& left, const Matrix3& right)
 	{
 		Matrix3 retVal;
@@ -669,7 +669,7 @@ public:
 		return *this;
 	}
 
-	// Create a scale matrix with x and y scales
+	// xおよびyスケールを持つスケール行列を作成
 	static Matrix3 CreateScale(float xScale, float yScale)
 	{
 		float temp[3][3] =
@@ -686,14 +686,14 @@ public:
 		return CreateScale(scaleVector.x, scaleVector.y);
 	}
 
-	// Create a scale matrix with a uniform factor
+	// 均一な因子でスケール行列を作成
 	static Matrix3 CreateScale(float scale)
 	{
 		return CreateScale(scale, scale);
 	}
 
-	// Create a rotation matrix about the Z axis
-	// theta is in radians
+	// Z軸回りの回転行列を作成
+	// シータはラジアンで表されます
 	static Matrix3 CreateRotation(float theta)
 	{
 		float temp[3][3] =
@@ -705,7 +705,7 @@ public:
 		return Matrix3(temp);
 	}
 
-	// Create a translation matrix (on the xy-plane)
+	// xy平面上に翻訳行列を作成
 	static Matrix3 CreateTranslation(const Vector2& trans)
 	{
 		float temp[3][3] =
@@ -734,8 +734,7 @@ public:
 		*this = Quaternion::Identity;
 	}
 
-	// This directly sets the quaternion components --
-	// don't use for axis/angle
+	// これは四元数の成分を直接設定します -- 軸/角度には使用しない
 	explicit Quaternion(float inX, float inY, float inZ, float inW)
 	{
 		Set(inX, inY, inZ, inW);
@@ -751,15 +750,15 @@ public:
 	}
 
 
-	// Construct the quaternion from an axis and angle
-	// It is assumed that axis is already normalized,
-	// and the angle is in radians
+	// 軸と角度からクォータニオンを構築します。
+	// 軸はすでに正規化されていると仮定し、
+	// 角度はラジアンで表されます。
 	explicit Quaternion(const Vector3& axis, float angle)
 	{
 		Rotate(axis, angle);
 	}
 
-	// Directly set the internal components
+	// 内部コンポーネントを直接設定する
 	void Set(float inX, float inY, float inZ, float inW)
 	{
 		x = inX;
@@ -794,7 +793,7 @@ public:
 		w /= length;
 	}
 
-	// Normalize the provided quaternion
+	// 提供された四元数を正規化
 	static Quaternion Normalize(const Quaternion& q)
 	{
 		Quaternion retVal = q;
@@ -802,7 +801,7 @@ public:
 		return retVal;
 	}
 
-	// Linear interpolation
+	// 線形補間
 	static Quaternion Lerp(const Quaternion& a, const Quaternion& b, float f)
 	{
 		Quaternion retVal;
@@ -819,7 +818,7 @@ public:
 		return a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w;
 	}
 
-	// Spherical Linear Interpolation
+	// 球面線形補間
 	static Quaternion Slerp(const Quaternion& a, const Quaternion& b, float f)
 	{
 		float rawCosm = Quaternion::Dot(a, b);
@@ -841,8 +840,7 @@ public:
 		}
 		else
 		{
-			// Use linear interpolation if the quaternions
-			// are collinear
+			// クォータニオンが共線である場合は、線形補間を使用。
 			scale0 = 1.0f - f;
 			scale1 = f;
 		}
@@ -861,13 +859,13 @@ public:
 		return retVal;
 	}
 
-	// Concatenate
-	// Rotate by q FOLLOWED BY p
+	// 連結
+	// qで回転した後にpを続ける
 	static Quaternion Concatenate(const Quaternion& q, const Quaternion& p)
 	{
 		Quaternion retVal;
 
-		// Vector component is:
+		// ベクトル成分:
 		// ps * qv + qs * pv + pv x qv
 		Vector3 qv(q.x, q.y, q.z);
 		Vector3 pv(p.x, p.y, p.z);
@@ -876,7 +874,7 @@ public:
 		retVal.y = newVec.y;
 		retVal.z = newVec.z;
 
-		// Scalar component is:
+		// スカラー成分:
 		// ps * qs - pv . qv
 		retVal.w = p.w * q.w - Vector3::Dot(pv, qv);
 
@@ -978,13 +976,13 @@ public:
 		memcpy(mat, inMat, 16 * sizeof(float));
 	}
 
-	// Cast to a const float pointer
+	// const float ポインタにキャスト
 	const float* GetAsFloatPtr() const
 	{
 		return reinterpret_cast<const float*>(&mat[0][0]);
 	}
 
-	// Matrix multiplication (a * b)
+	// 行列の掛け算 (a * b)
 	friend Matrix4 operator*(const Matrix4& a, const Matrix4& b)
 	{
 		Matrix4 retVal;
@@ -1097,34 +1095,34 @@ public:
 		return *this;
 	}
 
-	// Invert the matrix - super slow
+	// 行列を反転させる
 	void Invert();
 
-	// Get the translation component of the matrix
+	// 行列の翻訳成分を取得する
 	Vector3 GetTranslation() const
 	{
 		return Vector3(mat[3][0], mat[3][1], mat[3][2]);
 	}
 
-	// Get the X axis of the matrix (forward)
+	// 行列のX軸を取得する（前方）
 	Vector3 GetXAxis() const
 	{
 		return Vector3::Normalize(Vector3(mat[0][0], mat[0][1], mat[0][2]));
 	}
 
-	// Get the Y axis of the matrix (left)
+	// 行列のY軸を取得してください（左）
 	Vector3 GetYAxis() const
 	{
 		return Vector3::Normalize(Vector3(mat[1][0], mat[1][1], mat[1][2]));
 	}
 
-	// Get the Z axis of the matrix (up)
+	// 行列のZ軸を取得する（上）
 	Vector3 GetZAxis() const
 	{
 		return Vector3::Normalize(Vector3(mat[2][0], mat[2][1], mat[2][2]));
 	}
 
-	// Extract the scale component from the matrix
+	// 行列からスケール成分を抽出
 	Vector3 GetScale() const
 	{
 		Vector3 retVal;
@@ -1178,7 +1176,7 @@ public:
 		return q;
 	}
 
-	// Create a scale matrix with x, y, and z scales
+	// x、y、zのスケールを持つスケール行列を作成
 	static Matrix4 CreateScale(float xScale, float yScale, float zScale)
 	{
 		float temp[4][4] =
@@ -1196,13 +1194,13 @@ public:
 		return CreateScale(scaleVector.x, scaleVector.y, scaleVector.z);
 	}
 
-	// Create a scale matrix with a uniform factor
+	// 均一な因子でスケール行列を作成
 	static Matrix4 CreateScale(float scale)
 	{
 		return CreateScale(scale, scale, scale);
 	}
 
-	// Rotation about x-axis
+	// x軸回転
 	static Matrix4 CreateRotationX(float theta)
 	{
 		float temp[4][4] =
@@ -1215,7 +1213,7 @@ public:
 		return Matrix4(temp);
 	}
 
-	// Rotation about y-axis
+	// y軸回転
 	static Matrix4 CreateRotationY(float theta)
 	{
 		float temp[4][4] =
@@ -1228,7 +1226,7 @@ public:
 		return Matrix4(temp);
 	}
 
-	// Rotation about z-axis
+	// z軸回転
 	static Matrix4 CreateRotationZ(float theta)
 	{
 		float temp[4][4] =
@@ -1241,7 +1239,7 @@ public:
 		return Matrix4(temp);
 	}
 
-	// Create a rotation matrix from a quaternion
+	// クォータニオンから回転行列を作成
 	static Matrix4 CreateFromQuaternion(const class Quaternion& q);
 
 	static Matrix4 CreateTranslation(const Vector3& trans)
@@ -1303,7 +1301,7 @@ public:
 		return Matrix4(temp);
 	}
 
-	// Create "Simple" View-Projection Matrix from Chapter 6
+	// シンプルビュー投影行列を作成する
 	static Matrix4 CreateSimpleViewProj(float width, float height)
 	{
 		float temp[4][4] =

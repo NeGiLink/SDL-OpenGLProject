@@ -5,7 +5,7 @@ Component::Component(ActorObject* owner, int updateOrder)
 	:mOwner(owner)
 	, mUpdateOrder(updateOrder)
 {
-	// Add to actor's vector of components
+	// Actorのコンポーネントベクトルに追加する
 	mOwner->AddComponent(this);
 }
 

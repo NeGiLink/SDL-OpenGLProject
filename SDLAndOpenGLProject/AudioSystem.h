@@ -4,7 +4,7 @@
 #include "SoundEvent.h"
 #include "Math.h"
 
-// Forward declarations to avoid including FMOD header
+// FMODヘッダーを含めるのを避けるための前方宣言
 namespace FMOD
 {
 	class System;
@@ -36,9 +36,9 @@ public:
 
 	void Update(float deltaTime);
 
-	// For positional audio
+	// ポジショナルオーディオ用
 	void SetListener(const Matrix4& viewMatrix);
-	// Control buses
+	// 制御バス
 	float GetBusVolume(const std::string& name) const;
 	bool GetBusPaused(const std::string& name) const;
 	void SetBusVolume(const std::string& name, float volume);
@@ -47,15 +47,15 @@ protected:
 	friend class SoundEvent;
 	FMOD::Studio::EventInstance* GetEventInstance(unsigned int id);
 private:
-	// Tracks the next ID to use for event instances
+	// イベントインスタンスに使用する次のIDを追跡
 	static unsigned int sNextID;
 
 	class BaseScene* mGame;
 	// Map of loaded banks
 	std::unordered_map<std::string, FMOD::Studio::Bank*> mBanks;
-	// Map of event name to EventDescription
+	// イベント名とイベント説明のマップ
 	std::unordered_map<std::string, FMOD::Studio::EventDescription*> mEvents;
-	// Map of event id to EventInstance
+	// イベントIDからイベントインスタンスへのマップ
 	std::unordered_map<unsigned int, FMOD::Studio::EventInstance*> mEventInstances;
 	// Map of buses
 	std::unordered_map<std::string, FMOD::Studio::Bus*> mBuses;

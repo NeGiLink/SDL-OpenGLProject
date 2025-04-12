@@ -20,11 +20,11 @@ private:
 		TPose
 	};
 
-	class SkeletalMeshRenderer* mMeshComp;
+	class SkeletalMeshRenderer*			mMeshComp;
 
-	class Animator* animator;
+	class Animator*						animator;
 
-	class Sword* mSword;
+	class Sword*						mSword;
 
-	std::string animatorName = "SmallCharacter";
+	std::string							animatorName = "SmallCharacter";
 };

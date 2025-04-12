@@ -2,6 +2,7 @@
 #include "Component.h"
 #include "Math.h"
 
+//‹…‚ÌCollision
 class CircleComponent : public Component
 {
 public:

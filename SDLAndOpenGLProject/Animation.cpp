@@ -197,9 +197,10 @@ bool Animation::LoadFromFBX(const std::string& fileName)
 			// 位置キーの適用
 			aiVector3D pos;
 			CalcInterpolatedTranslation(pos, j, channel);
-			//TODO:位置の違うモデルのために変化量を計算して利用
-			//		※このままだと初期状態で移動している場合は適用されないので注意！
-			//			本来はボーンの元の状態から変化を計算する
+			//位置の違うモデルのために変化量を計算して利用
+			//このままだと初期状態で移動している場合は適用されない！
+			//本来はボーンの元の状態から変化を計算する
+			//※現状はまだ未修整
 			aiVector3D basePos = channel->mPositionKeys[0].mValue;
 			//aiVector3D basePos = aiVector3D(temp.mPosition.x, temp.mPosition.y, temp.mPosition.z);
 			temp.mPosition += Vector3(pos.x - basePos.x, pos.y - basePos.y, pos.z - basePos.z);
@@ -228,24 +229,24 @@ void Animation::GetGlobalPoseAtTime(std::vector<Matrix4>& outPoses, const Skelet
 	{
 		outPoses.resize(mNumBones);
 	}
-	// Figure out the current frame index and next frame
-	// (This assumes inTime is bounded by [0, AnimDuration]
+	// 現在のフレームインデックスと次のフレームを特定します
+	//（これは、inTimeが[0, AnimDuration]に制約されていると仮定しています）
 	size_t frame = static_cast<size_t>(inTime / mFrameDuration);
 	size_t nextFrame = frame + 1;
-	// Calculate fractional value between frame and next frame
+	// フレームと次のフレームの間の分数値を計算する
 	float pct = inTime / mFrameDuration - frame;
 
-	// Setup the pose for the root
+	// ルートのポーズを設定する
 	if (mTracks[0].size() > 0)
 	{
-		//nextFrameが最大数を超えていることがあるため対策
+		//nextFrameが最大数を超えていることがあるため対策。
 		if (frame >= mTracks[0].size() || nextFrame >= mTracks[0].size())
 		{
 			outPoses[0] = mTracks[0][mTracks[0].size() - 1].ToMatrix();
 		}
 		else
 		{
-			// Interpolate between the current frame's pose and the next frame
+			// 現在のフレームのポーズと次のフレームの間を補間する。
 			BoneTransform interp = BoneTransform::Interpolate(mTracks[0][frame],
 				mTracks[0][nextFrame], pct);
 			outPoses[0] = interp.ToMatrix();
@@ -257,7 +258,7 @@ void Animation::GetGlobalPoseAtTime(std::vector<Matrix4>& outPoses, const Skelet
 	}
 
 	const std::vector<Skeleton::Bone>& bones = inSkeleton->GetBones();
-	// Now setup the poses for the rest
+	// 残りのポーズを設定してください。
 	for (size_t bone = 1; bone < mNumBones; bone++)
 	{
 		Matrix4 localMat; // (Defaults to identity)

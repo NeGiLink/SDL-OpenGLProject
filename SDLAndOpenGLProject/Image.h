@@ -5,40 +5,53 @@
 #include <functional>
 #include <vector>
 
-
+//画像描画をカプセル化したクラス
 class Image
 {
 public:
-	Image(class BaseScene* game);
+	Image(class BaseScene* game,bool active = true);
 	virtual ~Image();
 	virtual void Load(std::string file);
+	virtual void SetTexture(class Texture* texture);
 	virtual void SetPosition(Vector2 pos);
+	virtual void SetScale(float scale);
 	virtual void Update(float deltaTime);
 	virtual void Draw(class Shader* shader);
-	// Tracks if the UI is active or closing
+	virtual void UnLoad();
+	// UIがアクティブか閉じているかを追跡します
 	enum UIState
 	{
 		EActive,
-		EClosing
+		EClosing,
+		EDestroy
 	};
-	// Set state to closing
+	// 状態を閉鎖に設定
 	void Close();
-	// Get state of UI screen
+
+	void Active();
+	// UI画面の状態を取得する
 	UIState GetState() const { return mState; }
 
+	void SetUpdateTogether(bool active) { updateTogether = active; }
+
+	class Texture* GetTexture() const { return mTexture; }
 protected:
-	// Helper to draw a texture
+	// テクスチャを描くための関数
 	void DrawTexture(class Shader* shader, class Texture* texture,
 		const Vector2& offset = Vector2::Zero,
 		float scale = 1.0f);
-	class BaseScene* mGame;
+	class BaseScene*		mGame;
 
-	class Texture* mTexture;
+	class Texture*			mTexture;
 
 	// Configure positions
-	Vector2 mTexturePos;
+	Vector2					mTexturePos;
+
+	float					mScale;
 
 	// State
-	UIState mState;
+	UIState					mState;
+
+	bool					updateTogether = true;
 };
 

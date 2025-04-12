@@ -2,15 +2,16 @@
 #include <string>
 #include "Math.h"
 
+//SE,BGMを取得・再生するクラス
 class SoundEvent
 {
 public:
 	SoundEvent();
-	// Returns true if associated FMOD event still exists
+	// 関連するFMODイベントがまだ存在する場合、trueを返します。
 	bool IsValid();
-	// Restart event from beginning
+	// イベントを最初から再起動する。
 	void Restart();
-	// Stop this event
+	// このイベントを停止。
 	void Stop(bool allowFadeOut = true);
 	// Setters
 	void SetPaused(bool pause);
@@ -26,8 +27,8 @@ public:
 	bool Is3D() const;
 	void Set3DAttributes(const Matrix4& worldTrans);
 protected:
-	// Make this constructor protected and AudioSystem a friend
-	// so that only AudioSystem can access this constructor.
+	// このコンストラクタをprotectedにし、AudioSystemを友達として設定して、
+	// AudioSystemのみがこのコンストラクタにアクセスできるようにします。
 	friend class AudioSystem;
 	SoundEvent(class AudioSystem* system, unsigned int id);
 private:

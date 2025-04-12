@@ -2,6 +2,8 @@
 #include "Actor.h"
 #include <string>
 
+//テスト用に3Dモデルを読み込んでいるクラス
+//名前はどのモデル化分かりやすくするためにこの名前にしました。
 class YBotActor : public ActorObject
 {
 public:
@@ -18,12 +20,12 @@ private:
 		TPose
 	};
 
-	class SkeletalMeshRenderer* mMeshComp;
+	class SkeletalMeshRenderer*		mMeshComp;
 
-	class Animator* animator;
+	class Animator*					animator;
 
-	class Sword* mSword;
+	class Sword*					mSword;
 
-	std::string animatorName = "YBot";
+	std::string						animatorName = "YBot";
 };
 

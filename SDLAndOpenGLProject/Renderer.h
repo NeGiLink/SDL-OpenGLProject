@@ -65,68 +65,66 @@ public:
 
 	SDL_Window* GetWindow() { return mWindow; }
 private:
-	// Chapter 14 additions
 	void Draw3DScene(unsigned int framebuffer, const Matrix4& view, const Matrix4& proj,
 		float viewPortScale = 1.0f, bool lit = true);
 	bool CreateMirrorTarget();
 	void DrawFromGBuffer();
-	//void DrawFromGBuffer();
-	// End chapter 14 additions
+
 	bool LoadShaders();
 	void CreateSpriteVerts();
 	void SetLightUniforms(class Shader* shader, const Matrix4& view);
 
-	// Map of textures loaded
-	std::unordered_map<std::string, class Texture*> mTextures;
-	// Map of meshes loaded
-	std::unordered_map<std::string, class Mesh*> mMeshes;
+	// テクスチャのマップが読み込み変数
+	std::unordered_map<std::string, class Texture*>		mTextures;
+	// メッシュの地図がロード
+	std::unordered_map<std::string, class Mesh*>		mMeshes;
 
-	// All the sprite components drawn
-	std::vector<class SpriteComponent*> mSprites;
+	// 描かれたすべてのスプライトコンポーネント
+	std::vector<class SpriteComponent*>					mSprites;
 
-	// All (non-skeletal) mesh components drawn
-	std::vector<class MeshRenderer*> mMeshComps;
-	std::vector<class SkeletalMeshRenderer*> mSkeletalMeshes;
+	// すべての（骨格以外の）メッシュコンポーネント
+	std::vector<class MeshRenderer*>					mMeshComps;
+	std::vector<class SkeletalMeshRenderer*>			mSkeletalMeshes;
 
 	// Game
-	class WinMain* mGame;
+	class WinMain*										mGame;
 
-	class BaseScene* mNowScene;
+	class BaseScene*									mNowScene;
 
 	// Sprite shader
-	class Shader* mSpriteShader;
+	class Shader*										mSpriteShader;
 	// Sprite vertex array
-	class VertexArray* mSpriteVerts;
+	class VertexArray*									mSpriteVerts;
 
 	// Mesh shader
-	class Shader* mMeshShader;
+	class Shader*										mMeshShader;
 	// Skinned shader
-	class Shader* mSkinnedShader;
+	class Shader*										mSkinnedShader;
 
 	// View/projection for 3D shaders
-	Matrix4 mView;
-	Matrix4 mProjection;
+	Matrix4												mView;
+	Matrix4												mProjection;
 
 	// Lighting data
-	Vector3 mAmbientLight;
-	DirectionalLight mDirLight;
+	Vector3												mAmbientLight;
+	DirectionalLight									mDirLight;
 
 	// Window
-	SDL_Window* mWindow;
+	SDL_Window*											mWindow;
 	// OpenGL context
-	SDL_GLContext mContext;
+	SDL_GLContext										mContext;
 	// Width/height
-	float mScreenWidth;
-	float mScreenHeight;
+	float												mScreenWidth;
+	float												mScreenHeight;
 
-	unsigned int mMirrorBuffer;
-	class Texture* mMirrorTexture;
-	Matrix4 mMirrorView;
+	unsigned int										mMirrorBuffer;
+	class Texture*										mMirrorTexture;
+	Matrix4												mMirrorView;
 
-	class GBuffer* mGBuffer;
+	class GBuffer*										mGBuffer;
 	// GBuffer shader
-	class Shader* mGGlobalShader;
-	class Shader* mGPointLightShader;
-	std::vector<class PointLightComponent*> mPointLights;
-	class Mesh* mPointLightMesh;
+	class Shader*										mGGlobalShader;
+	class Shader*										mGPointLightShader;
+	std::vector<class PointLightComponent*>				mPointLights;
+	class Mesh*											mPointLightMesh;
 };

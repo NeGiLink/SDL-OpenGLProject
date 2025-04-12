@@ -1,6 +1,7 @@
 #pragma once
 #include "CameraComponent.h"
 
+//三人称視点カメラのクラス
 class FollowCamera : public CameraComponent
 {
 public:
@@ -17,17 +18,17 @@ public:
 private:
 	Vector3 ComputeCameraPos() const;
 
-	// Actual position of camera
-	Vector3 mActualPos;
-	// Velocity of actual camera
-	Vector3 mVelocity;
-	// Horizontal follow distance
-	float mHorzDist;
-	// Vertical follow distance
-	float mVertDist;
-	// Target distance
-	float mTargetDist;
-	// Spring constant (higher is more stiff)
-	float mSpringConstant;
+	// カメラの位置
+	Vector3		mActualPos;
+	// 実際のカメラの速度
+	Vector3		mVelocity;
+	// 水平追従距離
+	float		mHorzDist;
+	// 垂直フォロー距離
+	float		mVertDist;
+	// 目標との距離
+	float		mTargetDist;
+	// ばね定数（高いほど硬い）
+	float		mSpringConstant;
 };
 

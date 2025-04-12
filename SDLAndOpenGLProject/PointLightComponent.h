@@ -8,7 +8,7 @@ public:
 	PointLightComponent(class ActorObject* owner);
 	~PointLightComponent();
 
-	// Draw this point light as geometry
+	// このポイントライトを描画
 	void Draw(class Shader* shader, class Mesh* mesh);
 
 	// Diffuse color

@@ -2,14 +2,17 @@
 #include "Math.h"
 #include <vector>
 
+//各当たり判定の構造体をまとめたファイル
+//ボックス、球、線など
+
 struct LineSegment
 {
 	LineSegment(const Vector3& start, const Vector3& end);
-	// Get point along segment where 0 <= t <= 1
+	// 0 <= t <= 1 の間のセグメントに沿った点を取得する
 	Vector3 PointOnSegment(float t) const;
-	// Get minimum distance squared between point and line segment
+	// 点と線分の最小距離の二乗を取得する
 	float MinDistSq(const Vector3& point) const;
-	// Get MinDistSq between two line segments
+	// 2つの線分間の最小距離の2乗を取得する
 	static float MinDistSq(const LineSegment& s1, const LineSegment& s2);
 
 	Vector3 mStart;
@@ -19,9 +22,9 @@ struct LineSegment
 struct Plane
 {
 	Plane(const Vector3& normal, float d);
-	// Construct plane from three points
+	// 3つの点から平面を構築する
 	Plane(const Vector3& a, const Vector3& b, const Vector3& c);
-	// Get the signed distance between the point and the plane
+	// 点と平面の間の符号付き距離を取得する
 	float SignedDist(const Vector3& point) const;
 
 	Vector3 mNormal;
@@ -40,10 +43,10 @@ struct Sphere
 struct AABB
 {
 	AABB(const Vector3& min, const Vector3& max);
-	// Update min and max accounting for this point
-	// (used when loading a model)
+	// このポイントを考慮して最小値と最大値を更新する
+	// (モデルを読み込むときに使用されます)
 	void UpdateMinMax(const Vector3& point);
-	// Rotated by a quaternion
+	// クォータニオンによって回転されました
 	void Rotate(const Quaternion& q);
 	bool Contains(const Vector3& point) const;
 	float MinDistSq(const Vector3& point) const;
@@ -62,7 +65,7 @@ struct OBB
 struct Capsule
 {
 	Capsule(const Vector3& start, const Vector3& end, float radius);
-	// Get point along segment where 0 <= t <= 1
+	// 0 <= t <= 1 の間のセグメントに沿った点を取得する
 	Vector3 PointOnSegment(float t) const;
 	bool Contains(const Vector3& point) const;
 
@@ -73,11 +76,11 @@ struct Capsule
 struct ConvexPolygon
 {
 	bool Contains(const Vector2& point) const;
-	// Vertices have a clockwise ordering
+	// 頂点は時計回りに並べられています
 	std::vector<Vector2> mVertices;
 };
 
-// Intersection functions
+// 交差点機能
 bool Intersect(const Sphere& a, const Sphere& b);
 bool Intersect(const AABB& a, const AABB& b);
 bool Intersect(const Capsule& a, const Capsule& b);

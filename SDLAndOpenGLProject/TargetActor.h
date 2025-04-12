@@ -5,5 +5,8 @@ class TargetActor : public ActorObject
 {
 public:
 	TargetActor(class BaseScene* game);
-};
+private:
+	std::vector<class BoxComponent*>	mBoxs;
 
+	class MeshRenderer*					mMeshComp;
+};

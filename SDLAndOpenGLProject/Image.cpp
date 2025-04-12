@@ -5,12 +5,16 @@
 #include "BaseScene.h"
 #include "Renderer.h"
 
-Image::Image(BaseScene* game)
+Image::Image(BaseScene* game,bool active)
 	:mGame(game)
 	,mTexture(nullptr)
 {
-	//BaseScene‚É‘—‚éˆ—
-	mGame->PushImage(this);
+	updateTogether = active;
+	mScale = 1.0f;
+	if (updateTogether) {
+		//BaseScene‚É‘—‚éˆ—
+		mGame->PushImage(this);
+	}
 }
 
 Image::~Image()
@@ -22,9 +26,19 @@ void Image::Load(std::string file)
 	mTexture = mGame->GetWinMain()->GetRenderer()->GetTexture(file);
 }
 
+void Image::SetTexture(Texture* texture)
+{
+	mTexture = texture;
+}
+
 void Image::SetPosition(Vector2 pos)
 {
 	mTexturePos = pos;
+}
+
+void Image::SetScale(float scale)
+{
+	mScale = scale;
 }
 
 void Image::Update(float deltaTime)
@@ -36,13 +50,26 @@ void Image::Draw(Shader* shader)
 	// Draw title (if exists)
 	if (mTexture)
 	{
-		DrawTexture(shader, mTexture, mTexturePos);
+		DrawTexture(shader, mTexture, mTexturePos,mScale);
+	}
+}
+
+void Image::UnLoad()
+{
+	if (mTexture) {
+		mTexture->Unload();
+		delete mTexture;
 	}
 }
 
 void Image::Close()
 {
 	mState = EClosing;
+}
+
+void Image::Active()
+{
+	mState = EActive;
 }
 
 void Image::DrawTexture(Shader* shader, Texture* texture, const Vector2& offset, float scale)

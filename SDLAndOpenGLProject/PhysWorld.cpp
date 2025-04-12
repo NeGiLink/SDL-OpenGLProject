@@ -11,18 +11,18 @@ PhysWorld::PhysWorld(BaseScene* game)
 bool PhysWorld::SegmentCast(const LineSegment& l, CollisionInfo& outColl)
 {
 	bool collided = false;
-	// Initialize closestT to infinity, so first
-	// intersection will always update closestT
+	// closestTを無限大に初期化して、
+	// 最初の交差点が常にclosestTを更新するようにします。
 	float closestT = Math::Infinity;
 	Vector3 norm;
-	// Test against all boxes
+	// すべてのボックスに対する判定
 	for (auto box : mBoxes)
 	{
 		float t;
-		// Does the segment intersect with the box?
+		// その線分はボックスと交差しているか判定
 		if (Intersect(l, box->GetWorldBox(), t, norm))
 		{
-			// Is this closer than previous intersection?
+			// これは以前の交差点より近いか
 			if (t < closestT)
 			{
 				closestT = t;
@@ -39,17 +39,17 @@ bool PhysWorld::SegmentCast(const LineSegment& l, CollisionInfo& outColl)
 
 void PhysWorld::TestPairwise(std::function<void(ActorObject*, ActorObject*)> f)
 {
-	// Naive implementation O(n^2)
+	// 単純な実装 O(n^2)
 	for (size_t i = 0; i < mBoxes.size(); i++)
 	{
-		// Don't need to test vs itself and any previous i values
+		// 自分自身や以前のi値に対してテストする必要はなし
 		for (size_t j = i + 1; j < mBoxes.size(); j++)
 		{
 			BoxComponent* a = mBoxes[i];
 			BoxComponent* b = mBoxes[j];
 			if (Intersect(a->GetWorldBox(), b->GetWorldBox()))
 			{
-				// Call supplied function to handle intersection
+				// 交差点を処理するために提供された関数を呼び出す
 				f(a->GetOwner(), b->GetOwner());
 			}
 		}
@@ -67,15 +67,14 @@ void PhysWorld::TestSweepAndPrune(std::function<void(ActorObject*, ActorObject*)
 
 	for (size_t i = 0; i < mBoxes.size(); i++)
 	{
-		// Get max.x for current box
+		// 現在のボックスに対してmax.xを取得する
 		BoxComponent* a = mBoxes[i];
 		float max = a->GetWorldBox().mMax.x;
 		for (size_t j = i + 1; j < mBoxes.size(); j++)
 		{
 			BoxComponent* b = mBoxes[j];
-			// If AABB[j] min is past the max bounds of AABB[i],
-			// then there aren't any other possible intersections
-			// against AABB[i]
+			// AABB[j]の最小値がAABB[i]の最大値を超えている場合、
+			// AABB[i]との交差は他に存在しないためbreak
 			if (b->GetWorldBox().mMin.x > max)
 			{
 				break;
@@ -98,7 +97,8 @@ void PhysWorld::RemoveBox(BoxComponent* box)
 	auto iter = std::find(mBoxes.begin(), mBoxes.end(), box);
 	if (iter != mBoxes.end())
 	{
-		// Swap to end of vector and pop off (avoid erase copies)
+		// ベクトルの末尾にスワップし、
+		// ポップオフします（コピーの消去を避けるため）
 		std::iter_swap(iter, mBoxes.end() - 1);
 		mBoxes.pop_back();
 	}

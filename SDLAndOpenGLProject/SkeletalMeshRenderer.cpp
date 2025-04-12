@@ -42,10 +42,10 @@ void SkeletalMeshRenderer::Draw(Shader* shader)
 				}
 				MaterialInfo m = mMeshs[i]->GetMaterialInfo()[j];
 				shader->SetColorUniform("uTexture", m);
-				// Set the mesh's vertex array as active
+				// メッシュの頂点配列をアクティブに設定します
 				VertexArray* va = mMeshs[i]->GetVertexArrays()[j];
 				va->SetActive();
-				// Draw
+				// 描画
 				glDrawElements(GL_TRIANGLES, va->GetNumIndices(), GL_UNSIGNED_INT, nullptr);
 			}
 		}

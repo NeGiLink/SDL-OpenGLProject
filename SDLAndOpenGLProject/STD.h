@@ -1,4 +1,5 @@
 #pragma once
+//STD関連のインクルードをまとめたファイル
 #include <array>
 #include <string>
 #include <vector>

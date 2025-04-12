@@ -30,5 +30,5 @@ private:
 	// Textures associated with G-buffer
 	std::vector<class Texture*> mTextures;
 	// Frame buffer object ID
-	unsigned int mBufferID;
+	unsigned int				mBufferID;
 };

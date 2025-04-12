@@ -8,9 +8,9 @@ class MeshRenderer : public Component
 public:
 	MeshRenderer(class ActorObject* owner, bool isSkeletal = false);
 	~MeshRenderer();
-	// Draw this mesh component
+	// このメッシュコンポーネントを描画
 	virtual void Draw(class Shader* shader);
-	// Set the mesh/texture index used by mesh component
+	// メッシュコンポーネントで使用されるメッシュ/テクスチャインデックスを設定する
 	virtual void SetMesh(class Mesh* mesh) 
 	{
 		mMeshs.push_back(mesh);
@@ -27,10 +27,11 @@ public:
 	bool GetVisible() const { return mVisible; }
 
 	bool GetIsSkeletal() const { return mIsSkeletal; }
-protected:
-	std::vector<class Mesh*> mMeshs;
-	size_t mTextureIndex;
-	bool mVisible;
-	bool mIsSkeletal;
-};
 
+	std::vector<class Mesh*> GetMeshs() const { return mMeshs; }
+protected:
+	std::vector<class Mesh*>	mMeshs;
+	size_t						mTextureIndex;
+	bool						mVisible;
+	bool						mIsSkeletal;
+};

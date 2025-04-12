@@ -2,7 +2,7 @@
 #include "Actor.h"
 #include "MeshRenderer.h"
 #include "Skeleton.h"
-
+//剣オブジェクトのクラス
 class Sword : public ActorObject
 {
 public:
@@ -10,14 +10,12 @@ public:
 	void ActorInput(const bool* keys) override;
 	void UpdateRightHand(Skeleton::Bone* hand);
 private:
-	Skeleton::Bone* mRightHand;
+	Skeleton::Bone*		mRightHand;
 
-	Vector3 mPos;
+	Vector3				mPos;
 
-	float mAngleY;
-	float mAngleX;
-	float mAngleZ;
-
-	Vector3 mS;
+	float				mAngleY;
+	float				mAngleX;
+	float				mAngleZ;
 };
 

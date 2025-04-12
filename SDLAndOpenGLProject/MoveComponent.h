@@ -4,7 +4,7 @@
 class MoveComponent : public Component
 {
 public:
-	// Lower update order to update first
+	// 更新の順序を下げて最初に更新
 	MoveComponent(class ActorObject* owner, int updateOrder = 10);
 	void Update(float deltaTime) override;
 

@@ -35,9 +35,13 @@ bool Mesh::Load(const std::string& fileName, Renderer* renderer, int index)
 	{
 		return LoadFromFBX(fileName, renderer,index);
 	}
-
 	// **JSON ‚Ìê‡i]—ˆ‚Ìˆ—j**
-	return LoadFromJSON(fileName, renderer,index);
+	if (extension == "gpmesh") 
+	{
+		return LoadFromJSON(fileName, renderer, index);
+	}
+
+	return NULL; 
 }
 
 int Mesh::CheckMeshIndex(const std::string& fileName, Renderer* renderer)

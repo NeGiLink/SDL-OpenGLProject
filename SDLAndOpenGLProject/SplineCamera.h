@@ -4,14 +4,13 @@
 
 struct Spline
 {
-	// Control points for spline
-	// (Requires n+2 points where n is number
-	// of points in segment)
+	// スプラインの制御点（
+	// セグメント内の点の数をnとすると、n+2のポイントが必要）
 	std::vector<Vector3> mControlPoints;
-	// Given spline segment where startIdx = P1,
-	// compute position based on t value
+	// 開始インデックスがP1であるスプラインセグメントを考慮して、
+	// t値に基づいて位置を計算します。
 	Vector3 Compute(size_t startIdx, float t) const;
-	// Returns number of control points
+	// 制御点の数を返します。
 	size_t GetNumPoints() const { return mControlPoints.size(); }
 };
 
@@ -21,20 +20,20 @@ public:
 	SplineCamera(class ActorObject* owner);
 
 	void Update(float deltaTime) override;
-	// Restart the spline
+	// スプラインを再起動してください
 	void Restart();
 
 	void SetSpeed(float speed) { mSpeed = speed; }
 	void SetSpline(const Spline& spline) { mPath = spline; }
 	void SetPaused(bool pause) { mPaused = pause; }
 private:
-	// Spline path camera follows
-	Spline mPath;
-	// Current control point index and t
-	size_t mIndex;
-	float mT;
-	// Amount t changes/sec
-	float mSpeed;
-	// Whether to move the camera long the path
-	bool mPaused;
+	// スプラインパスに沿ってカメラが移動します
+	Spline	mPath;
+	// 現在の制御ポイントインデックスとt
+	size_t	mIndex;
+	float	mT;
+	// 量の変化/秒
+	float	mSpeed;
+	// カメラを経路に沿って移動させるかどうか
+	bool	mPaused;
 };

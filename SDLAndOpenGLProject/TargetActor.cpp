@@ -10,16 +10,21 @@
 TargetActor::TargetActor(BaseScene* game)
 	:ActorObject(game)
 {
-	//SetScale(10.0f);
+	SetScale(100.0f);
 	SetRotation(Quaternion(Vector3::UnitZ, Math::Pi));
-	MeshRenderer* mc = new MeshRenderer(this);
-	Mesh* mesh = game->GetWinMain()->GetRenderer()->GetMesh("Target.gpmesh");
-	mc->SetMesh(mesh);
-	// Add collision box
-	/*
-	BoxComponent* bc = new BoxComponent(this);
-	bc->SetObjectBox(mesh->GetBox());
-	*/
+	mMeshComp = new MeshRenderer(this);
+	mMeshComp->SetMeshs(game->GetWinMain()->GetRenderer()->GetMeshs("Target.fbx"));
+
+	// “–‚½‚è”»’è‹@”\’Ç‰Á
+	for (unsigned int i = 0; i < mMeshComp->GetMeshs().size(); i++) 
+	{
+		for (unsigned int j = 0; j < mMeshComp->GetMeshs()[i]->GetBoxs().size(); j++)
+		{
+			BoxComponent* box = new BoxComponent(this);
+			box->SetObjectBox(mMeshComp->GetMeshs()[i]->GetBoxs()[j]);
+			mBoxs.push_back(box);
+		}
+	}
 	new TargetComponent(this);
 
 }

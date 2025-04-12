@@ -123,9 +123,6 @@
     <ClCompile Include="BallMove.cpp">
       <Filter>SourceFiles\Components</Filter>
     </ClCompile>
-    <ClCompile Include="CameraComponent.cpp">
-      <Filter>SourceFiles\Cameras</Filter>
-    </ClCompile>
     <ClCompile Include="FollowCamera.cpp">
       <Filter>SourceFiles\Cameras</Filter>
     </ClCompile>
@@ -140,9 +137,6 @@
     </ClCompile>
     <ClCompile Include="Animation.cpp">
       <Filter>SourceFiles\Animations</Filter>
-    </ClCompile>
-    <ClCompile Include="Collision.cpp">
-      <Filter>SourceFiles\Renderers\Utilitys</Filter>
     </ClCompile>
     <ClCompile Include="BoneTransform.cpp">
       <Filter>SourceFiles\Renderers\Utilitys</Filter>
@@ -222,9 +216,6 @@
     <ClCompile Include="DiceActor.cpp">
       <Filter>SourceFiles\GameObjects\3Ds</Filter>
     </ClCompile>
-    <ClCompile Include="FollowActor.cpp">
-      <Filter>SourceFiles\GameObjects\3Ds</Filter>
-    </ClCompile>
     <ClCompile Include="FPSActor.cpp">
       <Filter>SourceFiles\GameObjects\3Ds</Filter>
     </ClCompile>
@@ -267,11 +258,17 @@
     <ClCompile Include="Ship.cpp">
       <Filter>SourceFiles\GameObjects\2Ds</Filter>
     </ClCompile>
-    <ClCompile Include="Text.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="ConvertNumToString.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Collision.cpp">
+      <Filter>SourceFiles\Collisions</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraComponent.cpp">
+      <Filter>SourceFiles\Cameras\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Text.cpp">
+      <Filter>SourceFiles\Renderers\UIs</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -446,9 +443,6 @@
     <ClInclude Include="DiceActor.h">
       <Filter>SourceFiles\GameObjects\3Ds</Filter>
     </ClInclude>
-    <ClInclude Include="FollowActor.h">
-      <Filter>SourceFiles\GameObjects\3Ds</Filter>
-    </ClInclude>
     <ClInclude Include="FPSActor.h">
       <Filter>SourceFiles\GameObjects\3Ds</Filter>
     </ClInclude>
@@ -491,11 +485,11 @@
     <ClInclude Include="Ship.h">
       <Filter>SourceFiles\GameObjects\2Ds</Filter>
     </ClInclude>
-    <ClInclude Include="Text.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="ConvertNumToString.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Text.h">
+      <Filter>SourceFiles\Renderers\UIs</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

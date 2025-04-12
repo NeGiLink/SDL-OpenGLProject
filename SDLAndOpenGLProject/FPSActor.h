@@ -2,12 +2,15 @@
 #include "Actor.h"
 #include "SoundEvent.h"
 
+//一人称視点のプレイヤー操作クラス
+//現在ゲーム内の移動に使用しています。
 class FPSActor : public ActorObject
 {
 public:
 	FPSActor(class BaseScene* game);
 
 	void UpdateActor(float deltaTime) override;
+	
 	void ActorInput(const bool* keys) override;
 
 	void Shoot();
@@ -18,13 +21,19 @@ public:
 
 	void FixCollisions();
 private:
-	class MoveComponent* mMoveComp;
-	class AudioComponent* mAudioComp;
-	class MeshRenderer* mMeshComp;
-	class FPSCamera* mCameraComp;
-	class BoxComponent* mBoxComp;
-	SoundEvent mFootstep;
-	float mLastFootstep;
+	class MoveComponent*	mMoveComp;
+	
+	class AudioComponent*	mAudioComp;
+	
+	class MeshRenderer*		mMeshComp;
+	
+	class FPSCamera*		mCameraComp;
+	
+	class BoxComponent*		mBoxComp;
+	
+	SoundEvent				mFootstep;
+	
+	float					mLastFootstep;
 
-	class Sword* mSword;
+	class Sword*			mSword;
 };

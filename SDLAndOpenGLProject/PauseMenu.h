@@ -1,6 +1,7 @@
 #pragma once
 #include "UIScreen.h"
 
+//ポーズUIのクラス
 class PauseMenu : public UIScreen
 {
 public:
