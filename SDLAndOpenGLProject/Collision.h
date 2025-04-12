@@ -81,14 +81,14 @@ struct ConvexPolygon
 };
 
 // åç∑ì_ã@î\
-bool Intersect(const Sphere& a, const Sphere& b);
-bool Intersect(const AABB& a, const AABB& b);
-bool Intersect(const Capsule& a, const Capsule& b);
-bool Intersect(const Sphere& s, const AABB& box);
+bool OnCollision(const Sphere& a, const Sphere& b);
+bool OnCollision(const AABB& a, const AABB& b);
+bool OnCollision(const Capsule& a, const Capsule& b);
+bool OnCollision(const Sphere& s, const AABB& box);
 
-bool Intersect(const LineSegment& l, const Sphere& s, float& outT);
-bool Intersect(const LineSegment& l, const Plane& p, float& outT);
-bool Intersect(const LineSegment& l, const AABB& b, float& outT,
+bool OnCollision(const LineSegment& l, const Sphere& s, float& outT);
+bool OnCollision(const LineSegment& l, const Plane& p, float& outT);
+bool OnCollision(const LineSegment& l, const AABB& b, float& outT,
 	Vector3& outNorm);
 
 bool SweptSphere(const Sphere& P0, const Sphere& P1,

@@ -19,9 +19,12 @@ protected:
 	void UpdateRadar(float deltaTime);
 
 	class Image*							mRadar;
+
 	class Image*							mCrosshair;
 	class Image*							mCrosshairEnemy;
+	
 	class Image*							mBlipTex;
+	
 	class Image*							mRadarArrow;
 
 	// ゲーム内のすべてのターゲットコンポーネント
@@ -33,5 +36,7 @@ protected:
 	float									mRadarRadius;
 	// クロスヘアが敵を狙っているかどうか
 	bool									mTargetEnemy;
+	
+	float									mCrosshairAngle;
 };
 

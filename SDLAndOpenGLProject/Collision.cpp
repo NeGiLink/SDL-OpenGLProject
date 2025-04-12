@@ -264,15 +264,15 @@ bool ConvexPolygon::Contains(const Vector2& point) const
 	// Return true if approximately 2pi
 	return Math::NearZero(sum - Math::TwoPi);
 }
-
-bool Intersect(const Sphere& a, const Sphere& b)
+//球同士の当たり判定
+bool OnCollision(const Sphere& a, const Sphere& b)
 {
 	float distSq = (a.mCenter - b.mCenter).LengthSq();
 	float sumRadii = a.mRadius + b.mRadius;
 	return distSq <= (sumRadii * sumRadii);
 }
-
-bool Intersect(const AABB& a, const AABB& b)
+//ボックス同士の当たり判定
+bool OnCollision(const AABB& a, const AABB& b)
 {
 	bool no = a.mMax.x < b.mMin.x ||
 		a.mMax.y < b.mMin.y ||
@@ -283,22 +283,22 @@ bool Intersect(const AABB& a, const AABB& b)
 	// If none of these are true, they must intersect
 	return !no;
 }
-
-bool Intersect(const Capsule& a, const Capsule& b)
+//カプセル同士の当たり判定
+bool OnCollision(const Capsule& a, const Capsule& b)
 {
 	float distSq = LineSegment::MinDistSq(a.mSegment,
 		b.mSegment);
 	float sumRadii = a.mRadius + b.mRadius;
 	return distSq <= (sumRadii * sumRadii);
 }
-
-bool Intersect(const Sphere& s, const AABB& box)
+//球とボックスの当たり判定
+bool OnCollision(const Sphere& s, const AABB& box)
 {
 	float distSq = box.MinDistSq(s.mCenter);
 	return distSq <= (s.mRadius * s.mRadius);
 }
-
-bool Intersect(const LineSegment& l, const Sphere& s, float& outT)
+//線と球の当たり判定
+bool OnCollision(const LineSegment& l, const Sphere& s, float& outT)
 {
 	// Compute X, Y, a, b, c as per equations
 	Vector3 X = l.mStart - s.mCenter;
@@ -335,8 +335,8 @@ bool Intersect(const LineSegment& l, const Sphere& s, float& outT)
 		}
 	}
 }
-
-bool Intersect(const LineSegment& l, const Plane& p, float& outT)
+//線と平面の当たり判定
+bool OnCollision(const LineSegment& l, const Plane& p, float& outT)
 {
 	// First test if there's a solution for t
 	float denom = Vector3::Dot(l.mEnd - l.mStart,
@@ -396,8 +396,8 @@ bool TestSidePlane(float start, float end, float negd, const Vector3& norm,
 		}
 	}
 }
-
-bool Intersect(const LineSegment& l, const AABB& b, float& outT,
+//線とボックスの当たり判定
+bool OnCollision(const LineSegment& l, const AABB& b, float& outT,
 	Vector3& outNorm)
 {
 	// Vector to save all possible t values, and normals for those sides

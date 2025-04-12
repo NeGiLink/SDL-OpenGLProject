@@ -40,9 +40,6 @@
     <Filter Include="SourceFiles\Cameras\Base">
       <UniqueIdentifier>{458257fe-9f4f-4cc1-9a97-0ec9e1d4404c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="SourceFiles\Renderers\Utilitys">
-      <UniqueIdentifier>{d595bc1c-3b9f-4f68-968d-793bcd77046b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="SourceFiles\Scenes">
       <UniqueIdentifier>{d75df269-da34-4515-a3cf-1c3e3b66d3e3}</UniqueIdentifier>
     </Filter>
@@ -69,6 +66,9 @@
     </Filter>
     <Filter Include="SourceFiles\GameObjects\2Ds">
       <UniqueIdentifier>{49e7b533-4608-46e4-a543-95524043d5a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceFiles\Utilitys">
+      <UniqueIdentifier>{d595bc1c-3b9f-4f68-968d-793bcd77046b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -139,22 +139,22 @@
       <Filter>SourceFiles\Animations</Filter>
     </ClCompile>
     <ClCompile Include="BoneTransform.cpp">
-      <Filter>SourceFiles\Renderers\Utilitys</Filter>
+      <Filter>SourceFiles\Utilitys</Filter>
     </ClCompile>
     <ClCompile Include="Math.cpp">
-      <Filter>SourceFiles\Renderers\Utilitys</Filter>
+      <Filter>SourceFiles\Utilitys</Filter>
     </ClCompile>
     <ClCompile Include="PhysWorld.cpp">
-      <Filter>SourceFiles\Renderers\Utilitys</Filter>
+      <Filter>SourceFiles\Utilitys</Filter>
     </ClCompile>
     <ClCompile Include="Random.cpp">
-      <Filter>SourceFiles\Renderers\Utilitys</Filter>
+      <Filter>SourceFiles\Utilitys</Filter>
     </ClCompile>
     <ClCompile Include="Skeleton.cpp">
-      <Filter>SourceFiles\Renderers\Utilitys</Filter>
+      <Filter>SourceFiles\Utilitys</Filter>
     </ClCompile>
     <ClCompile Include="VertexArray.cpp">
-      <Filter>SourceFiles\Renderers\Utilitys</Filter>
+      <Filter>SourceFiles\Utilitys</Filter>
     </ClCompile>
     <ClCompile Include="GBuffer.cpp">
       <Filter>SourceFiles\Renderers</Filter>
@@ -178,7 +178,7 @@
       <Filter>SourceFiles\Animations</Filter>
     </ClCompile>
     <ClCompile Include="Time.cpp">
-      <Filter>SourceFiles\Renderers\Utilitys</Filter>
+      <Filter>SourceFiles\Utilitys</Filter>
     </ClCompile>
     <ClCompile Include="GameScene.cpp">
       <Filter>SourceFiles\Scenes</Filter>
@@ -258,9 +258,6 @@
     <ClCompile Include="Ship.cpp">
       <Filter>SourceFiles\GameObjects\2Ds</Filter>
     </ClCompile>
-    <ClCompile Include="ConvertNumToString.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Collision.cpp">
       <Filter>SourceFiles\Collisions</Filter>
     </ClCompile>
@@ -269,6 +266,12 @@
     </ClCompile>
     <ClCompile Include="Text.cpp">
       <Filter>SourceFiles\Renderers\UIs</Filter>
+    </ClCompile>
+    <ClCompile Include="ConvertNumToString.cpp">
+      <Filter>SourceFiles\Utilitys</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionActor.cpp">
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -324,22 +327,22 @@
       <Filter>SourceFiles\Renderers</Filter>
     </ClInclude>
     <ClInclude Include="Math.h">
-      <Filter>SourceFiles\Renderers\Utilitys</Filter>
+      <Filter>SourceFiles\Utilitys</Filter>
     </ClInclude>
     <ClInclude Include="MatrixPalette.h">
-      <Filter>SourceFiles\Renderers\Utilitys</Filter>
+      <Filter>SourceFiles\Utilitys</Filter>
     </ClInclude>
     <ClInclude Include="PhysWorld.h">
-      <Filter>SourceFiles\Renderers\Utilitys</Filter>
+      <Filter>SourceFiles\Utilitys</Filter>
     </ClInclude>
     <ClInclude Include="VertexArray.h">
-      <Filter>SourceFiles\Renderers\Utilitys</Filter>
+      <Filter>SourceFiles\Utilitys</Filter>
     </ClInclude>
     <ClInclude Include="Shader.h">
       <Filter>SourceFiles\Renderers</Filter>
     </ClInclude>
     <ClInclude Include="Random.h">
-      <Filter>SourceFiles\Renderers\Utilitys</Filter>
+      <Filter>SourceFiles\Utilitys</Filter>
     </ClInclude>
     <ClInclude Include="CameraComponent.h">
       <Filter>SourceFiles\Cameras\Base</Filter>
@@ -366,7 +369,7 @@
       <Filter>SourceFiles\Collisions</Filter>
     </ClInclude>
     <ClInclude Include="BoneTransform.h">
-      <Filter>SourceFiles\Renderers\Utilitys</Filter>
+      <Filter>SourceFiles\Utilitys</Filter>
     </ClInclude>
     <ClInclude Include="GBuffer.h">
       <Filter>SourceFiles\Renderers</Filter>
@@ -375,7 +378,7 @@
       <Filter>SourceFiles\Renderers</Filter>
     </ClInclude>
     <ClInclude Include="Skeleton.h">
-      <Filter>SourceFiles\Renderers\Utilitys</Filter>
+      <Filter>SourceFiles\Utilitys</Filter>
     </ClInclude>
     <ClInclude Include="WinMain.h">
       <Filter>SourceFiles</Filter>
@@ -402,7 +405,7 @@
       <Filter>SourceFiles\Libs</Filter>
     </ClInclude>
     <ClInclude Include="Time.h">
-      <Filter>SourceFiles\Renderers\Utilitys</Filter>
+      <Filter>SourceFiles\Utilitys</Filter>
     </ClInclude>
     <ClInclude Include="GameScene.h">
       <Filter>SourceFiles\Scenes</Filter>
@@ -485,11 +488,14 @@
     <ClInclude Include="Ship.h">
       <Filter>SourceFiles\GameObjects\2Ds</Filter>
     </ClInclude>
-    <ClInclude Include="ConvertNumToString.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Text.h">
       <Filter>SourceFiles\Renderers\UIs</Filter>
+    </ClInclude>
+    <ClInclude Include="ConvertNumToString.h">
+      <Filter>SourceFiles\Utilitys</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionActor.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

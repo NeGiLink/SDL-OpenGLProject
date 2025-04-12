@@ -72,6 +72,18 @@ void ActorObject::ActorInput(const bool* keyState)
 {
 }
 
+void ActorObject::OnCollisionEnter()
+{
+}
+
+void ActorObject::OnCollisionStay()
+{
+}
+
+void ActorObject::OnCollisionExit()
+{
+}
+
 void ActorObject::ComputeWorldTransform()
 {
 	if (mRecomputeWorldTransform)

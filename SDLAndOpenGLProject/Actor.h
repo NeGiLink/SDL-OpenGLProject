@@ -3,9 +3,11 @@
 #include <vector>
 #include "Math.h"
 #include <cstdint>
+#include "CollisionActor.h"
+
 //全3Dモデルの基底クラス
 //UnityのTransformに近い情報を持っている
-class ActorObject
+class ActorObject : public CollisionActor
 {
 public:
 	enum State
@@ -29,6 +31,10 @@ public:
 	void ProcessInput(const bool* keyState);
 	// 任意のActor特有の入力コード（上書き可能）
 	virtual void ActorInput(const bool* keyState);
+
+	void OnCollisionEnter()override;
+	void OnCollisionStay()override;
+	void OnCollisionExit()override;
 
 	// Getters/setters
 	const Vector3& GetPosition() const { return mPosition; }
