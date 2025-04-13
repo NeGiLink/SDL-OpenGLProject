@@ -20,6 +20,10 @@ public:
 	void SetVisible(bool visible);
 
 	void FixCollisions();
+
+	void OnCollisionEnter(class ActorObject* target) override;
+	void OnCollisionStay(class ActorObject* target) override;
+	void OnCollisionExit(class ActorObject* target) override;
 private:
 	class MoveComponent*	mMoveComp;
 	
@@ -29,7 +33,7 @@ private:
 	
 	class FPSCamera*		mCameraComp;
 	
-	class BoxComponent*		mBoxComp;
+	class BoxCollider*		mBoxComp;
 	
 	SoundEvent				mFootstep;
 	

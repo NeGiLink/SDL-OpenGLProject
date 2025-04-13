@@ -9,7 +9,7 @@
 #include "FPSCamera.h"
 #include "MeshRenderer.h"
 #include "BallActor.h"
-#include "BoxComponent.h"
+#include "BoxCollider.h"
 #include "PlaneActor.h"
 #include "Sword.h"
 
@@ -25,7 +25,7 @@ FPSActor::FPSActor(BaseScene* game)
 	mCameraComp = new FPSCamera(this);
 
 	// ボックスの当たり判定の機能を追加
-	mBoxComp = new BoxComponent(this);
+	mBoxComp = new BoxCollider(this);
 	AABB myBox(Vector3(-25.0f, -87.5f, -25.0f),
 		Vector3(25.0f, 87.5f, 25.0f));
 	mBoxComp->SetObjectBox(myBox);
@@ -59,6 +59,7 @@ void FPSActor::ActorInput(const bool* keys)
 {
 	float forwardSpeed = 0.0f;
 	float strafeSpeed = 0.0f;
+	float upSpeed = 0.0f;
 	// wasd movement
 	if (keys[SDL_SCANCODE_W])
 	{
@@ -76,9 +77,18 @@ void FPSActor::ActorInput(const bool* keys)
 	{
 		strafeSpeed += 400.0f;
 	}
+	if(keys[SDL_SCANCODE_0])
+	{
+		upSpeed -= 400.0f;
+	}
+	if (keys[SDL_SCANCODE_9])
+	{
+		upSpeed += 400.0f;
+	}
 
 	mMoveComp->SetForwardSpeed(forwardSpeed);
 	mMoveComp->SetStrafeSpeed(strafeSpeed);
+	mMoveComp->SetYSpeed(upSpeed);
 
 	//SDLでマウスの移動数値を取得
 	float x, y;
@@ -164,7 +174,8 @@ void FPSActor::FixCollisions()
 	auto& planes = GetGame()->GetPlanes();
 	for (auto pa : planes)
 	{
-		for (unsigned int i = 0; i < pa->GetBoxs().size(); i++) {
+		for (unsigned int i = 0; i < pa->GetBoxs().size(); i++) 
+		{
 			//PlaneActorと衝突検知
 			const AABB& planeBox = pa->GetBoxs()[i]->GetWorldBox();
 			if (OnCollision(playerBox, planeBox))
@@ -208,4 +219,19 @@ void FPSActor::FixCollisions()
 
 		}
 	}
+}
+
+void FPSActor::OnCollisionEnter(ActorObject* target)
+{
+	SDL_Log("FPSPlayer to Hit Enter!");
+}
+
+void FPSActor::OnCollisionStay(ActorObject* target)
+{
+	SDL_Log("FPSPlayer to Hit Stay!");
+}
+
+void FPSActor::OnCollisionExit(ActorObject* target)
+{
+	SDL_Log("FPSPlayer to Hit Exit!");
 }

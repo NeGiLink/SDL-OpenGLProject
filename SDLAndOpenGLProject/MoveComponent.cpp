@@ -24,11 +24,12 @@ void MoveComponent::Update(float deltaTime)
 		mOwner->SetRotation(rot);
 	}
 
-	if (!Math::NearZero(mForwardSpeed) || !Math::NearZero(mStrafeSpeed))
+	if (!Math::NearZero(mForwardSpeed) || !Math::NearZero(mStrafeSpeed) || !Math::NearZero(mYSpeed))
 	{
 		Vector3 pos = mOwner->GetPosition();
 		pos += mOwner->GetForward() * mForwardSpeed * deltaTime;
 		pos += mOwner->GetRight() * mStrafeSpeed * deltaTime;
+		pos += mOwner->GetUp() * mYSpeed * deltaTime;
 		mOwner->SetPosition(pos);
 	}
 

@@ -3,7 +3,7 @@
 #include "BaseScene.h"
 #include "Renderer.h"
 #include "MeshRenderer.h"
-#include "BoxComponent.h"
+#include "BoxCollider.h"
 #include "Mesh.h"
 
 Sword::Sword(BaseScene* game)

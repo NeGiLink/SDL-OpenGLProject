@@ -7,7 +7,7 @@
 
 //全3Dモデルの基底クラス
 //UnityのTransformに近い情報を持っている
-class ActorObject : public CollisionActor
+class ActorObject
 {
 public:
 	enum State
@@ -31,10 +31,6 @@ public:
 	void ProcessInput(const bool* keyState);
 	// 任意のActor特有の入力コード（上書き可能）
 	virtual void ActorInput(const bool* keyState);
-
-	void OnCollisionEnter()override;
-	void OnCollisionStay()override;
-	void OnCollisionExit()override;
 
 	// Getters/setters
 	const Vector3& GetPosition() const { return mPosition; }
@@ -71,6 +67,8 @@ public:
 	
 	Vector3 GetRight() const { return Vector3::Transform(Vector3::UnitX, mRotation); }
 
+	Vector3 GetUp() const { return Vector3::Transform(Vector3::UnitY, mRotation); }
+
 	void RotateToNewForward(const Vector3& forward);
 
 	// Getters/setters
@@ -95,6 +93,14 @@ public:
 	void SetActive() { mRecomputeWorldTransform = true; }
 	
 	void SetParentActor(class ActorObject* parent) { mParentActor = parent; }
+
+
+	//当たった時に呼び出される関数
+	virtual void OnCollisionEnter(class ActorObject* target){}
+	//当たっている時に呼び出される関数
+	virtual void OnCollisionStay(class ActorObject* target){}
+	//当たり終わった時に呼び出される関数
+	virtual void OnCollisionExit(class ActorObject* target){}
 private:
 	// Transform
 	Matrix4		mWorldTransform;

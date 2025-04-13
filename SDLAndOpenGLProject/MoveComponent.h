@@ -14,8 +14,10 @@ public:
 	void SetAngularSpeed(float speed) { mAngularSpeed = speed; }
 	void SetForwardSpeed(float speed) { mForwardSpeed = speed; }
 	void SetStrafeSpeed(float speed) { mStrafeSpeed = speed; }
+	void SetYSpeed(float speed) { mYSpeed = speed; }
 private:
 	float mAngularSpeed;
 	float mForwardSpeed;
 	float mStrafeSpeed;
+	float mYSpeed;
 };
