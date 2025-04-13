@@ -48,6 +48,7 @@ void ActorObject::UpdateComponents(float deltaTime)
 
 void ActorObject::UpdateActor(float deltaTime)
 {
+
 	for (auto child : mChildActor) 
 	{
 		child->SetActive();
@@ -69,18 +70,6 @@ void ActorObject::ProcessInput(const bool* keyState)
 }
 
 void ActorObject::ActorInput(const bool* keyState)
-{
-}
-
-void ActorObject::OnCollisionEnter()
-{
-}
-
-void ActorObject::OnCollisionStay()
-{
-}
-
-void ActorObject::OnCollisionExit()
 {
 }
 

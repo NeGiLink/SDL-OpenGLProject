@@ -93,9 +93,6 @@
     <ClCompile Include="BGSpriteComponent.cpp">
       <Filter>SourceFiles\Components</Filter>
     </ClCompile>
-    <ClCompile Include="BoxComponent.cpp">
-      <Filter>SourceFiles\Components</Filter>
-    </ClCompile>
     <ClCompile Include="CircleComponent.cpp">
       <Filter>SourceFiles\Components</Filter>
     </ClCompile>
@@ -142,9 +139,6 @@
       <Filter>SourceFiles\Utilitys</Filter>
     </ClCompile>
     <ClCompile Include="Math.cpp">
-      <Filter>SourceFiles\Utilitys</Filter>
-    </ClCompile>
-    <ClCompile Include="PhysWorld.cpp">
       <Filter>SourceFiles\Utilitys</Filter>
     </ClCompile>
     <ClCompile Include="Random.cpp">
@@ -270,7 +264,16 @@
     <ClCompile Include="ConvertNumToString.cpp">
       <Filter>SourceFiles\Utilitys</Filter>
     </ClCompile>
+    <ClCompile Include="PhysWorld.cpp">
+      <Filter>SourceFiles\Collisions</Filter>
+    </ClCompile>
     <ClCompile Include="CollisionActor.cpp">
+      <Filter>SourceFiles\GameObjects\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="BoxCollider.cpp">
+      <Filter>SourceFiles\Collisions</Filter>
+    </ClCompile>
+    <ClCompile Include="Collider.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -285,9 +288,6 @@
       <Filter>SourceFiles\Components</Filter>
     </ClInclude>
     <ClInclude Include="BGSpriteComponent.h">
-      <Filter>SourceFiles\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="BoxComponent.h">
       <Filter>SourceFiles\Components</Filter>
     </ClInclude>
     <ClInclude Include="CircleComponent.h">
@@ -330,9 +330,6 @@
       <Filter>SourceFiles\Utilitys</Filter>
     </ClInclude>
     <ClInclude Include="MatrixPalette.h">
-      <Filter>SourceFiles\Utilitys</Filter>
-    </ClInclude>
-    <ClInclude Include="PhysWorld.h">
       <Filter>SourceFiles\Utilitys</Filter>
     </ClInclude>
     <ClInclude Include="VertexArray.h">
@@ -494,7 +491,16 @@
     <ClInclude Include="ConvertNumToString.h">
       <Filter>SourceFiles\Utilitys</Filter>
     </ClInclude>
+    <ClInclude Include="PhysWorld.h">
+      <Filter>SourceFiles\Collisions</Filter>
+    </ClInclude>
     <ClInclude Include="CollisionActor.h">
+      <Filter>SourceFiles\GameObjects\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="BoxCollider.h">
+      <Filter>SourceFiles\Collisions</Filter>
+    </ClInclude>
+    <ClInclude Include="Collider.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

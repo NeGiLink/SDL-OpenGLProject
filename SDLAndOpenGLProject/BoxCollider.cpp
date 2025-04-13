@@ -1,10 +1,10 @@
-#include "BoxComponent.h"
+#include "BoxCollider.h"
 #include "Actor.h"
 #include "BaseScene.h"
 #include "PhysWorld.h"
 
-BoxComponent::BoxComponent(ActorObject* owner, int updateOrder)
-	:Component(owner, updateOrder)
+BoxCollider::BoxCollider(ActorObject* owner, int updateOrder)
+	:Collider(owner, updateOrder)
 	, mObjectBox(Vector3::Zero, Vector3::Zero)
 	, mWorldBox(Vector3::Zero, Vector3::Zero)
 	, mShouldRotate(true)
@@ -12,12 +12,12 @@ BoxComponent::BoxComponent(ActorObject* owner, int updateOrder)
 	mOwner->GetGame()->GetPhysWorld()->AddBox(this);
 }
 
-BoxComponent::~BoxComponent()
+BoxCollider::~BoxCollider()
 {
 	mOwner->GetGame()->GetPhysWorld()->RemoveBox(this);
 }
 
-void BoxComponent::OnUpdateWorldTransform()
+void BoxCollider::OnUpdateWorldTransform()
 {
 	// オブジェクトボックスにリセットする
 	mWorldBox = mObjectBox;

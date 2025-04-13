@@ -1,6 +1,5 @@
 #pragma once
-#include <vector>
-#include <functional>
+#include "STD.h"
 #include "Math.h"
 #include "Collision.h"
 
@@ -17,7 +16,7 @@ public:
 		// 衝突時の座標
 		Vector3				mNormal;
 		// ボックス衝突クラス
-		class BoxComponent* mBox;
+		class BoxCollider* mBox;
 		// コンポーネントの所有Actor
 		class ActorObject*	mActor;
 	};
@@ -30,12 +29,38 @@ public:
 	void TestPairwise(std::function<void(class ActorObject*, class ActorObject*)> f);
 
 	//sweepprune使用した衝突判定
-	void TestSweepAndPrune(std::function<void(class ActorObject*, class ActorObject*)> f);
+	//void TestSweepAndPrune(std::function<void(class ActorObject*, class ActorObject*)> f);
+
+	void SortColliderXAxis();
+	void SortColliderYAxis();
+	void SortColliderZAxis();
+
+	//XYZのSweeppruneを使用した衝突判定
+	void SweepAndPruneXYZ();
 
 	// 世界からボックスコンポーネントを追加/削除する
-	void AddBox(class BoxComponent* box);
-	void RemoveBox(class BoxComponent* box);
+	void AddBox(class BoxCollider* box);
+	void RemoveBox(class BoxCollider* box);
 private:
 	class BaseScene* mGame;
-	std::vector<class BoxComponent*> mBoxes;
+	//元のBox
+	std::vector<class BoxCollider*> mBoxes;
+	
+	std::vector<class BoxCollider*> mBoxesXAxis;
+
+	std::vector<class BoxCollider*> mBoxesYAxis;
+	
+	std::vector<class BoxCollider*> mBoxesZAxis;
+
+	std::set<std::pair<BoxCollider*, BoxCollider*>> mHitBoxesXAxis;
+
+	std::set<std::pair<BoxCollider*, BoxCollider*>> mHitBoxesYAxis;
+
+	std::set<std::pair<BoxCollider*, BoxCollider*>> mHitBoxesZAxis;
+
+	std::set<std::pair<ActorObject*, ActorObject*>> mPrevHitPairs;
+
+	std::set<std::pair<ActorObject*, ActorObject*>> mCurrentHitPairs;
+
+	//std::vector<class Collider*> mCollider;
 };

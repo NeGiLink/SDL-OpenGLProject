@@ -6,7 +6,7 @@ class TargetActor : public ActorObject
 public:
 	TargetActor(class BaseScene* game);
 private:
-	std::vector<class BoxComponent*>	mBoxs;
+	std::vector<class BoxCollider*>	mBoxs;
 
 	class MeshRenderer*					mMeshComp;
 };

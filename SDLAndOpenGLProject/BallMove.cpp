@@ -20,7 +20,7 @@ void BallMove::Update(float deltaTime)
 
 	// 線分を作成する
 	LineSegment l(start, end);
-
+	//TODO : 線分とボックス当たり判定
 	// テストセグメント対世界
 	PhysWorld* phys = mOwner->GetGame()->GetPhysWorld();
 	PhysWorld::CollisionInfo info;

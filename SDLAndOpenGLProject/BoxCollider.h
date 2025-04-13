@@ -1,12 +1,13 @@
 #pragma once
-#include "Component.h"
 #include "Collision.h"
+#include "Collider.h"
 
-class BoxComponent : public Component
+//ボックスのColliderを追加するコンポーネント
+class BoxCollider : public Collider
 {
 public:
-	BoxComponent(class ActorObject* owner, int updateOrder = 100);
-	~BoxComponent();
+	BoxCollider(class ActorObject* owner, int updateOrder = 100);
+	~BoxCollider();
 
 	void OnUpdateWorldTransform() override;
 
@@ -14,6 +15,8 @@ public:
 	const AABB& GetWorldBox() const { return mWorldBox; }
 
 	void SetShouldRotate(bool value) { mShouldRotate = value; }
+
+	ColliderType GetType() override { return ColliderType::Box; }
 private:
 	AABB mObjectBox;
 	AABB mWorldBox;

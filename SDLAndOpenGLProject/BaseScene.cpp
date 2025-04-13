@@ -269,8 +269,8 @@ void BaseScene::UpdateGame()
 			delete actor;
 		}
 	}
-	
 
+	mPhysWorld->SweepAndPruneXYZ();
 
 	// Update audio system
 	mAudioSystem->Update(Time::deltaTime);

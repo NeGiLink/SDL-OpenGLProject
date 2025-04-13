@@ -5,7 +5,7 @@
 #include "WinMain.h"
 #include "BaseScene.h"
 #include "Renderer.h"
-#include "BoxComponent.h"
+#include "BoxCollider.h"
 #include "Sword.h"
 
 TestCharacter::TestCharacter(BaseScene* game)

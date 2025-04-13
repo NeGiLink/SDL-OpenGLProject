@@ -3,7 +3,7 @@
 #include "BaseScene.h"
 #include "Renderer.h"
 #include "MeshRenderer.h"
-#include "BoxComponent.h"
+#include "BoxCollider.h"
 #include "Mesh.h"
 #include "TargetComponent.h"
 
@@ -20,7 +20,7 @@ TargetActor::TargetActor(BaseScene* game)
 	{
 		for (unsigned int j = 0; j < mMeshComp->GetMeshs()[i]->GetBoxs().size(); j++)
 		{
-			BoxComponent* box = new BoxComponent(this);
+			BoxCollider* box = new BoxCollider(this);
 			box->SetObjectBox(mMeshComp->GetMeshs()[i]->GetBoxs()[j]);
 			mBoxs.push_back(box);
 		}
