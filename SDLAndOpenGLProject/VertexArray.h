@@ -12,6 +12,8 @@ public:
 
 	VertexArray(const void* verts, unsigned int numVerts, Layout layout,
 		const unsigned int* indices, unsigned int numIndices);
+
+	VertexArray(const float* verts, unsigned int numVerts);
 	~VertexArray();
 
 	void SetActive();

@@ -16,7 +16,7 @@ OrbitActor::OrbitActor(BaseScene* game)
 	mCameraComp = new OrbitCamera(this);
 }
 
-void OrbitActor::ActorInput(const bool* keys)
+void OrbitActor::ActorInput(const struct InputState& keys)
 {
 	//マウス回転SDLからの相対的な動きを取得
 	float x, y;

@@ -93,9 +93,6 @@
     <ClCompile Include="BGSpriteComponent.cpp">
       <Filter>SourceFiles\Components</Filter>
     </ClCompile>
-    <ClCompile Include="CircleComponent.cpp">
-      <Filter>SourceFiles\Components</Filter>
-    </ClCompile>
     <ClCompile Include="InputComponent.cpp">
       <Filter>SourceFiles\Components</Filter>
     </ClCompile>
@@ -273,8 +270,29 @@
     <ClCompile Include="BoxCollider.cpp">
       <Filter>SourceFiles\Collisions</Filter>
     </ClCompile>
-    <ClCompile Include="Collider.cpp">
+    <ClCompile Include="LineRenderer.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="CircleComponent.cpp">
+      <Filter>SourceFiles\Collisions</Filter>
+    </ClCompile>
+    <ClCompile Include="SphereCollider.cpp">
+      <Filter>SourceFiles\Collisions</Filter>
+    </ClCompile>
+    <ClCompile Include="Collider.cpp">
+      <Filter>SourceFiles\Collisions</Filter>
+    </ClCompile>
+    <ClCompile Include="CapsuleCollider.cpp">
+      <Filter>SourceFiles\Collisions</Filter>
+    </ClCompile>
+    <ClCompile Include="InputSystem.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="SphereActor.cpp">
+      <Filter>SourceFiles\Collisions</Filter>
+    </ClCompile>
+    <ClCompile Include="CapsuleActor.cpp">
+      <Filter>SourceFiles\Collisions</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -288,9 +306,6 @@
       <Filter>SourceFiles\Components</Filter>
     </ClInclude>
     <ClInclude Include="BGSpriteComponent.h">
-      <Filter>SourceFiles\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="CircleComponent.h">
       <Filter>SourceFiles\Components</Filter>
     </ClInclude>
     <ClInclude Include="AnimSpriteComponent.h">
@@ -500,8 +515,29 @@
     <ClInclude Include="BoxCollider.h">
       <Filter>SourceFiles\Collisions</Filter>
     </ClInclude>
-    <ClInclude Include="Collider.h">
+    <ClInclude Include="LineRenderer.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="CircleComponent.h">
+      <Filter>SourceFiles\Collisions</Filter>
+    </ClInclude>
+    <ClInclude Include="SphereCollider.h">
+      <Filter>SourceFiles\Collisions</Filter>
+    </ClInclude>
+    <ClInclude Include="Collider.h">
+      <Filter>SourceFiles\Collisions</Filter>
+    </ClInclude>
+    <ClInclude Include="CapsuleCollider.h">
+      <Filter>SourceFiles\Collisions</Filter>
+    </ClInclude>
+    <ClInclude Include="InputSystem.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="SphereActor.h">
+      <Filter>SourceFiles\Collisions</Filter>
+    </ClInclude>
+    <ClInclude Include="CapsuleActor.h">
+      <Filter>SourceFiles\Collisions</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -531,6 +567,12 @@
       <Filter>Shaders</Filter>
     </None>
     <None Include="Shaders\Sprite.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\LineSprite.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\LineSprite.frag">
       <Filter>Shaders</Filter>
     </None>
   </ItemGroup>

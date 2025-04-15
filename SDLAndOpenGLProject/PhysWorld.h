@@ -15,8 +15,8 @@ public:
 		Vector3				mPoint;
 		// 衝突時の座標
 		Vector3				mNormal;
-		// ボックス衝突クラス
-		class BoxCollider* mBox;
+		// 衝突クラス
+		class Collider*		mCollider;
 		// コンポーネントの所有Actor
 		class ActorObject*	mActor;
 	};
@@ -31,36 +31,37 @@ public:
 	//sweepprune使用した衝突判定
 	//void TestSweepAndPrune(std::function<void(class ActorObject*, class ActorObject*)> f);
 
-	void SortColliderXAxis();
-	void SortColliderYAxis();
-	void SortColliderZAxis();
+	void DecideColliderXAxis();
+	void DecideColliderYAxis();
+	void DecideColliderZAxis();
+	//基底Colliderで二つのColliderを比較する関数
+	bool OnAllCollision(class Collider* a,class Collider* b);
 
 	//XYZのSweeppruneを使用した衝突判定
 	void SweepAndPruneXYZ();
 
 	// 世界からボックスコンポーネントを追加/削除する
-	void AddBox(class BoxCollider* box);
-	void RemoveBox(class BoxCollider* box);
+	void AddCollider(class Collider* box);
+	void RemoveCollider(class Collider* box);
 private:
 	class BaseScene* mGame;
-	//元のBox
-	std::vector<class BoxCollider*> mBoxes;
-	
-	std::vector<class BoxCollider*> mBoxesXAxis;
 
-	std::vector<class BoxCollider*> mBoxesYAxis;
-	
-	std::vector<class BoxCollider*> mBoxesZAxis;
+	std::vector<class Collider*> mCollider;
 
-	std::set<std::pair<BoxCollider*, BoxCollider*>> mHitBoxesXAxis;
+	std::vector<class Collider*> mColliderXAxis;
 
-	std::set<std::pair<BoxCollider*, BoxCollider*>> mHitBoxesYAxis;
+	std::vector<class Collider*> mColliderYAxis;
 
-	std::set<std::pair<BoxCollider*, BoxCollider*>> mHitBoxesZAxis;
+	std::vector<class Collider*> mColliderZAxis;
+
+	std::set<std::pair<Collider*, Collider*>> mHitColliderXAxis;
+
+	std::set<std::pair<Collider*, Collider*>> mHitColliderYAxis;
+
+	std::set<std::pair<Collider*, Collider*>> mHitColliderZAxis;
+
 
 	std::set<std::pair<ActorObject*, ActorObject*>> mPrevHitPairs;
 
 	std::set<std::pair<ActorObject*, ActorObject*>> mCurrentHitPairs;
-
-	//std::vector<class Collider*> mCollider;
 };

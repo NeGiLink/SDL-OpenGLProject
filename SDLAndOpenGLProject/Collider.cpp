@@ -5,11 +5,12 @@
 
 Collider::Collider(ActorObject* owner, int updateOrder)
 	:Component(owner,updateOrder)
+	, mWorldBox(Vector3::Zero, Vector3::Zero)
 {
-	//mOwner->GetGame()->GetPhysWorld()->AddBox(this);
+	mOwner->GetGame()->GetPhysWorld()->AddCollider(this);
 }
 
 Collider::~Collider()
 {
-	//mOwner->GetGame()->GetPhysWorld()->RemoveBox(this);
+	mOwner->GetGame()->GetPhysWorld()->RemoveCollider(this);
 }

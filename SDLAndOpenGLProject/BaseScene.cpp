@@ -23,6 +23,12 @@ BaseScene::BaseScene(WinMain* winMain)
 
 bool BaseScene::Setup()
 {
+	if (!InputSystem::Initialize()) 
+	{
+		SDL_Log("Failed to initialize input system");
+		return false;
+	}
+
 	// Create the audio system
 	mAudioSystem = new AudioSystem(this);
 	if (!mAudioSystem->Initialize())
@@ -39,8 +45,17 @@ bool BaseScene::Setup()
 	return true;
 }
 
+void BaseScene::ProcessInput()
+{
+	InputSystem::PrepareForUpdate();
+
+	InputSystem::Update();
+}
+
 void BaseScene::Shutdown()
 {
+	InputSystem::Shutdown();
+
 	delete mPhysWorld;
 	if (mAudioSystem)
 	{
@@ -233,6 +248,8 @@ void BaseScene::RemovePlane(PlaneActor* plane)
 
 void BaseScene::UpdateGame()
 {
+
+
 	//特定のシーンに読み込まれたオブジェクトやコンポーネントを
 	// まとめて処理する部分
 	if (GameStateClass::mGameState == EGameplay) 

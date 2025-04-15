@@ -11,7 +11,7 @@ public:
 
 	void UpdateActor(float deltaTime) override;
 	
-	void ActorInput(const bool* keys) override;
+	void ActorInput(const struct InputState& keys) override;
 
 	void Shoot();
 
@@ -22,8 +22,6 @@ public:
 	void FixCollisions();
 
 	void OnCollisionEnter(class ActorObject* target) override;
-	void OnCollisionStay(class ActorObject* target) override;
-	void OnCollisionExit(class ActorObject* target) override;
 private:
 	class MoveComponent*	mMoveComp;
 	

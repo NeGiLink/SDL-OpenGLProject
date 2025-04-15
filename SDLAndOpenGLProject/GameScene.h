@@ -23,6 +23,12 @@ public:
 private:
 	// Game-specific code
 	class FPSActor*					mFPSActor;
+
+	class SphereActor* mSphere;
+
+	class DiceActor* mDice;
+
+	class CapsuleActor* mCapsule;
 	
 	std::vector<class PlaneActor*>	mPlanes;
 	

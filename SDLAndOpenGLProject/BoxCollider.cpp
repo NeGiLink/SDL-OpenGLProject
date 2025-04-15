@@ -6,15 +6,14 @@
 BoxCollider::BoxCollider(ActorObject* owner, int updateOrder)
 	:Collider(owner, updateOrder)
 	, mObjectBox(Vector3::Zero, Vector3::Zero)
-	, mWorldBox(Vector3::Zero, Vector3::Zero)
 	, mShouldRotate(true)
 {
-	mOwner->GetGame()->GetPhysWorld()->AddBox(this);
+
 }
 
 BoxCollider::~BoxCollider()
 {
-	mOwner->GetGame()->GetPhysWorld()->RemoveBox(this);
+
 }
 
 void BoxCollider::OnUpdateWorldTransform()

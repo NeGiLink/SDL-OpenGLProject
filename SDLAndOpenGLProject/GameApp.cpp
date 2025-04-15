@@ -25,6 +25,8 @@ bool GameApp::Initialize()
 
 bool GameApp::Update()
 {
+	mBaseScene->ProcessInput();
+
 	mGameScene->Update();
 
 	mBaseScene->UpdateGame();

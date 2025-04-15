@@ -50,11 +50,13 @@ struct AABB
 	void Rotate(const Quaternion& q);
 	bool Contains(const Vector3& point) const;
 	float MinDistSq(const Vector3& point) const;
+	Vector3 GetBoxCenter() const;
 
 	Vector3 mMin;
 	Vector3 mMax;
 };
 
+//一度これを使うのは保留
 struct OBB
 {
 	Vector3 mCenter;
@@ -68,6 +70,7 @@ struct Capsule
 	// 0 <= t <= 1 の間のセグメントに沿った点を取得する
 	Vector3 PointOnSegment(float t) const;
 	bool Contains(const Vector3& point) const;
+	float SqrDistanceToSegment(const Vector3& point) const;
 
 	LineSegment mSegment;
 	float mRadius;
@@ -85,6 +88,11 @@ bool OnCollision(const Sphere& a, const Sphere& b);
 bool OnCollision(const AABB& a, const AABB& b);
 bool OnCollision(const Capsule& a, const Capsule& b);
 bool OnCollision(const Sphere& s, const AABB& box);
+bool OnCollision(const AABB& box, const Sphere& s);
+bool OnCollision(const Capsule& capsule, const AABB& box);
+bool OnCollision(const AABB& box,const Capsule& capsule);
+bool OnCollision(const Capsule& capsule, const Sphere& b);
+bool OnCollision(const Sphere& a, const Capsule& b);
 
 bool OnCollision(const LineSegment& l, const Sphere& s, float& outT);
 bool OnCollision(const LineSegment& l, const Plane& p, float& outT);

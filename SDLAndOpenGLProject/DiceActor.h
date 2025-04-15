@@ -9,8 +9,18 @@ public:
 
 	std::vector<class BoxCollider*> GetBoxs() { return mBoxs; }
 
+	void UpdateActor(float deltaTime) override;
+
+	void ActorInput(const struct InputState& keys) override;
+
 	void OnCollisionEnter(class ActorObject* target) override;
 private:
 	std::vector<class BoxCollider*> mBoxs;
+
+	Vector3				mPos;
+
+	float				mAngleY;
+	float				mAngleX;
+	float				mAngleZ;
 };
 

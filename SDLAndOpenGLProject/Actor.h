@@ -28,9 +28,9 @@ public:
 	virtual void UpdateActor(float deltaTime);
 
 	// ゲームから呼び出されたProcessInput関数（オーバーライドできません）
-	void ProcessInput(const bool* keyState);
+	void ProcessInput(const struct InputState& keyState);
 	// 任意のActor特有の入力コード（上書き可能）
-	virtual void ActorInput(const bool* keyState);
+	virtual void ActorInput(const struct InputState& keyState);
 
 	// Getters/setters
 	const Vector3& GetPosition() const { return mPosition; }

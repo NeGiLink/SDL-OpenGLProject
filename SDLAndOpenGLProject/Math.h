@@ -1,8 +1,5 @@
 #pragma once
-
-#include <cmath>
-#include <memory.h>
-#include <limits>
+#include "STD.h"
 
 namespace Math
 {
@@ -408,6 +405,26 @@ public:
 		return v - 2.0f * Vector3::Dot(v, n) * n;
 	}
 
+	// 成分ごとのMin
+	static Vector3 Min(const Vector3& a, const Vector3& b)
+	{
+		return Vector3(
+			std::min(a.x, b.x),
+			std::min(a.y, b.y),
+			std::min(a.z, b.z)
+		);
+	}
+
+	// 成分ごとのMax
+	static Vector3 Max(const Vector3& a, const Vector3& b)
+	{
+		return Vector3(
+			std::max(a.x, b.x),
+			std::max(a.y, b.y),
+			std::max(a.z, b.z)
+		);
+	}
+
 	static Vector3 Transform(const Vector3& vec, const class Matrix4& mat, float w = 1.0f);
 	// ベクトルを変換、w成分が再正規化
 	static Vector3 TransformWithPerspDiv(const Vector3& vec, const class Matrix4& mat, float w = 1.0f);
@@ -747,6 +764,14 @@ public:
 		y = axis.y * scalar;
 		z = axis.z * scalar;
 		w = Math::Cos(angle / 2.0f);
+	}
+
+	Vector3 Rotate(const Vector3& v) const
+	{
+		// q * v * q^-1 を使う方法
+		Quaternion qv(v.x, v.y, v.z, 0.0f);
+		Quaternion result = (*this) * qv * Inverse();
+		return Vector3(result.x, result.y, result.z);
 	}
 
 

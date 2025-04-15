@@ -2,14 +2,13 @@
 #include "MoveComponent.h"
 #include <cstdint>
 
-/*
 class InputComponent : public MoveComponent
 {
 public:
 	// Lower update order to update first
-	InputComponent(class Actor* owner);
+	InputComponent(class ActorObject* owner);
 
-	void ProcessInput(const bool* keyState) override;
+	void ProcessInput(const struct InputState& keyState) override;
 
 	// Getters/setters for private variables
 	float GetMaxForward() const { return mMaxForwardSpeed; }
@@ -36,4 +35,3 @@ private:
 	int mClockwiseKey;
 	int mCounterClockwiseKey;
 };
-*/
