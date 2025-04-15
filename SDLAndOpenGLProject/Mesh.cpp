@@ -323,7 +323,7 @@ bool Mesh::LoadFromFBX(const std::string& fileName, Renderer* renderer, int inde
 
 		v.f = norm.z; vertices.push_back(v);
 
-		//TODO : 頂点にウェイト追加、簡易のため複数メッシュの場合など不足あり(修正済み)
+		//頂点にウェイト追加、簡易のため複数メッシュの場合など不足あり(修正済み)
 		if (mesh->HasBones())
 		{
 			Vertex boneIndex = { 0 };

@@ -1,4 +1,4 @@
-#include "Collision.h"
+﻿#include "Collision.h"
 #include <algorithm>
 #include <array>
 
@@ -222,6 +222,39 @@ float AABB::MinDistSq(const Vector3& point) const
 	return dx * dx + dy * dy + dz * dz;
 }
 
+Vector3 AABB::GetBoxCenter() const
+{
+	return (mMin + mMax) * 0.5f;
+}
+
+Vector3 ClosestPtSegmentAABB(const Vector3& p1, const Vector3& p2, const AABB& box)
+{
+	// 線分上の最近接点をAABBにクランプ
+	Vector3 closest;
+
+	// 線分からAABB上の最短点を探す
+	Vector3 ab = p2 - p1;
+	float t = 0.0f;
+
+	// 最近接点を線分上で補間して使う
+	float abLenSq = ab.LengthSq();
+	if (abLenSq > 0.0f)
+	{
+		// クランプされた最近接点
+		t = Vector3::Dot(box.GetBoxCenter() - p1,ab) / abLenSq;
+		t = Math::Clamp(t, 0.0f, 1.0f);
+	}
+
+	Vector3 pointOnSeg = p1 + ab * t;
+
+	// AABBにクランプ
+	closest.x = Math::Clamp(pointOnSeg.x, box.mMin.x, box.mMax.x);
+	closest.y = Math::Clamp(pointOnSeg.y, box.mMin.y, box.mMax.y);
+	closest.z = Math::Clamp(pointOnSeg.z, box.mMin.z, box.mMax.z);
+
+	return closest;
+}
+
 Capsule::Capsule(const Vector3& start, const Vector3& end, float radius)
 	:mSegment(start, end)
 	, mRadius(radius)
@@ -238,6 +271,18 @@ bool Capsule::Contains(const Vector3& point) const
 	// Get minimal dist. sq. between point and line segment
 	float distSq = mSegment.MinDistSq(point);
 	return distSq <= (mRadius * mRadius);
+}
+
+float Capsule::SqrDistanceToSegment(const Vector3& point) const
+{
+	Vector3 ab = mSegment.mEnd - mSegment.mStart;
+	Vector3 ap = point - mSegment.mStart;
+
+	float t = Vector3::Dot(ap, ab) / ab.LengthSq();
+	t = Math::Clamp(t, 0.0f, 1.0f);
+
+	Vector3 closest = mSegment.mStart + ab * t;
+	return (point - closest).LengthSq();
 }
 
 bool ConvexPolygon::Contains(const Vector2& point) const
@@ -264,14 +309,14 @@ bool ConvexPolygon::Contains(const Vector2& point) const
 	// Return true if approximately 2pi
 	return Math::NearZero(sum - Math::TwoPi);
 }
-//�����m�̓����蔻��
+//球同士の当たり判定
 bool OnCollision(const Sphere& a, const Sphere& b)
 {
 	float distSq = (a.mCenter - b.mCenter).LengthSq();
 	float sumRadii = a.mRadius + b.mRadius;
 	return distSq <= (sumRadii * sumRadii);
 }
-//�{�b�N�X���m�̓����蔻��
+//ボックス同士の当たり判定
 bool OnCollision(const AABB& a, const AABB& b)
 {
 	bool no = a.mMax.x < b.mMin.x ||
@@ -283,7 +328,7 @@ bool OnCollision(const AABB& a, const AABB& b)
 	// If none of these are true, they must intersect
 	return !no;
 }
-//�J�v�Z�����m�̓����蔻��
+//カプセル同士の当たり判定
 bool OnCollision(const Capsule& a, const Capsule& b)
 {
 	float distSq = LineSegment::MinDistSq(a.mSegment,
@@ -291,13 +336,82 @@ bool OnCollision(const Capsule& a, const Capsule& b)
 	float sumRadii = a.mRadius + b.mRadius;
 	return distSq <= (sumRadii * sumRadii);
 }
-//���ƃ{�b�N�X�̓����蔻��
+bool OnCollision(const Capsule& a, const AABB& b)
+{
+	// 1. カプセルの線分を取得
+	const Vector3& segStart = a.mSegment.mStart;
+	const Vector3& segEnd = a.mSegment.mEnd;
+
+	// 2. AABB に対して、線分の最近接点を求める
+	Vector3 closestPoint = ClosestPtSegmentAABB(segStart, segEnd, b);
+
+	// 3. 最近接点とカプセルの線分の最短距離を計算
+	float sqDist = a.SqrDistanceToSegment(closestPoint);
+
+	// 4. 半径の二乗と比較
+	return sqDist <= a.mRadius * a.mRadius;
+}
+
+bool OnCollision(const AABB& a, const Capsule& b)
+{
+	// 1. カプセルの線分を取得
+	const Vector3& segStart = b.mSegment.mStart;
+	const Vector3& segEnd = b.mSegment.mEnd;
+
+	// 2. AABB に対して、線分の最近接点を求める
+	Vector3 closestPoint = ClosestPtSegmentAABB(segStart, segEnd, a);
+
+	// 3. 最近接点とカプセルの線分の最短距離を計算
+	float sqDist = b.SqrDistanceToSegment(closestPoint);
+
+	// 4. 半径の二乗と比較
+	return sqDist <= b.mRadius * b.mRadius;
+}
+
+bool OnCollision(const Capsule& a, const Sphere& b)
+{
+	// カプセルの線分
+	Vector3 segStart = a.mSegment.mStart;
+	Vector3 segEnd = a.mSegment.mEnd;
+
+	// 球の中心
+	Vector3 center = b.mCenter;
+
+	// 線分と球中心の最近接点
+	Vector3 ab = segEnd - segStart;
+	Vector3 ac = center - segStart;
+
+	float abLenSq = ab.LengthSq();
+	float t = Vector3::Dot(ac, ab) / abLenSq;
+	t = Math::Clamp(t, 0.0f, 1.0f);
+
+	Vector3 closest = segStart + ab * t;
+
+	// 距離²を計算
+	float sqDist = (center - closest).LengthSq();
+
+	// 合計半径の距離²と比較
+	float radiusSum = a.mRadius + b.mRadius;
+	return sqDist <= radiusSum * radiusSum;
+}
+
+bool OnCollision(const Sphere& a, const Capsule& b)
+{
+	return false;
+}
+
+//球とボックスの当たり判定
 bool OnCollision(const Sphere& s, const AABB& box)
 {
 	float distSq = box.MinDistSq(s.mCenter);
 	return distSq <= (s.mRadius * s.mRadius);
 }
-//���Ƌ��̓����蔻��
+bool OnCollision(const AABB& box, const Sphere& s)
+{
+	float distSq = box.MinDistSq(s.mCenter);
+	return distSq <= (s.mRadius * s.mRadius);
+}
+//線と球の当たり判定
 bool OnCollision(const LineSegment& l, const Sphere& s, float& outT)
 {
 	// Compute X, Y, a, b, c as per equations
@@ -335,7 +449,7 @@ bool OnCollision(const LineSegment& l, const Sphere& s, float& outT)
 		}
 	}
 }
-//���ƕ��ʂ̓����蔻��
+//線と平面の当たり判定
 bool OnCollision(const LineSegment& l, const Plane& p, float& outT)
 {
 	// First test if there's a solution for t
@@ -396,7 +510,7 @@ bool TestSidePlane(float start, float end, float negd, const Vector3& norm,
 		}
 	}
 }
-//���ƃ{�b�N�X�̓����蔻��
+//線とボックスの当たり判定
 bool OnCollision(const LineSegment& l, const AABB& b, float& outT,
 	Vector3& outNorm)
 {

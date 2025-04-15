@@ -55,7 +55,7 @@ void ActorObject::UpdateActor(float deltaTime)
 	}
 }
 
-void ActorObject::ProcessInput(const bool* keyState)
+void ActorObject::ProcessInput(const struct InputState& keyState)
 {
 	if (mState == EActive)
 	{
@@ -69,7 +69,7 @@ void ActorObject::ProcessInput(const bool* keyState)
 	}
 }
 
-void ActorObject::ActorInput(const bool* keyState)
+void ActorObject::ActorInput(const struct InputState& keyState)
 {
 }
 

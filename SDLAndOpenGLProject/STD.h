@@ -12,3 +12,6 @@
 #include <unordered_map>
 #include <iostream>
 #include <set>
+#include <cmath>
+#include <memory.h>
+#include <limits>

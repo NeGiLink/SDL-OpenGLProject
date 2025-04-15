@@ -20,6 +20,8 @@ public:
 	BaseScene(class WinMain* winMain);
 
 	bool Setup();
+
+	void ProcessInput();
 	
 	void UpdateGame();
 	

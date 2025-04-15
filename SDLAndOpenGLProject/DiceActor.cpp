@@ -9,8 +9,6 @@
 DiceActor::DiceActor(BaseScene* game)
 	:ActorObject(game)
 {
-	SetScale(100.0f);
-	SetRotation(Quaternion(Vector3::UnitY, Math::PiOver2 / 2));
 	MeshRenderer* mc = new MeshRenderer(this);
 	Mesh* mesh = game->GetWinMain()->GetRenderer()->GetMesh("TestCube.fbx");
 	mc->SetMesh(mesh);
@@ -24,9 +22,105 @@ DiceActor::DiceActor(BaseScene* game)
 			mBoxs.push_back(box);
 		}
 	}
+	SetScale(100.0f);
+}
+
+void DiceActor::UpdateActor(float deltaTime)
+{
+	mRecomputeWorldTransform = true;
+	ComputeWorldTransform();
+}
+
+void DiceActor::ActorInput(const struct InputState& keys)
+{
+	bool input = false;
+	Vector3 pos;
+	if(keys.Keyboard.GetKeyState(SDL_SCANCODE_LSHIFT))
+	{
+		pos.y += 10.0f;
+		input = true;
+	}
+	else if (keys.Keyboard.GetKeyState(SDL_SCANCODE_RCTRL))
+	{
+		pos.y -= 10.0f;
+		input = true;
+	}
+
+	if (keys.Keyboard.GetKeyState(SDL_SCANCODE_RIGHT))
+	{
+		pos.x += 10.0f;
+		input = true;
+	}
+	else if (keys.Keyboard.GetKeyState(SDL_SCANCODE_LEFT))
+	{
+		pos.x -= 10.0f;
+		input = true;
+	}
+
+	if (keys.Keyboard.GetKeyState(SDL_SCANCODE_UP))
+	{
+		pos.z += 10.0f;
+		input = true;
+	}
+	else if (keys.Keyboard.GetKeyState(SDL_SCANCODE_DOWN))
+	{
+		pos.z -= 10.0f;
+		input = true;
+	}
+	Quaternion rot;
+	if (keys.Keyboard.GetKeyState(SDL_SCANCODE_Y))
+	{
+		mAngleY += 0.1f;
+		input = true;
+	}
+	else if (keys.Keyboard.GetKeyState(SDL_SCANCODE_H))
+	{
+		mAngleY -= 0.1f;
+		input = true;
+	}
+
+	if (keys.Keyboard.GetKeyState(SDL_SCANCODE_T))
+	{
+		mAngleX += 0.1f;
+		input = true;
+	}
+	else if (keys.Keyboard.GetKeyState(SDL_SCANCODE_G))
+	{
+		mAngleX -= 0.1f;
+		input = true;
+	}
+
+	if (keys.Keyboard.GetKeyState(SDL_SCANCODE_U))
+	{
+		mAngleZ += 0.1f;
+		input = true;
+	}
+	else if (keys.Keyboard.GetKeyState(SDL_SCANCODE_J))
+	{
+		mAngleZ -= 0.1f;
+		input = true;
+	}
+	Vector3 scale = GetScale();
+	if (keys.Keyboard.GetKeyState(SDL_SCANCODE_M))
+	{
+		scale *= 1.5f;
+		input = true;
+	}
+	else if (keys.Keyboard.GetKeyState(SDL_SCANCODE_N))
+	{
+		scale *= 0.5f;
+		input = true;
+	}
+	if (!input) { return; }
+	rot = Quaternion(Vector3::UnitX, mAngleX);
+	rot *= Quaternion(Vector3::UnitY, mAngleY);
+	rot *= Quaternion(Vector3::UnitZ, mAngleZ);
+	SetRotation(rot);
+	AddPosition(pos);
+	SetScale(scale);
 }
 
 void DiceActor::OnCollisionEnter(ActorObject* target)
 {
-	SDL_Log("Dice to Hit!");
+	SDL_Log("Dice Hit!");
 }

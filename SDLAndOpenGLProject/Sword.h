@@ -7,10 +7,9 @@ class Sword : public ActorObject
 {
 public:
 	Sword(class BaseScene* game);
-	void ActorInput(const bool* keys) override;
+	void ActorInput(const struct InputState& keys) override;
 	void UpdateRightHand(Skeleton::Bone* hand);
 private:
-	Skeleton::Bone*		mRightHand;
 
 	Vector3				mPos;
 

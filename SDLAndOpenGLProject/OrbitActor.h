@@ -8,7 +8,7 @@ class OrbitActor : public ActorObject
 public:
 	OrbitActor(class BaseScene* game);
 
-	void ActorInput(const bool* keys) override;
+	void ActorInput(const struct InputState& keys) override;
 
 	void SetVisible(bool visible);
 private:

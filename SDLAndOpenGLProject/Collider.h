@@ -1,5 +1,6 @@
 #pragma once
 #include "Component.h"
+#include "Collision.h"
 
 class Collider : public Component
 {
@@ -9,12 +10,15 @@ public:
 
 	enum ColliderType
 	{
-		Box,
-		Sphere,
-		Capsule
+		BoxType,
+		SphereType,
+		CapsuleType
 	};
 	virtual ColliderType GetType() = 0;
+	virtual const AABB& GetWorldBox() const = 0;
+	virtual const Sphere& GetWorldSphere() const = 0;
+	virtual const Capsule& GetWorldCapsule() const = 0;
 protected:
-	ColliderType type;
+	AABB mWorldBox;
 };
 

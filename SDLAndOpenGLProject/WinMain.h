@@ -2,6 +2,7 @@
 #include "SoundEvent.h"
 #include "Time.h"
 #include "GameApp.h"
+#include "InputSystem.h"
 
 enum GameState
 {

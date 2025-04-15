@@ -146,6 +146,8 @@
     <ClCompile Include="BoxCollider.cpp" />
     <ClCompile Include="CameraActor.cpp" />
     <ClCompile Include="CameraComponent.cpp" />
+    <ClCompile Include="CapsuleActor.cpp" />
+    <ClCompile Include="CapsuleCollider.cpp" />
     <ClCompile Include="CircleComponent.cpp" />
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="Collision.cpp" />
@@ -160,7 +162,11 @@
     <ClCompile Include="FPSCamera.cpp" />
     <ClCompile Include="GameApp.cpp" />
     <ClCompile Include="Image.cpp" />
+    <ClCompile Include="InputSystem.cpp" />
+    <ClCompile Include="LineRenderer.cpp" />
     <ClCompile Include="SmallCharacter.cpp" />
+    <ClCompile Include="SphereActor.cpp" />
+    <ClCompile Include="SphereCollider.cpp" />
     <ClCompile Include="Sword.cpp" />
     <ClCompile Include="Text.cpp" />
     <ClCompile Include="Time.cpp" />
@@ -217,6 +223,8 @@
     <ClInclude Include="BoxCollider.h" />
     <ClInclude Include="CameraActor.h" />
     <ClInclude Include="CameraComponent.h" />
+    <ClInclude Include="CapsuleActor.h" />
+    <ClInclude Include="CapsuleCollider.h" />
     <ClInclude Include="CircleComponent.h" />
     <ClInclude Include="Collider.h" />
     <ClInclude Include="Collision.h" />
@@ -233,10 +241,14 @@
     <ClInclude Include="FPSCamera.h" />
     <ClInclude Include="GameApp.h" />
     <ClInclude Include="Image.h" />
+    <ClInclude Include="InputSystem.h" />
+    <ClInclude Include="LineRenderer.h" />
     <ClInclude Include="MeshFilePath.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="SDL3.h" />
     <ClInclude Include="SmallCharacter.h" />
+    <ClInclude Include="SphereActor.h" />
+    <ClInclude Include="SphereCollider.h" />
     <ClInclude Include="STD.h" />
     <ClInclude Include="Sword.h" />
     <ClInclude Include="Text.h" />
@@ -284,6 +296,8 @@
     <None Include="Shaders\GBufferGlobal.vert" />
     <None Include="Shaders\GBufferPointLight.frag" />
     <None Include="Shaders\GBufferWrite.frag" />
+    <None Include="Shaders\LineSprite.frag" />
+    <None Include="Shaders\LineSprite.vert" />
     <None Include="Shaders\Phong.vert" />
     <None Include="Shaders\Skinned.vert" />
     <None Include="Shaders\Sprite.frag" />

@@ -8,7 +8,7 @@ class TestCharacter : public ActorObject
 public:
 	TestCharacter(class BaseScene* game);
 
-	void ActorInput(const bool* keys) override;
+	void ActorInput(const struct InputState& keys) override;
 	void UpdateActor(float deltaTime) override;
 private:
 	enum State

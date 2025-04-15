@@ -4,6 +4,7 @@
 #include "Shader.h"
 #include "VertexArray.h"
 #include "SpriteComponent.h"
+#include "LineRenderer.h"
 #include "MeshRenderer.h"
 #include "UIScreen.h"
 #include "Image.h"
@@ -27,6 +28,7 @@ Renderer::Renderer(WinMain* game)
 	, mGBuffer(nullptr)
 	, mGGlobalShader(nullptr)
 	, mGPointLightShader(nullptr)
+	,mLineShader(nullptr)
 {
 }
 
@@ -88,6 +90,9 @@ bool Renderer::Initialize(float screenWidth, float screenHeight)
 
 	// スプライトを描画するための四角形を作成する
 	CreateSpriteVerts();
+
+	//線を描画するための二点を作成
+	CreateLineSpriteVerts();
 
 	// ミラー用のレンダーターゲットを作成する
 	if (!CreateMirrorTarget())
@@ -234,6 +239,32 @@ void Renderer::RemoveSprite(SpriteComponent* sprite)
 {
 	auto iter = std::find(mSprites.begin(), mSprites.end(), sprite);
 	mSprites.erase(iter);
+}
+
+void Renderer::AddLineSprite(LineRenderer* sprite)
+{
+	//ソートされたベクター内の挿入ポイントを見つける
+// （現在よりも高い描画順序を持つ最初の要素）
+	int myDrawOrder = sprite->GetDrawOrder();
+	auto iter = mLineSprites.begin();
+	for (;
+		iter != mLineSprites.end();
+		++iter)
+	{
+		if (myDrawOrder < (*iter)->GetDrawOrder())
+		{
+			break;
+		}
+	}
+
+	// イテレータの位置の前に要素を挿入します
+	mLineSprites.insert(iter, sprite);
+}
+
+void Renderer::RemoveLineSprite(LineRenderer* sprite)
+{
+	auto iter = std::find(mLineSprites.begin(), mLineSprites.end(), sprite);
+	mLineSprites.erase(iter);
 }
 
 void Renderer::AddMeshComp(MeshRenderer* mesh)
@@ -524,6 +555,14 @@ bool Renderer::LoadShaders()
 	Matrix4 spriteViewProj = Matrix4::CreateSimpleViewProj(mScreenWidth, mScreenHeight);
 	mSpriteShader->SetMatrixUniform("uViewProj", spriteViewProj);
 
+	//Lineの描画用のシェーダーを作成する
+	mLineShader = new Shader();
+	if (!mLineShader->Load("Shaders/LineSprite.vert", "Shaders/LineSprite.frag")) {
+		return false;
+	}
+	mLineShader->SetActive();
+	mLineShader->SetMatrixUniform("uViewProj", spriteViewProj);
+
 	// 基本的なメッシュシェーダーを作成する
 	mMeshShader = new Shader();
 	if (!mMeshShader->Load("Shaders/Phong.vert", "Shaders/GBufferWrite.frag"))
@@ -580,6 +619,7 @@ bool Renderer::LoadShaders()
 	mGPointLightShader->SetIntUniform("uGWorldPos", 2);
 	mGPointLightShader->SetVector2Uniform("uScreenDimensions",
 		Vector2(mScreenWidth, mScreenHeight));
+
 	return true;
 }
 
@@ -598,6 +638,16 @@ void Renderer::CreateSpriteVerts()
 	};
 
 	mSpriteVerts = new VertexArray(vertices, 4, VertexArray::PosNormTex, indices, 6);
+}
+
+void Renderer::CreateLineSpriteVerts()
+{
+	float lineVertices[] = {
+	0.0f, 0.0f, 0.0f,  // 始点 (x, y, z)
+	1.0f, 1.0f, 1.0f   // 終点 (x, y, z)
+	};
+
+	mLineSpriteVerts = new VertexArray(lineVertices, 2);
 }
 
 void Renderer::SetLightUniforms(Shader* shader, const Matrix4& view)

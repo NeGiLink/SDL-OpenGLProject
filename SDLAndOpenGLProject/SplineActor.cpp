@@ -31,7 +31,7 @@ SplineActor::SplineActor(BaseScene* game)
 	mCameraComp->SetPaused(false);
 }
 
-void SplineActor::ActorInput(const bool* keys)
+void SplineActor::ActorInput(const struct InputState& keys)
 {
 
 }

@@ -13,7 +13,7 @@ public:
 	// デルタ時間でこのコンポーネントを更新してください
 	virtual void Update(float deltaTime);
 	// このコンポーネントの入力を処理する
-	virtual void ProcessInput(const bool* keyState) {}
+	virtual void ProcessInput(const struct InputState& keyState) {}
 	// 世界の変化によって呼び出される
 	virtual void OnUpdateWorldTransform() { }
 

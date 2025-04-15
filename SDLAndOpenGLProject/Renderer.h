@@ -25,6 +25,9 @@ public:
 
 	void AddSprite(class SpriteComponent* sprite);
 	void RemoveSprite(class SpriteComponent* sprite);
+	//未完成
+	void AddLineSprite(class LineRenderer* sprite);
+	void RemoveLineSprite(class LineRenderer* sprite);
 
 	void AddMeshComp(class MeshRenderer* mesh);
 	void RemoveMeshComp(class MeshRenderer* mesh);
@@ -72,6 +75,7 @@ private:
 
 	bool LoadShaders();
 	void CreateSpriteVerts();
+	void CreateLineSpriteVerts();
 	void SetLightUniforms(class Shader* shader, const Matrix4& view);
 
 	// テクスチャのマップが読み込み変数
@@ -81,6 +85,8 @@ private:
 
 	// 描かれたすべてのスプライトコンポーネント
 	std::vector<class SpriteComponent*>					mSprites;
+	//未使用
+	std::vector<class LineRenderer*>					mLineSprites;
 
 	// すべての（骨格以外の）メッシュコンポーネント
 	std::vector<class MeshRenderer*>					mMeshComps;
@@ -127,4 +133,8 @@ private:
 	class Shader*										mGPointLightShader;
 	std::vector<class PointLightComponent*>				mPointLights;
 	class Mesh*											mPointLightMesh;
+	//Line Shader
+	class Shader*										mLineShader;
+	// Sprite vertex array
+	class VertexArray*									mLineSpriteVerts;
 };

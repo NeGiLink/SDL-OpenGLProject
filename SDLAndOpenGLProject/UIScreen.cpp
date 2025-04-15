@@ -92,7 +92,7 @@ void UIScreen::Draw(Shader* shader)
 	// Override in subclasses to draw any textures
 }
 
-void UIScreen::ProcessInput(const bool* keys)
+void UIScreen::ProcessInput(const struct InputState& keys)
 {
 	// Do we have buttons?
 	if (!mButtons.empty())

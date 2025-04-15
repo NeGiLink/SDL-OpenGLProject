@@ -16,8 +16,9 @@ Sword::Sword(BaseScene* game)
 	mc->SetMesh(mesh);
 }
 
-void Sword::ActorInput(const bool* keys)
+void Sword::ActorInput(const struct InputState& keys)
 {
+	/*
 	Vector3 pos;
 	if (keys[SDL_SCANCODE_SPACE]) 
 	{
@@ -88,6 +89,7 @@ void Sword::ActorInput(const bool* keys)
 	SetRotation(rot);
 	AddPosition(pos);
 	SetScale(scale);
+	*/
 }
 
 void Sword::UpdateRightHand(Skeleton::Bone* hand)

@@ -1,8 +1,8 @@
 #include "InputComponent.h"
 #include "Actor.h"
-/*
+#include "WinMain.h"
 
-InputComponent::InputComponent(class Actor* owner)
+InputComponent::InputComponent(class ActorObject* owner)
 	:MoveComponent(owner)
 	, mForwardKey(0)
 	, mBackKey(0)
@@ -12,15 +12,16 @@ InputComponent::InputComponent(class Actor* owner)
 
 }
 
-void InputComponent::ProcessInput(const bool* keyState)
+void InputComponent::ProcessInput(const struct InputState& keyState)
 {
+	/*
 	// Calculate forward speed for MoveComponent
 	float forwardSpeed = 0.0f;
-	if (keyState[mForwardKey])
+	if (keyState.Keyboard.GetKeyState(mForwardKey))
 	{
 		forwardSpeed += mMaxForwardSpeed;
 	}
-	if (keyState[mBackKey])
+	if (keyState.Keyboard.GetKeyState(mBackKey))
 	{
 		forwardSpeed -= mMaxForwardSpeed;
 	}
@@ -28,14 +29,14 @@ void InputComponent::ProcessInput(const bool* keyState)
 
 	// Calculate angular speed for MoveComponent
 	float angularSpeed = 0.0f;
-	if (keyState[mClockwiseKey])
+	if (keyState.Keyboard.GetKeyState(mClockwiseKey))
 	{
 		angularSpeed += mMaxAngularSpeed;
 	}
-	if (keyState[mCounterClockwiseKey])
+	if (keyState.Keyboard.GetKeyState(mCounterClockwiseKey))
 	{
 		angularSpeed -= mMaxAngularSpeed;
 	}
 	SetAngularSpeed(angularSpeed);
+	*/
 }
-*/

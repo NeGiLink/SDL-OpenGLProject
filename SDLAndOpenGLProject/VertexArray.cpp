@@ -66,6 +66,25 @@ VertexArray::VertexArray(const void* verts, unsigned int numVerts, Layout layout
 	}
 }
 
+
+VertexArray::VertexArray(const float* verts, unsigned int numVerts)
+	: mNumVerts(numVerts)
+	, mNumIndices(0)
+{
+	glGenVertexArrays(1, &mVertexArray);
+	glGenBuffers(1, &mVertexBuffer);
+
+	glBindVertexArray(mVertexArray);
+	glBindBuffer(GL_ARRAY_BUFFER, mVertexBuffer);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 3 * numVerts, verts, GL_STATIC_DRAW);
+
+	// à íuëÆê´ÇæÇØÅivec3Åj
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+
+	glBindVertexArray(0);
+}
+
 VertexArray::~VertexArray()
 {
 	glDeleteBuffers(1, &mVertexBuffer);
