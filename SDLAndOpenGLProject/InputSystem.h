@@ -22,10 +22,12 @@ public:
 	// Get just the boolean true/false value of key
 	bool GetKeyValue(SDL_Scancode keyCode) const;
 	// Get a state based on current and previous frame
-	ButtonState GetKeyState(SDL_Scancode keyCode) const;
+	bool GetKeyDown(SDL_Scancode keyCode) const;
+	bool GetKeyUp(SDL_Scancode keyCode) const;
+	bool GetKey(SDL_Scancode keyCode) const;
 private:
-	const bool* mCurrState;
-	Uint8 mPrevState[SDL_SCANCODE_COUNT];
+	const bool*		mCurrState;
+	Uint8			mPrevState[SDL_SCANCODE_COUNT];
 };
 
 // Helper for mouse input
@@ -42,6 +44,9 @@ public:
 	// For buttons
 	bool GetButtonValue(int button) const;
 	ButtonState GetButtonState(int button) const;
+	bool GetButtonDown(int button) const;
+	bool GetButtonUp(int button) const;
+	bool GetButton(int button) const;
 private:
 	// Store current mouse position
 	Vector2 mMousePos;
@@ -63,6 +68,10 @@ public:
 	// For buttons
 	bool GetButtonValue(SDL_GamepadButton button) const;
 	ButtonState GetButtonState(SDL_GamepadButton button) const;
+
+	bool GetButtonDown(SDL_GamepadButton button) const;
+	bool GetButtonUp(SDL_GamepadButton button) const;
+	bool GetButton(SDL_GamepadButton button) const;
 
 	const Vector2& GetLeftStick() const { return mLeftStick; }
 	const Vector2& GetRightStick() const { return mRightStick; }
@@ -88,8 +97,8 @@ private:
 // Wrapper that contains current state of input
 struct InputState
 {
-	KeyboardState Keyboard;
-	MouseState Mouse;
+	KeyboardState	Keyboard;
+	MouseState		Mouse;
 	ControllerState Controller;
 };
 

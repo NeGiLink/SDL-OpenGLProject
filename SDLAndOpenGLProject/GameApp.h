@@ -4,9 +4,10 @@
 class GameApp
 {
 public:
-	GameApp(class WinMain* main);
+	GameApp(class GameWinMain* main);
 
 	bool Initialize();
+	bool ProcessInput();
 	bool Update();
 	bool Release();
 
@@ -18,5 +19,5 @@ private:
 
 	class GameScene* mGameScene;
 
-	class WinMain* mWinMain;
+	class GameWinMain* mWinMain;
 };

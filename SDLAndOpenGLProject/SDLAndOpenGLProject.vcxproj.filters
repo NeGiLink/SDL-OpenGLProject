@@ -70,6 +70,9 @@
     <Filter Include="SourceFiles\Utilitys">
       <UniqueIdentifier>{d595bc1c-3b9f-4f68-968d-793bcd77046b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="SourceFiles\GameObjects\3Ds\Defaults">
+      <UniqueIdentifier>{d5dc39e5-fc53-4164-abcd-13bd8fa73ce8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Actor.cpp">
@@ -288,11 +291,11 @@
     <ClCompile Include="InputSystem.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="SphereActor.cpp">
-      <Filter>SourceFiles\Collisions</Filter>
-    </ClCompile>
     <ClCompile Include="CapsuleActor.cpp">
-      <Filter>SourceFiles\Collisions</Filter>
+      <Filter>SourceFiles\GameObjects\3Ds\Defaults</Filter>
+    </ClCompile>
+    <ClCompile Include="SphereActor.cpp">
+      <Filter>SourceFiles\GameObjects\3Ds\Defaults</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -534,10 +537,10 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="SphereActor.h">
-      <Filter>SourceFiles\Collisions</Filter>
+      <Filter>SourceFiles\GameObjects\3Ds\Defaults</Filter>
     </ClInclude>
     <ClInclude Include="CapsuleActor.h">
-      <Filter>SourceFiles\Collisions</Filter>
+      <Filter>SourceFiles\GameObjects\3Ds\Defaults</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

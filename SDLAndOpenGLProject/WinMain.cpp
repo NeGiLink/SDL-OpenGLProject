@@ -5,15 +5,19 @@
 // ここで定義（初期値を指定してもOK）
 GameState GameStateClass::mGameState = GameState::EGameplay;
 
-WinMain::WinMain()
+//TODO : 画面比率の変更箇所
+float GameWinMain::mWindowWidth = 1280.0f;
+float GameWinMain::mWindowHeight = 768.0f;
+
+GameWinMain::GameWinMain()
 	:mGameApp(nullptr)
 {
 
 }
 
-bool WinMain::Initialize()
+bool GameWinMain::Initialize()
 {
-	// Initialize SDL
+	// SDLの初期化
 	int sdlResult = SDL_Init(SDL_INIT_VIDEO);
 	if (sdlResult < 0)
 	{
@@ -21,9 +25,9 @@ bool WinMain::Initialize()
 		return false;
 	}
 
-	// Create the renderer
+	// Rendererの生成
 	mRenderer = new Renderer(this);
-	if (!mRenderer->Initialize(1280.0f, 800.0f))
+	if (!mRenderer->Initialize(mWindowWidth, mWindowHeight))
 	{
 		SDL_Log("Failed to initialize renderer");
 		delete mRenderer;
@@ -46,22 +50,23 @@ bool WinMain::Initialize()
 	return true;
 }
 
-void WinMain::RunLoop()
+void GameWinMain::RunLoop()
 {
 	while (GameStateClass::mGameState != GameState::EQuit)
 	{
 		Time::UpdateDeltaTime();
+		mGameApp->ProcessInput();
 		mGameApp->Update();
 		GenerateOutput();
 	}
 }
 
-void WinMain::GenerateOutput()
+void GameWinMain::GenerateOutput()
 {
 	mRenderer->Draw();
 }
 
-void WinMain::UnloadData()
+void GameWinMain::UnloadData()
 {
 	mGameApp->Release();
 	if (mRenderer)
@@ -70,7 +75,7 @@ void WinMain::UnloadData()
 	}
 }
 
-void WinMain::Shutdown()
+void GameWinMain::Shutdown()
 {
 	UnloadData();
 	TTF_Quit();

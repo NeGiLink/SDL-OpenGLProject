@@ -34,7 +34,7 @@
 #include "Image.h"
 #include "Text.h"
 
-GameScene::GameScene(WinMain* winMain)
+GameScene::GameScene(GameWinMain* winMain)
 	:BaseScene(winMain)
 {
 }
@@ -48,7 +48,7 @@ bool GameScene::Initialize()
 	ActorObject* a = nullptr;
 	Quaternion q;
 
-	/*
+
 	// Setup floor
 	const float start = -1250.0f;
 	const float size = 250.0f;
@@ -117,7 +117,6 @@ bool GameScene::Initialize()
 		a->SetPosition(Vector3(start + i * size, 0.0f, -start + size));
 		a->SetRotation(q);
 	}
-	*/
 
 	// Setup lights
 	mWinMain->GetRenderer()->SetAmbientLight(Vector3(0.4f, 0.4f, 0.4f));
@@ -145,8 +144,7 @@ bool GameScene::Initialize()
 	mFPSActor = new FPSActor(this);
 
 	mPlayer = mFPSActor;
-	/*
-	*/
+
 	mSphere = new SphereActor(this);
 	mSphere->SetPosition(Vector3(500.0f,0.0f,500.0f));
 
@@ -155,7 +153,6 @@ bool GameScene::Initialize()
 
 	mDice = new DiceActor(this);
 	mDice->SetPosition(Vector3(-250.0f, 0.0f, 500.0f));
-	/*
 	a = new TwoObjectActor(this);
 	a->SetPosition(Vector3(1000.0f, 200.0f, 500.0f));
 
@@ -164,7 +161,6 @@ bool GameScene::Initialize()
 	a = new TestCharacter(this);
 
 	a = new SmallCharacter(this);
-	*/
 
 
 	// Create target actors
@@ -191,7 +187,7 @@ bool GameScene::Initialize()
 	return true;
 }
 
-bool GameScene::Update()
+bool GameScene::InputUpdate()
 {
 	//“ü—Í‘€ì
 	SDL_Event event;
@@ -247,6 +243,13 @@ bool GameScene::Update()
 	{
 		mUIStack.back()->ProcessInput(state);
 	}
+
+	return true;
+}
+
+bool GameScene::Update()
+{
+	
 
 	float time = Time::GetFrameRate();
 	mTestText->SetText("FPS : " + FloatToString::ToStringWithoutDecimal(time));

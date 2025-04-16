@@ -18,10 +18,10 @@ public:
 	static GameState mGameState;
 };
 
-class WinMain
+class GameWinMain
 {
 public:
-	WinMain();
+	GameWinMain();
 	bool Initialize();
 	void RunLoop();
 	void Shutdown();
@@ -37,4 +37,8 @@ private:
 
 	//ƒQ[ƒ€“àˆ—
 	GameApp* mGameApp;
+
+	static float mWindowWidth;
+
+	static float mWindowHeight;
 };

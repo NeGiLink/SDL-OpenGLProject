@@ -17,7 +17,7 @@
 #include "PointLightComponent.h"
 #include "MeshFilePath.h"
 
-Renderer::Renderer(WinMain* game)
+Renderer::Renderer(GameWinMain* game)
 	:mGame(game)
 	, mNowScene(nullptr)
 	, mSpriteShader(nullptr)

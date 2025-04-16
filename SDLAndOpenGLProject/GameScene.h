@@ -11,10 +11,12 @@
 class GameScene : public BaseScene
 {
 public:
-	GameScene(class WinMain* winMain);
+	GameScene(class GameWinMain* winMain);
 	
 	bool Initialize();
 	
+	bool InputUpdate();
+
 	bool Update();
 	
 	void HandleKeyPress(int key);

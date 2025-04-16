@@ -14,7 +14,7 @@ struct DirectionalLight
 class Renderer
 {
 public:
-	Renderer(class WinMain* game);
+	Renderer(class GameWinMain* game);
 	~Renderer();
 
 	bool Initialize(float screenWidth, float screenHeight);
@@ -93,7 +93,7 @@ private:
 	std::vector<class SkeletalMeshRenderer*>			mSkeletalMeshes;
 
 	// Game
-	class WinMain*										mGame;
+	class GameWinMain*										mGame;
 
 	class BaseScene*									mNowScene;
 

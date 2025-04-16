@@ -64,14 +64,14 @@ void PhysWorld::TestPairwise(std::function<void(ActorObject*, ActorObject*)> f)
 void PhysWorld::DecideColliderXAxis()
 {
 
-	for (size_t i = 0; i < mCollider.size(); i++)
+	for (size_t i = 0; i < mColliderXAxis.size(); i++)
 	{
 		// 現在のボックスに対してmax.xを取得する
-		Collider* a = mCollider[i];
+		Collider* a = mColliderXAxis[i];
 		float max = a->GetWorldBox().mMax.x;
-		for (size_t j = i + 1; j < mCollider.size(); j++)
+		for (size_t j = i + 1; j < mColliderXAxis.size(); j++)
 		{
-			Collider* b = mCollider[j];
+			Collider* b = mColliderXAxis[j];
 			// AABB[j]の最小値がAABB[i]の最大値を超えている場合、
 			// AABB[i]との交差は他に存在しないためbreak
 			if (b->GetWorldBox().mMin.x > max)
@@ -89,14 +89,14 @@ void PhysWorld::DecideColliderXAxis()
 void PhysWorld::DecideColliderYAxis()
 {
 
-	for (size_t i = 0; i < mCollider.size(); i++)
+	for (size_t i = 0; i < mColliderYAxis.size(); i++)
 	{
 		// 現在のボックスに対してmax.xを取得する
-		Collider* a = mCollider[i];
+		Collider* a = mColliderYAxis[i];
 		float max = a->GetWorldBox().mMax.y;
-		for (size_t j = i + 1; j < mCollider.size(); j++)
+		for (size_t j = i + 1; j < mColliderYAxis.size(); j++)
 		{
-			Collider* b = mCollider[j];
+			Collider* b = mColliderYAxis[j];
 			// AABB[j]の最小値がAABB[i]の最大値を超えている場合、
 			// AABB[i]との交差は他に存在しないためbreak
 			if (b->GetWorldBox().mMin.y > max)
@@ -114,14 +114,14 @@ void PhysWorld::DecideColliderYAxis()
 void PhysWorld::DecideColliderZAxis()
 {
 
-	for (size_t i = 0; i < mCollider.size(); i++)
+	for (size_t i = 0; i < mColliderZAxis.size(); i++)
 	{
 		// 現在のボックスに対してmax.xを取得する
-		Collider* a = mCollider[i];
+		Collider* a = mColliderZAxis[i];
 		float max = a->GetWorldBox().mMax.z;
-		for (size_t j = i + 1; j < mCollider.size(); j++)
+		for (size_t j = i + 1; j < mColliderZAxis.size(); j++)
 		{
-			Collider* b = mCollider[j];
+			Collider* b = mColliderZAxis[j];
 			// AABB[j]の最小値がAABB[i]の最大値を超えている場合、
 			// AABB[i]との交差は他に存在しないためbreak
 			if (b->GetWorldBox().mMin.z > max)
@@ -236,8 +236,8 @@ void PhysWorld::SweepAndPruneXYZ()
 			else
 			{
 				// Enter
-				SDL_Log("actorA %d", (int)pair.first->GetType());
-				SDL_Log("actorB %d", (int)pair.second->GetType());
+				//SDL_Log("actorA %d", (int)pair.first->GetType());
+				//SDL_Log("actorB %d", (int)pair.second->GetType());
 				actorA->OnCollisionEnter(actorB);
 				actorB->OnCollisionEnter(actorA);
 			}
