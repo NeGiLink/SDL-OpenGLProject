@@ -13,7 +13,7 @@
 #include "MeshFilePath.h"
 #include "Time.h"
 
-BaseScene::BaseScene(WinMain* winMain)
+BaseScene::BaseScene(GameWinMain* winMain)
 	: mWinMain(winMain)
 	, mAudioSystem(nullptr)
 	, mPhysWorld(nullptr)
@@ -248,8 +248,6 @@ void BaseScene::RemovePlane(PlaneActor* plane)
 
 void BaseScene::UpdateGame()
 {
-
-
 	//特定のシーンに読み込まれたオブジェクトやコンポーネントを
 	// まとめて処理する部分
 	if (GameStateClass::mGameState == EGameplay) 

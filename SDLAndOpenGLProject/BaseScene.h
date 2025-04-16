@@ -17,8 +17,8 @@
 class BaseScene
 {
 public:
-	BaseScene(class WinMain* winMain);
-
+	BaseScene(class GameWinMain* winMain);
+	//BaseScene—p‚Ì‰Šú‰»
 	bool Setup();
 
 	void ProcessInput();
@@ -33,7 +33,7 @@ public:
 	
 	void RemoveActor(class ActorObject* actor);
 
-	class WinMain* GetWinMain() { return mWinMain; }
+	class GameWinMain* GetWinMain() { return mWinMain; }
 
 	class Font* GetFont(const std::string& fileName);
 
@@ -71,7 +71,7 @@ public:
 	class ActorObject* GetPlayer() { return mPlayer; }
 protected:
 
-	class WinMain*										mWinMain;
+	class GameWinMain*										mWinMain;
 
 	// Track if we're updating actors right now
 	bool												mUpdatingActors;

@@ -30,23 +30,23 @@ TestCharacter::TestCharacter(BaseScene* game)
 
 void TestCharacter::ActorInput(const struct InputState& keys)
 {
-	if (keys.Keyboard.GetKeyState(SDL_SCANCODE_1))
+	if (keys.Keyboard.GetKeyDown(SDL_SCANCODE_1))
 	{
 		mMeshComp->PlayAnimation(animator->GetAnimations()[State::TPose]);
 	}
-	else if (keys.Keyboard.GetKeyState(SDL_SCANCODE_2))
+	else if (keys.Keyboard.GetKeyDown(SDL_SCANCODE_2))
 	{
 		mMeshComp->PlayAnimation(animator->GetAnimations()[State::Idle]);
 	}
-	else if (keys.Keyboard.GetKeyState(SDL_SCANCODE_3))
+	else if (keys.Keyboard.GetKeyDown(SDL_SCANCODE_3))
 	{
 		mMeshComp->PlayAnimation(animator->GetAnimations()[State::Run]);
 	}
-	else if (keys.Keyboard.GetKeyState(SDL_SCANCODE_4))
+	else if (keys.Keyboard.GetKeyDown(SDL_SCANCODE_4))
 	{
 		mMeshComp->PlayAnimation(animator->GetAnimations()[State::Jump]);
 	}
-	else if (keys.Keyboard.GetKeyState(SDL_SCANCODE_5))
+	else if (keys.Keyboard.GetKeyDown(SDL_SCANCODE_5))
 	{
 		mMeshComp->PlayAnimation(animator->GetAnimations()[State::Capoeira]);
 	}

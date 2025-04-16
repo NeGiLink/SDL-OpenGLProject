@@ -61,27 +61,27 @@ void FPSActor::ActorInput(const struct InputState& keys)
 	float strafeSpeed = 0.0f;
 	float upSpeed = 0.0f;
 	// wasd movement
-	if (keys.Keyboard.GetKeyState(SDL_SCANCODE_W))
+	if (keys.Keyboard.GetKey(SDL_SCANCODE_W))
 	{
 		forwardSpeed += 400.0f;
 	}
-	if (keys.Keyboard.GetKeyState(SDL_SCANCODE_S))
+	if (keys.Keyboard.GetKey(SDL_SCANCODE_S))
 	{
 		forwardSpeed -= 400.0f;
 	}
-	if (keys.Keyboard.GetKeyState(SDL_SCANCODE_A))
+	if (keys.Keyboard.GetKey(SDL_SCANCODE_A))
 	{
 		strafeSpeed -= 400.0f;
 	}
-	if (keys.Keyboard.GetKeyState(SDL_SCANCODE_D))
+	if (keys.Keyboard.GetKey(SDL_SCANCODE_D))
 	{
 		strafeSpeed += 400.0f;
 	}
-	if(keys.Keyboard.GetKeyState(SDL_SCANCODE_0))
+	if(keys.Keyboard.GetKey(SDL_SCANCODE_0))
 	{
 		upSpeed -= 400.0f;
 	}
-	if (keys.Keyboard.GetKeyState(SDL_SCANCODE_9))
+	if (keys.Keyboard.GetKey(SDL_SCANCODE_9))
 	{
 		upSpeed += 400.0f;
 	}
@@ -119,11 +119,11 @@ void FPSActor::ActorInput(const struct InputState& keys)
 	mCameraComp->SetPitchSpeed(pitchSpeed);
 
 	//子オブジェクトを解除・セットする処理(テスト用)
-	if (keys.Keyboard.GetKeyState(SDL_SCANCODE_O))
+	if (keys.Keyboard.GetKey(SDL_SCANCODE_O))
 	{
 		RemoveChildActor(mSword);
 	}
-	else if (keys.Keyboard.GetKeyState(SDL_SCANCODE_P))
+	else if (keys.Keyboard.GetKey(SDL_SCANCODE_P))
 	{
 		AddChildActor(mSword);
 	}

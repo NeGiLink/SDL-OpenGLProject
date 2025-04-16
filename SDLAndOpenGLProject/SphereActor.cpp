@@ -29,5 +29,4 @@ void SphereActor::UpdateActor(float deltaTime)
 void SphereActor::OnCollisionEnter(ActorObject* target)
 {
 	SDL_Log("Sphere Hit!");
-	SDL_Log("Pos %.2f,%.2f,%.2f",mPosition.x,mPosition.y,mPosition.z);
 }

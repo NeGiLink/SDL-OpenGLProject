@@ -12,7 +12,7 @@ bool KeyboardState::GetKeyValue(SDL_Scancode keyCode) const
 {
     return mCurrState[keyCode] == 1;
 }
-
+/*
 ButtonState KeyboardState::GetKeyState(SDL_Scancode keyCode) const
 {
 	if (mPrevState[keyCode] == 0)
@@ -26,7 +26,8 @@ ButtonState KeyboardState::GetKeyState(SDL_Scancode keyCode) const
 			return EPressed;
 		}
 	}
-	else // Prev state must be 1
+	//前フレームが1以上だったら
+	else
 	{
 		if (mCurrState[keyCode] == 0)
 		{
@@ -37,6 +38,25 @@ ButtonState KeyboardState::GetKeyState(SDL_Scancode keyCode) const
 			return EHeld;
 		}
 	}
+}
+*/
+
+bool KeyboardState::GetKeyDown(SDL_Scancode keyCode) const
+{
+	// 前の状態は押されていない & 現在押されている
+	return mPrevState[keyCode] == 0 && mCurrState[keyCode] != 0;
+}
+
+bool KeyboardState::GetKeyUp(SDL_Scancode keyCode) const
+{
+	// 前の状態は押されていた & 現在押されていない
+	return mPrevState[keyCode] != 0 && mCurrState[keyCode] == 0;
+}
+
+bool KeyboardState::GetKey(SDL_Scancode keyCode) const
+{
+	// 押し続けている（現在押されている）
+	return mCurrState[keyCode] != 0;
 }
 
 bool MouseState::GetButtonValue(int button) const
@@ -71,6 +91,24 @@ ButtonState MouseState::GetButtonState(int button) const
 	}
 }
 
+bool MouseState::GetButtonDown(int button) const
+{
+	int mask = SDL_BUTTON_MASK(button);
+	return (mask & mPrevButtons) == 0 && (mask & mCurrButtons) != 0;
+}
+
+bool MouseState::GetButtonUp(int button) const
+{
+	int mask = SDL_BUTTON_MASK(button);
+	return (mask & mPrevButtons) != 0 && (mask & mCurrButtons) == 0;
+}
+
+bool MouseState::GetButton(int button) const
+{
+	int mask = SDL_BUTTON_MASK(button);
+	return (mask & mCurrButtons) != 0;
+}
+
 bool ControllerState::GetButtonValue(SDL_GamepadButton button) const
 {
 	return mCurrButtons[button] == 1;
@@ -100,6 +138,21 @@ ButtonState ControllerState::GetButtonState(SDL_GamepadButton button) const
 			return EHeld;
 		}
 	}
+}
+
+bool ControllerState::GetButtonDown(SDL_GamepadButton button) const
+{
+	return mPrevButtons[button] == 0 && mCurrButtons[button] != 0;
+}
+
+bool ControllerState::GetButtonUp(SDL_GamepadButton button) const
+{
+	return mPrevButtons[button] != 0 && mCurrButtons[button] == 0;
+}
+
+bool ControllerState::GetButton(SDL_GamepadButton button) const
+{
+	return mCurrButtons[button] != 0;
 }
 
 bool InputSystem::Initialize()

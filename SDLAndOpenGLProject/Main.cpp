@@ -1,9 +1,12 @@
 #define SDL_MAIN_HANDLED
+#define NOMINMAX
+#include <windows.h>
 #include <stdio.h>
 #include "WinMain.h"
 
 int main(int argc, char* argv[]) {
-	WinMain game;
+	SetDllDirectoryA("Dll/");
+	GameWinMain game;
 	bool success = game.Initialize();
 	if (success)
 	{

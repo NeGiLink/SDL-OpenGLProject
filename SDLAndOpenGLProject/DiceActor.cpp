@@ -35,78 +35,78 @@ void DiceActor::ActorInput(const struct InputState& keys)
 {
 	bool input = false;
 	Vector3 pos;
-	if(keys.Keyboard.GetKeyState(SDL_SCANCODE_LSHIFT))
+	if(keys.Keyboard.GetKeyUp(SDL_SCANCODE_LSHIFT))
 	{
-		pos.y += 10.0f;
+		pos.y += 100.0f;
 		input = true;
 	}
-	else if (keys.Keyboard.GetKeyState(SDL_SCANCODE_RCTRL))
+	else if (keys.Keyboard.GetKeyUp(SDL_SCANCODE_RCTRL))
 	{
-		pos.y -= 10.0f;
-		input = true;
-	}
-
-	if (keys.Keyboard.GetKeyState(SDL_SCANCODE_RIGHT))
-	{
-		pos.x += 10.0f;
-		input = true;
-	}
-	else if (keys.Keyboard.GetKeyState(SDL_SCANCODE_LEFT))
-	{
-		pos.x -= 10.0f;
+		pos.y -= 100.0f;
 		input = true;
 	}
 
-	if (keys.Keyboard.GetKeyState(SDL_SCANCODE_UP))
+	if (keys.Keyboard.GetKeyUp(SDL_SCANCODE_RIGHT))
 	{
-		pos.z += 10.0f;
+		pos.x += 100.0f;
 		input = true;
 	}
-	else if (keys.Keyboard.GetKeyState(SDL_SCANCODE_DOWN))
+	else if (keys.Keyboard.GetKeyUp(SDL_SCANCODE_LEFT))
 	{
-		pos.z -= 10.0f;
+		pos.x -= 100.0f;
+		input = true;
+	}
+
+	if (keys.Keyboard.GetKeyUp(SDL_SCANCODE_UP))
+	{
+		pos.z += 100.0f;
+		input = true;
+	}
+	else if (keys.Keyboard.GetKeyUp(SDL_SCANCODE_DOWN))
+	{
+		pos.z -= 100.0f;
 		input = true;
 	}
 	Quaternion rot;
-	if (keys.Keyboard.GetKeyState(SDL_SCANCODE_Y))
+	if (keys.Keyboard.GetKey(SDL_SCANCODE_Y))
 	{
 		mAngleY += 0.1f;
 		input = true;
 	}
-	else if (keys.Keyboard.GetKeyState(SDL_SCANCODE_H))
+	else if (keys.Keyboard.GetKey(SDL_SCANCODE_H))
 	{
 		mAngleY -= 0.1f;
 		input = true;
 	}
 
-	if (keys.Keyboard.GetKeyState(SDL_SCANCODE_T))
+	if (keys.Keyboard.GetKey(SDL_SCANCODE_T))
 	{
 		mAngleX += 0.1f;
 		input = true;
 	}
-	else if (keys.Keyboard.GetKeyState(SDL_SCANCODE_G))
+	else if (keys.Keyboard.GetKey(SDL_SCANCODE_G))
 	{
 		mAngleX -= 0.1f;
 		input = true;
 	}
 
-	if (keys.Keyboard.GetKeyState(SDL_SCANCODE_U))
+	if (keys.Keyboard.GetKey(SDL_SCANCODE_U))
 	{
 		mAngleZ += 0.1f;
 		input = true;
 	}
-	else if (keys.Keyboard.GetKeyState(SDL_SCANCODE_J))
+	else if (keys.Keyboard.GetKey(SDL_SCANCODE_J))
 	{
 		mAngleZ -= 0.1f;
 		input = true;
 	}
 	Vector3 scale = GetScale();
-	if (keys.Keyboard.GetKeyState(SDL_SCANCODE_M))
+	if (keys.Keyboard.GetKeyDown(SDL_SCANCODE_M))
 	{
 		scale *= 1.5f;
 		input = true;
 	}
-	else if (keys.Keyboard.GetKeyState(SDL_SCANCODE_N))
+	else if (keys.Keyboard.GetKeyDown(SDL_SCANCODE_N))
 	{
 		scale *= 0.5f;
 		input = true;

@@ -71,6 +71,9 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>$(SolutionDir)</OutDir>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -113,6 +116,10 @@
       <AdditionalLibraryDirectories>$(ProjectDir)SDL3-3.2.8\lib\x64;$(ProjectDir)SDL3_image-3.2.4\lib\x64;$(ProjectDir)FMOD Studio API Windows\api\studio\lib;$(ProjectDir)FMOD Studio API Windows\api\lowlevel\lib;$(ProjectDir)SDL3_ttf-3.1.0\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>SDL3.lib;SDL3_image.lib;fmod_vc.lib;fmod64_vc.lib;fmodL_vc.lib;fmodL64_vc.lib;fmodstudio_vc.lib;fmodstudio64_vc.lib;fmodstudioL_vc.lib;fmodstudioL64_vc.lib;SDL3_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>

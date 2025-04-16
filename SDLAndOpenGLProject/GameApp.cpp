@@ -2,7 +2,7 @@
 #include "GameScene.h"
 #include "WinMain.h"
 
-GameApp::GameApp(WinMain* main) 
+GameApp::GameApp(GameWinMain* main) 
 	:mWinMain(main)
 {
 
@@ -23,9 +23,17 @@ bool GameApp::Initialize()
 	return true;
 }
 
+bool GameApp::ProcessInput()
+{
+	mGameScene->InputUpdate();
+
+	mBaseScene->ProcessInput();
+
+	return true;
+}
+
 bool GameApp::Update()
 {
-	mBaseScene->ProcessInput();
 
 	mGameScene->Update();
 
