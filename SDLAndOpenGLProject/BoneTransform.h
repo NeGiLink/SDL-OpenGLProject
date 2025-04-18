@@ -15,5 +15,7 @@ public:
 
 	Matrix4 ToMatrix() const;
 
+	void FromMatrix(Matrix4& mat);
+
 	static BoneTransform Interpolate(const BoneTransform& a, const BoneTransform& b, float f);
 };

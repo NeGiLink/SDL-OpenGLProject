@@ -8,7 +8,7 @@ class Animator
 {
 public:
 
-	bool Load(const std::string& fileName);
+	bool Load(const std::string& fileName,bool animLoop = 0);
 
 	std::vector<Animation*> GetAnimations() { return mAnimations; }
 

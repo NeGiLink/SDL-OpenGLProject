@@ -1,4 +1,5 @@
 #include "BoneTransform.h"
+#include "Actor.h"
 
 Matrix4 BoneTransform::ToMatrix() const
 {
@@ -7,6 +8,13 @@ Matrix4 BoneTransform::ToMatrix() const
 	Matrix4 scale = Matrix4::CreateScale(mScale);
 
 	return scale * rot * trans;
+}
+
+void BoneTransform::FromMatrix(Matrix4& mat)
+{
+	mScale = mat.GetScale();
+	mRotation = mat.GetRotation();
+	mPosition = mat.GetTranslation();
 }
 
 BoneTransform BoneTransform::Interpolate(const BoneTransform& a, const BoneTransform& b, float f)

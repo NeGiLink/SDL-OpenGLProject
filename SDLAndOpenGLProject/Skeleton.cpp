@@ -14,6 +14,8 @@
 
 #include <assimp/matrix4x4.h>
 
+#include "Actor.h"
+
 
 bool Skeleton::Load(const std::string& fileName)
 {
@@ -237,19 +239,19 @@ void Skeleton::SetParentBones(aiNode* node, int parentIndex)
 std::string Skeleton::ConvertSimpleBoneName(std::string boneName)
 {
 	std::string bone = boneName;
-	// We support these font sizes
-	std::vector<std::string> bns = {
+	// 各ボーンの部位の名前の配列
+	std::vector<std::string> boneNames = {
 		"Hips","Spine","Chest","Neck","Head",
 		"LeftShoulder","LeftArm","LeftForeArm","LeftHand",
 		"RightShoulder","RightArm","RightForeArm","RightHand",
 		"LeftUpLeg","LeftLeg","LeftFoot",
 		"RightUpLeg","RightLeg","RightFoot",
 	};
-	for (std::string bn : bns) 
+	for (std::string bonename : boneNames) 
 	{
-		if (bone.find(bn) != std::string::npos && EndsWith(bone, bn)) 
+		if (bone.find(bonename) != std::string::npos && EndsWith(bone, bonename)) 
 		{
-			bone = bn;
+			bone = bonename;
 		}
 	}
 	return bone;
@@ -263,15 +265,29 @@ bool Skeleton::EndsWith(const std::string& str, const std::string& suffix)
 
 Matrix4 Skeleton::GetBonePosition(std::string boneName)
 {
-	Matrix4 bonePos;
+	Matrix4 boneMatrix;
 	int index = 0;
 	if (mBoneTransform.find(boneName) != mBoneTransform.end())
 	{
 		index = mBoneTransform[boneName];
 	}
-	bonePos = mGlobalCurrentPoses[index];
+	boneMatrix = mGlobalCurrentPoses[index];
 	
-	return bonePos;
+	return boneMatrix;
+}
+
+void Skeleton::LocalBonePositionUpdateActor(std::string boneName, class ActorObject* actor, const class Matrix4& parentActor)
+{
+	//指定したボーンのマトリックスを取得
+	Matrix4 boneMatrix = GetBonePosition(boneName);
+
+	Vector3 position = parentActor.GetTranslation() + boneMatrix.GetTranslation();
+	actor->SetPosition(position);
+	Quaternion r = Quaternion(boneMatrix.GetRotation());
+	r =  Quaternion(Vector3::UnitX, Math::PiOver2);
+	r *= Quaternion(Vector3::UnitY, -Math::PiOver2);
+	r *= Quaternion(Vector3::UnitZ, Math::PiOver2);
+	actor->SetRotation(r);
 }
 
 void Skeleton::ComputeGlobalInvBindPose()

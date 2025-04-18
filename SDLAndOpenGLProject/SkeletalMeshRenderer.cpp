@@ -57,27 +57,74 @@ void SkeletalMeshRenderer::Update(float deltaTime)
 	if (mAnimation && mSkeleton)
 	{
 		mAnimTime += deltaTime * mAnimPlayRate;
-		// Wrap around anim time if past duration
-		while (mAnimTime > mAnimation->GetDuration())
+		if (mAnimation->IsLoop()) 
 		{
-			mAnimTime -= mAnimation->GetDuration();
+			if (mAnimTime > mAnimation->GetDuration()) 
+			{
+				mAnimTime = 0.0f;
+			}
 		}
-
+		else
+		{
+			if (mAnimTime > mAnimation->GetDuration())
+			{
+				mAnimTime = mAnimation->GetDuration();
+				if(!mAnimation->IsAnimationEnd())
+				{
+					mAnimation->SetIsAnimationEnd(true);
+				}
+			}
+		}
 		// Recompute matrix palette
 		ComputeMatrixPalette();
 	}
+
+	if (blending)
+	{
+		mBlendAnimTime += deltaTime * mAnimPlayRate;
+
+		float t = Math::Clamp(mBlendAnimTime / mBlendElapsed, 0.0f, 1.0f);
+
+		BlendComputeMatrixPalette();
+
+		if (t >= mBlendElapsed)
+		{
+			mAnimTime = mBlendAnimTime;
+			mAnimation = mBlendAnimation;
+			mBlendAnimation = nullptr;
+			blending = false;
+		}
+	}
 }
 
-float SkeletalMeshRenderer::PlayAnimation(const Animation* anim, float playRate)
+float SkeletalMeshRenderer::PlayAnimation(Animation* anim, float playRate)
 {
 	if (mAnimation == anim) { return 0.0f; }
 	mAnimation = anim;
 	mAnimTime = 0.0f;
 	mAnimPlayRate = playRate;
 
+	mAnimation->SetIsAnimationEnd(false);
+
 	if (!mAnimation) { return 0.0f; }
 
 	ComputeMatrixPalette();
+
+	return mAnimation->GetDuration();
+}
+
+float SkeletalMeshRenderer::PlayBlendAnimation(Animation* anim, float playRate, float blendTime)
+{
+	if (mAnimation == anim||mBlendAnimation == anim ) { return 0.0f; }
+
+	mBlendAnimation = anim;
+	mBlendElapsed = blendTime;
+	mAnimPlayRate = playRate;
+	mBlendAnimTime = 0.0f;
+
+	mBlendAnimation->SetIsAnimationEnd(false);
+	mAnimation->SetIsAnimationEnd(false);
+	blending = true;
 
 	return mAnimation->GetDuration();
 }
@@ -93,5 +140,48 @@ void SkeletalMeshRenderer::ComputeMatrixPalette()
 	{
 		// Global inverse bind pose matrix times current pose matrix
 		mPalette.mEntry[i] = globalInvBindPoses[i] * currentPoses[i];
+	}
+}
+
+void SkeletalMeshRenderer::BlendComputeMatrixPalette()
+{
+	const std::vector<Matrix4>& globalInvBindPoses = mSkeleton->GetGlobalInvBindPoses();
+	std::vector<Matrix4> poseA;
+	std::vector<Matrix4> poseB;
+	std::vector<Matrix4> finalPose;
+
+	// 経過時間に対する補間率
+	float t = Math::Clamp(mBlendAnimTime / mBlendElapsed, 0.0f, 1.0f);
+
+	// アニメーションタイムを使ってそれぞれのポーズを取得
+	mAnimation->GetGlobalPoseAtTime(poseA, mSkeleton, mAnimTime);
+	// 例：進行具合に応じて取得
+	mBlendAnimation->GetGlobalPoseAtTime(poseB, mSkeleton,mBlendAnimTime);
+
+	if (poseA.size() != poseB.size()) 
+	{
+		int a = poseA.size();
+		int b = poseB.size();
+	}
+
+	finalPose.resize(poseA.size());
+
+	for (size_t i = 0; i < poseA.size(); i++)
+	{
+		// BoneTransformに変換して補間（Lerp/Slerp）
+		BoneTransform transformA, transformB;
+		transformA.FromMatrix(poseA[i]);
+		transformB.FromMatrix(poseB[i]);
+
+		BoneTransform blended = BoneTransform::Interpolate(transformA,transformB,t);
+
+		finalPose[i] = blended.ToMatrix();
+	}
+
+	mSkeleton->SetGlobalCurrentPoses(finalPose);
+
+	for (size_t i = 0; i < mSkeleton->GetNumBones(); i++)
+	{
+		mPalette.mEntry[i] = globalInvBindPoses[i] * finalPose[i];
 	}
 }

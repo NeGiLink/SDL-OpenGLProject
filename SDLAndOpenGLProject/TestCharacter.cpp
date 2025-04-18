@@ -18,12 +18,12 @@ TestCharacter::TestCharacter(BaseScene* game)
 	mMeshComp->SetMeshs(game->GetWinMain()->GetRenderer()->GetMeshs("Paladin J Nordstrom.fbx"));
 	mMeshComp->SetSkeleton(GetGame()->GetSkeleton("Assets/Models/Paladin J Nordstrom.fbx"));
 	animator->SetSkeleton(mMeshComp->GetSkeleton());
-	animator->Load("Assets/Idle.fbx");
-	animator->Load("Assets/Running.fbx");
+	animator->Load("Assets/Idle.fbx",true);
+	animator->Load("Assets/Running.fbx",true);
 	animator->Load("Assets/Jumping.fbx");
-	animator->Load("Assets/Capoeira.fbx");
-	animator->Load("Assets/T-Pose.fbx");
-	//mMeshComp->PlayAnimation(animator->GetAnimations()[State::Idle]);
+	animator->Load("Assets/Capoeira.fbx",true);
+	animator->Load("Assets/T-Pose.fbx",true);
+	mMeshComp->PlayAnimation(animator->GetAnimations()[State::TPose]);
 
 	//mSword = new Sword(game);
 }
@@ -32,23 +32,23 @@ void TestCharacter::ActorInput(const struct InputState& keys)
 {
 	if (keys.Keyboard.GetKeyDown(SDL_SCANCODE_1))
 	{
-		mMeshComp->PlayAnimation(animator->GetAnimations()[State::TPose]);
+		mMeshComp->PlayBlendAnimation(animator->GetAnimations()[State::TPose]);
 	}
 	else if (keys.Keyboard.GetKeyDown(SDL_SCANCODE_2))
 	{
-		mMeshComp->PlayAnimation(animator->GetAnimations()[State::Idle]);
+		mMeshComp->PlayBlendAnimation(animator->GetAnimations()[State::Idle]);
 	}
 	else if (keys.Keyboard.GetKeyDown(SDL_SCANCODE_3))
 	{
-		mMeshComp->PlayAnimation(animator->GetAnimations()[State::Run]);
+		mMeshComp->PlayBlendAnimation(animator->GetAnimations()[State::Run]);
 	}
 	else if (keys.Keyboard.GetKeyDown(SDL_SCANCODE_4))
 	{
-		mMeshComp->PlayAnimation(animator->GetAnimations()[State::Jump]);
+		mMeshComp->PlayBlendAnimation(animator->GetAnimations()[State::Jump]);
 	}
 	else if (keys.Keyboard.GetKeyDown(SDL_SCANCODE_5))
 	{
-		mMeshComp->PlayAnimation(animator->GetAnimations()[State::Capoeira]);
+		mMeshComp->PlayBlendAnimation(animator->GetAnimations()[State::Capoeira]);
 	}
 }
 

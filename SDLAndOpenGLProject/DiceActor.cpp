@@ -70,34 +70,34 @@ void DiceActor::ActorInput(const struct InputState& keys)
 	Quaternion rot;
 	if (keys.Keyboard.GetKey(SDL_SCANCODE_Y))
 	{
-		mAngleY += 0.1f;
+		mRotationAmountY += 0.1f;
 		input = true;
 	}
 	else if (keys.Keyboard.GetKey(SDL_SCANCODE_H))
 	{
-		mAngleY -= 0.1f;
+		mRotationAmountY -= 0.1f;
 		input = true;
 	}
 
 	if (keys.Keyboard.GetKey(SDL_SCANCODE_T))
 	{
-		mAngleX += 0.1f;
+		mRotationAmountX += 0.1f;
 		input = true;
 	}
 	else if (keys.Keyboard.GetKey(SDL_SCANCODE_G))
 	{
-		mAngleX -= 0.1f;
+		mRotationAmountX -= 0.1f;
 		input = true;
 	}
 
 	if (keys.Keyboard.GetKey(SDL_SCANCODE_U))
 	{
-		mAngleZ += 0.1f;
+		mRotationAmountZ += 0.1f;
 		input = true;
 	}
 	else if (keys.Keyboard.GetKey(SDL_SCANCODE_J))
 	{
-		mAngleZ -= 0.1f;
+		mRotationAmountZ -= 0.1f;
 		input = true;
 	}
 	Vector3 scale = GetScale();
@@ -112,9 +112,9 @@ void DiceActor::ActorInput(const struct InputState& keys)
 		input = true;
 	}
 	if (!input) { return; }
-	rot = Quaternion(Vector3::UnitX, mAngleX);
-	rot *= Quaternion(Vector3::UnitY, mAngleY);
-	rot *= Quaternion(Vector3::UnitZ, mAngleZ);
+	rot = Quaternion(Vector3::UnitX, mRotationAmountX);
+	rot *= Quaternion(Vector3::UnitY, mRotationAmountY);
+	rot *= Quaternion(Vector3::UnitZ, mRotationAmountZ);
 	SetRotation(rot);
 	AddPosition(pos);
 	SetScale(scale);

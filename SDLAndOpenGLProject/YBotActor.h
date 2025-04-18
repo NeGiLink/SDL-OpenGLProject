@@ -20,7 +20,7 @@ private:
 		TPose
 	};
 
-	class SkeletalMeshRenderer*		mMeshComp;
+	class SkeletalMeshRenderer*		mSkeletonMesh;
 
 	class Animator*					animator;
 

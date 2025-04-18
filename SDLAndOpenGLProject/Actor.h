@@ -54,12 +54,18 @@ public:
 	void SetScale(float scale) { mScale = Vector3(scale,scale,scale);  mRecomputeWorldTransform = true; }
 	// Getters/setters
 	const Quaternion& GetRotation() const { return mRotation; }
+
+	void SetRotationAmountX(float rot) { mRotationAmountX = rot; }
+	void SetRotationAmountY(float rot) { mRotationAmountY = rot; }
+	void SetRotationAmountZ(float rot) { mRotationAmountZ = rot; }
 	
 	void SetRotation(const Quaternion& rotation) { mRotation = rotation;  mRecomputeWorldTransform = true; }
 	
 	void AddRotation(const Quaternion& rotation) { mRotation = rotation;  mRecomputeWorldTransform = true; }
 
 	void ComputeWorldTransform();
+
+	void LocalBonePositionUpdateActor(Matrix4 boneMatrix, const class Matrix4& parentActor);
 	
 	const Matrix4& GetWorldTransform() const { return mWorldTransform; }
 
@@ -111,6 +117,11 @@ protected:
 	Vector3							mPosition;
 
 	Quaternion						mRotation;
+
+	//XÅAYÅAZé≤ÇÃâÒì]ó 
+	float							mRotationAmountX;
+	float							mRotationAmountY;
+	float							mRotationAmountZ;
 
 	Vector3							mScale;
 
