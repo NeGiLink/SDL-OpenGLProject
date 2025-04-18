@@ -7,6 +7,9 @@ ActorObject::ActorObject(BaseScene* game)
 	:mState(EActive)
 	, mPosition(Vector3::Zero)
 	, mRotation(Quaternion::Identity)
+	, mRotationAmountX(0)
+	, mRotationAmountY(0)
+	, mRotationAmountZ(0)
 	, mScale(Vector3(1.0f,1.0f,1.0f))
 	, mGame(game)
 	, mRecomputeWorldTransform(true)
@@ -109,6 +112,19 @@ void ActorObject::ComputeWorldTransform()
 			comp->OnUpdateWorldTransform();
 		}
 	}
+}
+
+void ActorObject::LocalBonePositionUpdateActor(Matrix4 boneMatrix, const Matrix4& parentActor)
+{
+	Vector3 position = parentActor.GetTranslation() + boneMatrix.GetTranslation();
+	SetPosition(position);
+	Quaternion r = Quaternion(boneMatrix.GetRotation());
+	/*
+	r = Quaternion(Vector3::UnitX, mRotationAmountX);
+	r *= Quaternion(Vector3::UnitY, mRotationAmountY);
+	r *= Quaternion(Vector3::UnitZ, mRotationAmountZ);
+	*/
+	SetRotation(r);
 }
 
 void ActorObject::RotateToNewForward(const Vector3& forward)

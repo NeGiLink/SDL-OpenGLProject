@@ -51,6 +51,8 @@ public:
 	const std::unordered_map<std::string, int>& GetBoneNameToIndex() const { return boneNameToIndex; }
 
 	Matrix4 GetBonePosition(std::string boneName);
+	//Actorオブジェクトを指定したボーンの位置に更新する関数
+	void LocalBonePositionUpdateActor(std::string boneName,class ActorObject* actor, const class Matrix4& parentActor);
 protected:
 	// スケルトンがロードされると自動的に呼び出され、
 	// 各ボーンのグローバルインバインドポーズを計算。

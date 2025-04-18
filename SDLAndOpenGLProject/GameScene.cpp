@@ -144,7 +144,6 @@ bool GameScene::Initialize()
 	mFPSActor = new FPSActor(this);
 
 	mPlayer = mFPSActor;
-
 	mSphere = new SphereActor(this);
 	mSphere->SetPosition(Vector3(500.0f,0.0f,500.0f));
 
@@ -157,7 +156,6 @@ bool GameScene::Initialize()
 	a->SetPosition(Vector3(1000.0f, 200.0f, 500.0f));
 
 	a = new YBotActor(this);
-
 	a = new TestCharacter(this);
 
 	a = new SmallCharacter(this);

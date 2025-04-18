@@ -18,9 +18,5 @@ private:
 	std::vector<class BoxCollider*> mBoxs;
 
 	Vector3				mPos;
-
-	float				mAngleY;
-	float				mAngleX;
-	float				mAngleZ;
 };
 

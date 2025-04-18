@@ -975,6 +975,8 @@ public:
 		return *this;
 	}
 
+	
+
 	friend Quaternion operator*(const Quaternion& q1, const Quaternion& q2)
 	{
 		return Quaternion(
@@ -1166,40 +1168,41 @@ public:
 		{
 			float s = sqrtf(trace + 1.0f) * 2.0f;
 			q.w = 0.25f * s;
-			q.x = (mat[2][1] - mat[1][2]) / s;
-			q.y = (mat[0][2] - mat[2][0]) / s;
-			q.z = (mat[1][0] - mat[0][1]) / s;
+			q.x = (mat[1][2] - mat[2][1]) / s;
+			q.y = (mat[2][0] - mat[0][2]) / s;
+			q.z = (mat[0][1] - mat[1][0]) / s;
 		}
 		else
 		{
 			if (mat[0][0] > mat[1][1] && mat[0][0] > mat[2][2])
 			{
 				float s = sqrtf(1.0f + mat[0][0] - mat[1][1] - mat[2][2]) * 2.0f;
-				q.w = (mat[2][1] - mat[1][2]) / s;
+				q.w = (mat[1][2] - mat[2][1]) / s;
 				q.x = 0.25f * s;
-				q.y = (mat[0][1] + mat[1][0]) / s;
-				q.z = (mat[0][2] + mat[2][0]) / s;
+				q.y = (mat[1][0] + mat[0][1]) / s;
+				q.z = (mat[2][0] + mat[0][2]) / s;
 			}
 			else if (mat[1][1] > mat[2][2])
 			{
 				float s = sqrtf(1.0f + mat[1][1] - mat[0][0] - mat[2][2]) * 2.0f;
-				q.w = (mat[0][2] - mat[2][0]) / s;
-				q.x = (mat[0][1] + mat[1][0]) / s;
+				q.w = (mat[2][0] - mat[0][2]) / s;
+				q.x = (mat[1][0] + mat[0][1]) / s;
 				q.y = 0.25f * s;
-				q.z = (mat[1][2] + mat[2][1]) / s;
+				q.z = (mat[2][1] + mat[1][2]) / s;
 			}
 			else
 			{
 				float s = sqrtf(1.0f + mat[2][2] - mat[0][0] - mat[1][1]) * 2.0f;
-				q.w = (mat[1][0] - mat[0][1]) / s;
-				q.x = (mat[0][2] + mat[2][0]) / s;
-				q.y = (mat[1][2] + mat[2][1]) / s;
+				q.w = (mat[0][1] - mat[1][0]) / s;
+				q.x = (mat[2][0] + mat[0][2]) / s;
+				q.y = (mat[2][1] + mat[1][2]) / s;
 				q.z = 0.25f * s;
 			}
 		}
 
 		return q;
 	}
+
 
 	// x、y、zのスケールを持つスケール行列を作成
 	static Matrix4 CreateScale(float xScale, float yScale, float zScale)
@@ -1300,19 +1303,19 @@ public:
 		return Matrix4(temp);
 	}
 
-	static Matrix4 CreateOrtho(float width, float height, float near_m, float far_m)
+	static Matrix4 CreateOrtho(float width, float height, float near, float far)
 	{
 		float temp[4][4] =
 		{
 			{ 2.0f / width, 0.0f, 0.0f, 0.0f },
 			{ 0.0f, 2.0f / height, 0.0f, 0.0f },
-			{ 0.0f, 0.0f, 1.0f / (far_m - near_m), 0.0f },
-			{ 0.0f, 0.0f, near_m / (near_m - far_m), 1.0f }
+			{ 0.0f, 0.0f, 1.0f / (far - near), 0.0f },
+			{ 0.0f, 0.0f, near / (near - far), 1.0f }
 		};
 		return Matrix4(temp);
 	}
 
-	static Matrix4 CreatePerspectiveFOV(float fovY, float width, float height, float near_m, float far_m)
+	static Matrix4 CreatePerspectiveFOV(float fovY, float width, float height, float near, float far)
 	{
 		float yScale = Math::Cot(fovY / 2.0f);
 		float xScale = yScale * height / width;
@@ -1320,8 +1323,8 @@ public:
 		{
 			{ xScale, 0.0f, 0.0f, 0.0f },
 			{ 0.0f, yScale, 0.0f, 0.0f },
-			{ 0.0f, 0.0f, far_m / (far_m - near_m), 1.0f },
-			{ 0.0f, 0.0f, -near_m * far_m / (far_m - near_m), 0.0f }
+			{ 0.0f, 0.0f, far / (far - near), 1.0f },
+			{ 0.0f, 0.0f, -near * far / (far - near), 0.0f }
 		};
 		return Matrix4(temp);
 	}
@@ -1337,6 +1340,50 @@ public:
 			{ 0.0f, 0.0f, 1.0f, 1.0f }
 		};
 		return Matrix4(temp);
+	}
+
+	static Quaternion FromMatrix(const Matrix4& mat)
+	{
+		Quaternion q;
+		float trace = mat.mat[0][0] + mat.mat[1][1] + mat.mat[2][2];
+
+		if (trace > 0.0f)
+		{
+			float s = Math::Sqrt(trace + 1.0f) * 2.0f;
+			q.w = 0.25f * s;
+			q.x = (mat.mat[2][1] - mat.mat[1][2]) / s;
+			q.y = (mat.mat[0][2] - mat.mat[2][0]) / s;
+			q.z = (mat.mat[1][0] - mat.mat[0][1]) / s;
+		}
+		else
+		{
+			if (mat.mat[0][0] > mat.mat[1][1] && mat.mat[0][0] > mat.mat[2][2])
+			{
+				float s = Math::Sqrt(1.0f + mat.mat[0][0] - mat.mat[1][1] - mat.mat[2][2]) * 2.0f;
+				q.w = (mat.mat[2][1] - mat.mat[1][2]) / s;
+				q.x = 0.25f * s;
+				q.y = (mat.mat[0][1] + mat.mat[1][0]) / s;
+				q.z = (mat.mat[0][2] + mat.mat[2][0]) / s;
+			}
+			else if (mat.mat[1][1] > mat.mat[2][2])
+			{
+				float s = Math::Sqrt(1.0f + mat.mat[1][1] - mat.mat[0][0] - mat.mat[2][2]) * 2.0f;
+				q.w = (mat.mat[0][2] - mat.mat[2][0]) / s;
+				q.x = (mat.mat[0][1] + mat.mat[1][0]) / s;
+				q.y = 0.25f * s;
+				q.z = (mat.mat[1][2] + mat.mat[2][1]) / s;
+			}
+			else
+			{
+				float s = Math::Sqrt(1.0f + mat.mat[2][2] - mat.mat[0][0] - mat.mat[1][1]) * 2.0f;
+				q.w = (mat.mat[1][0] - mat.mat[0][1]) / s;
+				q.x = (mat.mat[0][2] + mat.mat[2][0]) / s;
+				q.y = (mat.mat[1][2] + mat.mat[2][1]) / s;
+				q.z = 0.25f * s;
+			}
+		}
+
+		return q;
 	}
 
 	static const Matrix4 Identity;
