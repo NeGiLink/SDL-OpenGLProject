@@ -28,6 +28,8 @@ private:
 
 	class SphereActor* mSphere;
 
+	class CubeActor* mCube;
+
 	class DiceActor* mDice;
 
 	class CapsuleActor* mCapsule;

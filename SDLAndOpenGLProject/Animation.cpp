@@ -141,7 +141,7 @@ bool Animation::LoadFromFBX(const std::string& fileName)
 {
 	Assimp::Importer importer;
 	const aiScene* scene = importer.ReadFile(fileName,
-		aiProcess_Triangulate | aiProcess_LimitBoneWeights);
+		aiProcess_Triangulate | aiProcess_LimitBoneWeights| aiProcess_GlobalScale);
 
 	if (!scene || !scene->HasAnimations()) {
 		SDL_Log("No animations found in FBX: %s", fileName.c_str());

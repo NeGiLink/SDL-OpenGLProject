@@ -14,16 +14,12 @@ SphereActor::SphereActor(BaseScene* game)
 	mc->SetMesh(mesh);
 	// Add collision Sphere
 	mSphere = new SphereCollider(this);
-	Sphere sphere(Vector3::Zero, 1.0f);
+	Sphere sphere(mPosition, 0.5f);
 	mSphere->SetObjectSphere(sphere);
-
-	SetScale(100.0f);
 }
 
 void SphereActor::UpdateActor(float deltaTime)
 {
-	mRecomputeWorldTransform = true;
-	ComputeWorldTransform();
 }
 
 void SphereActor::OnCollisionEnter(ActorObject* target)

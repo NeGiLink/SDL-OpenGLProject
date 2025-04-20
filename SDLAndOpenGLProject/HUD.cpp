@@ -51,9 +51,9 @@ void HUD::Draw(Shader* shader)
 	if (GameStateClass::mGameState == EPaused) { return; }
 	Image* crosshair = mTargetEnemy ? mCrosshairEnemy : mCrosshair;
 	crosshair->SetPosition(Vector2::Zero);
-	mCrosshairAngle++;
-	crosshair->SetAngleZ(mCrosshairAngle);
-	crosshair->SetScale(Vector3(1.5f, 0.5f,1.0f));
+	//mCrosshairAngle++;
+	//crosshair->SetAngleZ(mCrosshairAngle);
+	//crosshair->SetScale(Vector3(1.5f, 0.5f,1.0f));
 	
 	crosshair->Draw(shader);
 
@@ -64,6 +64,7 @@ void HUD::Draw(Shader* shader)
 	// Blips
 	for (Vector2& blip : mBlips)
 	{
+		blip *= 100.0f;
 		mBlipTex->SetPosition(cRadarPos + blip);
 		mBlipTex->Draw(shader);
 	}

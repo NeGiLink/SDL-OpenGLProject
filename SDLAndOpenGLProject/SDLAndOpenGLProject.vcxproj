@@ -149,6 +149,7 @@
     <ClCompile Include="BallMove.cpp" />
     <ClCompile Include="BaseScene.cpp" />
     <ClCompile Include="BGSpriteComponent.cpp" />
+    <ClCompile Include="BoneActor.cpp" />
     <ClCompile Include="BoneTransform.cpp" />
     <ClCompile Include="BoxCollider.cpp" />
     <ClCompile Include="CameraActor.cpp" />
@@ -161,6 +162,7 @@
     <ClCompile Include="CollisionActor.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="ConvertNumToString.cpp" />
+    <ClCompile Include="CubeActor.cpp" />
     <ClCompile Include="DialogBox.cpp" />
     <ClCompile Include="DiceActor.cpp" />
     <ClCompile Include="FollowCamera.cpp" />
@@ -204,7 +206,6 @@
     <ClCompile Include="SplineActor.cpp" />
     <ClCompile Include="SplineCamera.cpp" />
     <ClCompile Include="SpriteComponent.cpp" />
-    <ClCompile Include="TwoObjectActor.cpp" />
     <ClCompile Include="TargetActor.cpp" />
     <ClCompile Include="TargetComponent.cpp" />
     <ClCompile Include="TestCharacter.cpp" />
@@ -226,6 +227,7 @@
     <ClInclude Include="BallMove.h" />
     <ClInclude Include="BaseScene.h" />
     <ClInclude Include="BGSpriteComponent.h" />
+    <ClInclude Include="BoneActor.h" />
     <ClInclude Include="BoneTransform.h" />
     <ClInclude Include="BoxCollider.h" />
     <ClInclude Include="CameraActor.h" />
@@ -238,6 +240,7 @@
     <ClInclude Include="CollisionActor.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="ConvertNumToString.h" />
+    <ClInclude Include="CubeActor.h" />
     <ClInclude Include="DialogBox.h" />
     <ClInclude Include="DiceActor.h" />
     <ClInclude Include="FilePath.h" />
@@ -287,7 +290,6 @@
     <ClInclude Include="SplineActor.h" />
     <ClInclude Include="SplineCamera.h" />
     <ClInclude Include="SpriteComponent.h" />
-    <ClInclude Include="TwoObjectActor.h" />
     <ClInclude Include="TargetActor.h" />
     <ClInclude Include="TargetComponent.h" />
     <ClInclude Include="TestCharacter.h" />
@@ -297,18 +299,18 @@
     <ClInclude Include="YBotActor.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\Shaders\BasicMesh.vert" />
+    <None Include="..\Shaders\GBufferGlobal.frag" />
+    <None Include="..\Shaders\GBufferGlobal.vert" />
+    <None Include="..\Shaders\GBufferPointLight.frag" />
+    <None Include="..\Shaders\GBufferWrite.frag" />
+    <None Include="..\Shaders\LineSprite.frag" />
+    <None Include="..\Shaders\LineSprite.vert" />
+    <None Include="..\Shaders\Phong.vert" />
+    <None Include="..\Shaders\Skinned.vert" />
+    <None Include="..\Shaders\Sprite.frag" />
+    <None Include="..\Shaders\Sprite.vert" />
     <None Include="packages.config" />
-    <None Include="Shaders\BasicMesh.vert" />
-    <None Include="Shaders\GBufferGlobal.frag" />
-    <None Include="Shaders\GBufferGlobal.vert" />
-    <None Include="Shaders\GBufferPointLight.frag" />
-    <None Include="Shaders\GBufferWrite.frag" />
-    <None Include="Shaders\LineSprite.frag" />
-    <None Include="Shaders\LineSprite.vert" />
-    <None Include="Shaders\Phong.vert" />
-    <None Include="Shaders\Skinned.vert" />
-    <None Include="Shaders\Sprite.frag" />
-    <None Include="Shaders\Sprite.vert" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="SDLAndOpenGLProject.rc" />

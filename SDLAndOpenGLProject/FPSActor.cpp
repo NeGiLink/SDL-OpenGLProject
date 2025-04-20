@@ -26,15 +26,15 @@ FPSActor::FPSActor(BaseScene* game)
 
 	// ボックスの当たり判定の機能を追加
 	mBoxComp = new BoxCollider(this);
-	AABB myBox(Vector3(-25.0f, -87.5f, -25.0f),
-		Vector3(25.0f, 87.5f, 25.0f));
+	AABB myBox(Vector3(-1, -1, -1),Vector3(1, 1, 1));
 	mBoxComp->SetObjectBox(myBox);
 	mBoxComp->SetShouldRotate(false);
-
+	/*
 	mSword = new Sword(game);
 	Vector3 pos = GetPosition();
 	mSword->SetPosition(pos);
 	AddChildActor(mSword);
+	*/
 }
 
 void FPSActor::UpdateActor(float deltaTime)
@@ -63,27 +63,27 @@ void FPSActor::ActorInput(const struct InputState& keys)
 	// wasd movement
 	if (keys.Keyboard.GetKey(SDL_SCANCODE_W))
 	{
-		forwardSpeed += 400.0f;
+		forwardSpeed += 4.0f;
 	}
 	if (keys.Keyboard.GetKey(SDL_SCANCODE_S))
 	{
-		forwardSpeed -= 400.0f;
+		forwardSpeed -= 4.0f;
 	}
 	if (keys.Keyboard.GetKey(SDL_SCANCODE_A))
 	{
-		strafeSpeed -= 400.0f;
+		strafeSpeed -= 4.0f;
 	}
 	if (keys.Keyboard.GetKey(SDL_SCANCODE_D))
 	{
-		strafeSpeed += 400.0f;
+		strafeSpeed += 4.0f;
 	}
 	if(keys.Keyboard.GetKey(SDL_SCANCODE_0))
 	{
-		upSpeed -= 400.0f;
+		upSpeed -= 4.0f;
 	}
 	if (keys.Keyboard.GetKey(SDL_SCANCODE_9))
 	{
-		upSpeed += 400.0f;
+		upSpeed += 4.0f;
 	}
 
 	mMoveComp->SetForwardSpeed(forwardSpeed);
@@ -117,7 +117,7 @@ void FPSActor::ActorInput(const struct InputState& keys)
 		pitchSpeed *= maxPitchSpeed;
 	}
 	mCameraComp->SetPitchSpeed(pitchSpeed);
-
+	/*
 	//子オブジェクトを解除・セットする処理(テスト用)
 	if (keys.Keyboard.GetKey(SDL_SCANCODE_O))
 	{
@@ -127,6 +127,7 @@ void FPSActor::ActorInput(const struct InputState& keys)
 	{
 		AddChildActor(mSword);
 	}
+	*/
 }
 
 void FPSActor::Shoot()
@@ -166,7 +167,7 @@ void FPSActor::SetVisible(bool visible)
 void FPSActor::FixCollisions()
 {
 	// ワールドボックスを更新するために、ワールド変換を再計算する必要があります。
-	ComputeWorldTransform();
+	ComputeWorldTransform(NULL);
 
 	const AABB& playerBox = mBoxComp->GetWorldBox();
 	Vector3 pos = GetPosition();

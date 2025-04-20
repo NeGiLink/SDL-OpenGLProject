@@ -1,4 +1,4 @@
-#include "DiceActor.h"
+#include "CubeActor.h"
 #include "WinMain.h"
 #include "BaseScene.h"
 #include "Renderer.h"
@@ -6,11 +6,11 @@
 #include "BoxCollider.h"
 #include "Mesh.h"
 
-DiceActor::DiceActor(BaseScene* game)
+CubeActor::CubeActor(BaseScene* game)
 	:ActorObject(game)
 {
 	MeshRenderer* mc = new MeshRenderer(this);
-	Mesh* mesh = game->GetWinMain()->GetRenderer()->GetMesh("TestCube.fbx");
+	Mesh* mesh = game->GetWinMain()->GetRenderer()->GetMesh("Cube.fbx");
 	mc->SetMesh(mesh);
 	// Add collision box
 	for (unsigned int i = 0; i < mc->GetMeshs().size(); i++) {
@@ -22,19 +22,17 @@ DiceActor::DiceActor(BaseScene* game)
 			mBoxs.push_back(box);
 		}
 	}
-	//SetScale(50.0f);
 }
 
-void DiceActor::UpdateActor(float deltaTime)
+void CubeActor::UpdateActor(float deltaTime)
 {
 }
 
-void DiceActor::ActorInput(const struct InputState& keys)
+void CubeActor::ActorInput(const InputState& keys)
 {
-	/*
 	bool input = false;
 	Vector3 pos;
-	if(keys.Keyboard.GetKeyUp(SDL_SCANCODE_LSHIFT))
+	if (keys.Keyboard.GetKeyUp(SDL_SCANCODE_LSHIFT))
 	{
 		pos.y += 1.0f;
 		input = true;
@@ -117,10 +115,9 @@ void DiceActor::ActorInput(const struct InputState& keys)
 	SetRotation(rot);
 	AddPosition(pos);
 	SetScale(scale);
-	*/
 }
 
-void DiceActor::OnCollisionEnter(ActorObject* target)
+void CubeActor::OnCollisionEnter(ActorObject* target)
 {
-	SDL_Log("Dice Hit!");
+	SDL_Log("Cube Hit!");
 }

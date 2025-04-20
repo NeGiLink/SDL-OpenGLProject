@@ -290,6 +290,12 @@ public:
 		return Vector3(a.x - b.x, a.y - b.y, a.z - b.z);
 	}
 
+	// ベクトル減算（a - b）
+	friend Vector3 operator/(const Vector3& a, const Vector3& b)
+	{
+		return Vector3(a.x / b.x, a.y / b.y, a.z / b.z);
+	}
+
 	// 要素ごとの乗算
 	friend Vector3 operator*(const Vector3& left, const Vector3& right)
 	{
@@ -339,12 +345,29 @@ public:
 		return *this;
 	}
 
+	// Vector +=
+	Vector3& operator+=(const float right)
+	{
+		x += right;
+		y += right;
+		z += right;
+		return *this;
+	}
+
 	// Vector -=
 	Vector3& operator-=(const Vector3& right)
 	{
 		x -= right.x;
 		y -= right.y;
 		z -= right.z;
+		return *this;
+	}
+
+	Vector3& operator-=(const float right)
+	{
+		x -= right;
+		y -= right;
+		z -= right;
 		return *this;
 	}
 
@@ -1013,7 +1036,7 @@ public:
 	friend Matrix4 operator*(const Matrix4& a, const Matrix4& b)
 	{
 		Matrix4 retVal;
-		// row 0
+		// 行 0
 		retVal.mat[0][0] =
 			a.mat[0][0] * b.mat[0][0] +
 			a.mat[0][1] * b.mat[1][0] +
@@ -1038,7 +1061,7 @@ public:
 			a.mat[0][2] * b.mat[2][3] +
 			a.mat[0][3] * b.mat[3][3];
 
-		// row 1
+		// 行 1
 		retVal.mat[1][0] =
 			a.mat[1][0] * b.mat[0][0] +
 			a.mat[1][1] * b.mat[1][0] +
@@ -1063,7 +1086,7 @@ public:
 			a.mat[1][2] * b.mat[2][3] +
 			a.mat[1][3] * b.mat[3][3];
 
-		// row 2
+		// 行 2
 		retVal.mat[2][0] =
 			a.mat[2][0] * b.mat[0][0] +
 			a.mat[2][1] * b.mat[1][0] +
@@ -1088,7 +1111,7 @@ public:
 			a.mat[2][2] * b.mat[2][3] +
 			a.mat[2][3] * b.mat[3][3];
 
-		// row 3
+		// 行 3
 		retVal.mat[3][0] =
 			a.mat[3][0] * b.mat[0][0] +
 			a.mat[3][1] * b.mat[1][0] +
@@ -1269,7 +1292,7 @@ public:
 
 	// クォータニオンから回転行列を作成
 	static Matrix4 CreateFromQuaternion(const class Quaternion& q);
-
+	// Positionを取得(行優先)
 	static Matrix4 CreateTranslation(const Vector3& trans)
 	{
 		float temp[4][4] =

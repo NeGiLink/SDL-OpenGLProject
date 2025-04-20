@@ -23,11 +23,12 @@
 #include "Animator.h"
 #include "PointLightComponent.h"
 #include "DiceActor.h"
-#include "TwoObjectActor.h"
+
 #include "TestCharacter.h"
 #include "YBotActor.h"
 #include "SmallCharacter.h"
 
+#include "CubeActor.h"
 #include "SphereActor.h"
 #include "CapsuleActor.h"
 
@@ -48,75 +49,12 @@ bool GameScene::Initialize()
 	ActorObject* a = nullptr;
 	Quaternion q;
 
-
 	// Setup floor
-	const float start = -1250.0f;
-	const float size = 250.0f;
-	for (int i = 0; i < 10; i++)
-	{
-		for (int j = 0; j < 10; j++)
-		{
-			a = new PlaneActor(this);
-			Vector3 pos = Vector3(start + j * size, -100.0f, start + i * size);
-			a->SetPosition(pos);
-			a->SetRotation(q);
-			// Create some point lights
-			a = new ActorObject(this);
-			pos.y += 100.0f;
-			a->SetPosition(pos);
-			PointLightComponent* p = new PointLightComponent(a);
-			Vector3 color;
-			switch ((i + j) % 5)
-			{
-			case 0:
-				color = Color::Green;
-				break;
-			case 1:
-				color = Color::Blue;
-				break;
-			case 2:
-				color = Color::Red;
-				break;
-			case 3:
-				color = Color::Yellow;
-				break;
-			case 4:
-				color = Color::LightPink;
-				break;
-			}
-			p->mDiffuseColor = color;
-			p->mInnerRadius = 100.0f;
-			p->mOuterRadius = 200.0f;
-		}
-	}
-
-	// Left/right walls
-	q = Quaternion(Vector3::UnitZ, -Math::PiOver2);
-	for (int i = 0; i < 10; i++)
-	{
-		a = new PlaneActor(this);
-		a->SetPosition(Vector3(start - size, .0f, start + i * size));
-		a->SetRotation(q);
-
-		a = new PlaneActor(this);
-		a->SetPosition(Vector3(-start + size, 0.0f, start + i * size));
-		a->SetRotation(q);
-	}
-
-
-	q = Quaternion::Concatenate(q, Quaternion(Vector3::UnitY, Math::PiOver2));
-	// Forward/back walls
-	for (int i = 0; i < 10; i++)
-	{
-
-		a = new PlaneActor(this);
-		a->SetPosition(Vector3(start + i * size, 0.0f, start - size));
-		a->SetRotation(q);
-
-		a = new PlaneActor(this);
-		a->SetPosition(Vector3(start + i * size, 0.0f, -start + size));
-		a->SetRotation(q);
-	}
+	a = new PlaneActor(this);
+	Vector3 pos = Vector3(0.0f,-1.5f,0.0f);
+	a->SetPosition(pos);
+	a->SetRotation(q);
+	
 
 	// Setup lights
 	mWinMain->GetRenderer()->SetAmbientLight(Vector3(0.4f, 0.4f, 0.4f));
@@ -144,18 +82,23 @@ bool GameScene::Initialize()
 	mFPSActor = new FPSActor(this);
 
 	mPlayer = mFPSActor;
-	mSphere = new SphereActor(this);
-	mSphere->SetPosition(Vector3(500.0f,0.0f,500.0f));
 
 	mCapsule = new CapsuleActor(this);
-	mCapsule->SetPosition(Vector3(250, 100, 500.0f));
+	mCapsule->SetPosition(Vector3(2.0f, -1.0f, 2.0f));
+
+	mSphere = new SphereActor(this);
+	mSphere->SetPosition(Vector3(-2.0f, -1.0f, 2.0f));
+
+	mCube = new CubeActor(this);
+	mCube->SetPosition(Vector3(0.0f, -1.0f, 2.0f));
+	mCube->AddChildActor(mSphere);
 
 	mDice = new DiceActor(this);
-	mDice->SetPosition(Vector3(-250.0f, 0.0f, 500.0f));
-	a = new TwoObjectActor(this);
-	a->SetPosition(Vector3(1000.0f, 200.0f, 500.0f));
+	mDice->SetPosition(Vector3(0.0f, -1.0f, -2.0f));
+	
 
 	a = new YBotActor(this);
+	
 	a = new TestCharacter(this);
 
 	a = new SmallCharacter(this);
@@ -164,22 +107,22 @@ bool GameScene::Initialize()
 	// Create target actors
 	q = Quaternion();
 	a = new TargetActor(this);
-	a->SetPosition(Vector3(0.0f, 100.0f, 1450.0f));
+	a->SetPosition(Vector3(0.0f, 1.0f, 14.5f));
 	a->SetRotation(q);
 	a = new TargetActor(this);
-	a->SetPosition(Vector3(0.0f, 400.0f, 1450.0f));
+	a->SetPosition(Vector3(0.0f, 4.0f, 14.5f));
 	a->SetRotation(q);
 	a = new TargetActor(this);
-	a->SetPosition(Vector3(-500.0f, 200.0f, 1450.0f));
+	a->SetPosition(Vector3(-5.0f, 2.0f, 14.5f));
 	a->SetRotation(q);
 	a = new TargetActor(this);
-	a->SetPosition(Vector3(500.0f, 200.0f, 1450.0f));
+	a->SetPosition(Vector3(5.0f, 2.0f, 14.5f));
 	a->SetRotation(q);
 	a = new TargetActor(this);
-	a->SetPosition(Vector3(-1450.0f, 200.0f, 0.0f));
+	a->SetPosition(Vector3(-14.5f, 2.0f, 0.0f));
 	a->SetRotation(Quaternion(Vector3::UnitY, Math::PiOver2));
 	a = new TargetActor(this);
-	a->SetPosition(Vector3(1450.0f, 200.0f, 0.0f));
+	a->SetPosition(Vector3(14.5f, 2.0f, 0.0f));
 	a->SetRotation(Quaternion(Vector3::UnitY, -Math::PiOver2));
 
 	return true;

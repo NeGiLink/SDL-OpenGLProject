@@ -206,8 +206,15 @@ void Matrix4::Invert()
 
 Matrix4 Matrix4::CreateFromQuaternion(const class Quaternion& q)
 {
-	float mat[4][4];
-
+	float mat[4][4] =
+	{
+		{1.0f - 2.0f * q.y * q.y - 2.0f * q.z * q.z , 2.0f * q.x * q.y + 2.0f * q.w * q.z        , 2.0f * q.x * q.z - 2.0f * q.w * q.y        , 0.0f},
+		{2.0f * q.x * q.y - 2.0f * q.w * q.z        , 1.0f - 2.0f * q.x * q.x - 2.0f * q.z * q.z , 2.0f * q.y * q.z + 2.0f * q.w * q.x        , 0.0f},
+		{2.0f * q.x * q.z + 2.0f * q.w * q.y        , 2.0f * q.y * q.z - 2.0f * q.w * q.x        , 1.0f - 2.0f * q.x * q.x - 2.0f * q.y * q.y , 0.0f},
+		{0.0f                                       , 0.0f                                       , 0.0f                                       , 1.0f},
+	};
+	return Matrix4(mat);
+	/*
 	mat[0][0] = 1.0f - 2.0f * q.y * q.y - 2.0f * q.z * q.z;
 	mat[0][1] = 2.0f * q.x * q.y + 2.0f * q.w * q.z;
 	mat[0][2] = 2.0f * q.x * q.z - 2.0f * q.w * q.y;
@@ -227,8 +234,8 @@ Matrix4 Matrix4::CreateFromQuaternion(const class Quaternion& q)
 	mat[3][1] = 0.0f;
 	mat[3][2] = 0.0f;
 	mat[3][3] = 1.0f;
+	*/
 
-	return Matrix4(mat);
 	/*
 	float mat[4][4];
 

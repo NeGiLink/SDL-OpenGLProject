@@ -9,7 +9,6 @@
 Sword::Sword(BaseScene* game)
 	:ActorObject(game)
 {
-	SetScale(Vector3(100.0f, 100.0f, 100.0f));
 	
 	MeshRenderer* mc = new MeshRenderer(this);
 	Mesh* mesh = game->GetWinMain()->GetRenderer()->GetMesh("Sword.fbx");

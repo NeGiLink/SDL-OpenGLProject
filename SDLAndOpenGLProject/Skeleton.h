@@ -8,6 +8,7 @@
 class Skeleton
 {
 public:
+	//スケルトンのタイプのタグ
 	enum SkeletonType 
 	{
 		Humanoid,
@@ -51,8 +52,6 @@ public:
 	const std::unordered_map<std::string, int>& GetBoneNameToIndex() const { return boneNameToIndex; }
 
 	Matrix4 GetBonePosition(std::string boneName);
-	//Actorオブジェクトを指定したボーンの位置に更新する関数
-	void LocalBonePositionUpdateActor(std::string boneName,class ActorObject* actor, const class Matrix4& parentActor);
 protected:
 	// スケルトンがロードされると自動的に呼び出され、
 	// 各ボーンのグローバルインバインドポーズを計算。
@@ -64,7 +63,7 @@ private:
 	std::vector<aiMatrix4x4>				mOffsetMatrix;
 	// 各骨に対するグローバル逆束縛ポーズ
 	std::vector<Matrix4>					mGlobalInvBindPoses;
-
+	//スケルトンのボーンのアニメーション適用後の座標を持つマトリックス
 	std::vector<Matrix4>					mGlobalCurrentPoses;
 
 	std::unordered_map<std::string, int>	boneNameToIndex;

@@ -574,7 +574,7 @@ bool Renderer::LoadShaders()
 	// ビュー投影行列を設定する
 	mView = Matrix4::CreateLookAt(Vector3::Zero, Vector3::UnitX, Vector3::UnitZ);
 	mProjection = Matrix4::CreatePerspectiveFOV(Math::ToRadians(70.0f),
-		mScreenWidth, mScreenHeight, 10.0f, 10000.0f);
+		mScreenWidth, mScreenHeight, 1.0f, 10000.0f);
 	mMeshShader->SetMatrixUniform("uViewProj", mView * mProjection);
 
 	// スキンシェーダーを作成する

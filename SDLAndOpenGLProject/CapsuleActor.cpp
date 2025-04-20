@@ -12,18 +12,15 @@ CapsuleActor::CapsuleActor(BaseScene* game)
 	MeshRenderer* mc = new MeshRenderer(this);
 	Mesh* mesh = game->GetWinMain()->GetRenderer()->GetMesh("Capsule.fbx");
 	mc->SetMesh(mesh);
+
 	// Add collision Sphere
 	mCapsule = new CapsuleCollider(this);
-	Capsule capsule(Vector3(0,100.0f,0), Vector3(0, -100.0f, 0), 1.0f);
+	Capsule capsule(mPosition + Vector3(0,1.0f,0), mPosition + Vector3(0, -1.0f, 0), 0.5f);
 	mCapsule->SetObjectCapsule(capsule);
-
-	SetScale(100.0f);
 }
 
 void CapsuleActor::UpdateActor(float deltaTime)
 {
-	mRecomputeWorldTransform = true;
-	ComputeWorldTransform();
 }
 
 void CapsuleActor::OnCollisionEnter(ActorObject* target)
