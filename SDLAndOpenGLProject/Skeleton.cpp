@@ -148,7 +148,7 @@ bool Skeleton::LoadFromFBX(const std::string& fileName)
 {
 	Assimp::Importer importer;
 	const aiScene* scene = importer.ReadFile(fileName,
-		aiProcess_Triangulate | aiProcess_LimitBoneWeights);
+		aiProcess_Triangulate | aiProcess_LimitBoneWeights | aiProcess_GlobalScale);
 
 	if (!scene || !scene->HasMeshes()) {
 		SDL_Log("Failed to load FBX: %s", importer.GetErrorString());
@@ -274,20 +274,6 @@ Matrix4 Skeleton::GetBonePosition(std::string boneName)
 	boneMatrix = mGlobalCurrentPoses[index];
 	
 	return boneMatrix;
-}
-
-void Skeleton::LocalBonePositionUpdateActor(std::string boneName, class ActorObject* actor, const class Matrix4& parentActor)
-{
-	//指定したボーンのマトリックスを取得
-	Matrix4 boneMatrix = GetBonePosition(boneName);
-
-	Vector3 position = parentActor.GetTranslation() + boneMatrix.GetTranslation();
-	actor->SetPosition(position);
-	Quaternion r = Quaternion(boneMatrix.GetRotation());
-	r =  Quaternion(Vector3::UnitX, Math::PiOver2);
-	r *= Quaternion(Vector3::UnitY, -Math::PiOver2);
-	r *= Quaternion(Vector3::UnitZ, Math::PiOver2);
-	actor->SetRotation(r);
 }
 
 void Skeleton::ComputeGlobalInvBindPose()

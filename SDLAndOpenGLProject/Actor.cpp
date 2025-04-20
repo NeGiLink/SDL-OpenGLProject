@@ -6,6 +6,7 @@
 ActorObject::ActorObject(BaseScene* game)
 	:mState(EActive)
 	, mPosition(Vector3::Zero)
+	, mPositionOffset(Vector3::Zero)
 	, mRotation(Quaternion::Identity)
 	, mRotationAmountX(0)
 	, mRotationAmountY(0)
@@ -32,12 +33,10 @@ void ActorObject::Update(float deltaTime)
 {
 	if (mState == EActive)
 	{
-		ComputeWorldTransform();
-
+		//ComputeLocalTransform();
 		UpdateComponents(deltaTime);
 		UpdateActor(deltaTime);
-
-		ComputeWorldTransform();
+		ComputeWorldTransform(NULL);
 	}
 }
 
@@ -51,11 +50,6 @@ void ActorObject::UpdateComponents(float deltaTime)
 
 void ActorObject::UpdateActor(float deltaTime)
 {
-
-	for (auto child : mChildActor) 
-	{
-		child->SetActive();
-	}
 }
 
 void ActorObject::ProcessInput(const struct InputState& keyState)
@@ -76,36 +70,33 @@ void ActorObject::ActorInput(const struct InputState& keyState)
 {
 }
 
-void ActorObject::ComputeWorldTransform()
+void ActorObject::ComputeWorldTransform(const class Matrix4 *parentMatrix)
 {
+	//更新フラグがtrueなら
 	if (mRecomputeWorldTransform)
 	{
 		mRecomputeWorldTransform = false;
-		// Scale, then rotate, then translate
-		// 親がいれば親のワールド行列を適用（ローカル→ワールド）
-		if (mParentActor)
-		{
-			Vector3 worldScale = mParentActor->GetScale() * mScale;
-			Quaternion worldRotation = mParentActor->GetRotation() * mRotation;
-			// 3. ローカル位置を親のスケール分で拡大
-			Vector3 localPositionScaled = mParentActor->GetScale() * mPosition;
 
-			// 4. ローカル位置を親の回転で回す（親の向きを尊重）
-			Vector3 localPositionRotated = mParentActor->GetRotation().RotateVector(localPositionScaled);
+		mLocalTransform = Matrix4::CreateScale(mScale);
+		mLocalTransform *= Matrix4::CreateFromQuaternion(mRotation);
+		mLocalTransform *= Matrix4::CreateTranslation(mPosition);
 
-			// 5. ワールド座標を親の位置 + 相対位置で決定
-			Vector3 worldPosition = mParentActor->GetPosition() + localPositionRotated;
 
-			mWorldTransform = Matrix4::CreateScale(worldScale);
-			mWorldTransform *= Matrix4::CreateFromQuaternion(worldRotation);
-			mWorldTransform *= Matrix4::CreateTranslation(worldPosition);
+		//親がいたら
+		if (parentMatrix) {
+			mWorldTransform = mLocalTransform * (*parentMatrix);
 		}
-		else 
-		{
-			mWorldTransform = Matrix4::CreateScale(mScale);
-			mWorldTransform *= Matrix4::CreateFromQuaternion(mRotation);
-			mWorldTransform *= Matrix4::CreateTranslation(mPosition);
+		//いなかったら
+		else {
+			mWorldTransform = mLocalTransform;
 		}
+		//子オブジェクトの座標計算
+		for (auto child : mChildActor)
+		{
+			child->SetActive();
+			child->ComputeWorldTransform(&mWorldTransform);
+		}
+
 		// Inform components world transform updated
 		for (auto comp : mComponents)
 		{
@@ -114,16 +105,35 @@ void ActorObject::ComputeWorldTransform()
 	}
 }
 
+void ActorObject::ComputeLocalTransform()
+{
+	//更新フラグがtrueなら
+	if (mRecomputeWorldTransform)
+	{
+		//mRecomputeWorldTransform = false;
+
+		mLocalTransform = Matrix4::CreateScale(mScale);
+		mLocalTransform *= Matrix4::CreateFromQuaternion(mRotation);
+		mLocalTransform *= Matrix4::CreateTranslation(mPosition);
+
+		//子オブジェクトの座標計算
+		for (auto child : mChildActor)
+		{
+			child->SetActive();
+			child->ComputeLocalTransform();
+		}
+	}
+}
+
 void ActorObject::LocalBonePositionUpdateActor(Matrix4 boneMatrix, const Matrix4& parentActor)
 {
 	Vector3 position = parentActor.GetTranslation() + boneMatrix.GetTranslation();
+	position += mPositionOffset;
 	SetPosition(position);
 	Quaternion r = Quaternion(boneMatrix.GetRotation());
-	/*
-	r = Quaternion(Vector3::UnitX, mRotationAmountX);
-	r *= Quaternion(Vector3::UnitY, mRotationAmountY);
-	r *= Quaternion(Vector3::UnitZ, mRotationAmountZ);
-	*/
+	r = Quaternion::Concatenate(r, Quaternion(Vector3::UnitX, mRotationAmountX));
+	r = Quaternion::Concatenate(r, Quaternion(Vector3::UnitY, mRotationAmountY));
+	r = Quaternion::Concatenate(r, Quaternion(Vector3::UnitZ, mRotationAmountZ));
 	SetRotation(r);
 }
 
@@ -185,7 +195,9 @@ void ActorObject::AddChildActor(ActorObject* actor)
 	for (ActorObject* a : mChildActor) {
 		if (a == actor) { return; }
 	}
-	actor->SetParentActor(this);
+	actor->SetActive();
+	actor->ComputeWorldTransform(NULL);
+	actor->AddParentActor(this);
 	mChildActor.push_back(actor);
 }
 
@@ -194,7 +206,7 @@ void ActorObject::RemoveChildActor(ActorObject* actor)
 	auto iter = std::find(mChildActor.begin(), mChildActor.end(), actor);
 	if (iter != mChildActor.end())
 	{
-		actor->SetParentActor(nullptr);
+		actor->AddParentActor(nullptr);
 		mChildActor.erase(iter);
 	}
 }
@@ -207,4 +219,14 @@ const ActorObject* ActorObject::GetChildActor(ActorObject* actor)
 		}
 	}
 	return nullptr;
+}
+
+void ActorObject::AddParentActor(ActorObject* parent)
+{
+	mParentActor = parent;
+}
+
+void ActorObject::RemoveParentActor()
+{
+	mParentActor = nullptr;
 }

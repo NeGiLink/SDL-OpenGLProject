@@ -16,61 +16,28 @@ public:
 		EPaused,
 		EDead
 	};
-
+	//コンストラクタ
 	ActorObject(class BaseScene* game);
+	//デストラクタ
 	virtual ~ActorObject();
-
 	// ゲームから呼び出される更新関数（オーバーライド不可）
 	void Update(float deltaTime);
 	// Actorに接続されたすべてのコンポーネントを更新します（オーバーライド不可）
 	void UpdateComponents(float deltaTime);
 	// 任意のActor固有の更新コード（上書き可能）
 	virtual void UpdateActor(float deltaTime);
-
 	// ゲームから呼び出されたProcessInput関数（オーバーライドできません）
 	void ProcessInput(const struct InputState& keyState);
 	// 任意のActor特有の入力コード（上書き可能）
 	virtual void ActorInput(const struct InputState& keyState);
 
-	// Getters/setters
-	const Vector3& GetPosition() const { return mPosition; }
 
-	void SetPosition(const Vector3& pos) 
-	{
-		mPosition = pos; 
-		mRecomputeWorldTransform = true; 
-	}
-
-	void AddPosition(const Vector3& pos) 
-	{
-		mPosition += pos;
-		mRecomputeWorldTransform = true;
-	}
-	// Getters/setters
-	Vector3 GetScale() const { return mScale; }
-	
-	void SetScale(Vector3 scale) { mScale = scale;  mRecomputeWorldTransform = true; }
-	
-	void SetScale(float scale) { mScale = Vector3(scale,scale,scale);  mRecomputeWorldTransform = true; }
-	// Getters/setters
-	const Quaternion& GetRotation() const { return mRotation; }
-
-	void SetRotationAmountX(float rot) { mRotationAmountX = rot; }
-	void SetRotationAmountY(float rot) { mRotationAmountY = rot; }
-	void SetRotationAmountZ(float rot) { mRotationAmountZ = rot; }
-	
-	void SetRotation(const Quaternion& rotation) { mRotation = rotation;  mRecomputeWorldTransform = true; }
-	
-	void AddRotation(const Quaternion& rotation) { mRotation = rotation;  mRecomputeWorldTransform = true; }
-
-	void ComputeWorldTransform();
-
-	void LocalBonePositionUpdateActor(Matrix4 boneMatrix, const class Matrix4& parentActor);
-	
 	const Matrix4& GetWorldTransform() const { return mWorldTransform; }
 
+	const Matrix4& GetLocalTransform() const { return mLocalTransform; }
+
 	Vector3 GetForward() const { return Vector3::Transform(Vector3::UnitZ, mRotation); }
-	
+
 	Vector3 GetRight() const { return Vector3::Transform(Vector3::UnitX, mRotation); }
 
 	Vector3 GetUp() const { return Vector3::Transform(Vector3::UnitY, mRotation); }
@@ -79,12 +46,61 @@ public:
 
 	// Getters/setters
 	State GetState() const { return mState; }
-	
+
 	void SetState(State state) { mState = state; }
 
-	class BaseScene* GetGame() { return mGame; }
+	// PositionのGetters/setters
+	const Vector3& GetPosition() const { return mPosition; }
+	void SetPosition(const Vector3& pos) 
+	{
+		mPosition = pos; 
+		mRecomputeWorldTransform = true; 
+	}
+	//Positionを加算で足す関数
+	void AddPosition(const Vector3& pos) 
+	{
+		mPosition += pos;
+		mRecomputeWorldTransform = true;
+	}
+	//mPositionOffsetに加算する関数
+	void AddPositionOffset(const Vector3& pos) 
+	{
+		mPositionOffset += pos;
+	}
+	// ScaleのGetters/setters
+	Vector3 GetScale() const { return mScale; }
+	// 1 Ver
+	void SetScale(Vector3 scale) { mScale = scale;  mRecomputeWorldTransform = true; }
+	// 2 Ver
+	void SetScale(float scale) { mScale = Vector3(scale,scale,scale);  mRecomputeWorldTransform = true; }
+	// RotationのGetters/setters
+	const Quaternion& GetRotation() const { return mRotation; }
+
+	void SetRotation(const Quaternion& rotation) { mRotation = rotation;  mRecomputeWorldTransform = true; }
+	
+	void AddRotation(const Quaternion& rotation) { mRotation = rotation;  mRecomputeWorldTransform = true; }
+	
+	//軸別の回転量のGetters/setters
+	float GetRotationAmountX() { return mRotationAmountX; }
+	
+	float GetRotationAmountY() { return mRotationAmountY; }
+	
+	float GetRotationAmountZ() { return mRotationAmountZ; }
+
+	void SetRotationAmountX(float rot) { mRotationAmountX = rot; }
+	
+	void SetRotationAmountY(float rot) { mRotationAmountY = rot; }
+	
+	void SetRotationAmountZ(float rot) { mRotationAmountZ = rot; }
+	
+	//ワールド座標の更新
+	void ComputeWorldTransform(const class Matrix4* parentMatrix);
+	void ComputeLocalTransform();
+
+	void LocalBonePositionUpdateActor(Matrix4 boneMatrix, const class Matrix4& parentActor);
 
 
+	//***子オブジェクト関係の処理***
 	// Add/remove components
 	void AddComponent(class Component* component);
 	
@@ -95,11 +111,17 @@ public:
 	void RemoveChildActor(class ActorObject* actor);
 	
 	const class ActorObject* GetChildActor(class ActorObject* actor);
+	
+	void AddParentActor(class ActorObject* parent);
+
+	void RemoveParentActor();
+
 	//子オブジェクトの座標更新
 	void SetActive() { mRecomputeWorldTransform = true; }
 	
-	void SetParentActor(class ActorObject* parent) { mParentActor = parent; }
 
+
+	class BaseScene* GetGame() { return mGame; }
 
 	//当たった時に呼び出される関数
 	virtual void OnCollisionEnter(class ActorObject* target){}
@@ -108,13 +130,17 @@ public:
 	//当たり終わった時に呼び出される関数
 	virtual void OnCollisionExit(class ActorObject* target){}
 private:
-	// Transform
+	// World Transform
 	Matrix4		mWorldTransform;
+	//Local Transform
+	Matrix4		mLocalTransform;
 protected:
 	// Actor's state
 	State							mState;
 
 	Vector3							mPosition;
+
+	Vector3							mPositionOffset;
 
 	Quaternion						mRotation;
 

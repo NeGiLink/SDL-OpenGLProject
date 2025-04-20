@@ -13,7 +13,9 @@ void Time::InitializeDeltaTime()
 
 void Time::UpdateDeltaTime()
 {
-	while ((SDL_GetTicksNS() - mTicksCount) < 16'000'000) // 16ms = 16,000,000ns
+	//60FPS : 16ms = 16,000,000ns
+	//120FPS : 8.33ms = 8'333'333ns
+	while ((SDL_GetTicksNS() - mTicksCount) < 8'333'333) // 16ms = 16,000,000ns
 		;
 	deltaTime = (SDL_GetTicksNS() - mTicksCount) / 1'000'000'000.0f;
 	frameRate = 1.0f / deltaTime;

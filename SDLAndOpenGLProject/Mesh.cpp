@@ -282,7 +282,7 @@ bool Mesh::LoadFromFBX(const std::string& fileName, Renderer* renderer, int inde
 	//ƒ‚ƒfƒ‹î•ñŽæ“¾
 	Assimp::Importer importer;
 	const aiScene* scene = importer.ReadFile(fileName,
-		aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_GenNormals);
+		aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_GenNormals | aiProcess_GlobalScale);
 	//MeshCheck
 	if (!scene || !scene->HasMeshes())
 	{
@@ -307,6 +307,7 @@ bool Mesh::LoadFromFBX(const std::string& fileName, Renderer* renderer, int inde
 		aiVector3D uv = mesh->HasTextureCoords(0) ? mesh->mTextureCoords[0][i] : aiVector3D(0, 0, 0);
 
 		Vector3 vertexPos(pos.x, pos.y, pos.z);
+		//vertexPos *= 10.0f;
 		radius = Math::Max(radius, vertexPos.LengthSq());
 		box.UpdateMinMax(vertexPos);
 

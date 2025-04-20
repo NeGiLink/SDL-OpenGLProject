@@ -11,7 +11,7 @@
 TestCharacter::TestCharacter(BaseScene* game)
 	:ActorObject(game)
 {
-	SetPosition(Vector3(-200.0f, -100.0f, 0.0f));
+	SetPosition(Vector3(-2.0f, -1.0f, 0.0f));
 	animator = new Animator();
 	GetGame()->GetAnimator(animatorName, animator);
 	mMeshComp = new SkeletalMeshRenderer(this);

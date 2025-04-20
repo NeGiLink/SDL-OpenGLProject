@@ -263,7 +263,7 @@ void BaseScene::UpdateGame()
 		// Move any pending actors to mActors
 		for (auto pending : mPendingActors)
 		{
-			pending->ComputeWorldTransform();
+			pending->ComputeWorldTransform(NULL);
 			mActors.emplace_back(pending);
 		}
 		mPendingActors.clear();

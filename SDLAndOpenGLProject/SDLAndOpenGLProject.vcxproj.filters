@@ -73,6 +73,9 @@
     <Filter Include="SourceFiles\GameObjects\3Ds\Defaults">
       <UniqueIdentifier>{d5dc39e5-fc53-4164-abcd-13bd8fa73ce8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="SourceFiles\GameObjects\3Ds\Bone">
+      <UniqueIdentifier>{9cbd482c-53d6-4ac4-b05a-acc1c88e50d2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Actor.cpp">
@@ -231,9 +234,6 @@
     <ClCompile Include="TestCharacter.cpp">
       <Filter>SourceFiles\GameObjects\3Ds</Filter>
     </ClCompile>
-    <ClCompile Include="TwoObjectActor.cpp">
-      <Filter>SourceFiles\GameObjects\3Ds</Filter>
-    </ClCompile>
     <ClCompile Include="YBotActor.cpp">
       <Filter>SourceFiles\GameObjects\3Ds</Filter>
     </ClCompile>
@@ -296,6 +296,12 @@
     </ClCompile>
     <ClCompile Include="SphereActor.cpp">
       <Filter>SourceFiles\GameObjects\3Ds\Defaults</Filter>
+    </ClCompile>
+    <ClCompile Include="BoneActor.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="CubeActor.cpp">
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -482,9 +488,6 @@
     <ClInclude Include="TestCharacter.h">
       <Filter>SourceFiles\GameObjects\3Ds</Filter>
     </ClInclude>
-    <ClInclude Include="TwoObjectActor.h">
-      <Filter>SourceFiles\GameObjects\3Ds</Filter>
-    </ClInclude>
     <ClInclude Include="YBotActor.h">
       <Filter>SourceFiles\GameObjects\3Ds</Filter>
     </ClInclude>
@@ -542,40 +545,46 @@
     <ClInclude Include="CapsuleActor.h">
       <Filter>SourceFiles\GameObjects\3Ds\Defaults</Filter>
     </ClInclude>
+    <ClInclude Include="BoneActor.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="CubeActor.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="Shaders\BasicMesh.vert">
+    <None Include="..\Shaders\BasicMesh.vert">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="Shaders\GBufferGlobal.frag">
+    <None Include="..\Shaders\GBufferGlobal.frag">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="Shaders\GBufferGlobal.vert">
+    <None Include="..\Shaders\GBufferGlobal.vert">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="Shaders\GBufferPointLight.frag">
+    <None Include="..\Shaders\GBufferPointLight.frag">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="Shaders\GBufferWrite.frag">
+    <None Include="..\Shaders\GBufferWrite.frag">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="Shaders\Phong.vert">
+    <None Include="..\Shaders\LineSprite.frag">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="Shaders\Skinned.vert">
+    <None Include="..\Shaders\LineSprite.vert">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="Shaders\Sprite.frag">
+    <None Include="..\Shaders\Phong.vert">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="Shaders\Sprite.vert">
+    <None Include="..\Shaders\Skinned.vert">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="Shaders\LineSprite.vert">
+    <None Include="..\Shaders\Sprite.frag">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="Shaders\LineSprite.frag">
+    <None Include="..\Shaders\Sprite.vert">
       <Filter>Shaders</Filter>
     </None>
   </ItemGroup>

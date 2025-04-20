@@ -10,7 +10,6 @@
 TargetActor::TargetActor(BaseScene* game)
 	:ActorObject(game)
 {
-	SetScale(100.0f);
 	SetRotation(Quaternion(Vector3::UnitZ, Math::Pi));
 	mMeshComp = new MeshRenderer(this);
 	mMeshComp->SetMeshs(game->GetWinMain()->GetRenderer()->GetMeshs("Target.fbx"));

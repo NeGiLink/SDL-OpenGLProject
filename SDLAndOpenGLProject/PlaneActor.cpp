@@ -9,7 +9,6 @@
 PlaneActor::PlaneActor(BaseScene* game)
 	:ActorObject(game)
 {
-	SetScale(50.0f);
 	mMeshComp = new MeshRenderer(this);
 	mMeshComp->SetMeshs(game->GetWinMain()->GetRenderer()->GetMeshs("Plane.fbx"));
 
@@ -22,7 +21,6 @@ PlaneActor::PlaneActor(BaseScene* game)
 			mBoxs.push_back(box);
 		}
 	}
-
 	game->AddPlane(this);
 }
 
