@@ -6,7 +6,7 @@
 class SmallCharacter : public ActorObject
 {
 public:
-	SmallCharacter(class BaseScene* game);
+	SmallCharacter();
 
 	void ActorInput(const struct InputState& keys) override;
 	void UpdateActor(float deltaTime) override;

@@ -4,7 +4,7 @@
 class PlaneActor : public ActorObject
 {
 public:
-	PlaneActor(class BaseScene* game);
+	PlaneActor();
 	~PlaneActor();
 	std::vector<class BoxCollider*> GetBoxs() { return mBoxs; }
 private:

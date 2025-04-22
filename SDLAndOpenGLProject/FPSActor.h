@@ -7,7 +7,7 @@
 class FPSActor : public ActorObject
 {
 public:
-	FPSActor(class BaseScene* game);
+	FPSActor();
 
 	void UpdateActor(float deltaTime) override;
 	
@@ -38,4 +38,6 @@ private:
 	float					mLastFootstep;
 
 	class Sword*			mSword;
+
+	class DiceActor*			mDice;
 };

@@ -19,10 +19,10 @@ void SphereCollider::OnUpdateWorldTransform()
 {
 	mWorldSphere = mObjectSphere;
 
-	Vector3 scale = mOwner->GetScale();
+	Vector3 scale = mOwner->GetLocalScale();
 	float maxScale = std::max({ scale.x, scale.y, scale.z });
 	
 	mWorldSphere.mRadius = mObjectSphere.mRadius * maxScale;
 
-	mWorldSphere.mCenter = mObjectSphere.mCenter * maxScale + mOwner->GetPosition();
+	mWorldSphere.mCenter = mObjectSphere.mCenter * maxScale + mOwner->GetLocalPosition();
 }

@@ -284,10 +284,20 @@ public:
 		return Vector3(a.x + b.x, a.y + b.y, a.z + b.z);
 	}
 
+	friend Vector3 operator+(const Vector3& a, float b)
+	{
+		return Vector3(a.x + b, a.y + b, a.z + b);
+	}
+
 	// ベクトル減算（a - b）
 	friend Vector3 operator-(const Vector3& a, const Vector3& b)
 	{
 		return Vector3(a.x - b.x, a.y - b.y, a.z - b.z);
+	}
+
+	friend Vector3 operator-(const Vector3& a, float b)
+	{
+		return Vector3(a.x - b, a.y - b, a.z - b);
 	}
 
 	// ベクトル減算（a - b）
@@ -337,7 +347,7 @@ public:
 	}
 
 	// Vector +=
-	Vector3& operator+=(const Vector3& right)
+	Vector3& operator+=(Vector3 right)
 	{
 		x += right.x;
 		y += right.y;
@@ -346,7 +356,7 @@ public:
 	}
 
 	// Vector +=
-	Vector3& operator+=(const float right)
+	Vector3& operator+=(float right)
 	{
 		x += right;
 		y += right;
@@ -363,7 +373,7 @@ public:
 		return *this;
 	}
 
-	Vector3& operator-=(const float right)
+	Vector3& operator-=(float right)
 	{
 		x -= right;
 		y -= right;
@@ -466,6 +476,13 @@ public:
 	static const Vector3 Infinity;
 	static const Vector3 NegInfinity;
 };
+
+inline bool operator<(const Vector3& lhs, const Vector3& rhs)
+{
+	if (lhs.x != rhs.x) return lhs.x < rhs.x;
+	if (lhs.y != rhs.y) return lhs.y < rhs.y;
+	return lhs.z < rhs.z;
+}
 
 // 4D Vector
 class Vector4

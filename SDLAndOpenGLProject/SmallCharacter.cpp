@@ -8,14 +8,14 @@
 #include "BoxCollider.h"
 #include "Sword.h"
 
-SmallCharacter::SmallCharacter(BaseScene* game)
-	:ActorObject(game)
+SmallCharacter::SmallCharacter()
+	:ActorObject()
 {
 	SetPosition(Vector3(-4.0f, -1.0f, 0.0f));
 	animator = new Animator();
 	GetGame()->GetAnimator(animatorName, animator);
 	mMeshComp = new SkeletalMeshRenderer(this);
-	mMeshComp->SetMeshs(game->GetWinMain()->GetRenderer()->GetMeshs("goblin_d_shareyko.fbx"));
+	mMeshComp->SetMeshs(GetGame()->GetWinMain()->GetRenderer()->GetMeshs("goblin_d_shareyko.fbx"));
 	mMeshComp->SetSkeleton(GetGame()->GetSkeleton("Assets/Models/goblin_d_shareyko.fbx"));
 	animator->SetSkeleton(mMeshComp->GetSkeleton());
 	animator->Load("Assets/Idle.fbx",true);

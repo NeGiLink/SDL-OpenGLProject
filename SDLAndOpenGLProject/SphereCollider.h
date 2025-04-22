@@ -11,10 +11,10 @@ public:
 
 	void SetObjectSphere(const Sphere& model) { mObjectSphere = model; }
 	
-	const AABB& GetWorldBox() const override 
+	AABB GetWorldBox() const override 
 	{
-		Vector3 min = mWorldSphere.mCenter - Vector3(mWorldSphere.mRadius, mWorldSphere.mRadius, mWorldSphere.mRadius);
-		Vector3 max = mWorldSphere.mCenter + Vector3(mWorldSphere.mRadius, mWorldSphere.mRadius, mWorldSphere.mRadius);
+		Vector3 min = mWorldSphere.mCenter - mWorldSphere.mRadius;
+		Vector3 max = mWorldSphere.mCenter + mWorldSphere.mRadius;
 		return AABB(min, max);
 	}
 	const Sphere& GetWorldSphere() const override

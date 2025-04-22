@@ -297,11 +297,11 @@
     <ClCompile Include="SphereActor.cpp">
       <Filter>SourceFiles\GameObjects\3Ds\Defaults</Filter>
     </ClCompile>
-    <ClCompile Include="BoneActor.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="CubeActor.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>SourceFiles\GameObjects\3Ds\Defaults</Filter>
+    </ClCompile>
+    <ClCompile Include="BoneActor.cpp">
+      <Filter>SourceFiles\GameObjects\3Ds\Bone</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -488,9 +488,6 @@
     <ClInclude Include="TestCharacter.h">
       <Filter>SourceFiles\GameObjects\3Ds</Filter>
     </ClInclude>
-    <ClInclude Include="YBotActor.h">
-      <Filter>SourceFiles\GameObjects\3Ds</Filter>
-    </ClInclude>
     <ClInclude Include="SplineActor.h">
       <Filter>SourceFiles\GameObjects\3Ds</Filter>
     </ClInclude>
@@ -545,11 +542,14 @@
     <ClInclude Include="CapsuleActor.h">
       <Filter>SourceFiles\GameObjects\3Ds\Defaults</Filter>
     </ClInclude>
-    <ClInclude Include="BoneActor.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="YBotActor.h">
+      <Filter>SourceFiles\GameObjects\3Ds\Defaults</Filter>
     </ClInclude>
     <ClInclude Include="CubeActor.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>SourceFiles\GameObjects\3Ds\Defaults</Filter>
+    </ClInclude>
+    <ClInclude Include="BoneActor.h">
+      <Filter>SourceFiles\GameObjects\3Ds\Bone</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

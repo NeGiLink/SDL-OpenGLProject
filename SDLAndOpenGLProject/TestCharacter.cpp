@@ -8,14 +8,14 @@
 #include "BoxCollider.h"
 #include "Sword.h"
 
-TestCharacter::TestCharacter(BaseScene* game)
-	:ActorObject(game)
+TestCharacter::TestCharacter()
+	:ActorObject()
 {
 	SetPosition(Vector3(-2.0f, -1.0f, 0.0f));
 	animator = new Animator();
 	GetGame()->GetAnimator(animatorName, animator);
 	mMeshComp = new SkeletalMeshRenderer(this);
-	mMeshComp->SetMeshs(game->GetWinMain()->GetRenderer()->GetMeshs("Paladin J Nordstrom.fbx"));
+	mMeshComp->SetMeshs(GetGame()->GetWinMain()->GetRenderer()->GetMeshs("Paladin J Nordstrom.fbx"));
 	mMeshComp->SetSkeleton(GetGame()->GetSkeleton("Assets/Models/Paladin J Nordstrom.fbx"));
 	animator->SetSkeleton(mMeshComp->GetSkeleton());
 	animator->Load("Assets/Idle.fbx",true);

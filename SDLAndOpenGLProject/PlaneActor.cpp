@@ -6,11 +6,11 @@
 #include "BoxCollider.h"
 #include "Mesh.h"
 
-PlaneActor::PlaneActor(BaseScene* game)
-	:ActorObject(game)
+PlaneActor::PlaneActor()
+	:ActorObject()
 {
 	mMeshComp = new MeshRenderer(this);
-	mMeshComp->SetMeshs(game->GetWinMain()->GetRenderer()->GetMeshs("Plane.fbx"));
+	mMeshComp->SetMeshs(GetGame()->GetWinMain()->GetRenderer()->GetMeshs("Plane.fbx"));
 
 	for (unsigned int i = 0; i < mMeshComp->GetMeshs().size(); i++) {
 		// ボックスの当たり判定機能追加
@@ -21,7 +21,7 @@ PlaneActor::PlaneActor(BaseScene* game)
 			mBoxs.push_back(box);
 		}
 	}
-	game->AddPlane(this);
+	GetGame()->AddPlane(this);
 }
 
 PlaneActor::~PlaneActor()

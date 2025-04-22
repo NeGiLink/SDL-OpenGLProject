@@ -6,17 +6,19 @@
 #include "CapsuleCollider.h"
 #include "Mesh.h"
 
-CapsuleActor::CapsuleActor(BaseScene* game)
-	:ActorObject(game)
+CapsuleActor::CapsuleActor()
+	:ActorObject()
 {
+	SetScale(2.0f);
 	MeshRenderer* mc = new MeshRenderer(this);
-	Mesh* mesh = game->GetWinMain()->GetRenderer()->GetMesh("Capsule.fbx");
+	Mesh* mesh = GetGame()->GetWinMain()->GetRenderer()->GetMesh("Capsule.fbx");
 	mc->SetMesh(mesh);
 
 	// Add collision Sphere
 	mCapsule = new CapsuleCollider(this);
-	Capsule capsule(mPosition + Vector3(0,1.0f,0), mPosition + Vector3(0, -1.0f, 0), 0.5f);
+	Capsule capsule(Vector3(0,1.0f,0), Vector3(0, -1.0f, 0), 0.5f);
 	mCapsule->SetObjectCapsule(capsule);
+
 }
 
 void CapsuleActor::UpdateActor(float deltaTime)
@@ -26,5 +28,5 @@ void CapsuleActor::UpdateActor(float deltaTime)
 void CapsuleActor::OnCollisionEnter(ActorObject* target)
 {
 	SDL_Log("Capsule Hit!");
-	SDL_Log("Pos %.2f,%.2f,%.2f", mPosition.x, mPosition.y, mPosition.z);
+	SDL_Log("Pos %.2f,%.2f,%.2f", mLocalPosition.x, mLocalPosition.y, mLocalPosition.z);
 }

@@ -4,7 +4,7 @@
 class CubeActor : public ActorObject
 {
 public:
-	CubeActor(class BaseScene* game);
+	CubeActor();
 
 	std::vector<class BoxCollider*> GetBoxs() { return mBoxs; }
 

@@ -6,15 +6,15 @@
 #include "SphereCollider.h"
 #include "Mesh.h"
 
-SphereActor::SphereActor(BaseScene* game)
-	:ActorObject(game)
+SphereActor::SphereActor()
+	:ActorObject()
 {
 	MeshRenderer* mc = new MeshRenderer(this);
-	Mesh* mesh = game->GetWinMain()->GetRenderer()->GetMesh("Sphere.fbx");
+	Mesh* mesh = GetGame()->GetWinMain()->GetRenderer()->GetMesh("Sphere.fbx");
 	mc->SetMesh(mesh);
 	// Add collision Sphere
 	mSphere = new SphereCollider(this);
-	Sphere sphere(mPosition, 0.5f);
+	Sphere sphere(mLocalPosition, 0.5f);
 	mSphere->SetObjectSphere(sphere);
 }
 

@@ -10,7 +10,7 @@ public:
 	void OnUpdateWorldTransform() override;
 
 	void SetObjectCapsule(const Capsule& model) { mObjectCapsule = model; }
-	const AABB& GetWorldBox() const override 
+	AABB GetWorldBox() const override 
 	{
 		Vector3 min = Vector3::Min(mWorldCapsule.mSegment.mStart, mWorldCapsule.mSegment.mEnd) - Vector3(mWorldCapsule.mRadius, mWorldCapsule.mRadius, mWorldCapsule.mRadius);
 		Vector3 max = Vector3::Max(mWorldCapsule.mSegment.mStart, mWorldCapsule.mSegment.mEnd) + Vector3(mWorldCapsule.mRadius, mWorldCapsule.mRadius, mWorldCapsule.mRadius);

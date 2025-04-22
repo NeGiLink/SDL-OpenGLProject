@@ -15,7 +15,7 @@ public:
 		CapsuleType
 	};
 	virtual ColliderType GetType() = 0;
-	virtual const AABB& GetWorldBox() const = 0;
+	virtual AABB GetWorldBox() const = 0;
 	virtual const Sphere& GetWorldSphere() const = 0;
 	virtual const Capsule& GetWorldCapsule() const = 0;
 protected:

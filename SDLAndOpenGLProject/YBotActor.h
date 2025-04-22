@@ -7,7 +7,7 @@
 class YBotActor : public ActorObject
 {
 public:
-	YBotActor(class BaseScene* game);
+	YBotActor();
 	void ActorInput(const struct InputState& keys) override;
 	void UpdateActor(float deltaTime) override;
 private:

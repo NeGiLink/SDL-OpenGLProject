@@ -6,8 +6,8 @@
 #include "SplineCamera.h"
 #include "MoveComponent.h"
 
-SplineActor::SplineActor(BaseScene* game)
-	:ActorObject(game)
+SplineActor::SplineActor()
+	:ActorObject()
 {
 
 	mCameraComp = new SplineCamera(this);

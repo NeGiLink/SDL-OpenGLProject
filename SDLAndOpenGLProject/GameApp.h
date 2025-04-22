@@ -13,7 +13,11 @@ public:
 
 
 	class BaseScene* GetBaseScene() { return mBaseScene; }
+
+	static class BaseScene* GetActiveScene() { return mActiveScene; }
 private:
+
+	static class BaseScene* mActiveScene;
 
 	class BaseScene* mBaseScene;
 

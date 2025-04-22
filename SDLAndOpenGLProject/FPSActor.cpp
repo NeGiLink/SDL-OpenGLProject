@@ -12,9 +12,10 @@
 #include "BoxCollider.h"
 #include "PlaneActor.h"
 #include "Sword.h"
+#include "DiceActor.h"
 
-FPSActor::FPSActor(BaseScene* game)
-	:ActorObject(game)
+FPSActor::FPSActor()
+	:ActorObject()
 {
 	mMoveComp = new MoveComponent(this);
 	mAudioComp = new AudioComponent(this);
@@ -26,15 +27,17 @@ FPSActor::FPSActor(BaseScene* game)
 
 	// ボックスの当たり判定の機能を追加
 	mBoxComp = new BoxCollider(this);
-	AABB myBox(Vector3(-1, -1, -1),Vector3(1, 1, 1));
+	AABB myBox(Vector3(-0.5f, -0.5f, -0.5f),Vector3(0.5f, 0.5f, 0.5f));
 	mBoxComp->SetObjectBox(myBox);
 	mBoxComp->SetShouldRotate(false);
 	/*
 	mSword = new Sword(game);
-	Vector3 pos = GetPosition();
 	mSword->SetPosition(pos);
 	AddChildActor(mSword);
 	*/
+	Vector3 pos = GetLocalPosition();
+	mDice = new DiceActor();
+	mDice->SetPosition(pos);
 }
 
 void FPSActor::UpdateActor(float deltaTime)
@@ -142,7 +145,7 @@ void FPSActor::Shoot()
 	Vector3 dir = end - start;
 	dir.Normalize();
 	// ボールを生成する
-	BallActor* ball = new BallActor(GetGame());
+	BallActor* ball = new BallActor();
 	ball->SetPlayer(this);
 	ball->SetPosition(start + dir * 20.0f);
 	// ボールを回転させて新しい方向を向ける
@@ -170,7 +173,7 @@ void FPSActor::FixCollisions()
 	ComputeWorldTransform(NULL);
 
 	const AABB& playerBox = mBoxComp->GetWorldBox();
-	Vector3 pos = GetPosition();
+	Vector3 pos = GetLocalPosition();
 
 	auto& planes = GetGame()->GetPlanes();
 	for (auto pa : planes)
@@ -224,5 +227,6 @@ void FPSActor::FixCollisions()
 
 void FPSActor::OnCollisionEnter(ActorObject* target)
 {
+	mDice->SetPosition(mLocalPosition);
 	SDL_Log("FPSPlayer Hit!");
 }

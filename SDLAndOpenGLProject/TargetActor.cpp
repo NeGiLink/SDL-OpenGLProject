@@ -7,12 +7,12 @@
 #include "Mesh.h"
 #include "TargetComponent.h"
 
-TargetActor::TargetActor(BaseScene* game)
-	:ActorObject(game)
+TargetActor::TargetActor()
+	:ActorObject()
 {
 	SetRotation(Quaternion(Vector3::UnitZ, Math::Pi));
 	mMeshComp = new MeshRenderer(this);
-	mMeshComp->SetMeshs(game->GetWinMain()->GetRenderer()->GetMeshs("Target.fbx"));
+	mMeshComp->SetMeshs(GetGame()->GetWinMain()->GetRenderer()->GetMeshs("Target.fbx"));
 
 	// “–‚½‚è”»’è‹@”\’Ç‰Á
 	for (unsigned int i = 0; i < mMeshComp->GetMeshs().size(); i++) 

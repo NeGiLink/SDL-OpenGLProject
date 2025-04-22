@@ -1,9 +1,11 @@
 #pragma once
-
 #include <vector>
 #include "Math.h"
 #include <cstdint>
 #include "CollisionActor.h"
+#include "BaseScene.h"
+#include "Component.h"
+#include <algorithm>
 
 //全3Dモデルの基底クラス
 //UnityのTransformに近い情報を持っている
@@ -17,7 +19,7 @@ public:
 		EDead
 	};
 	//コンストラクタ
-	ActorObject(class BaseScene* game);
+	ActorObject();
 	//デストラクタ
 	virtual ~ActorObject();
 	// ゲームから呼び出される更新関数（オーバーライド不可）
@@ -34,13 +36,15 @@ public:
 
 	const Matrix4& GetWorldTransform() const { return mWorldTransform; }
 
-	const Matrix4& GetLocalTransform() const { return mLocalTransform; }
+	void SetWorldTransform(Matrix4 mat) { mWorldTransform = mat; }
 
-	Vector3 GetForward() const { return Vector3::Transform(Vector3::UnitZ, mRotation); }
+	const Matrix4& GetLocalTransform() const { return mModelTransform; }
 
-	Vector3 GetRight() const { return Vector3::Transform(Vector3::UnitX, mRotation); }
+	Vector3 GetForward() const { return Vector3::Transform(Vector3::UnitZ, mLocalRotation); }
 
-	Vector3 GetUp() const { return Vector3::Transform(Vector3::UnitY, mRotation); }
+	Vector3 GetRight() const { return Vector3::Transform(Vector3::UnitX, mLocalRotation); }
+
+	Vector3 GetUp() const { return Vector3::Transform(Vector3::UnitY, mLocalRotation); }
 
 	void RotateToNewForward(const Vector3& forward);
 
@@ -50,16 +54,16 @@ public:
 	void SetState(State state) { mState = state; }
 
 	// PositionのGetters/setters
-	const Vector3& GetPosition() const { return mPosition; }
+	const Vector3& GetLocalPosition() const { return mLocalPosition; }
 	void SetPosition(const Vector3& pos) 
 	{
-		mPosition = pos; 
+		mLocalPosition = pos; 
 		mRecomputeWorldTransform = true; 
 	}
 	//Positionを加算で足す関数
 	void AddPosition(const Vector3& pos) 
 	{
-		mPosition += pos;
+		mLocalPosition += pos;
 		mRecomputeWorldTransform = true;
 	}
 	//mPositionOffsetに加算する関数
@@ -68,17 +72,17 @@ public:
 		mPositionOffset += pos;
 	}
 	// ScaleのGetters/setters
-	Vector3 GetScale() const { return mScale; }
+	Vector3 GetLocalScale() const { return mLocalScale; }
 	// 1 Ver
-	void SetScale(Vector3 scale) { mScale = scale;  mRecomputeWorldTransform = true; }
+	void SetScale(Vector3 scale) { mLocalScale = scale;  mRecomputeWorldTransform = true; }
 	// 2 Ver
-	void SetScale(float scale) { mScale = Vector3(scale,scale,scale);  mRecomputeWorldTransform = true; }
+	void SetScale(float scale) { mLocalScale = Vector3(scale,scale,scale);  mRecomputeWorldTransform = true; }
 	// RotationのGetters/setters
-	const Quaternion& GetRotation() const { return mRotation; }
+	const Quaternion& GetLocalRotation() const { return mLocalRotation; }
 
-	void SetRotation(const Quaternion& rotation) { mRotation = rotation;  mRecomputeWorldTransform = true; }
+	void SetRotation(const Quaternion& rotation) { mLocalRotation = rotation;  mRecomputeWorldTransform = true; }
 	
-	void AddRotation(const Quaternion& rotation) { mRotation = rotation;  mRecomputeWorldTransform = true; }
+	void AddRotation(const Quaternion& rotation) { mLocalRotation = rotation;  mRecomputeWorldTransform = true; }
 	
 	//軸別の回転量のGetters/setters
 	float GetRotationAmountX() { return mRotationAmountX; }
@@ -94,8 +98,7 @@ public:
 	void SetRotationAmountZ(float rot) { mRotationAmountZ = rot; }
 	
 	//ワールド座標の更新
-	void ComputeWorldTransform(const class Matrix4* parentMatrix);
-	void ComputeLocalTransform();
+	virtual void ComputeWorldTransform(const class Matrix4* parentMatrix);
 
 	void LocalBonePositionUpdateActor(Matrix4 boneMatrix, const class Matrix4& parentActor);
 
@@ -123,33 +126,43 @@ public:
 
 	class BaseScene* GetGame() { return mGame; }
 
+	//TODO : 再計算用に親のアクターを取得できるように追加
+	class ActorObject* GetParentActor() { return mParentActor; }
+
 	//当たった時に呼び出される関数
 	virtual void OnCollisionEnter(class ActorObject* target){}
 	//当たっている時に呼び出される関数
 	virtual void OnCollisionStay(class ActorObject* target){}
 	//当たり終わった時に呼び出される関数
 	virtual void OnCollisionExit(class ActorObject* target){}
-private:
+protected:
 	// World Transform
 	Matrix4		mWorldTransform;
-	//Local Transform
-	Matrix4		mLocalTransform;
-protected:
+	//Model Transform
+	Matrix4		mModelTransform;
 	// Actor's state
 	State							mState;
 
+	
 	Vector3							mPosition;
+
+	Quaternion						mRotation;
+
+	Vector3							mScale;
+
+
+	Vector3							mLocalPosition;
 
 	Vector3							mPositionOffset;
 
-	Quaternion						mRotation;
+	Quaternion						mLocalRotation;
 
 	//X、Y、Z軸の回転量
 	float							mRotationAmountX;
 	float							mRotationAmountY;
 	float							mRotationAmountZ;
 
-	Vector3							mScale;
+	Vector3							mLocalScale;
 
 	bool							mRecomputeWorldTransform;
 
