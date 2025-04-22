@@ -6,7 +6,7 @@
 class TestCharacter : public ActorObject
 {
 public:
-	TestCharacter(class BaseScene* game);
+	TestCharacter();
 
 	void ActorInput(const struct InputState& keys) override;
 	void UpdateActor(float deltaTime) override;

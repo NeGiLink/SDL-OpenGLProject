@@ -8,14 +8,14 @@
 #include "BoxCollider.h"
 #include "Sword.h"
 
-YBotActor::YBotActor(BaseScene* game)
-	:ActorObject(game)
+YBotActor::YBotActor()
+	:ActorObject()
 {
 	SetPosition(Vector3(2.0f, -1.0f, 0.0f));
 	animator = new Animator();
 	GetGame()->GetAnimator(animatorName, animator);
 	mSkeletonMesh = new SkeletalMeshRenderer(this);
-	mSkeletonMesh->SetMeshs(game->GetWinMain()->GetRenderer()->GetMeshs("Y Bot.fbx"));
+	mSkeletonMesh->SetMeshs(GetGame()->GetWinMain()->GetRenderer()->GetMeshs("Y Bot.fbx"));
 	mSkeletonMesh->SetSkeleton(GetGame()->GetSkeleton("Assets/Models/Y Bot.fbx"));
 	animator->SetSkeleton(mSkeletonMesh->GetSkeleton());
 	animator->Load("Assets/Sword And Shield Idle.fbx",true);
@@ -25,11 +25,14 @@ YBotActor::YBotActor(BaseScene* game)
 	animator->Load("Assets/T-Pose.fbx",true);
 	mSkeletonMesh->PlayAnimation(animator->GetAnimations()[State::TPose]);
 
+	mSword = new Sword();
+	mSkeletonMesh->GetSkeleton()->AddBoneChildActor("RightHand", mSword);
 	/*
-	mSword = new Sword(game);
 	mSword->SetRotationAmountX(0);
 	mSword->SetRotationAmountY(Math::PiOver2);
 	mSword->SetRotationAmountZ(Math::PiOver2);
+	*/
+	/*
 	*/
 }
 

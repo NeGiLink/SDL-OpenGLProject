@@ -27,7 +27,7 @@ void FollowCamera::Update(float deltaTime)
 	// 実際のカメラ位置を更新する
 	mActualPos += mVelocity * deltaTime;
 	// ターゲットは所有者アクターの前方にあるターゲット距離
-	Vector3 target = mOwner->GetPosition() +
+	Vector3 target = mOwner->GetLocalPosition() +
 		mOwner->GetForward() * mTargetDist;
 	// 理想ではなく、ここに実際の位置を使用してください。
 	Matrix4 view = Matrix4::CreateLookAt(mActualPos, target,
@@ -42,7 +42,7 @@ void FollowCamera::SnapToIdeal()
 	// ゼロ速度
 	mVelocity = Vector3::Zero;
 	// ターゲットを計算して表示
-	Vector3 target = mOwner->GetPosition() +
+	Vector3 target = mOwner->GetLocalPosition() +
 		mOwner->GetForward() * mTargetDist;
 	// 理想ではなく、ここに実際の位置を使用してください。
 	Matrix4 view = Matrix4::CreateLookAt(mActualPos, target,
@@ -53,7 +53,7 @@ void FollowCamera::SnapToIdeal()
 Vector3 FollowCamera::ComputeCameraPos() const
 {
 	// Actorの後ろと上にカメラの位置を設定する
-	Vector3 cameraPos = mOwner->GetPosition();
+	Vector3 cameraPos = mOwner->GetLocalPosition();
 	cameraPos -= mOwner->GetForward() * mHorzDist;
 	cameraPos += Vector3::UnitZ * mVertDist;
 	return cameraPos;

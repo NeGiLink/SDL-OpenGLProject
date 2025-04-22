@@ -5,7 +5,7 @@
 class DiceActor : public ActorObject
 {
 public:
-	DiceActor(class BaseScene* game);
+	DiceActor();
 
 	std::vector<class BoxCollider*> GetBoxs() { return mBoxs; }
 

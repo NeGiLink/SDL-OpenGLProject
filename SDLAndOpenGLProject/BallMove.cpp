@@ -14,7 +14,7 @@ void BallMove::Update(float deltaTime)
 {
 	// 移動方向に沿ってセグメントを構築する
 	const float segmentLength = 30.0f;
-	Vector3 start = mOwner->GetPosition();
+	Vector3 start = mOwner->GetLocalPosition();
 	Vector3 dir = mOwner->GetForward();
 	Vector3 end = start + dir * segmentLength;
 

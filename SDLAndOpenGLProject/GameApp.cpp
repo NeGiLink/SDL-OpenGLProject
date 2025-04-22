@@ -2,6 +2,8 @@
 #include "GameScene.h"
 #include "WinMain.h"
 
+BaseScene* GameApp::mActiveScene = nullptr;
+
 GameApp::GameApp(GameWinMain* main) 
 	:mWinMain(main)
 {
@@ -13,6 +15,8 @@ bool GameApp::Initialize()
 	mGameScene = new GameScene(mWinMain);
 
 	mBaseScene = mGameScene;
+
+	mActiveScene = mBaseScene;
 
 	mBaseScene->Setup();
 

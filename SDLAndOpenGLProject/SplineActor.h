@@ -5,7 +5,7 @@
 class SplineActor : public ActorObject
 {
 public:
-	SplineActor(class BaseScene* game);
+	SplineActor();
 
 	void ActorInput(const struct InputState& keys) override;
 

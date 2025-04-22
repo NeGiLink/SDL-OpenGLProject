@@ -1,18 +1,15 @@
 #include "Actor.h"
-#include "BaseScene.h"
-#include "Component.h"
-#include <algorithm>
 
-ActorObject::ActorObject(BaseScene* game)
+ActorObject::ActorObject()
 	:mState(EActive)
-	, mPosition(Vector3::Zero)
+	, mLocalPosition(Vector3::Zero)
 	, mPositionOffset(Vector3::Zero)
-	, mRotation(Quaternion::Identity)
+	, mLocalRotation(Quaternion::Identity)
 	, mRotationAmountX(0)
 	, mRotationAmountY(0)
 	, mRotationAmountZ(0)
-	, mScale(Vector3(1.0f,1.0f,1.0f))
-	, mGame(game)
+	, mLocalScale(Vector3(1.0f,1.0f,1.0f))
+	, mGame(GameApp::GetActiveScene())
 	, mRecomputeWorldTransform(true)
 {
 	mGame->AddActor(this);
@@ -77,18 +74,18 @@ void ActorObject::ComputeWorldTransform(const class Matrix4 *parentMatrix)
 	{
 		mRecomputeWorldTransform = false;
 
-		mLocalTransform = Matrix4::CreateScale(mScale);
-		mLocalTransform *= Matrix4::CreateFromQuaternion(mRotation);
-		mLocalTransform *= Matrix4::CreateTranslation(mPosition);
+		mModelTransform = Matrix4::CreateScale(mLocalScale);
+		mModelTransform *= Matrix4::CreateFromQuaternion(mLocalRotation);
+		mModelTransform *= Matrix4::CreateTranslation(mLocalPosition);
 
 
 		//親がいたら
 		if (parentMatrix) {
-			mWorldTransform = mLocalTransform * (*parentMatrix);
+			mWorldTransform = mModelTransform * (*parentMatrix);
 		}
 		//いなかったら
 		else {
-			mWorldTransform = mLocalTransform;
+			mWorldTransform = mModelTransform;
 		}
 		//子オブジェクトの座標計算
 		for (auto child : mChildActor)
@@ -101,26 +98,6 @@ void ActorObject::ComputeWorldTransform(const class Matrix4 *parentMatrix)
 		for (auto comp : mComponents)
 		{
 			comp->OnUpdateWorldTransform();
-		}
-	}
-}
-
-void ActorObject::ComputeLocalTransform()
-{
-	//更新フラグがtrueなら
-	if (mRecomputeWorldTransform)
-	{
-		//mRecomputeWorldTransform = false;
-
-		mLocalTransform = Matrix4::CreateScale(mScale);
-		mLocalTransform *= Matrix4::CreateFromQuaternion(mRotation);
-		mLocalTransform *= Matrix4::CreateTranslation(mPosition);
-
-		//子オブジェクトの座標計算
-		for (auto child : mChildActor)
-		{
-			child->SetActive();
-			child->ComputeLocalTransform();
 		}
 	}
 }
@@ -192,13 +169,34 @@ void ActorObject::RemoveComponent(Component* component)
 
 void ActorObject::AddChildActor(ActorObject* actor)
 {
-	for (ActorObject* a : mChildActor) {
+	for (ActorObject* a : mChildActor) 
+	{
 		if (a == actor) { return; }
 	}
-	actor->SetActive();
-	actor->ComputeWorldTransform(NULL);
+	//TODO: 親になるアクターの行列を再計算、
+	// 自身の親からしか計算していないので親の更新を考慮していないため不十分
+	ComputeWorldTransform(mParentActor != nullptr ? &mParentActor->GetWorldTransform() : nullptr);
+	Matrix4 parentInvert = mWorldTransform;
+	parentInvert.Invert();
+
+	//TODO: 子になるアクターの行列を再計算、
+	// 自身の親からしか計算していないので親の更新を考慮していないため不十分
+	auto parentActor = actor->GetParentActor();
+	actor->ComputeWorldTransform(parentActor != nullptr ? &parentActor->GetWorldTransform() : nullptr);
+	Matrix4 child = actor->GetWorldTransform();
+
+	//TODO: 親になるアクターの逆行列を掛けて子のアクターの親基準のローカル情報を計算して設定
+	Matrix4 childLocal = child * parentInvert;
+	actor->SetPosition(childLocal.GetTranslation());
+	actor->SetRotation(childLocal.GetRotation());
+	actor->SetScale(childLocal.GetScale());
+
+
 	actor->AddParentActor(this);
 	mChildActor.push_back(actor);
+
+	//TODO: 親子関係構築後の再計算
+	mRecomputeWorldTransform = true;
 }
 
 void ActorObject::RemoveChildActor(ActorObject* actor)

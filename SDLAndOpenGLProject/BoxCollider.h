@@ -11,7 +11,7 @@ public:
 	void OnUpdateWorldTransform() override;
 
 	void SetObjectBox(const AABB& model) { mObjectBox = model; }
-	const AABB& GetWorldBox() const override { return mWorldBox; }
+	AABB GetWorldBox() const override { return mWorldBox; }
 	const Sphere& GetWorldSphere() const override
 	{
 		return Sphere(Vector3::Zero, 0.0f);

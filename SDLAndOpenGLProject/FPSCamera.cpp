@@ -14,7 +14,7 @@ void FPSCamera::Update(float deltaTime)
 	// 親更新を呼び出す。（今は何もしない）
 	CameraComponent::Update(deltaTime);
 	// カメラの位置はオーナーの位置です。
-	Vector3 cameraPos = mOwner->GetPosition();
+	Vector3 cameraPos = mOwner->GetLocalPosition();
 
 	// ピッチ速度に基づいてピッチを更新する。
 	mPitch += mPitchSpeed * deltaTime;

@@ -4,7 +4,7 @@
 class SphereActor : public ActorObject
 {
 public:
-	SphereActor(class BaseScene* game);
+	SphereActor();
 
 	void UpdateActor(float deltaTime) override;
 

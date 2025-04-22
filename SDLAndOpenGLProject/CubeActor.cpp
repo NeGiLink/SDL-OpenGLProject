@@ -6,11 +6,12 @@
 #include "BoxCollider.h"
 #include "Mesh.h"
 
-CubeActor::CubeActor(BaseScene* game)
-	:ActorObject(game)
+CubeActor::CubeActor()
+	:ActorObject()
 {
+	SetScale(1.0f);
 	MeshRenderer* mc = new MeshRenderer(this);
-	Mesh* mesh = game->GetWinMain()->GetRenderer()->GetMesh("Cube.fbx");
+	Mesh* mesh = GetGame()->GetWinMain()->GetRenderer()->GetMesh("Cube.fbx");
 	mc->SetMesh(mesh);
 	// Add collision box
 	for (unsigned int i = 0; i < mc->GetMeshs().size(); i++) {
@@ -97,15 +98,15 @@ void CubeActor::ActorInput(const InputState& keys)
 		mRotationAmountZ -= 0.1f;
 		input = true;
 	}
-	Vector3 scale = GetScale();
-	if (keys.Keyboard.GetKeyDown(SDL_SCANCODE_M))
+	Vector3 scale = GetLocalScale();
+	if (keys.Keyboard.GetKey(SDL_SCANCODE_M))
 	{
-		scale += 1.0f;
+		scale += 0.1f;
 		input = true;
 	}
-	else if (keys.Keyboard.GetKeyDown(SDL_SCANCODE_N))
+	else if (keys.Keyboard.GetKey(SDL_SCANCODE_N))
 	{
-		scale -= 1.0f;
+		scale -= 0.1f;
 		input = true;
 	}
 	if (!input) { return; }

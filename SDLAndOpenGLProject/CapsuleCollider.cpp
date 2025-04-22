@@ -20,9 +20,9 @@ void CapsuleCollider::OnUpdateWorldTransform()
     mWorldCapsule = mObjectCapsule;
 
     // スケール・回転・位置を取得
-    Vector3 scale = mOwner->GetScale();
-    Quaternion rot = mOwner->GetRotation();
-    Vector3 pos = mOwner->GetPosition();
+    Vector3 scale = mOwner->GetLocalScale();
+    Quaternion rot = mOwner->GetLocalRotation();
+    Vector3 pos = mOwner->GetLocalPosition();
 
     // 回転＋スケール → 始点・終点をワールド変換
     Vector3 localStart = mWorldCapsule.mSegment.mStart;

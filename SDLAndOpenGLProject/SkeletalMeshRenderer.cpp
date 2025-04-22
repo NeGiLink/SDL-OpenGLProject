@@ -140,6 +140,9 @@ void SkeletalMeshRenderer::ComputeMatrixPalette()
 	{
 		// Global inverse bind pose matrix times current pose matrix
 		mPalette.mEntry[i] = globalInvBindPoses[i] * currentPoses[i];
+		mSkeleton->GetBoneActor()[i]->SetScale(mPalette.mEntry[i].GetScale());
+		mSkeleton->GetBoneActor()[i]->SetRotation(mPalette.mEntry[i].GetRotation());
+		mSkeleton->GetBoneActor()[i]->SetPosition(mPalette.mEntry[i].GetTranslation());
 	}
 }
 
@@ -176,6 +179,7 @@ void SkeletalMeshRenderer::BlendComputeMatrixPalette()
 		BoneTransform blended = BoneTransform::Interpolate(transformA,transformB,t);
 
 		finalPose[i] = blended.ToMatrix();
+		mSkeleton->GetBoneActor()[i]->SetBoneMatrix(finalPose[i]);
 	}
 
 	mSkeleton->SetGlobalCurrentPoses(finalPose);
@@ -183,5 +187,8 @@ void SkeletalMeshRenderer::BlendComputeMatrixPalette()
 	for (size_t i = 0; i < mSkeleton->GetNumBones(); i++)
 	{
 		mPalette.mEntry[i] = globalInvBindPoses[i] * finalPose[i];
+		mSkeleton->GetBoneActor()[i]->SetScale(mPalette.mEntry[i].GetScale());
+		mSkeleton->GetBoneActor()[i]->SetRotation(mPalette.mEntry[i].GetRotation());
+		mSkeleton->GetBoneActor()[i]->SetPosition(mPalette.mEntry[i].GetTranslation());
 	}
 }

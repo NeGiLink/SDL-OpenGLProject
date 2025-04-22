@@ -6,11 +6,11 @@
 #include "OrbitCamera.h"
 #include "MoveComponent.h"
 
-OrbitActor::OrbitActor(BaseScene* game)
-	:ActorObject(game)
+OrbitActor::OrbitActor()
+	:ActorObject()
 {
 	mMeshComp = new MeshRenderer(this);
-	mMeshComp->SetMesh(game->GetWinMain()->GetRenderer()->GetMesh("RacingCar.gpmesh"));
+	mMeshComp->SetMesh(GetGame()->GetWinMain()->GetRenderer()->GetMesh("RacingCar.gpmesh"));
 	SetPosition(Vector3(0.0f, 0.0f, -100.0f));
 
 	mCameraComp = new OrbitCamera(this);

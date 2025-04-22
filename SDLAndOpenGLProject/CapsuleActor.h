@@ -4,7 +4,7 @@
 class CapsuleActor : public ActorObject
 {
 public:
-	CapsuleActor(class BaseScene* game);
+	CapsuleActor();
 
 	void UpdateActor(float deltaTime) override;
 

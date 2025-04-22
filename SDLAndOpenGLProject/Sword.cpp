@@ -6,12 +6,12 @@
 #include "BoxCollider.h"
 #include "Mesh.h"
 
-Sword::Sword(BaseScene* game)
-	:ActorObject(game)
+Sword::Sword()
+	:ActorObject()
 {
 	
 	MeshRenderer* mc = new MeshRenderer(this);
-	Mesh* mesh = game->GetWinMain()->GetRenderer()->GetMesh("Sword.fbx");
+	Mesh* mesh = GetGame()->GetWinMain()->GetRenderer()->GetMesh("Sword.fbx");
 	mc->SetMesh(mesh);
 }
 
@@ -72,27 +72,15 @@ void Sword::ActorInput(const struct InputState& keys)
 	{
 		mAngleZ -= 0.1f;
 	}
-	Vector3 scale = GetScale();
-	if (keys[SDL_SCANCODE_M])
-	{
-		scale *= 1.5f;
-	}
-	else if (keys[SDL_SCANCODE_N])
-	{
-		scale *= 0.5f;
-	}
-	
-	rot = Quaternion(Vector3::UnitX, mAngleX);
-	rot *= Quaternion(Vector3::UnitY, mAngleY);
-	rot *= Quaternion(Vector3::UnitZ, mAngleZ);
-	SetRotation(rot);
-	AddPosition(pos);
-	SetScale(scale);
 	*/
-}
-
-void Sword::UpdateRightHand(Skeleton::Bone* hand)
-{
-	SetPosition(hand->mLocalBindPose.mPosition);
-	SetRotation(hand->mLocalBindPose.mRotation);
+	Vector3 scale = GetLocalScale();
+	if (keys.Keyboard.GetKey(SDL_SCANCODE_M))
+	{
+		scale += 0.1f;
+	}
+	else if (keys.Keyboard.GetKey(SDL_SCANCODE_N))
+	{
+		scale -= 0.1f;
+	}
+	SetScale(scale);
 }

@@ -6,7 +6,7 @@
 class OrbitActor : public ActorObject
 {
 public:
-	OrbitActor(class BaseScene* game);
+	OrbitActor();
 
 	void ActorInput(const struct InputState& keys) override;
 

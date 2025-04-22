@@ -6,12 +6,13 @@
 #include "BoxCollider.h"
 #include "Mesh.h"
 
-DiceActor::DiceActor(BaseScene* game)
-	:ActorObject(game)
+DiceActor::DiceActor()
+	:ActorObject()
 {
 	MeshRenderer* mc = new MeshRenderer(this);
-	Mesh* mesh = game->GetWinMain()->GetRenderer()->GetMesh("TestCube.fbx");
+	Mesh* mesh = GetGame()->GetWinMain()->GetRenderer()->GetMesh("TestCube.fbx");
 	mc->SetMesh(mesh);
+	/*
 	// Add collision box
 	for (unsigned int i = 0; i < mc->GetMeshs().size(); i++) {
 		// ボックスの当たり判定機能追加
@@ -22,6 +23,7 @@ DiceActor::DiceActor(BaseScene* game)
 			mBoxs.push_back(box);
 		}
 	}
+	*/
 	//SetScale(50.0f);
 }
 
@@ -122,5 +124,5 @@ void DiceActor::ActorInput(const struct InputState& keys)
 
 void DiceActor::OnCollisionEnter(ActorObject* target)
 {
-	SDL_Log("Dice Hit!");
+	//SDL_Log("Dice Hit!");
 }

@@ -1,5 +1,6 @@
 #pragma once
 #include "BoneTransform.h"
+#include "BoneActor.h"
 #include <string>
 #include <vector>
 #include <unordered_map>
@@ -44,6 +45,8 @@ public:
 	const Bone& GetBone(size_t idx) const { return mBones[idx]; }
 	
 	const std::vector<Bone>& GetBones() const { return mBones; }
+
+	std::vector<BoneActor*> GetBoneActor() const { return mBoneActors; }
 	
 	const std::vector<Matrix4>& GetGlobalInvBindPoses() const { return mGlobalInvBindPoses; }
 	const std::vector<Matrix4>& GetGlobalCurrentPoses() const { return mGlobalCurrentPoses; }
@@ -52,6 +55,7 @@ public:
 	const std::unordered_map<std::string, int>& GetBoneNameToIndex() const { return boneNameToIndex; }
 
 	Matrix4 GetBonePosition(std::string boneName);
+	void AddBoneChildActor(std::string boneName,class ActorObject* actor);
 protected:
 	// スケルトンがロードされると自動的に呼び出され、
 	// 各ボーンのグローバルインバインドポーズを計算。
@@ -59,6 +63,7 @@ protected:
 private:
 	// 骨格の骨
 	std::vector<Bone>						mBones;
+	std::vector<BoneActor*>					mBoneActors;
 	//計算用のオフセット変数
 	std::vector<aiMatrix4x4>				mOffsetMatrix;
 	// 各骨に対するグローバル逆束縛ポーズ

@@ -5,7 +5,7 @@
 class BallActor : public ActorObject
 {
 public:
-	BallActor(class BaseScene* game);
+	BallActor();
 
 	void UpdateActor(float deltaTime) override;
 

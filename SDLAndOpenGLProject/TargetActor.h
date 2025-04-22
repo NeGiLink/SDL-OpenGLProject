@@ -4,7 +4,7 @@
 class TargetActor : public ActorObject
 {
 public:
-	TargetActor(class BaseScene* game);
+	TargetActor();
 private:
 	std::vector<class BoxCollider*>	mBoxs;
 

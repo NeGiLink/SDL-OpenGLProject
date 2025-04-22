@@ -50,10 +50,10 @@ bool GameScene::Initialize()
 	Quaternion q;
 
 	// Setup floor
-	a = new PlaneActor(this);
+	a = new PlaneActor();
 	Vector3 pos = Vector3(0.0f,-1.5f,0.0f);
 	a->SetPosition(pos);
-	a->SetRotation(q);
+	a->SetRotation(Quaternion(Vector3::UnitX,Math::Pi));
 	
 
 	// Setup lights
@@ -79,51 +79,52 @@ bool GameScene::Initialize()
 	SDL_GetRelativeMouseState(nullptr, nullptr);
 
 	// Different camera actors
-	mFPSActor = new FPSActor(this);
+	mFPSActor = new FPSActor();
 
 	mPlayer = mFPSActor;
 
-	mCapsule = new CapsuleActor(this);
-	mCapsule->SetPosition(Vector3(2.0f, -1.0f, 2.0f));
+	mCube = new CubeActor();
+	mCube->SetPosition(Vector3(0.0f, -1.0f, 2.0f));
 
-	mSphere = new SphereActor(this);
+	mCapsule = new CapsuleActor();
+	mCapsule->SetPosition(Vector3(2.0f, -1.0f, 2.0f));
+	mCube->AddChildActor(mCapsule);
+
+	mSphere = new SphereActor();
 	mSphere->SetPosition(Vector3(-2.0f, -1.0f, 2.0f));
 
-	mCube = new CubeActor(this);
-	mCube->SetPosition(Vector3(0.0f, -1.0f, 2.0f));
-	mCube->AddChildActor(mSphere);
-
-	mDice = new DiceActor(this);
+	mDice = new DiceActor();
 	mDice->SetPosition(Vector3(0.0f, -1.0f, -2.0f));
 	
 
-	a = new YBotActor(this);
+	a = new YBotActor();
 	
-	a = new TestCharacter(this);
+	//a = new TestCharacter();
 
-	a = new SmallCharacter(this);
+	//a = new SmallCharacter();
 
-
+	/*
 	// Create target actors
 	q = Quaternion();
-	a = new TargetActor(this);
+	a = new TargetActor();
 	a->SetPosition(Vector3(0.0f, 1.0f, 14.5f));
 	a->SetRotation(q);
-	a = new TargetActor(this);
+	a = new TargetActor();
 	a->SetPosition(Vector3(0.0f, 4.0f, 14.5f));
 	a->SetRotation(q);
-	a = new TargetActor(this);
+	a = new TargetActor();
 	a->SetPosition(Vector3(-5.0f, 2.0f, 14.5f));
 	a->SetRotation(q);
-	a = new TargetActor(this);
+	a = new TargetActor();
 	a->SetPosition(Vector3(5.0f, 2.0f, 14.5f));
 	a->SetRotation(q);
-	a = new TargetActor(this);
+	a = new TargetActor();
 	a->SetPosition(Vector3(-14.5f, 2.0f, 0.0f));
 	a->SetRotation(Quaternion(Vector3::UnitY, Math::PiOver2));
-	a = new TargetActor(this);
+	a = new TargetActor();
 	a->SetPosition(Vector3(14.5f, 2.0f, 0.0f));
 	a->SetRotation(Quaternion(Vector3::UnitY, -Math::PiOver2));
+	*/
 
 	return true;
 }

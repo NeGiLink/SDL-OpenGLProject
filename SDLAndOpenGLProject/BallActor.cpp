@@ -7,13 +7,13 @@
 #include "BallMove.h"
 #include "AudioComponent.h"
 
-BallActor::BallActor(BaseScene* game)
-	:ActorObject(game)
+BallActor::BallActor()
+	:ActorObject()
 	, mLifeSpan(2.0f)
 {
 	//SetScale(10.0f);
 	MeshRenderer* mc = new MeshRenderer(this);
-	Mesh* mesh = game->GetWinMain()->GetRenderer()->GetMesh("Sphere.gpmesh");
+	Mesh* mesh = GetGame()->GetWinMain()->GetRenderer()->GetMesh("Sphere.gpmesh");
 	mc->SetMesh(mesh);
 	mMyMove = new BallMove(this);
 	mMyMove->SetForwardSpeed(1500.0f);

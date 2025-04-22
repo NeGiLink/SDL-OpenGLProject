@@ -172,7 +172,7 @@ bool Skeleton::LoadFromFBX(const std::string& fileName)
 			newBone.mName = boneName;
 			newBone.mGetName = boneGetName;
 			// 後で SetParentBones() で設定する
-			newBone.mParent = -1;  
+			newBone.mParent = -1;
 
 			// バインドポーズの変換
 			aiMatrix4x4 bindPose = bone->mOffsetMatrix;
@@ -191,6 +191,10 @@ bool Skeleton::LoadFromFBX(const std::string& fileName)
 
 			//assimpではオフセット行列をそのまま利用
 			mGlobalInvBindPoses.push_back(newBone.mLocalBindPose.ToMatrix());
+
+			BoneActor* boneActor = new BoneActor();
+			boneActor->SetBoneIndex(static_cast<int>(mBones.size()));
+			mBoneActors.push_back(boneActor);
 		}
 	}
 
@@ -274,6 +278,16 @@ Matrix4 Skeleton::GetBonePosition(std::string boneName)
 	boneMatrix = mGlobalCurrentPoses[index];
 	
 	return boneMatrix;
+}
+
+void Skeleton::AddBoneChildActor(std::string boneName, class ActorObject* actor)
+{
+	int index = 0;
+	if (mBoneTransform.find(boneName) != mBoneTransform.end())
+	{
+		index = mBoneTransform[boneName];
+	}
+	mBoneActors[index]->AddChildActor(actor);
 }
 
 void Skeleton::ComputeGlobalInvBindPose()
