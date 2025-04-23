@@ -47,7 +47,7 @@ private:
 class UIScreen
 {
 public:
-	UIScreen(class BaseScene* game);
+	UIScreen();
 	virtual ~UIScreen();
 	// UIScreenのサブクラスはこれらをオーバーライドできます
 	virtual void Update(float deltaTime);

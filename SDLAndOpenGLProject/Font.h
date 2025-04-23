@@ -9,7 +9,7 @@
 class Font
 {
 public:
-	Font(class BaseScene* game);
+	Font();
 	~Font();
 
 	// ファイルからのロード/アンロード

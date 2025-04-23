@@ -7,7 +7,7 @@ class DialogBox : public UIScreen
 {
 public:
 	// (‰º‚Éˆø‚­‡˜‚ÍŒã‚ë‚É‘Î‰‚µ‚Ü‚·)
-	DialogBox(class BaseScene* game, const std::string& text,
+	DialogBox(const std::string& text,
 		std::function<void()> onOK);
 	~DialogBox();
 };

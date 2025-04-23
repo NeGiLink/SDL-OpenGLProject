@@ -9,7 +9,7 @@
 class Image
 {
 public:
-	Image(class BaseScene* game,bool active = true);
+	Image(bool active = true);
 	virtual ~Image();
 	virtual void Load(std::string file);
 	virtual void SetTexture(class Texture* texture);

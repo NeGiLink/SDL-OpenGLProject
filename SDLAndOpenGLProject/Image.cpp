@@ -5,8 +5,8 @@
 #include "BaseScene.h"
 #include "Renderer.h"
 
-Image::Image(BaseScene* game,bool active)
-	:mGame(game)
+Image::Image(bool active)
+	:mGame(GameApp::GetActiveScene())
 	,mTexture(nullptr)
 {
 	updateTogether = active;

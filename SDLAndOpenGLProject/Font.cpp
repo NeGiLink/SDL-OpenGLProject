@@ -3,8 +3,8 @@
 #include <vector>
 #include "BaseScene.h"
 
-Font::Font(class BaseScene* game)
-	:mGame(game)
+Font::Font()
+	:mGame(GameApp::GetActiveScene())
 {
 
 }

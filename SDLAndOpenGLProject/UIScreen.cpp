@@ -9,8 +9,8 @@
 #include "Image.h"
 #include "Text.h"
 
-UIScreen::UIScreen(BaseScene* game)
-	:mGame(game)
+UIScreen::UIScreen()
+	:mGame(GameApp::GetActiveScene())
 	, mTitle(nullptr)
 	, mBackground(nullptr)
 	, mTitlePos(0.0f, 300.0f)
@@ -20,12 +20,12 @@ UIScreen::UIScreen(BaseScene* game)
 {
 	// Add to UI Stack
 	mGame->PushUI(this);
-	mTitleFont = new Text(game, mGame->GetFont("Assets/Fonts/Carlito-Regular.ttf"),Vector2::Zero,false);
+	mTitleFont = new Text(mGame->GetFont("Assets/Fonts/Carlito-Regular.ttf"),Vector2::Zero,false);
 	
-	mButtonOn = new Image(game, false);
+	mButtonOn = new Image(false);
 	mButtonOn->Load("Assets/ButtonYellow.png");
 
-	mButtonOff = new Image(game, false);
+	mButtonOff = new Image(false);
 	mButtonOff->Load("Assets/ButtonBlue.png");
 }
 
