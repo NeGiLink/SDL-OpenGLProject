@@ -194,6 +194,7 @@ bool Skeleton::LoadFromFBX(const std::string& fileName)
 
 			BoneActor* boneActor = new BoneActor();
 			boneActor->SetBoneIndex(static_cast<int>(mBones.size()));
+			boneActor->SetBoneName(boneGetName);
 			mBoneActors.push_back(boneActor);
 		}
 	}
@@ -288,6 +289,14 @@ void Skeleton::AddBoneChildActor(std::string boneName, class ActorObject* actor)
 		index = mBoneTransform[boneName];
 	}
 	mBoneActors[index]->AddChildActor(actor);
+}
+
+void Skeleton::SetParentActor(ActorObject* parent)
+{
+	for (unsigned int i = 0; i < mBoneActors.size(); i++)
+	{
+		mBoneActors[i]->SetParentActor(parent);
+	}
 }
 
 void Skeleton::ComputeGlobalInvBindPose()

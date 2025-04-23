@@ -106,7 +106,7 @@ Font* BaseScene::GetFont(const std::string& fileName)
 	}
 	else
 	{
-		Font* font = new Font(this);
+		Font* font = new Font();
 		if (font->Load(fileName))
 		{
 			mFonts.emplace(fileName, font);
@@ -256,6 +256,10 @@ void BaseScene::UpdateGame()
 		mUpdatingActors = true;
 		for (auto actor : mActors)
 		{
+			if (actor->GetBoneName() == "RightHand")
+			{
+				int i = 0;
+			}
 			actor->Update(Time::deltaTime);
 		}
 		mUpdatingActors = false;

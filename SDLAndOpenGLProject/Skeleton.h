@@ -49,13 +49,19 @@ public:
 	std::vector<BoneActor*> GetBoneActor() const { return mBoneActors; }
 	
 	const std::vector<Matrix4>& GetGlobalInvBindPoses() const { return mGlobalInvBindPoses; }
+
+	//アニメーション適用後のボーンの行列変数のGetter
 	const std::vector<Matrix4>& GetGlobalCurrentPoses() const { return mGlobalCurrentPoses; }
+	//アニメーション適用語の各ボーンの行列をセットするSetter
 	void SetGlobalCurrentPoses(std::vector<Matrix4>& poses) { mGlobalCurrentPoses = poses; }
 	
 	const std::unordered_map<std::string, int>& GetBoneNameToIndex() const { return boneNameToIndex; }
 
 	Matrix4 GetBonePosition(std::string boneName);
+	//指定したボーンにオブジェクトを子オブジェクトとして設定
 	void AddBoneChildActor(std::string boneName,class ActorObject* actor);
+
+	void SetParentActor(ActorObject* parent);
 protected:
 	// スケルトンがロードされると自動的に呼び出され、
 	// 各ボーンのグローバルインバインドポーズを計算。
@@ -66,7 +72,7 @@ private:
 	std::vector<BoneActor*>					mBoneActors;
 	//計算用のオフセット変数
 	std::vector<aiMatrix4x4>				mOffsetMatrix;
-	// 各骨に対するグローバル逆束縛ポーズ
+	// 各Boneに対するグローバル逆束縛ポーズ
 	std::vector<Matrix4>					mGlobalInvBindPoses;
 	//スケルトンのボーンのアニメーション適用後の座標を持つマトリックス
 	std::vector<Matrix4>					mGlobalCurrentPoses;

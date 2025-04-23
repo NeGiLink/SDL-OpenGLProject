@@ -5,7 +5,7 @@
 class PauseMenu : public UIScreen
 {
 public:
-	PauseMenu(class BaseScene* game);
+	PauseMenu();
 	~PauseMenu();
 
 	void HandleKeyPress(int key) override;

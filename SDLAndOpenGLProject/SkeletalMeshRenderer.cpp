@@ -140,55 +140,59 @@ void SkeletalMeshRenderer::ComputeMatrixPalette()
 	{
 		// Global inverse bind pose matrix times current pose matrix
 		mPalette.mEntry[i] = globalInvBindPoses[i] * currentPoses[i];
-		mSkeleton->GetBoneActor()[i]->SetScale(mPalette.mEntry[i].GetScale());
-		mSkeleton->GetBoneActor()[i]->SetRotation(mPalette.mEntry[i].GetRotation());
-		mSkeleton->GetBoneActor()[i]->SetPosition(mPalette.mEntry[i].GetTranslation());
+		mSkeleton->GetBoneActor()[i]->SetScale(currentPoses[i].GetScale());
+		mSkeleton->GetBoneActor()[i]->SetRotation(currentPoses[i].GetRotation());
+		mSkeleton->GetBoneActor()[i]->SetPosition(currentPoses[i].GetTranslation());
 	}
 }
 
 void SkeletalMeshRenderer::BlendComputeMatrixPalette()
 {
 	const std::vector<Matrix4>& globalInvBindPoses = mSkeleton->GetGlobalInvBindPoses();
-	std::vector<Matrix4> poseA;
-	std::vector<Matrix4> poseB;
-	std::vector<Matrix4> finalPose;
+	std::vector<Matrix4> nowPose;
+	std::vector<Matrix4> nextPose;
+	std::vector<Matrix4> goalPose;
 
 	// 経過時間に対する補間率
 	float t = Math::Clamp(mBlendAnimTime / mBlendElapsed, 0.0f, 1.0f);
 
 	// アニメーションタイムを使ってそれぞれのポーズを取得
-	mAnimation->GetGlobalPoseAtTime(poseA, mSkeleton, mAnimTime);
-	// 例：進行具合に応じて取得
-	mBlendAnimation->GetGlobalPoseAtTime(poseB, mSkeleton,mBlendAnimTime);
+	mAnimation->GetGlobalPoseAtTime(nowPose, mSkeleton, mAnimTime);
+	// 進行具合に応じて取得
+	mBlendAnimation->GetGlobalPoseAtTime(nextPose, mSkeleton,mBlendAnimTime);
 
-	if (poseA.size() != poseB.size()) 
+	if (nowPose.size() != nextPose.size()) 
 	{
-		int a = poseA.size();
-		int b = poseB.size();
+		int a = nowPose.size();
+		int b = nextPose.size();
 	}
 
-	finalPose.resize(poseA.size());
+	goalPose.resize(nowPose.size());
 
-	for (size_t i = 0; i < poseA.size(); i++)
+	for (size_t i = 0; i < nowPose.size(); i++)
 	{
 		// BoneTransformに変換して補間（Lerp/Slerp）
 		BoneTransform transformA, transformB;
-		transformA.FromMatrix(poseA[i]);
-		transformB.FromMatrix(poseB[i]);
+		transformA.FromMatrix(nowPose[i]);
+		transformB.FromMatrix(nextPose[i]);
 
 		BoneTransform blended = BoneTransform::Interpolate(transformA,transformB,t);
 
-		finalPose[i] = blended.ToMatrix();
-		mSkeleton->GetBoneActor()[i]->SetBoneMatrix(finalPose[i]);
+		goalPose[i] = blended.ToMatrix();
+		mSkeleton->GetBoneActor()[i]->SetBoneMatrix(goalPose[i]);
 	}
 
-	mSkeleton->SetGlobalCurrentPoses(finalPose);
+	mSkeleton->SetGlobalCurrentPoses(goalPose);
 
 	for (size_t i = 0; i < mSkeleton->GetNumBones(); i++)
 	{
-		mPalette.mEntry[i] = globalInvBindPoses[i] * finalPose[i];
-		mSkeleton->GetBoneActor()[i]->SetScale(mPalette.mEntry[i].GetScale());
-		mSkeleton->GetBoneActor()[i]->SetRotation(mPalette.mEntry[i].GetRotation());
-		mSkeleton->GetBoneActor()[i]->SetPosition(mPalette.mEntry[i].GetTranslation());
+		if (mSkeleton->GetBoneActor()[i]->GetBoneName() == "RightHand") 
+		{
+			int i = 0;
+		}
+		mPalette.mEntry[i] = globalInvBindPoses[i] * goalPose[i];
+		mSkeleton->GetBoneActor()[i]->SetScale(goalPose[i].GetScale());
+		mSkeleton->GetBoneActor()[i]->SetRotation(goalPose[i].GetRotation());
+		mSkeleton->GetBoneActor()[i]->SetPosition(goalPose[i].GetTranslation());
 	}
 }

@@ -6,7 +6,7 @@ class HUD : public UIScreen
 {
 public:
 	// (‰º‚Éˆø‚­‡˜‚ÍŒã‚ë‚É‘Î‰‚µ‚Ü‚·)
-	HUD(class BaseScene* game);
+	HUD();
 	~HUD();
 
 	void Update(float deltaTime) override;

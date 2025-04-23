@@ -9,7 +9,6 @@
 CubeActor::CubeActor()
 	:ActorObject()
 {
-	SetScale(1.0f);
 	MeshRenderer* mc = new MeshRenderer(this);
 	Mesh* mesh = GetGame()->GetWinMain()->GetRenderer()->GetMesh("Cube.fbx");
 	mc->SetMesh(mesh);

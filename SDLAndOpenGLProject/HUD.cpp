@@ -10,26 +10,26 @@
 #include <algorithm>
 #include "TargetComponent.h"
 
-HUD::HUD(BaseScene* game)
-	:UIScreen(game)
+HUD::HUD()
+	:UIScreen()
 	, mRadarRange(2000.0f)
 	, mRadarRadius(92.0f)
 	, mTargetEnemy(false)
 {
-	Renderer* r = game->GetWinMain()->GetRenderer();
-	mRadar = new Image(game,false);
+	Renderer* r = mGame->GetWinMain()->GetRenderer();
+	mRadar = new Image(false);
 	mRadar->Load("Assets/Radar.png");
 
-	mCrosshair = new Image(game,false);
+	mCrosshair = new Image(false);
 	mCrosshair->Load("Assets/Crosshair.png");
 
-	mCrosshairEnemy = new Image(game, false);
+	mCrosshairEnemy = new Image(false);
 	mCrosshairEnemy->Load("Assets/CrosshairRed.png");
 	
-	mBlipTex = new Image(game,false);
+	mBlipTex = new Image(false);
 	mBlipTex->Load("Assets/Blip.png");
 
-	mRadarArrow = new Image(game,false);
+	mRadarArrow = new Image(false);
 	mRadarArrow->Load("Assets/RadarArrow.png");
 }
 

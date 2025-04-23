@@ -9,7 +9,6 @@
 CapsuleActor::CapsuleActor()
 	:ActorObject()
 {
-	SetScale(2.0f);
 	MeshRenderer* mc = new MeshRenderer(this);
 	Mesh* mesh = GetGame()->GetWinMain()->GetRenderer()->GetMesh("Capsule.fbx");
 	mc->SetMesh(mesh);

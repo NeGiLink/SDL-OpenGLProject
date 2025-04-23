@@ -64,9 +64,9 @@ bool GameScene::Initialize()
 	dir.mSpecColor = Vector3(0.8f, 0.8f, 0.8f);
 
 	// UI elements
-	mHUD = new HUD(this);
+	mHUD = new HUD();
 
-	mTestText = new Text(this,GetFont("Assets/Fonts/Carlito-Regular.ttf"), Vector2(500, 350));
+	mTestText = new Text(GetFont("Assets/Fonts/Carlito-Regular.ttf"), Vector2(500, 350));
 	float time = Time::deltaTime;
 	mTestText->SetText(std::to_string(time));
 	mTestText->SetFontSize(40);
@@ -84,17 +84,18 @@ bool GameScene::Initialize()
 	mPlayer = mFPSActor;
 
 	mCube = new CubeActor();
-	mCube->SetPosition(Vector3(0.0f, -1.0f, 2.0f));
+	mCube->SetPosition(Vector3(2.0f, -1.0f, 4.0f));
 
 	mCapsule = new CapsuleActor();
-	mCapsule->SetPosition(Vector3(2.0f, -1.0f, 2.0f));
+	mCapsule->SetPosition(Vector3(2.0f, -1.0f, 4.0f));
 	mCube->AddChildActor(mCapsule);
+	mCapsule->SetPosition(Vector3(1.0f,0.0f,0.0f));
 
 	mSphere = new SphereActor();
-	mSphere->SetPosition(Vector3(-2.0f, -1.0f, 2.0f));
+	mSphere->SetPosition(Vector3(-2.0f, -1.0f, 4.0f));
 
 	mDice = new DiceActor();
-	mDice->SetPosition(Vector3(0.0f, -1.0f, -2.0f));
+	mDice->SetPosition(Vector3(0.0f, -1.0f, -4.0f));
 	
 
 	a = new YBotActor();
@@ -206,7 +207,7 @@ void GameScene::HandleKeyPress(int key)
 	{
 	case SDLK_ESCAPE:
 		// Create pause menu
-		new PauseMenu(this);
+		new PauseMenu();
 		break;
 	case '-':
 	{

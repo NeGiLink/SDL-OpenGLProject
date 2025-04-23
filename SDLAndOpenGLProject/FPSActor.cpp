@@ -30,14 +30,6 @@ FPSActor::FPSActor()
 	AABB myBox(Vector3(-0.5f, -0.5f, -0.5f),Vector3(0.5f, 0.5f, 0.5f));
 	mBoxComp->SetObjectBox(myBox);
 	mBoxComp->SetShouldRotate(false);
-	/*
-	mSword = new Sword(game);
-	mSword->SetPosition(pos);
-	AddChildActor(mSword);
-	*/
-	Vector3 pos = GetLocalPosition();
-	mDice = new DiceActor();
-	mDice->SetPosition(pos);
 }
 
 void FPSActor::UpdateActor(float deltaTime)
@@ -227,6 +219,5 @@ void FPSActor::FixCollisions()
 
 void FPSActor::OnCollisionEnter(ActorObject* target)
 {
-	mDice->SetPosition(mLocalPosition);
 	SDL_Log("FPSPlayer Hit!");
 }

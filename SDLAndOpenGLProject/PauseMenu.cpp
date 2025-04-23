@@ -4,8 +4,8 @@
 #include "DialogBox.h"
 #include <SDL3/SDL.h>
 
-PauseMenu::PauseMenu(BaseScene* game)
-	:UIScreen(game)
+PauseMenu::PauseMenu()
+	:UIScreen()
 {
 	GameStateClass::SetGameState(GameState::EPaused);
 	SetRelativeMouseMode(false);
@@ -14,7 +14,7 @@ PauseMenu::PauseMenu(BaseScene* game)
 		Close();
 		});
 	AddButton("QuitButton", [this]() {
-		new DialogBox(mGame, "QuitText",
+		new DialogBox("QuitText",
 			[this]() {
 				GameStateClass::SetGameState(GameState::EQuit);
 			});

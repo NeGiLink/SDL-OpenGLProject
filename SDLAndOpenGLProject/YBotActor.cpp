@@ -17,23 +17,18 @@ YBotActor::YBotActor()
 	mSkeletonMesh = new SkeletalMeshRenderer(this);
 	mSkeletonMesh->SetMeshs(GetGame()->GetWinMain()->GetRenderer()->GetMeshs("Y Bot.fbx"));
 	mSkeletonMesh->SetSkeleton(GetGame()->GetSkeleton("Assets/Models/Y Bot.fbx"));
+	mSkeletonMesh->GetSkeleton()->SetParentActor(this);
 	animator->SetSkeleton(mSkeletonMesh->GetSkeleton());
 	animator->Load("Assets/Sword And Shield Idle.fbx",true);
 	animator->Load("Assets/Running.fbx",true);
 	animator->Load("Assets/Jumping.fbx");
 	animator->Load("Assets/Capoeira.fbx",true);
 	animator->Load("Assets/T-Pose.fbx",true);
-	mSkeletonMesh->PlayAnimation(animator->GetAnimations()[State::TPose]);
+	mSkeletonMesh->PlayAnimation(animator->GetAnimations()[State::Idle]);
 
 	mSword = new Sword();
 	mSkeletonMesh->GetSkeleton()->AddBoneChildActor("RightHand", mSword);
-	/*
-	mSword->SetRotationAmountX(0);
-	mSword->SetRotationAmountY(Math::PiOver2);
-	mSword->SetRotationAmountZ(Math::PiOver2);
-	*/
-	/*
-	*/
+	mSword->SetPosition(Vector3());
 }
 
 void YBotActor::ActorInput(const struct InputState& keys)

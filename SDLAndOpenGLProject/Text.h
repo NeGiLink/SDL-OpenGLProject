@@ -9,8 +9,7 @@
 class Text : public Image
 {
 public:
-	Text(class BaseScene* game, class Font* font,
-		const Vector2& pos,bool active = true);
+	Text(class Font* font,const Vector2& pos,bool active = true);
 	~Text();
 
 	// Set the name of the button

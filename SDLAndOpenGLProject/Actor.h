@@ -135,6 +135,8 @@ public:
 	virtual void OnCollisionStay(class ActorObject* target){}
 	//“–‚½‚èI‚í‚Á‚½‚ÉŒÄ‚Ño‚³‚ê‚éŠÖ”
 	virtual void OnCollisionExit(class ActorObject* target){}
+
+	virtual std::string GetBoneName() { return "NULL"; }
 protected:
 	// World Transform
 	Matrix4		mWorldTransform;
