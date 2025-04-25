@@ -18,6 +18,7 @@ public:
 	~Renderer();
 
 	bool Initialize(float screenWidth, float screenHeight);
+	//ï`âÊïîï™ÇÃÉAÉìÉçÅ[Éh(ShaderÇ»Ç«)
 	void Shutdown();
 	void UnloadData();
 
@@ -44,6 +45,8 @@ public:
 	void SetAmbientLight(const Vector3& ambient) { mAmbientLight = ambient; }
 	DirectionalLight& GetDirectionalLight() { return mDirLight; }
 
+	void SetDirectionalLight(DirectionalLight& dirLight) { mDirLight = dirLight; }
+
 	// Given a screen space point, unprojects it into world space,
 	// based on the current 3D view/projection matrices
 	// Expected ranges:
@@ -67,6 +70,8 @@ public:
 	void SetBaseScene(class BaseScene* scene) { mNowScene = scene; }
 
 	SDL_Window* GetWindow() { return mWindow; }
+
+	void SetPointLightMesh(class Mesh* mesh) { mPointLightMesh = mesh; }
 private:
 	void Draw3DScene(unsigned int framebuffer, const Matrix4& view, const Matrix4& proj,
 		float viewPortScale = 1.0f, bool lit = true);
@@ -93,10 +98,11 @@ private:
 	std::vector<class SkeletalMeshRenderer*>			mSkeletalMeshes;
 
 	// Game
-	class GameWinMain*										mGame;
+	class GameWinMain*									mGame;
 
 	class BaseScene*									mNowScene;
 
+	//***Shader***
 	// Sprite shader
 	class Shader*										mSpriteShader;
 	// Sprite vertex array
@@ -133,8 +139,10 @@ private:
 	class Shader*										mGPointLightShader;
 	std::vector<class PointLightComponent*>				mPointLights;
 	class Mesh*											mPointLightMesh;
+	/*
 	//Line Shader
 	class Shader*										mLineShader;
 	// Sprite vertex array
 	class VertexArray*									mLineSpriteVerts;
+	*/
 };

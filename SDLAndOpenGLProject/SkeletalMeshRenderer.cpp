@@ -7,6 +7,7 @@
 #include "Texture.h"
 #include "VertexArray.h"
 #include "Animation.h"
+#include "Animator.h"
 
 SkeletalMeshRenderer::SkeletalMeshRenderer(ActorObject* owner)
 	:MeshRenderer(owner, true)
@@ -26,7 +27,7 @@ void SkeletalMeshRenderer::Draw(Shader* shader)
 				shader->SetMatrixUniform("uWorldTransform",
 					mOwner->GetWorldTransform());
 				// Set the matrix palette
-				shader->SetMatrixUniforms("uMatrixPalette", &mPalette.mEntry[0],
+				shader->SetMatrixUniforms("uMatrixPalette", &mAnimator->GetPalette().mEntry[0],
 					MAX_SKELETON_BONES);
 				// Set specular power
 				shader->SetFloatUniform("uSpecPower", mMeshs[i]->GetMaterialInfo()[j].Shininess);
@@ -54,6 +55,9 @@ void SkeletalMeshRenderer::Draw(Shader* shader)
 
 void SkeletalMeshRenderer::Update(float deltaTime)
 {
+	if (!mAnimator) { return; }
+	mAnimator->Update(deltaTime);
+	/*
 	if (mAnimation && mSkeleton)
 	{
 		mAnimTime += deltaTime * mAnimPlayRate;
@@ -95,8 +99,9 @@ void SkeletalMeshRenderer::Update(float deltaTime)
 			blending = false;
 		}
 	}
+	*/
 }
-
+/*
 float SkeletalMeshRenderer::PlayAnimation(Animation* anim, float playRate)
 {
 	if (mAnimation == anim) { return 0.0f; }
@@ -186,13 +191,10 @@ void SkeletalMeshRenderer::BlendComputeMatrixPalette()
 
 	for (size_t i = 0; i < mSkeleton->GetNumBones(); i++)
 	{
-		if (mSkeleton->GetBoneActor()[i]->GetBoneName() == "RightHand") 
-		{
-			int i = 0;
-		}
 		mPalette.mEntry[i] = globalInvBindPoses[i] * goalPose[i];
 		mSkeleton->GetBoneActor()[i]->SetScale(goalPose[i].GetScale());
 		mSkeleton->GetBoneActor()[i]->SetRotation(goalPose[i].GetRotation());
 		mSkeleton->GetBoneActor()[i]->SetPosition(goalPose[i].GetTranslation());
 	}
 }
+*/

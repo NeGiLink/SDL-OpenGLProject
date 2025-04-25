@@ -87,6 +87,9 @@ void ActorObject::ComputeWorldTransform(const class Matrix4 *parentMatrix)
 		else {
 			mWorldTransform = mModelTransform;
 		}
+		mPosition = mWorldTransform.GetTranslation();
+		mRotation = mWorldTransform.GetRotation();
+		mScale =	mWorldTransform.GetScale();
 		//子オブジェクトの座標計算
 		for (auto child : mChildActor)
 		{

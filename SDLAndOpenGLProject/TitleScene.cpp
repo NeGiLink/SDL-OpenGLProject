@@ -1,4 +1,4 @@
-#include "GameScene.h"
+#include "TitleScene.h"
 #include <algorithm>
 #include "Renderer.h"
 #include "AudioSystem.h"
@@ -35,12 +35,12 @@
 #include "Image.h"
 #include "Text.h"
 
-GameScene::GameScene(GameWinMain* winMain)
+TitleScene::TitleScene(GameWinMain* winMain)
 	:BaseScene(winMain)
 {
 }
 
-bool GameScene::Initialize()
+bool TitleScene::Initialize()
 {
 	// Load English text
 	LoadText("Assets/English.gptext");
@@ -51,13 +51,12 @@ bool GameScene::Initialize()
 
 	// Setup floor
 	a = new PlaneActor();
-	Vector3 pos = Vector3(0.0f,-1.5f,0.0f);
+	Vector3 pos = Vector3(0.0f, -1.5f, 0.0f);
 	a->SetPosition(pos);
-	a->SetRotation(Quaternion(Vector3::UnitX,Math::Pi));
+	a->SetRotation(Quaternion(Vector3::UnitX, Math::Pi));
 
 
 	mWinMain->GetRenderer()->SetPointLightMesh(mWinMain->GetRenderer()->GetMesh("PointLight.gpmesh"));
-	
 
 	// Setup lights
 	mWinMain->GetRenderer()->SetAmbientLight(Vector3(0.4f, 0.4f, 0.4f));
@@ -65,7 +64,6 @@ bool GameScene::Initialize()
 	dir.mDirection = Vector3(0.0f, -0.707f, -0.707f);
 	dir.mDiffuseColor = Vector3(0.78f, 0.88f, 1.0f);
 	dir.mSpecColor = Vector3(0.8f, 0.8f, 0.8f);
-
 	// UI elements
 	mHUD = new HUD();
 
@@ -87,27 +85,29 @@ bool GameScene::Initialize()
 	mPlayer = mFPSActor;
 
 	mCube = new CubeActor();
-	mCube->SetPosition(Vector3(2.0f, -1.0f, 4.0f));
-
+	mCube->SetPosition(Vector3(0.0f, -1.0f, 4.0f));
+	
 	mCapsule = new CapsuleActor();
 	mCapsule->SetPosition(Vector3(2.0f, -1.0f, 4.0f));
 	mCube->AddChildActor(mCapsule);
-	mCapsule->SetPosition(Vector3(1.0f,0.0f,0.0f));
+	mCapsule->SetPosition(Vector3(1.0f, 0.0f, 0.0f));
 
 	mSphere = new SphereActor();
 	mSphere->SetPosition(Vector3(-2.0f, -1.0f, 4.0f));
 
 	mDice = new DiceActor();
 	mDice->SetPosition(Vector3(0.0f, -1.0f, -4.0f));
-	
+	/*
+	*/
+
 
 	//a = new YBotActor();
-	
+
 	//a = new TestCharacter();
-	/*
 
 	//a = new SmallCharacter();
 
+	/*
 	// Create target actors
 	q = Quaternion();
 	a = new TargetActor();
@@ -129,11 +129,10 @@ bool GameScene::Initialize()
 	a->SetPosition(Vector3(14.5f, 2.0f, 0.0f));
 	a->SetRotation(Quaternion(Vector3::UnitY, -Math::PiOver2));
 	*/
-
 	return true;
 }
 
-bool GameScene::InputUpdate()
+bool TitleScene::InputUpdate()
 {
 	//“ü—Í‘€ì
 	SDL_Event event;
@@ -185,36 +184,32 @@ bool GameScene::InputUpdate()
 			}
 		}
 	}
-	if (state.Keyboard.GetKeyDown(SDL_SCANCODE_K)) 
+	if (state.Keyboard.GetKeyDown(SDL_SCANCODE_L))
 	{
-		SceneManager::LoadScene(0);
+		SceneManager::LoadScene(1);
 	}
 	else if (!mUIStack.empty())
 	{
 		mUIStack.back()->ProcessInput(state);
 	}
-
 	return true;
 }
 
-bool GameScene::Update()
+bool TitleScene::Update()
 {
-	
-
 	float time = Time::GetFrameRate();
 	mTestText->SetText("FPS : " + FloatToString::ToStringWithoutDecimal(time));
 
 	return true;
 }
 
-void GameScene::HandleKeyPress(int key)
+void TitleScene::HandleKeyPress(int key)
 {
-	
 	switch (key)
 	{
 	case SDLK_ESCAPE:
 		// Create pause menu
-		new PauseMenu();
+		//new PauseMenu();
 		break;
 	case '-':
 	{

@@ -13,26 +13,26 @@ class GameScene : public BaseScene
 public:
 	GameScene(class GameWinMain* winMain);
 	
-	bool Initialize();
+	bool Initialize()override;
 	
-	bool InputUpdate();
+	bool InputUpdate()override;
 
-	bool Update();
+	bool Update()override;
 	
-	void HandleKeyPress(int key);
+	void HandleKeyPress(int key)override;
 
 	class FPSActor* GetFPSPlayer() { return mFPSActor; }
 private:
 	// Game-specific code
 	class FPSActor*					mFPSActor;
 
-	class SphereActor* mSphere;
+	class SphereActor*				mSphere;
 
-	class CubeActor* mCube;
+	class CubeActor*				mCube;
 
-	class DiceActor* mDice;
+	class DiceActor*				mDice;
 
-	class CapsuleActor* mCapsule;
+	class CapsuleActor*				mCapsule;
 	
 	std::vector<class PlaneActor*>	mPlanes;
 	
@@ -41,4 +41,6 @@ private:
 	SoundEvent						mMusicEvent;
 
 	class Text*						mTestText;
+
+	//DirectionalLight				mDirLight;
 };

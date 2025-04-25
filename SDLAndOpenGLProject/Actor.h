@@ -53,6 +53,12 @@ public:
 
 	void SetState(State state) { mState = state; }
 
+	const Vector3& GetPosition() const		{ return mPosition; }
+
+	const Quaternion& GetRotation() const	{ return mRotation; }
+
+	const Vector3& GetScale() const			{ return mScale; }
+
 	// PositionのGetters/setters
 	const Vector3& GetLocalPosition() const { return mLocalPosition; }
 	void SetPosition(const Vector3& pos) 
@@ -104,6 +110,10 @@ public:
 
 
 	//***子オブジェクト関係の処理***
+	class ActorObject* GetParentActor() { return mParentActor; }
+	
+	const class ActorObject* GetChildActor(class ActorObject* actor);
+
 	// Add/remove components
 	void AddComponent(class Component* component);
 	
@@ -113,7 +123,6 @@ public:
 	
 	void RemoveChildActor(class ActorObject* actor);
 	
-	const class ActorObject* GetChildActor(class ActorObject* actor);
 	
 	void AddParentActor(class ActorObject* parent);
 
@@ -122,12 +131,9 @@ public:
 	//子オブジェクトの座標更新
 	void SetActive() { mRecomputeWorldTransform = true; }
 	
-
-
 	class BaseScene* GetGame() { return mGame; }
 
-	//TODO : 再計算用に親のアクターを取得できるように追加
-	class ActorObject* GetParentActor() { return mParentActor; }
+	//親のアクターのGetter
 
 	//当たった時に呼び出される関数
 	virtual void OnCollisionEnter(class ActorObject* target){}
@@ -135,24 +141,22 @@ public:
 	virtual void OnCollisionStay(class ActorObject* target){}
 	//当たり終わった時に呼び出される関数
 	virtual void OnCollisionExit(class ActorObject* target){}
-
-	virtual std::string GetBoneName() { return "NULL"; }
 protected:
 	// World Transform
-	Matrix4		mWorldTransform;
+	Matrix4							mWorldTransform;
 	//Model Transform
-	Matrix4		mModelTransform;
+	Matrix4							mModelTransform;
 	// Actor's state
 	State							mState;
 
-	
+	//ワールド座標、回転、スケーリング
 	Vector3							mPosition;
 
 	Quaternion						mRotation;
 
 	Vector3							mScale;
 
-
+	//ローカル座標、回転、スケーリング
 	Vector3							mLocalPosition;
 
 	Vector3							mPositionOffset;

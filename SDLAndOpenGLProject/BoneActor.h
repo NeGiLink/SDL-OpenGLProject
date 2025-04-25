@@ -13,8 +13,6 @@ public:
 	void SetBoneMatrix(Matrix4 mat) { mBoneMatrix = mat; }
 
 	void SetParentActor(ActorObject* actor) { parentActor = actor; }
-
-	std::string GetBoneName()override { return boneName; }
 private:
 	std::string boneName;
 

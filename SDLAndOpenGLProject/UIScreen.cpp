@@ -37,7 +37,6 @@ UIScreen::~UIScreen()
 		mTitle->Unload();
 		delete mTitle;
 	}
-	*/
 	//mFontは独自更新のためここでアンロード
 	if (mTitleFont) 
 	{
@@ -46,6 +45,7 @@ UIScreen::~UIScreen()
 		}
 		delete mTitleFont;
 	}
+	*/
 	
 
 	for (auto b : mButtons)

@@ -46,7 +46,6 @@ bool GameWinMain::Initialize()
 
 	mGameApp = new GameApp(this);
 	mGameApp->Initialize();
-	mRenderer->SetBaseScene(mGameApp->GetBaseScene());
 	return true;
 }
 

@@ -23,7 +23,10 @@ public:
 	// Unload mesh
 	void Unload();
 	// MeshのVertexArrayを配列で取得
-	std::vector<class VertexArray*> GetVertexArrays() { return mVertexArrays; }
+	std::vector<class VertexArray*> GetVertexArrays() 
+	{
+		return mVertexArrays; 
+	}
 	// テクスチャを配列で取得
 	class Texture* GetTexture(size_t index);
 	// シェーダー名を取得
