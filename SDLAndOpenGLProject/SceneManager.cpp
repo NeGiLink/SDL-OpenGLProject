@@ -1,0 +1,28 @@
+#include "SceneManager.h"
+#include "BaseScene.h"
+
+std::unordered_map<int,BaseScene*> SceneManager::mScenes;
+
+BaseScene* SceneManager::mNowScene;
+
+bool SceneManager::loading = false;
+
+void SceneManager::LoadScene(int index)
+{
+	if (mNowScene == mScenes[index]) { return; }
+	mNowScene = mScenes[index];
+	loading = true;
+}
+
+void SceneManager::AddSceneList(int sceneIndex, class BaseScene* scene)
+{
+	auto iter = mScenes.find(sceneIndex);
+	if (iter != mScenes.end())
+	{
+		return;
+	}
+	else
+	{
+		mScenes.emplace(sceneIndex, scene);
+	}
+}

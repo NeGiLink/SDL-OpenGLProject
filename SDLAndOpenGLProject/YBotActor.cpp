@@ -14,17 +14,21 @@ YBotActor::YBotActor()
 	SetPosition(Vector3(2.0f, -1.0f, 0.0f));
 	animator = new Animator();
 	GetGame()->GetAnimator(animatorName, animator);
+	//SkeletalMeshRenderer生成
 	mSkeletonMesh = new SkeletalMeshRenderer(this);
+	//Meshの読み込み
 	mSkeletonMesh->SetMeshs(GetGame()->GetWinMain()->GetRenderer()->GetMeshs("Y Bot.fbx"));
-	mSkeletonMesh->SetSkeleton(GetGame()->GetSkeleton("Assets/Models/Y Bot.fbx"));
-	mSkeletonMesh->GetSkeleton()->SetParentActor(this);
+	//Skeletonの読み込み
+	mSkeletonMesh->SetSkeleton(GetGame()->GetSkeleton("Assets/Models/Y Bot.fbx"),this);
+	mSkeletonMesh->SetAnimator(animator);
+	//Skeletonデータをアニメーターに設定
 	animator->SetSkeleton(mSkeletonMesh->GetSkeleton());
 	animator->Load("Assets/Sword And Shield Idle.fbx",true);
 	animator->Load("Assets/Running.fbx",true);
 	animator->Load("Assets/Jumping.fbx");
 	animator->Load("Assets/Capoeira.fbx",true);
 	animator->Load("Assets/T-Pose.fbx",true);
-	mSkeletonMesh->PlayAnimation(animator->GetAnimations()[State::Idle]);
+	animator->PlayAnimation(animator->GetAnimations()[State::Idle]);
 
 	mSword = new Sword();
 	mSkeletonMesh->GetSkeleton()->AddBoneChildActor("RightHand", mSword);
@@ -35,23 +39,23 @@ void YBotActor::ActorInput(const struct InputState& keys)
 {
 	if (keys.Keyboard.GetKeyDown(SDL_SCANCODE_1))
 	{
-		mSkeletonMesh->PlayBlendAnimation(animator->GetAnimations()[State::TPose]);
+		animator->PlayBlendAnimation(animator->GetAnimations()[State::TPose]);
 	}
 	else if (keys.Keyboard.GetKeyDown(SDL_SCANCODE_2))
 	{
-		mSkeletonMesh->PlayBlendAnimation(animator->GetAnimations()[State::Idle]);
+		animator->PlayBlendAnimation(animator->GetAnimations()[State::Idle]);
 	}
 	else if (keys.Keyboard.GetKeyDown(SDL_SCANCODE_3))
 	{
-		mSkeletonMesh->PlayBlendAnimation(animator->GetAnimations()[State::Run]);
+		animator->PlayBlendAnimation(animator->GetAnimations()[State::Run]);
 	}
 	else if (keys.Keyboard.GetKeyDown(SDL_SCANCODE_4))
 	{
-		mSkeletonMesh->PlayBlendAnimation(animator->GetAnimations()[State::Jump]);
+		animator->PlayBlendAnimation(animator->GetAnimations()[State::Jump]);
 	}
 	else if (keys.Keyboard.GetKeyDown(SDL_SCANCODE_5))
 	{
-		mSkeletonMesh->PlayBlendAnimation(animator->GetAnimations()[State::Capoeira]);
+		animator->PlayBlendAnimation(animator->GetAnimations()[State::Capoeira]);
 	}
 	/*
 

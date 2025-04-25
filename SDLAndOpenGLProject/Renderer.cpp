@@ -28,7 +28,7 @@ Renderer::Renderer(GameWinMain* game)
 	, mGBuffer(nullptr)
 	, mGGlobalShader(nullptr)
 	, mGPointLightShader(nullptr)
-	,mLineShader(nullptr)
+	//,mLineShader(nullptr)
 {
 }
 
@@ -92,7 +92,7 @@ bool Renderer::Initialize(float screenWidth, float screenHeight)
 	CreateSpriteVerts();
 
 	//線を描画するための二点を作成
-	CreateLineSpriteVerts();
+	//CreateLineSpriteVerts();
 
 	// ミラー用のレンダーターゲットを作成する
 	if (!CreateMirrorTarget())
@@ -112,7 +112,7 @@ bool Renderer::Initialize(float screenWidth, float screenHeight)
 	}
 
 	// ポイントライトメッシュをロードする
-	mPointLightMesh = GetMesh("PointLight.gpmesh");
+	//mPointLightMesh = GetMesh("PointLight.gpmesh");
 
 	return true;
 }
@@ -137,12 +137,19 @@ void Renderer::Shutdown()
 	{
 		delete mPointLights.back();
 	}
+	
 	delete mSpriteVerts;
+	
 	mSpriteShader->Unload();
+	
 	delete mSpriteShader;
+	
 	mMeshShader->Unload();
+	
 	delete mMeshShader;
+	
 	SDL_GL_DestroyContext(mContext);
+
 	SDL_DestroyWindow(mWindow);
 }
 
@@ -554,7 +561,7 @@ bool Renderer::LoadShaders()
 	// ビュー投影行列を設定する
 	Matrix4 spriteViewProj = Matrix4::CreateSimpleViewProj(mScreenWidth, mScreenHeight);
 	mSpriteShader->SetMatrixUniform("uViewProj", spriteViewProj);
-
+	/*
 	//Lineの描画用のシェーダーを作成する
 	mLineShader = new Shader();
 	if (!mLineShader->Load("Shaders/LineSprite.vert", "Shaders/LineSprite.frag")) {
@@ -562,6 +569,7 @@ bool Renderer::LoadShaders()
 	}
 	mLineShader->SetActive();
 	mLineShader->SetMatrixUniform("uViewProj", spriteViewProj);
+	*/
 
 	// 基本的なメッシュシェーダーを作成する
 	mMeshShader = new Shader();
@@ -647,7 +655,7 @@ void Renderer::CreateLineSpriteVerts()
 	1.0f, 1.0f, 1.0f   // 終点 (x, y, z)
 	};
 
-	mLineSpriteVerts = new VertexArray(lineVertices, 2);
+	//mLineSpriteVerts = new VertexArray(lineVertices, 2);
 }
 
 void Renderer::SetLightUniforms(Shader* shader, const Matrix4& view)

@@ -55,12 +55,13 @@ void BaseScene::ProcessInput()
 void BaseScene::Shutdown()
 {
 	InputSystem::Shutdown();
-
+	/*
 	delete mPhysWorld;
 	if (mAudioSystem)
 	{
 		mAudioSystem->Shutdown();
 	}
+	*/
 }
 
 void BaseScene::AddActor(ActorObject* actor)
@@ -256,10 +257,6 @@ void BaseScene::UpdateGame()
 		mUpdatingActors = true;
 		for (auto actor : mActors)
 		{
-			if (actor->GetBoneName() == "RightHand")
-			{
-				int i = 0;
-			}
 			actor->Update(Time::deltaTime);
 		}
 		mUpdatingActors = false;
@@ -361,20 +358,42 @@ void BaseScene::UnloadData()
 	}
 
 	// Unload fonts
-	for (auto f : mFonts)
+	for (auto& f : mFonts)
 	{
-		f.second->Unload();
-		delete f.second;
+		if (f.second)
+		{
+			f.second->Unload();
+			delete f.second;
+			f.second = nullptr;
+		}
 	}
+	mFonts.clear();
 
 	// Unload skeletons
 	for (auto s : mSkeletons)
 	{
-		delete s.second;
+		if (s.second) 
+		{
+			delete s.second;
+			s.second = nullptr;
+		}
 	}
+	mSkeletons.clear();
 
 	// Unload animators
-	for (auto a : mAnimators) {
-		delete a.second;
+	for (auto a : mAnimators) 
+	{
+		if (a.second)
+		{
+
+			delete a.second;
+		}
+	}
+	mAnimators.clear();
+
+	delete mPhysWorld;
+	if (mAudioSystem)
+	{
+		mAudioSystem->Shutdown();
 	}
 }

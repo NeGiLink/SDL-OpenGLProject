@@ -173,12 +173,14 @@
     <ClCompile Include="Image.cpp" />
     <ClCompile Include="InputSystem.cpp" />
     <ClCompile Include="LineRenderer.cpp" />
+    <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="SmallCharacter.cpp" />
     <ClCompile Include="SphereActor.cpp" />
     <ClCompile Include="SphereCollider.cpp" />
     <ClCompile Include="Sword.cpp" />
     <ClCompile Include="Text.cpp" />
     <ClCompile Include="Time.cpp" />
+    <ClCompile Include="TitleScene.cpp" />
     <ClCompile Include="WinMain.cpp" />
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="GBuffer.cpp" />
@@ -255,6 +257,7 @@
     <ClInclude Include="LineRenderer.h" />
     <ClInclude Include="MeshFilePath.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="SceneManager.h" />
     <ClInclude Include="SDL3.h" />
     <ClInclude Include="SmallCharacter.h" />
     <ClInclude Include="SphereActor.h" />
@@ -263,6 +266,7 @@
     <ClInclude Include="Sword.h" />
     <ClInclude Include="Text.h" />
     <ClInclude Include="Time.h" />
+    <ClInclude Include="TitleScene.h" />
     <ClInclude Include="WinMain.h" />
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="GBuffer.h" />

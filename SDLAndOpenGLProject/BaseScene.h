@@ -29,6 +29,16 @@ public:
 	
 	void Shutdown();
 
+
+	virtual bool Initialize() = 0;
+
+	virtual bool InputUpdate() = 0;
+
+	virtual bool Update() = 0;
+
+	virtual void HandleKeyPress(int key) = 0;
+
+
 	void AddActor(class ActorObject* actor);
 	
 	void RemoveActor(class ActorObject* actor);
@@ -100,5 +110,5 @@ protected:
 
 	class ActorObject*									mPlayer;
 
-	SoundEvent											mMusicEvent;
+	//SoundEvent											mMusicEvent;
 };

@@ -303,6 +303,12 @@
     <ClCompile Include="BoneActor.cpp">
       <Filter>SourceFiles\GameObjects\3Ds\Bone</Filter>
     </ClCompile>
+    <ClCompile Include="TitleScene.cpp">
+      <Filter>SourceFiles\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actor.h">
@@ -542,14 +548,20 @@
     <ClInclude Include="CapsuleActor.h">
       <Filter>SourceFiles\GameObjects\3Ds\Defaults</Filter>
     </ClInclude>
-    <ClInclude Include="YBotActor.h">
-      <Filter>SourceFiles\GameObjects\3Ds\Defaults</Filter>
-    </ClInclude>
     <ClInclude Include="CubeActor.h">
       <Filter>SourceFiles\GameObjects\3Ds\Defaults</Filter>
     </ClInclude>
     <ClInclude Include="BoneActor.h">
       <Filter>SourceFiles\GameObjects\3Ds\Bone</Filter>
+    </ClInclude>
+    <ClInclude Include="YBotActor.h">
+      <Filter>SourceFiles\GameObjects\3Ds</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleScene.h">
+      <Filter>SourceFiles\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManager.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

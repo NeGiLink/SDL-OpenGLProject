@@ -23,5 +23,7 @@ private:
 
 	class GameScene* mGameScene;
 
+	class TitleScene* mTitleScene;
+
 	class GameWinMain* mWinMain;
 };
