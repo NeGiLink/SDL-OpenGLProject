@@ -3,6 +3,12 @@
 #include "MatrixPalette.h"
 #include "Animation.h"
 #include "Skeleton.h"
+#include "Shader.h"
+#include "Mesh.h"
+#include "Actor.h"
+#include "Texture.h"
+#include "VertexArray.h"
+#include "Animator.h"
 
 class SkeletalMeshRenderer : public MeshRenderer
 {

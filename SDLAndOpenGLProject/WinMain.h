@@ -1,15 +1,17 @@
 #pragma once
-#include "SoundEvent.h"
-#include "Time.h"
+
 #include "GameApp.h"
+#include "PhysWorld.h"
+#include "AudioSystem.h"
+#include "SoundEvent.h"
 #include "SceneManager.h"
 #include "InputSystem.h"
 
 enum GameState
 {
-	EGameplay,
-	EPaused,
-	EQuit
+	GamePlay,
+	TimeStop,
+	GameEnd
 };
 
 class GameStateClass 
@@ -18,7 +20,7 @@ public:
 	static void SetGameState(GameState state) { mGameState = state; }
 	static GameState mGameState;
 };
-
+//ゲームの描画処理管理クラス
 class GameWinMain
 {
 public:
@@ -28,17 +30,15 @@ public:
 	void Shutdown();
 
 	class Renderer* GetRenderer() { return mRenderer; }
-
-	class GameApp* GetGameApp() { return mGameApp; }
 private:
-	void GenerateOutput();
+	void Render();
 	void UnloadData();
 
 	class Renderer* mRenderer;
 
 	//ゲーム内処理
 	GameApp* mGameApp;
-
+	//画面サイズ
 	static float mWindowWidth;
 
 	static float mWindowHeight;

@@ -1,9 +1,4 @@
 #include "DialogBox.h"
-#include "WinMain.h"
-#include "BaseScene.h"
-#include "Renderer.h"
-#include <SDL3/SDL.h>
-#include "Image.h"
 
 DialogBox::DialogBox(const std::string& text,
 	std::function<void()> onOK)

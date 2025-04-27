@@ -1,14 +1,5 @@
 #include "HUD.h"
-#include "Texture.h"
-#include "Image.h"
-#include "Shader.h"
-#include "BaseScene.h"
-#include "WinMain.h"
-#include "Renderer.h"
-#include "PhysWorld.h"
-#include "FPSActor.h"
-#include <algorithm>
-#include "TargetComponent.h"
+
 
 HUD::HUD()
 	:UIScreen()
@@ -48,7 +39,7 @@ void HUD::Update(float deltaTime)
 void HUD::Draw(Shader* shader)
 {
 	// Crosshair
-	if (GameStateClass::mGameState == EPaused) { return; }
+	if (GameStateClass::mGameState == TimeStop) { return; }
 	Image* crosshair = mTargetEnemy ? mCrosshairEnemy : mCrosshair;
 	crosshair->SetPosition(Vector2::Zero);
 	//mCrosshairAngle++;

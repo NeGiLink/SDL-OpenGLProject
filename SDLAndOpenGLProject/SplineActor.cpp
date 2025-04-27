@@ -1,10 +1,4 @@
 #include "SplineActor.h"
-#include "MeshRenderer.h"
-#include "WinMain.h"
-#include "BaseScene.h"
-#include "Renderer.h"
-#include "SplineCamera.h"
-#include "MoveComponent.h"
 
 SplineActor::SplineActor()
 	:ActorObject()

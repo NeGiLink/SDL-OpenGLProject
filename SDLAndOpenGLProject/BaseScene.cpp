@@ -1,17 +1,5 @@
 #include "BaseScene.h"
-#include "Renderer.h"
-#include "AudioSystem.h"
-#include "PhysWorld.h"
-#include "Actor.h"
-#include "UIScreen.h"
-#include "Image.h"
-#include "HUD.h"
-#include "Font.h"
-#include "Skeleton.h"
-#include "Animation.h"
-#include "Animator.h"
-#include "MeshFilePath.h"
-#include "Time.h"
+#include "GameFunctions.h"
 
 BaseScene::BaseScene(GameWinMain* winMain)
 	: mWinMain(winMain)
@@ -21,9 +9,14 @@ BaseScene::BaseScene(GameWinMain* winMain)
 {
 }
 
-bool BaseScene::Setup()
+void BaseScene::Shutdown()
 {
-	if (!InputSystem::Initialize()) 
+	InputSystem::Shutdown();
+}
+
+bool BaseScene::Initialize()
+{
+	if (!InputSystem::Initialize())
 	{
 		SDL_Log("Failed to initialize input system");
 		return false;
@@ -45,23 +38,106 @@ bool BaseScene::Setup()
 	return true;
 }
 
-void BaseScene::ProcessInput()
+bool BaseScene::InputUpdate()
 {
 	InputSystem::PrepareForUpdate();
 
 	InputSystem::Update();
+
+	return true;
 }
 
-void BaseScene::Shutdown()
+bool BaseScene::Update()
 {
-	InputSystem::Shutdown();
-	/*
-	delete mPhysWorld;
-	if (mAudioSystem)
+	//特定のシーンに読み込まれたオブジェクトやコンポーネントを
+	// まとめて処理する部分
+	if (GameStateClass::mGameState == GamePlay)
 	{
-		mAudioSystem->Shutdown();
+		// Update all actors
+		mUpdatingActors = true;
+		for (auto actor : mActors)
+		{
+			actor->Update(Time::deltaTime);
+		}
+		mUpdatingActors = false;
+
+		// Move any pending actors to mActors
+		for (auto pending : mPendingActors)
+		{
+			pending->ComputeWorldTransform(NULL);
+			mActors.emplace_back(pending);
+		}
+		mPendingActors.clear();
+
+		// Add any dead actors to a temp vector
+		std::vector<ActorObject*> deadActors;
+		for (auto actor : mActors)
+		{
+			if (actor->GetState() == ActorObject::EDead)
+			{
+				deadActors.emplace_back(actor);
+			}
+		}
+
+		// Delete dead actors (which removes them from mActors)
+		for (auto actor : deadActors)
+		{
+			delete actor;
+		}
 	}
-	*/
+
+	mPhysWorld->SweepAndPruneXYZ();
+
+	// Update audio system
+	mAudioSystem->Update(Time::deltaTime);
+
+	// Update UI screens
+	for (auto ui : mUIStack)
+	{
+		if (ui->GetState() == UIScreen::EActive)
+		{
+			ui->Update(Time::deltaTime);
+		}
+	}
+	for (auto image : mImageStack)
+	{
+		if (image->GetState() == Image::EActive)
+		{
+			image->Update(Time::deltaTime);
+		}
+	}
+	// Delete any UIScreens that are closed
+	auto iter = mUIStack.begin();
+	while (iter != mUIStack.end())
+	{
+		if ((*iter)->GetState() == UIScreen::EClosing)
+		{
+			delete* iter;
+			iter = mUIStack.erase(iter);
+		}
+		else
+		{
+			++iter;
+		}
+	}
+	auto image = mImageStack.begin();
+	while (image != mImageStack.end())
+	{
+		if ((*image)->GetState() == Image::EDestroy)
+		{
+			delete* image;
+			image = mImageStack.erase(image);
+		}
+		else
+		{
+			++image;
+		}
+	}
+	return true;
+}
+
+void BaseScene::HandleKeyPress(int key)
+{
 }
 
 void BaseScene::AddActor(ActorObject* actor)
@@ -246,7 +322,7 @@ void BaseScene::RemovePlane(PlaneActor* plane)
 	auto iter = std::find(mPlanes.begin(), mPlanes.end(), plane);
 	mPlanes.erase(iter);
 }
-
+/*
 void BaseScene::UpdateGame()
 {
 	//特定のシーンに読み込まれたオブジェクトやコンポーネントを
@@ -334,6 +410,7 @@ void BaseScene::UpdateGame()
 		}
 	}
 }
+*/
 
 void BaseScene::UnloadData()
 {

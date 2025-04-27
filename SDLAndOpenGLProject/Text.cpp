@@ -1,10 +1,4 @@
 #include "Text.h"
-#include "Texture.h"
-#include "Shader.h"
-#include "WinMain.h"
-#include "BaseScene.h"
-#include "Renderer.h"
-#include "Font.h"
 
 Text::Text(Font* font, const Vector2& pos, bool active)
 : Image(active)

@@ -1,6 +1,5 @@
 #include "InputComponent.h"
 #include "Actor.h"
-#include "WinMain.h"
 
 InputComponent::InputComponent(class ActorObject* owner)
 	:MoveComponent(owner)

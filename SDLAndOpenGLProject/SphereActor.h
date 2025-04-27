@@ -1,5 +1,8 @@
 #pragma once
 #include "Actor.h"
+#include "MeshRenderer.h"
+#include "SphereCollider.h"
+#include "Mesh.h"
 
 class SphereActor : public ActorObject
 {

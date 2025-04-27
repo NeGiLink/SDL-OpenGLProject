@@ -1,10 +1,4 @@
 #include "SphereActor.h"
-#include "WinMain.h"
-#include "BaseScene.h"
-#include "Renderer.h"
-#include "MeshRenderer.h"
-#include "SphereCollider.h"
-#include "Mesh.h"
 
 SphereActor::SphereActor()
 	:ActorObject()

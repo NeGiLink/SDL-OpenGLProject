@@ -1,10 +1,5 @@
 #include "OrbitActor.h"
-#include "MeshRenderer.h"
-#include "WinMain.h"
-#include "BaseScene.h"
-#include "Renderer.h"
-#include "OrbitCamera.h"
-#include "MoveComponent.h"
+
 
 OrbitActor::OrbitActor()
 	:ActorObject()

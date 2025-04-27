@@ -1,5 +1,5 @@
 #pragma once
-//STD関連のインクルードをまとめたファイル
+//STD関連の外部インクルード
 #include <array>
 #include <string>
 #include <vector>
@@ -15,3 +15,5 @@
 #include <cmath>
 #include <memory.h>
 #include <limits>
+//Rapidjsonの外部インクルード
+#include <rapidjson/document.h>

@@ -1,7 +1,4 @@
 #include "CapsuleCollider.h"
-#include "Actor.h"
-#include "BaseScene.h"
-#include "PhysWorld.h"
 
 CapsuleCollider::CapsuleCollider(ActorObject* owner, int updateOrder)
 	: Collider(owner,updateOrder)

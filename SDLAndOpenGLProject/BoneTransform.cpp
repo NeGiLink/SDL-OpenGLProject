@@ -1,5 +1,5 @@
 #include "BoneTransform.h"
-#include "Actor.h"
+
 
 Matrix4 BoneTransform::ToMatrix() const
 {

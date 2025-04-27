@@ -1,6 +1,8 @@
 #pragma once
 #include "Actor.h"
 #include "MeshRenderer.h"
+#include "BoxCollider.h"
+#include "Mesh.h"
 #include "Skeleton.h"
 //剣オブジェクトのクラス
 class Sword : public ActorObject

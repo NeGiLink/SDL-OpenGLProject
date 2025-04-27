@@ -1,6 +1,12 @@
 #pragma once
 #include "UIScreen.h"
 #include <vector>
+#include "Texture.h"
+#include "Image.h"
+#include "Shader.h"
+#include "PhysWorld.h"
+#include "FPSActor.h"
+#include "TargetComponent.h"
 //ƒQ[ƒ€ã‚ÌUI‚ğ‚Ü‚Æ‚ß‚Äˆ—‚·‚éƒNƒ‰ƒX
 class HUD : public UIScreen
 {

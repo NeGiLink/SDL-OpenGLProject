@@ -1,10 +1,5 @@
 #include "SpriteComponent.h"
-#include "Texture.h"
-#include "Shader.h"
-#include "Actor.h"
-#include "WinMain.h"
-#include "BaseScene.h"
-#include "Renderer.h"
+
 
 SpriteComponent::SpriteComponent(ActorObject* owner, int drawOrder)
 	:Component(owner)

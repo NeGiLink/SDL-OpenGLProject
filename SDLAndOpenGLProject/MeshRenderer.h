@@ -1,7 +1,10 @@
 #pragma once
 #include "Component.h"
-#include <cstddef>
-#include <vector>
+#include "Shader.h"
+#include "Mesh.h"
+#include "Actor.h"
+#include "Texture.h"
+#include "VertexArray.h"
 
 class MeshRenderer : public Component
 {

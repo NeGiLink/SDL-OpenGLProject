@@ -1,16 +1,7 @@
 #pragma once
-#include <unordered_map>
-#include <string>
-#include <vector>
 #include "Math.h"
-#include "SoundEvent.h"
-#include <SDL3/SDL.h>
-#include <stdint.h>
-#include <fstream>
-#include <sstream>
-#include <algorithm>
-#include <rapidjson/document.h>
 #include "WinMain.h"
+#include "MeshFilePath.h"
 
 //シーンの基底クラス
 //オブジェクトの更新などをまとめて行う部分になります。
@@ -18,25 +9,19 @@ class BaseScene
 {
 public:
 	BaseScene(class GameWinMain* winMain);
-	//BaseScene用の初期化
-	bool Setup();
+	
 
-	void ProcessInput();
-	
-	void UpdateGame();
-	
+	virtual bool Initialize();
+
+	virtual bool InputUpdate();
+
+	virtual bool Update();
+
+	virtual void HandleKeyPress(int key);
+
 	void UnloadData();
 	
 	void Shutdown();
-
-
-	virtual bool Initialize() = 0;
-
-	virtual bool InputUpdate() = 0;
-
-	virtual bool Update() = 0;
-
-	virtual void HandleKeyPress(int key) = 0;
 
 
 	void AddActor(class ActorObject* actor);

@@ -1,7 +1,4 @@
 #include "Font.h"
-#include "Texture.h"
-#include <vector>
-#include "BaseScene.h"
 
 Font::Font()
 	:mGame(GameApp::GetActiveScene())

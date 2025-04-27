@@ -1,8 +1,5 @@
 #include "Shader.h"
-#include "Texture.h"
-#include <SDL3/SDL.h>
-#include <fstream>
-#include <sstream>
+
 
 Shader::Shader()
 	: mShaderProgram(0)

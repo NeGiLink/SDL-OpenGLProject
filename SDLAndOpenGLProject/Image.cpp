@@ -1,9 +1,5 @@
 #include "Image.h"
-#include "Texture.h"
-#include "Shader.h"
-#include "WinMain.h"
-#include "BaseScene.h"
-#include "Renderer.h"
+
 
 Image::Image(bool active)
 	:mGame(GameApp::GetActiveScene())

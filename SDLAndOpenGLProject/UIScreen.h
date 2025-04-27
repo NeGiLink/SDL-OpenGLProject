@@ -1,9 +1,11 @@
 #pragma once
 #include "Math.h"
-#include <cstdint>
-#include <string>
-#include <functional>
-#include <vector>
+#include "Texture.h"
+#include "Shader.h"
+#include "WinMain.h"
+#include "Font.h"
+#include "Image.h"
+#include "Text.h"
 
 //ボタンUIのクラス
 class Button

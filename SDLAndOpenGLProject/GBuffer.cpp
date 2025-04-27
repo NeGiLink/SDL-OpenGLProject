@@ -1,6 +1,4 @@
 #include "GBuffer.h"
-#include <GL/glew.h>
-#include "Texture.h"
 
 GBuffer::GBuffer()
 	:mBufferID(0)

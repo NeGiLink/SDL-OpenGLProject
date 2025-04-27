@@ -1,3 +1,4 @@
+
 #pragma once
 #include "SDL3.h"
 
@@ -20,6 +21,7 @@ public:
 	bool Initialize(float screenWidth, float screenHeight);
 	//描画部分のアンロード(Shaderなど)
 	void Shutdown();
+	//シーン別に保存しているオブジェクトをアンロードする処理
 	void UnloadData();
 
 	void Draw();
@@ -35,6 +37,8 @@ public:
 
 	void AddPointLight(class PointLightComponent* light);
 	void RemovePointLight(class PointLightComponent* light);
+
+	void SetPointLightMesh(class Mesh* mesh) { mPointLightMesh = mesh; }
 
 	class Texture* GetTexture(const std::string& fileName);
 	class Mesh* GetMesh(const std::string& fileName);
@@ -71,7 +75,6 @@ public:
 
 	SDL_Window* GetWindow() { return mWindow; }
 
-	void SetPointLightMesh(class Mesh* mesh) { mPointLightMesh = mesh; }
 private:
 	void Draw3DScene(unsigned int framebuffer, const Matrix4& view, const Matrix4& proj,
 		float viewPortScale = 1.0f, bool lit = true);

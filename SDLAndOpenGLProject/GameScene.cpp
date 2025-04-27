@@ -1,39 +1,5 @@
 #include "GameScene.h"
-#include <algorithm>
-#include "Renderer.h"
-#include "AudioSystem.h"
-#include "PhysWorld.h"
-#include "Actor.h"
-#include "UIScreen.h"
-#include "HUD.h"
-#include "MeshRenderer.h"
-#include "FPSActor.h"
-#include "PlaneActor.h"
-#include "TargetActor.h"
-#include "BallActor.h"
-#include "PauseMenu.h"
-#include <SDL3/SDL.h>
-#include <SDL3_ttf/SDL_ttf.h>
-#include "Font.h"
-#include <fstream>
-#include <sstream>
-#include <rapidjson/document.h>
-#include "Skeleton.h"
-#include "Animation.h"
-#include "Animator.h"
-#include "PointLightComponent.h"
-#include "DiceActor.h"
-
-#include "TestCharacter.h"
-#include "YBotActor.h"
-#include "SmallCharacter.h"
-
-#include "CubeActor.h"
-#include "SphereActor.h"
-#include "CapsuleActor.h"
-
-#include "Image.h"
-#include "Text.h"
+#include "GameFunctions.h"
 
 GameScene::GameScene(GameWinMain* winMain)
 	:BaseScene(winMain)
@@ -42,6 +8,7 @@ GameScene::GameScene(GameWinMain* winMain)
 
 bool GameScene::Initialize()
 {
+	BaseScene::Initialize();
 	// Load English text
 	LoadText("Assets/English.gptext");
 
@@ -55,7 +22,7 @@ bool GameScene::Initialize()
 	a->SetPosition(pos);
 	a->SetRotation(Quaternion(Vector3::UnitX,Math::Pi));
 
-
+	// ポイントライトメッシュをロードする
 	mWinMain->GetRenderer()->SetPointLightMesh(mWinMain->GetRenderer()->GetMesh("PointLight.gpmesh"));
 	
 
@@ -74,7 +41,7 @@ bool GameScene::Initialize()
 	mTestText->SetText(std::to_string(time));
 	mTestText->SetFontSize(40);
 	// Start music
-	//mMusicEvent = mAudioSystem->PlayEvent("event:/Music");
+	mMusicEvent = mAudioSystem->PlayEvent("event:/Music");
 
 	// Enable relative mouse mode for camera look
 	SDL_SetWindowRelativeMouseMode(mWinMain->GetRenderer()->GetWindow(), true);
@@ -103,7 +70,7 @@ bool GameScene::Initialize()
 
 	//a = new YBotActor();
 	
-	//a = new TestCharacter();
+	a = new TestCharacter();
 	/*
 
 	//a = new SmallCharacter();
@@ -142,13 +109,13 @@ bool GameScene::InputUpdate()
 		switch (event.type)
 		{
 		case SDL_EVENT_QUIT:
-			GameStateClass::SetGameState(GameState::EQuit);
+			GameStateClass::SetGameState(GameState::GameEnd);
 			break;
 			// This fires when a key's initially pressed
 		case SDL_EVENT_KEY_DOWN:
 			if (!event.key.repeat)
 			{
-				if (GameStateClass::mGameState == GameState::EGameplay)
+				if (GameStateClass::mGameState == GameState::GamePlay)
 				{
 					HandleKeyPress(event.key.key);
 				}
@@ -160,7 +127,7 @@ bool GameScene::InputUpdate()
 			}
 			break;
 		case SDL_EVENT_MOUSE_BUTTON_DOWN:
-			if (GameStateClass::mGameState == GameState::EGameplay)
+			if (GameStateClass::mGameState == GameState::GamePlay)
 			{
 				HandleKeyPress(event.button.button);
 			}
@@ -175,7 +142,7 @@ bool GameScene::InputUpdate()
 	}
 	const InputState& state = InputSystem::GetState();
 	//const bool* state = SDL_GetKeyboardState(NULL);
-	if (GameStateClass::mGameState == GameState::EGameplay)
+	if (GameStateClass::mGameState == GameState::GamePlay)
 	{
 		for (auto actor : mActors)
 		{
@@ -193,23 +160,22 @@ bool GameScene::InputUpdate()
 	{
 		mUIStack.back()->ProcessInput(state);
 	}
-
+	BaseScene::InputUpdate();
 	return true;
 }
 
 bool GameScene::Update()
 {
-	
 
 	float time = Time::GetFrameRate();
 	mTestText->SetText("FPS : " + FloatToString::ToStringWithoutDecimal(time));
 
+	BaseScene::Update();
 	return true;
 }
 
 void GameScene::HandleKeyPress(int key)
 {
-	
 	switch (key)
 	{
 	case SDLK_ESCAPE:
@@ -251,4 +217,5 @@ void GameScene::HandleKeyPress(int key)
 	default:
 		break;
 	}
+	BaseScene::HandleKeyPress(key);
 }

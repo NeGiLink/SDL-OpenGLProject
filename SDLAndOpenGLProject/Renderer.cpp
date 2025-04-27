@@ -111,9 +111,6 @@ bool Renderer::Initialize(float screenWidth, float screenHeight)
 		return false;
 	}
 
-	// ポイントライトメッシュをロードする
-	//mPointLightMesh = GetMesh("PointLight.gpmesh");
-
 	return true;
 }
 
@@ -414,7 +411,7 @@ void Renderer::Draw3DScene(unsigned int framebuffer, const Matrix4& view, const 
 	);
 
 	// カラー バッファ/深度バッファをクリア
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	glClearColor(0.5f, 0.7f, 1.0f, 1.0f);
 	glDepthMask(GL_TRUE);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -582,7 +579,7 @@ bool Renderer::LoadShaders()
 	// ビュー投影行列を設定する
 	mView = Matrix4::CreateLookAt(Vector3::Zero, Vector3::UnitX, Vector3::UnitZ);
 	mProjection = Matrix4::CreatePerspectiveFOV(Math::ToRadians(70.0f),
-		mScreenWidth, mScreenHeight, 1.0f, 10000.0f);
+		mScreenWidth, mScreenHeight, 0.1f, 10000.0f);
 	mMeshShader->SetMatrixUniform("uViewProj", mView * mProjection);
 
 	// スキンシェーダーを作成する

@@ -1,6 +1,14 @@
 #pragma once
 #include "Actor.h"
 #include "SoundEvent.h"
+#include "MoveComponent.h"
+#include "AudioSystem.h"
+#include "AudioComponent.h"
+#include "FPSCamera.h"
+#include "MeshRenderer.h"
+#include "BallActor.h"
+#include "BoxCollider.h"
+#include "PlaneActor.h"
 
 //一人称視点のプレイヤー操作クラス
 //現在ゲーム内の移動に使用しています。
@@ -36,8 +44,4 @@ private:
 	SoundEvent				mFootstep;
 	
 	float					mLastFootstep;
-
-	class Sword*			mSword;
-
-	class DiceActor*			mDice;
 };

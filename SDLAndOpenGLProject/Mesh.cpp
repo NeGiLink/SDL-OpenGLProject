@@ -1,11 +1,7 @@
 #include "Mesh.h"
-#include "Renderer.h"
-#include "Texture.h"
-#include "VertexArray.h"
-#include <rapidjson/document.h>
+
 #include "Shader.h"
-#include <GL/glew.h>
-#include "MeshFilePath.h"
+
 
 
 namespace

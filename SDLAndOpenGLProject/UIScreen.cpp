@@ -1,13 +1,5 @@
 #include "UIScreen.h"
-#include "Texture.h"
-#include "Shader.h"
-#include "WinMain.h"
-#include "BaseScene.h"
-#include "Renderer.h"
-#include "Font.h"
 
-#include "Image.h"
-#include "Text.h"
 
 UIScreen::UIScreen()
 	:mGame(GameApp::GetActiveScene())

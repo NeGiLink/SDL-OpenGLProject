@@ -1,9 +1,8 @@
 #pragma once
-#include <string>
-#include <unordered_map>
-#include <SDL3_ttf/SDL_ttf.h>
-#include <SDL3/SDL.h>
+
 #include "Math.h"
+#include "Texture.h"
+#include "BaseScene.h"
 
 //文字のフォントを読み込み、参照するクラス
 class Font

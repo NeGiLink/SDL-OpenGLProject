@@ -1,5 +1,4 @@
 #include "FollowCamera.h"
-#include "Actor.h"
 
 FollowCamera::FollowCamera(ActorObject* owner)
 	:CameraComponent(owner)

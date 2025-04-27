@@ -1,10 +1,4 @@
 #include "CubeActor.h"
-#include "WinMain.h"
-#include "BaseScene.h"
-#include "Renderer.h"
-#include "MeshRenderer.h"
-#include "BoxCollider.h"
-#include "Mesh.h"
 
 CubeActor::CubeActor()
 	:ActorObject()
@@ -32,36 +26,36 @@ void CubeActor::ActorInput(const InputState& keys)
 {
 	bool input = false;
 	Vector3 pos;
-	if (keys.Keyboard.GetKeyUp(SDL_SCANCODE_LSHIFT))
+	if (keys.Keyboard.GetKey(SDL_SCANCODE_LSHIFT))
 	{
-		pos.y += 1.0f;
+		pos.y += 0.1f;
 		input = true;
 	}
-	else if (keys.Keyboard.GetKeyUp(SDL_SCANCODE_RCTRL))
+	else if (keys.Keyboard.GetKey(SDL_SCANCODE_RCTRL))
 	{
-		pos.y -= 1.0f;
-		input = true;
-	}
-
-	if (keys.Keyboard.GetKeyUp(SDL_SCANCODE_RIGHT))
-	{
-		pos.x += 1.0f;
-		input = true;
-	}
-	else if (keys.Keyboard.GetKeyUp(SDL_SCANCODE_LEFT))
-	{
-		pos.x -= 1.0f;
+		pos.y -= 0.1f;
 		input = true;
 	}
 
-	if (keys.Keyboard.GetKeyUp(SDL_SCANCODE_UP))
+	if (keys.Keyboard.GetKey(SDL_SCANCODE_RIGHT))
 	{
-		pos.z += 1.0f;
+		pos.x += 0.1f;
 		input = true;
 	}
-	else if (keys.Keyboard.GetKeyUp(SDL_SCANCODE_DOWN))
+	else if (keys.Keyboard.GetKey(SDL_SCANCODE_LEFT))
 	{
-		pos.z -= 1.0f;
+		pos.x -= 0.1f;
+		input = true;
+	}
+
+	if (keys.Keyboard.GetKey(SDL_SCANCODE_UP))
+	{
+		pos.z += 0.1f;
+		input = true;
+	}
+	else if (keys.Keyboard.GetKey(SDL_SCANCODE_DOWN))
+	{
+		pos.z -= 0.1f;
 		input = true;
 	}
 	Quaternion rot;

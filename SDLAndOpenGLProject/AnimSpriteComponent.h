@@ -1,6 +1,6 @@
 #pragma once
 #include "SpriteComponent.h"
-#include <vector>
+#include "Math.h"
 /*
 class AnimSpriteComponent : public SpriteComponent
 {

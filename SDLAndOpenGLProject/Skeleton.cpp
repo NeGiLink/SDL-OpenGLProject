@@ -1,20 +1,4 @@
 #include "Skeleton.h"
-#include <fstream>
-#include <sstream>
-#include <rapidjson/document.h>
-#include <SDL3/SDL_log.h>
-#include "MatrixPalette.h"
-
-#include <assimp/Importer.hpp>
-#include <assimp/scene.h>
-#include <assimp/postprocess.h>
-#include <GL/glew.h>
-#include <vector>
-#include <iostream>
-
-#include <assimp/matrix4x4.h>
-
-#include "Actor.h"
 
 
 bool Skeleton::Load(const std::string& fileName)

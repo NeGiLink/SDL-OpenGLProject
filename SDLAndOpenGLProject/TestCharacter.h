@@ -1,6 +1,10 @@
 #pragma once
 #include "Actor.h"
-#include <string>
+#include "Mesh.h"
+#include "SkeletalMeshRenderer.h"
+#include "Animator.h"
+#include "BoxCollider.h"
+#include "Sword.h"
 
 //テスト用に生成してる3Dキャラクターのうち一体のクラス
 class TestCharacter : public ActorObject

@@ -1,11 +1,8 @@
 #pragma once
-#include <vector>
 #include "Math.h"
-#include <cstdint>
 #include "CollisionActor.h"
 #include "BaseScene.h"
 #include "Component.h"
-#include <algorithm>
 
 //全3Dモデルの基底クラス
 //UnityのTransformに近い情報を持っている

@@ -1,5 +1,6 @@
 #pragma once
 #include "Math.h"
+#include "Actor.h"
 
 //スケルタルモデルのボーンのトランスフォームクラス
 class BoneTransform

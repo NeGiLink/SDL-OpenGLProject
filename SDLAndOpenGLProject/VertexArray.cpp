@@ -1,5 +1,4 @@
 #include "VertexArray.h"
-#include <GL/glew.h>
 
 VertexArray::VertexArray(const void* verts, unsigned int numVerts, Layout layout,
 	const unsigned int* indices, unsigned int numIndices)
