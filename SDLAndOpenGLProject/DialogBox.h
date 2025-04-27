@@ -1,5 +1,7 @@
 #pragma once
 #include "UIScreen.h"
+#include "Image.h"
+
 //ダイアログボックスUIのクラス
 //ほぼ手を加えていないので
 //参考コードとほぼ同じ
@@ -11,4 +13,3 @@ public:
 		std::function<void()> onOK);
 	~DialogBox();
 };
-

@@ -1,6 +1,10 @@
 #pragma once
 #include "Actor.h"
-#include <string>
+#include "Mesh.h"
+#include "SkeletalMeshRenderer.h"
+#include "Animator.h"
+#include "BoxCollider.h"
+#include "Sword.h"
 
 //テスト用に3Dモデルを読み込んでいるクラス
 //名前はどのモデル化分かりやすくするためにこの名前にしました。

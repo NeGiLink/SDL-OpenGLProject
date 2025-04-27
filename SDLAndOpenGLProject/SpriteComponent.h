@@ -1,5 +1,9 @@
 #pragma once
 #include "Component.h"
+#include "Texture.h"
+#include "Shader.h"
+#include "Actor.h"
+#include "Renderer.h"
 #include <SDL3/SDL.h>
 
 class SpriteComponent : public Component

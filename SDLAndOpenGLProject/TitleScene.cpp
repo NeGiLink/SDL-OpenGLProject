@@ -1,39 +1,5 @@
 #include "TitleScene.h"
-#include <algorithm>
-#include "Renderer.h"
-#include "AudioSystem.h"
-#include "PhysWorld.h"
-#include "Actor.h"
-#include "UIScreen.h"
-#include "HUD.h"
-#include "MeshRenderer.h"
-#include "FPSActor.h"
-#include "PlaneActor.h"
-#include "TargetActor.h"
-#include "BallActor.h"
-#include "PauseMenu.h"
-#include <SDL3/SDL.h>
-#include <SDL3_ttf/SDL_ttf.h>
-#include "Font.h"
-#include <fstream>
-#include <sstream>
-#include <rapidjson/document.h>
-#include "Skeleton.h"
-#include "Animation.h"
-#include "Animator.h"
-#include "PointLightComponent.h"
-#include "DiceActor.h"
-
-#include "TestCharacter.h"
-#include "YBotActor.h"
-#include "SmallCharacter.h"
-
-#include "CubeActor.h"
-#include "SphereActor.h"
-#include "CapsuleActor.h"
-
-#include "Image.h"
-#include "Text.h"
+#include "GameFunctions.h"
 
 TitleScene::TitleScene(GameWinMain* winMain)
 	:BaseScene(winMain)
@@ -42,6 +8,8 @@ TitleScene::TitleScene(GameWinMain* winMain)
 
 bool TitleScene::Initialize()
 {
+
+	BaseScene::Initialize();
 	// Load English text
 	LoadText("Assets/English.gptext");
 
@@ -55,7 +23,7 @@ bool TitleScene::Initialize()
 	a->SetPosition(pos);
 	a->SetRotation(Quaternion(Vector3::UnitX, Math::Pi));
 
-
+	// ポイントライトメッシュをロードする
 	mWinMain->GetRenderer()->SetPointLightMesh(mWinMain->GetRenderer()->GetMesh("PointLight.gpmesh"));
 
 	// Setup lights
@@ -67,12 +35,12 @@ bool TitleScene::Initialize()
 	// UI elements
 	mHUD = new HUD();
 
-	mTestText = new Text(GetFont("Assets/Fonts/Carlito-Regular.ttf"), Vector2(500, 350));
-	float time = Time::deltaTime;
-	mTestText->SetText(std::to_string(time));
+	mTestText = new Text(GetFont("Assets/Fonts/CHI_Nohohon_free-R.ttf"), Vector2(500, 350));
+	std::string name = "タイトル";
+	mTestText->SetText("TitleScene");
 	mTestText->SetFontSize(40);
 	// Start music
-	//mMusicEvent = mAudioSystem->PlayEvent("event:/Music");
+	mMusicEvent = mAudioSystem->PlayEvent("event:/Music");
 
 	// Enable relative mouse mode for camera look
 	SDL_SetWindowRelativeMouseMode(mWinMain->GetRenderer()->GetWindow(), true);
@@ -83,10 +51,10 @@ bool TitleScene::Initialize()
 	mFPSActor = new FPSActor();
 
 	mPlayer = mFPSActor;
-
 	mCube = new CubeActor();
 	mCube->SetPosition(Vector3(0.0f, -1.0f, 4.0f));
 	
+	/*
 	mCapsule = new CapsuleActor();
 	mCapsule->SetPosition(Vector3(2.0f, -1.0f, 4.0f));
 	mCube->AddChildActor(mCapsule);
@@ -97,7 +65,6 @@ bool TitleScene::Initialize()
 
 	mDice = new DiceActor();
 	mDice->SetPosition(Vector3(0.0f, -1.0f, -4.0f));
-	/*
 	*/
 
 
@@ -107,7 +74,6 @@ bool TitleScene::Initialize()
 
 	//a = new SmallCharacter();
 
-	/*
 	// Create target actors
 	q = Quaternion();
 	a = new TargetActor();
@@ -122,13 +88,6 @@ bool TitleScene::Initialize()
 	a = new TargetActor();
 	a->SetPosition(Vector3(5.0f, 2.0f, 14.5f));
 	a->SetRotation(q);
-	a = new TargetActor();
-	a->SetPosition(Vector3(-14.5f, 2.0f, 0.0f));
-	a->SetRotation(Quaternion(Vector3::UnitY, Math::PiOver2));
-	a = new TargetActor();
-	a->SetPosition(Vector3(14.5f, 2.0f, 0.0f));
-	a->SetRotation(Quaternion(Vector3::UnitY, -Math::PiOver2));
-	*/
 	return true;
 }
 
@@ -141,13 +100,13 @@ bool TitleScene::InputUpdate()
 		switch (event.type)
 		{
 		case SDL_EVENT_QUIT:
-			GameStateClass::SetGameState(GameState::EQuit);
+			GameStateClass::SetGameState(GameState::GameEnd);
 			break;
 			// This fires when a key's initially pressed
 		case SDL_EVENT_KEY_DOWN:
 			if (!event.key.repeat)
 			{
-				if (GameStateClass::mGameState == GameState::EGameplay)
+				if (GameStateClass::mGameState == GameState::GamePlay)
 				{
 					HandleKeyPress(event.key.key);
 				}
@@ -159,7 +118,7 @@ bool TitleScene::InputUpdate()
 			}
 			break;
 		case SDL_EVENT_MOUSE_BUTTON_DOWN:
-			if (GameStateClass::mGameState == GameState::EGameplay)
+			if (GameStateClass::mGameState == GameState::GamePlay)
 			{
 				HandleKeyPress(event.button.button);
 			}
@@ -174,7 +133,7 @@ bool TitleScene::InputUpdate()
 	}
 	const InputState& state = InputSystem::GetState();
 	//const bool* state = SDL_GetKeyboardState(NULL);
-	if (GameStateClass::mGameState == GameState::EGameplay)
+	if (GameStateClass::mGameState == GameState::GamePlay)
 	{
 		for (auto actor : mActors)
 		{
@@ -192,14 +151,13 @@ bool TitleScene::InputUpdate()
 	{
 		mUIStack.back()->ProcessInput(state);
 	}
+	BaseScene::InputUpdate();
 	return true;
 }
 
 bool TitleScene::Update()
 {
-	float time = Time::GetFrameRate();
-	mTestText->SetText("FPS : " + FloatToString::ToStringWithoutDecimal(time));
-
+	BaseScene::Update();
 	return true;
 }
 
@@ -246,4 +204,5 @@ void TitleScene::HandleKeyPress(int key)
 	default:
 		break;
 	}
+	BaseScene::HandleKeyPress(key);
 }

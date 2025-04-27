@@ -1,8 +1,7 @@
 #pragma once
-#include <GL/glew.h>
-#include <string>
 #include "Math.h"
 #include "Mesh.h"
+
 
 class Shader
 {

@@ -1,7 +1,8 @@
 #pragma once
-#include "STD.h"
+#include "StandardLibrary.h"
 #include "Math.h"
 #include "Collision.h"
+
 
 class PhysWorld
 {
@@ -39,6 +40,8 @@ public:
 
 	//XYZのSweeppruneを使用した衝突判定
 	void SweepAndPruneXYZ();
+
+	void FixCollisions(class Collider* dynamicCollider, class Collider* staticCollider);
 
 	// 世界からボックスコンポーネントを追加/削除する
 	void AddCollider(class Collider* box);

@@ -6,31 +6,31 @@ class TitleScene : public BaseScene
 public:
 	TitleScene(class GameWinMain* winMain);
 
-	bool Initialize();
+	bool Initialize()override;
 
-	bool InputUpdate();
+	bool InputUpdate()override;
 
-	bool Update();
+	bool Update()override;
 
-	void HandleKeyPress(int key);
+	void HandleKeyPress(int key)override;
 	class FPSActor* GetFPSPlayer() { return mFPSActor; }
 private:
 	// Game-specific code
-	class FPSActor* mFPSActor;
+	class FPSActor*					mFPSActor;
 
-	class SphereActor* mSphere;
+	class SphereActor*				mSphere;
 
-	class CubeActor* mCube;
+	class CubeActor*				mCube;
 
-	class DiceActor* mDice;
+	class DiceActor*				mDice;
 
-	class CapsuleActor* mCapsule;
+	class CapsuleActor*				mCapsule;
 
 	std::vector<class PlaneActor*>	mPlanes;
 
-	class SpriteComponent* mCrosshair;
+	class SpriteComponent*			mCrosshair;
 
-	//SoundEvent						mMusicEvent;
+	class SoundEvent				mMusicEvent;
 
-	class Text* mTestText;
+	class Text*						mTestText;
 };

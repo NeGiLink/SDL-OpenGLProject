@@ -1,11 +1,5 @@
 #include "TargetActor.h"
-#include "WinMain.h"
-#include "BaseScene.h"
-#include "Renderer.h"
-#include "MeshRenderer.h"
-#include "BoxCollider.h"
-#include "Mesh.h"
-#include "TargetComponent.h"
+
 
 TargetActor::TargetActor()
 	:ActorObject()

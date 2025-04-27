@@ -2,7 +2,6 @@
 #include <SDL3/SDL_log.h>
 #include <fmod_studio.hpp>
 #include <fmod_errors.h>
-#include <vector>
 
 unsigned int AudioSystem::sNextID = 0;
 

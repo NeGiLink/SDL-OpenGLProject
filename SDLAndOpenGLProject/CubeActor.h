@@ -1,5 +1,8 @@
 #pragma once
 #include "Actor.h"
+#include "MeshRenderer.h"
+#include "BoxCollider.h"
+#include "Mesh.h"
 
 class CubeActor : public ActorObject
 {

@@ -1,7 +1,4 @@
 #include "SphereCollider.h"
-#include "Actor.h"
-#include "BaseScene.h"
-#include "PhysWorld.h"
 
 SphereCollider::SphereCollider(ActorObject* owner, int updateOrder)
 	:Collider(owner, updateOrder)

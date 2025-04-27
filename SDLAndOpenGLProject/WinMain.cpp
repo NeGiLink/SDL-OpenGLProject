@@ -1,9 +1,8 @@
 #include "WinMain.h"
-#include "Renderer.h"
-#include <rapidjson/document.h>
+#include "GameFunctions.h"
 
 // ここで定義（初期値を指定してもOK）
-GameState GameStateClass::mGameState = GameState::EGameplay;
+GameState GameStateClass::mGameState = GameState::GamePlay;
 
 //TODO : 画面比率の変更箇所
 float GameWinMain::mWindowWidth = 1280.0f;
@@ -35,7 +34,7 @@ bool GameWinMain::Initialize()
 		return false;
 	}
 
-	// Initialize SDL_ttf
+	// SDL_ttfの初期化
 	if (TTF_Init() < 0)
 	{
 		SDL_Log("Failed to initialize SDL_ttf");
@@ -51,27 +50,18 @@ bool GameWinMain::Initialize()
 
 void GameWinMain::RunLoop()
 {
-	while (GameStateClass::mGameState != GameState::EQuit)
+	while (GameStateClass::mGameState != GameState::GameEnd)
 	{
 		Time::UpdateDeltaTime();
 		mGameApp->ProcessInput();
 		mGameApp->Update();
-		GenerateOutput();
+		Render();
 	}
 }
 
-void GameWinMain::GenerateOutput()
+void GameWinMain::Render()
 {
 	mRenderer->Draw();
-}
-
-void GameWinMain::UnloadData()
-{
-	mGameApp->Release();
-	if (mRenderer)
-	{
-		mRenderer->UnloadData();
-	}
 }
 
 void GameWinMain::Shutdown()
@@ -83,4 +73,13 @@ void GameWinMain::Shutdown()
 		mRenderer->Shutdown();
 	}
 	SDL_Quit();
+}
+
+void GameWinMain::UnloadData()
+{
+	mGameApp->Release();
+	if (mRenderer)
+	{
+		mRenderer->UnloadData();
+	}
 }

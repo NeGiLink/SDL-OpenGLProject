@@ -1,5 +1,8 @@
 #pragma once
 #include "Actor.h"
+#include "MeshRenderer.h"
+#include "CapsuleCollider.h"
+#include "Mesh.h"
 
 class CapsuleActor : public ActorObject
 {

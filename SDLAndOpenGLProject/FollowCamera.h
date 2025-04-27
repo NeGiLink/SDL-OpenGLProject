@@ -1,5 +1,6 @@
 #pragma once
 #include "CameraComponent.h"
+#include "Actor.h"
 
 //三人称視点カメラのクラス
 class FollowCamera : public CameraComponent

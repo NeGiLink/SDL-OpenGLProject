@@ -1,5 +1,6 @@
 #pragma once
 #include "CameraComponent.h"
+#include "Actor.h"
 
 //一人称視点カメラのクラス
 class FPSCamera : public CameraComponent

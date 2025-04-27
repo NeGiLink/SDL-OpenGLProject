@@ -1,5 +1,4 @@
 #include "FPSCamera.h"
-#include "Actor.h"
 
 FPSCamera::FPSCamera(ActorObject* owner)
 	:CameraComponent(owner)

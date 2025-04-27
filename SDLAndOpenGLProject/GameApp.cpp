@@ -1,8 +1,8 @@
 #include "GameApp.h"
-#include "Renderer.h"
+
 #include "GameScene.h"
 #include "TitleScene.h"
-#include "WinMain.h"
+
 
 BaseScene* GameApp::mActiveScene = nullptr;
 
@@ -21,60 +21,61 @@ bool GameApp::Initialize()
 	SceneManager::AddSceneList(0, mTitleScene);
 	SceneManager::AddSceneList(1, mGameScene);
 	//ベースに最初のシーンを設定
-	mBaseScene = mTitleScene;
+	mActiveScene = mTitleScene;
 	//staticなシーンとして保存
-	mActiveScene = mBaseScene;
+	//mActiveScene = mBaseScene;
 	//シーンの初期化
-	mBaseScene->Setup();
-	mBaseScene->Initialize();
+	mActiveScene->Initialize();
 	//ゲームの状態を設定
-	GameStateClass::SetGameState(GameState::EGameplay);
+	GameStateClass::SetGameState(GameState::GamePlay);
 	//Rendererに現在のシーンを設定
-	mWinMain->GetRenderer()->SetBaseScene(mBaseScene);
+	mWinMain->GetRenderer()->SetBaseScene(mActiveScene);
 	return true;
 }
 
 bool GameApp::ProcessInput()
 {
 	//入力更新
-	mBaseScene->InputUpdate();
+	mActiveScene->InputUpdate();
 
-	mBaseScene->ProcessInput();
+	return true;
+}
 
+bool GameApp::LoadUpdate()
+{
+	//ロードフラグがtrueなら
+	if (SceneManager::IsLoading())
+	{
+		//現在のシーンのオブジェクト、画像などをアンロード
+		mActiveScene->UnloadData();
+		//Rendererのものもアンロード
+		mWinMain->GetRenderer()->UnloadData();
+		//シーンを変更
+		mActiveScene = SceneManager::GetNowScene();
+		//staticも変更
+		//mActiveScene = mBaseScene;
+		//新しいシーンの初期化
+		mActiveScene->Initialize();
+		//Rendererのシーンも変更
+		mWinMain->GetRenderer()->SetBaseScene(mActiveScene);
+		//ロードフラグを解除
+		SceneManager::DisabledLoading();
+	}
 	return true;
 }
 
 bool GameApp::Update()
 {
 	//ロードフラグがtrueなら
-	if (SceneManager::IsLoading())
-	{
-		//現在のシーンのオブジェクト、画像などをアンロード
-		mBaseScene->UnloadData();
-		//Rendererのものもアンロード
-		mWinMain->GetRenderer()->UnloadData();
-		//シーンを変更
-		mBaseScene = SceneManager::GetNowScene();
-		//staticも変更
-		mActiveScene = mBaseScene;
-		//新しいシーンの初期化
-		mBaseScene->Setup();
-		mBaseScene->Initialize();
-		//Rendererのシーンも変更
-		mWinMain->GetRenderer()->SetBaseScene(mBaseScene);
-		//ロードフラグを解除
-		SceneManager::NoActiveLoading();
-	}
+	LoadUpdate();
 
-	mBaseScene->Update();
-
-	mBaseScene->UpdateGame();
+	mActiveScene->Update();
 
 	return true;
 }
 
 bool GameApp::Release()
 {
-	mBaseScene->UnloadData();
+	mActiveScene->UnloadData();
 	return true;
 }

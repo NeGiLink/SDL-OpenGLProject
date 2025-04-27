@@ -1,6 +1,5 @@
 #pragma once
 #include "Math.h"
-#include <vector>
 
 //各当たり判定の構造体をまとめたファイル
 //ボックス、球、線など

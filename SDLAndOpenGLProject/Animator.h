@@ -1,5 +1,4 @@
 #pragma once
-#include <vector>
 #include "MatrixPalette.h"
 #include "Animation.h"
 #include "Skeleton.h"

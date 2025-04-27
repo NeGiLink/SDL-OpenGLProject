@@ -2,6 +2,13 @@
 #include "SDL3.h"
 #include "Assimp.h"
 #include "Collision.h"
+#include "Renderer.h"
+#include "Texture.h"
+#include "VertexArray.h"
+#include <rapidjson/document.h>
+#include <GL/glew.h>
+#include "MeshFilePath.h"
+
 
 //マテリアル情報の構造体
 struct MaterialInfo

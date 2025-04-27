@@ -1,7 +1,5 @@
 #include "BoxCollider.h"
-#include "Actor.h"
-#include "BaseScene.h"
-#include "PhysWorld.h"
+
 
 BoxCollider::BoxCollider(ActorObject* owner, int updateOrder)
 	:Collider(owner, updateOrder)

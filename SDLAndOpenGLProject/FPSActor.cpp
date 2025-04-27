@@ -1,18 +1,5 @@
 #include "FPSActor.h"
-#include "MoveComponent.h"
-#include <SDL3/SDL_scancode.h>
-#include "Renderer.h"
-#include "AudioSystem.h"
-#include "WinMain.h"
-#include "BaseScene.h"
-#include "AudioComponent.h"
-#include "FPSCamera.h"
-#include "MeshRenderer.h"
-#include "BallActor.h"
-#include "BoxCollider.h"
-#include "PlaneActor.h"
-#include "Sword.h"
-#include "DiceActor.h"
+
 
 FPSActor::FPSActor()
 	:ActorObject()
@@ -30,13 +17,14 @@ FPSActor::FPSActor()
 	AABB myBox(Vector3(-0.5f, -0.5f, -0.5f),Vector3(0.5f, 0.5f, 0.5f));
 	mBoxComp->SetObjectBox(myBox);
 	mBoxComp->SetShouldRotate(false);
+	mBoxComp->SetStaticObject(false);
 }
 
 void FPSActor::UpdateActor(float deltaTime)
 {
 	ActorObject::UpdateActor(deltaTime);
 
-	FixCollisions();
+	//FixCollisions();
 
 	// 足音のSEを再生する処理
 	mLastFootstep -= deltaTime;
@@ -112,17 +100,6 @@ void FPSActor::ActorInput(const struct InputState& keys)
 		pitchSpeed *= maxPitchSpeed;
 	}
 	mCameraComp->SetPitchSpeed(pitchSpeed);
-	/*
-	//子オブジェクトを解除・セットする処理(テスト用)
-	if (keys.Keyboard.GetKey(SDL_SCANCODE_O))
-	{
-		RemoveChildActor(mSword);
-	}
-	else if (keys.Keyboard.GetKey(SDL_SCANCODE_P))
-	{
-		AddChildActor(mSword);
-	}
-	*/
 }
 
 void FPSActor::Shoot()

@@ -252,6 +252,7 @@
     <ClInclude Include="FPSActor.h" />
     <ClInclude Include="FPSCamera.h" />
     <ClInclude Include="GameApp.h" />
+    <ClInclude Include="GameFunctions.h" />
     <ClInclude Include="Image.h" />
     <ClInclude Include="InputSystem.h" />
     <ClInclude Include="LineRenderer.h" />
@@ -262,7 +263,7 @@
     <ClInclude Include="SmallCharacter.h" />
     <ClInclude Include="SphereActor.h" />
     <ClInclude Include="SphereCollider.h" />
-    <ClInclude Include="STD.h" />
+    <ClInclude Include="StandardLibrary.h" />
     <ClInclude Include="Sword.h" />
     <ClInclude Include="Text.h" />
     <ClInclude Include="Time.h" />

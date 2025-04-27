@@ -1,6 +1,7 @@
 #pragma once
-#include "STD.h"
+#include "StandardLibrary.h"
 
+//シーンの管理、ロード処理を行うクラス
 class SceneManager
 {
 public:
@@ -12,12 +13,12 @@ public:
 
 	static bool IsLoading() { return loading; }
 
-	static void NoActiveLoading() { loading = false; }
+	static void DisabledLoading() { loading = false; }
 private:
-	static std::unordered_map<int, class BaseScene*> mScenes;
+	static std::unordered_map<int, class BaseScene*>	mScenes;
 
-	static class BaseScene* mNowScene;
+	static class BaseScene*								mNowScene;
 
-	static bool loading;
+	static bool											loading;
 };
 

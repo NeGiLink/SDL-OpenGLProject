@@ -1,12 +1,5 @@
 #include "MeshRenderer.h"
-#include "Shader.h"
-#include "Mesh.h"
-#include "Actor.h"
-#include "WinMain.h"
-#include "BaseScene.h"
-#include "Renderer.h"
-#include "Texture.h"
-#include "VertexArray.h"
+
 
 MeshRenderer::MeshRenderer(ActorObject* owner, bool isSkeletal)
 	:Component(owner)

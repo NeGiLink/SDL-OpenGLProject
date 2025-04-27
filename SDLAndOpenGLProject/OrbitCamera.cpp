@@ -1,5 +1,4 @@
 #include "OrbitCamera.h"
-#include "Actor.h"
 
 OrbitCamera::OrbitCamera(ActorObject* owner)
 	:CameraComponent(owner)

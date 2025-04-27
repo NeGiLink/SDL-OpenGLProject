@@ -76,6 +76,9 @@
     <Filter Include="SourceFiles\GameObjects\3Ds\Bone">
       <UniqueIdentifier>{9cbd482c-53d6-4ac4-b05a-acc1c88e50d2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="SourceFiles\Scenes\LoadManager">
+      <UniqueIdentifier>{73369c76-ae4b-4f86-8f14-bc5a60070ff7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Actor.cpp">
@@ -307,7 +310,7 @@
       <Filter>SourceFiles\Scenes</Filter>
     </ClCompile>
     <ClCompile Include="SceneManager.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>SourceFiles\Scenes\LoadManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -422,7 +425,7 @@
     <ClInclude Include="Animator.h">
       <Filter>SourceFiles\Animations</Filter>
     </ClInclude>
-    <ClInclude Include="STD.h">
+    <ClInclude Include="StandardLibrary.h">
       <Filter>SourceFiles\Libs</Filter>
     </ClInclude>
     <ClInclude Include="SDL3.h">
@@ -560,8 +563,11 @@
     <ClInclude Include="TitleScene.h">
       <Filter>SourceFiles\Scenes</Filter>
     </ClInclude>
+    <ClInclude Include="GameFunctions.h">
+      <Filter>SourceFiles\Libs</Filter>
+    </ClInclude>
     <ClInclude Include="SceneManager.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>SourceFiles\Scenes\LoadManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

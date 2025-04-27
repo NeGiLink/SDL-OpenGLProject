@@ -1,5 +1,7 @@
 #pragma once
 #include "Assimp.h"
+#include "SOIL.h"
+#include <GL/glew.h>
 #include "SDL3.h"
 
 //画像の読み込み、参照を行うことをカプセル化したクラス

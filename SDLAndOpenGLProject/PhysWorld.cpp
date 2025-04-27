@@ -1,5 +1,4 @@
 #include "PhysWorld.h"
-#include <algorithm>
 #include "BoxCollider.h"
 #include "SphereCollider.h"
 #include "CapsuleCollider.h"
@@ -193,51 +192,55 @@ void PhysWorld::SweepAndPruneXYZ()
 			return a->GetWorldBox().mMin.x < b->GetWorldBox().mMin.x;
 		});
 
-	std::sort(mColliderYAxis.begin(), mColliderYAxis.end(),
-		[](Collider* a, Collider* b) {
-			return a->GetWorldBox().mMin.y < b->GetWorldBox().mMin.y;
-		});
-
-	std::sort(mColliderZAxis.begin(), mColliderZAxis.end(),
-		[](Collider* a, Collider* b) {
-			return a->GetWorldBox().mMin.z < b->GetWorldBox().mMin.z;
-		});
-
-	mHitColliderXAxis.clear();
-	mHitColliderYAxis.clear();
-	mHitColliderZAxis.clear();
-
-	// 各軸の判定
-	DecideColliderXAxis();
-	DecideColliderYAxis();
-	DecideColliderZAxis();
-
 	mCurrentHitPairs.clear();
 
-	// 共通ペアの検出
-	for (const auto& pair : mHitColliderXAxis)
+	// X軸スイープ開始
+	for (size_t i = 0; i < mColliderXAxis.size(); ++i)
 	{
-		if (mHitColliderYAxis.count(pair) && mHitColliderZAxis.count(pair))
+		Collider* colliderA = mColliderXAxis[i];
+		const AABB& aabbA = colliderA->GetWorldBox();
+
+		for (size_t j = i + 1; j < mColliderXAxis.size(); ++j)
 		{
-			auto actorA = pair.first->GetOwner();
-			auto actorB = pair.second->GetOwner();
+			Collider* colliderB = mColliderXAxis[j];
+			const AABB& aabbB = colliderB->GetWorldBox();
+
+			// X軸の最大と最小が交差してなかったらbreak（高速化）
+			if (aabbB.mMin.x > aabbA.mMax.x)
+				break;
+
+			// ここでY軸とZ軸の交差もきちんと見る
+			if (aabbA.mMax.y < aabbB.mMin.y || aabbA.mMin.y > aabbB.mMax.y)
+				continue;
+			if (aabbA.mMax.z < aabbB.mMin.z || aabbA.mMin.z > aabbB.mMax.z)
+				continue;
+
+			// ここまで来たらAとBは当たっている！
+			auto actorA = colliderA->GetOwner();
+			auto actorB = colliderB->GetOwner();
 
 			std::pair<ActorObject*, ActorObject*> sortedPair = actorA < actorB ?
 				std::make_pair(actorA, actorB) : std::make_pair(actorB, actorA);
 
 			mCurrentHitPairs.emplace(sortedPair);
 
+			// Enter or Stay判定
 			if (mPrevHitPairs.count(sortedPair))
 			{
-				// Stay
 				actorA->OnCollisionStay(actorB);
 				actorB->OnCollisionStay(actorA);
+
+				if (!colliderA->IsStaticObject() && colliderB->IsStaticObject())
+				{
+					FixCollisions(colliderA, colliderB);
+				}
+				else if (colliderA->IsStaticObject() && !colliderB->IsStaticObject())
+				{
+					FixCollisions(colliderB, colliderA);
+				}
 			}
 			else
 			{
-				// Enter
-				//SDL_Log("actorA %d", (int)pair.first->GetType());
-				//SDL_Log("actorB %d", (int)pair.second->GetType());
 				actorA->OnCollisionEnter(actorB);
 				actorB->OnCollisionEnter(actorA);
 			}
@@ -258,6 +261,50 @@ void PhysWorld::SweepAndPruneXYZ()
 
 	// 状態更新
 	mPrevHitPairs = mCurrentHitPairs;
+}
+
+void PhysWorld::FixCollisions(class Collider* dynamicCollider, class Collider* staticCollider)
+{
+	dynamicCollider->GetOwner()->ComputeWorldTransform(NULL);
+
+	ActorObject* dynamicActor = dynamicCollider->GetOwner();
+	Vector3 pos = dynamicActor->GetLocalPosition();
+	
+	// 平面の違いを計算
+	float dx1 = staticCollider->GetWorldBox().mMax.x - dynamicCollider->GetWorldBox().mMin.x;
+	float dx2 = staticCollider->GetWorldBox().mMin.x - dynamicCollider->GetWorldBox().mMax.x;
+	float dy1 = staticCollider->GetWorldBox().mMax.y - dynamicCollider->GetWorldBox().mMin.y;
+	float dy2 = staticCollider->GetWorldBox().mMin.y - dynamicCollider->GetWorldBox().mMax.y;
+	float dz1 = staticCollider->GetWorldBox().mMax.z - dynamicCollider->GetWorldBox().mMin.z;
+	float dz2 = staticCollider->GetWorldBox().mMin.z - dynamicCollider->GetWorldBox().mMax.z;
+
+	// dxをdx1またはdx2のうち、絶対値が低い方に設定。
+	float dx = Math::Abs(dx1) < Math::Abs(dx2) ?
+		dx1 : dx2;
+	// dyについても同様
+	float dy = Math::Abs(dy1) < Math::Abs(dy2) ?
+		dy1 : dy2;
+	// dzについても同様
+	float dz = Math::Abs(dz1) < Math::Abs(dz2) ?
+		dz1 : dz2;
+
+	// 最も近い方に応じてx/y位置を調整
+	if (Math::Abs(dx) < Math::Abs(dy) && Math::Abs(dx) < Math::Abs(dz))
+	{
+		pos.x += dx;
+	}
+	else if (Math::Abs(dy) < Math::Abs(dx) && Math::Abs(dy) < Math::Abs(dz))
+	{
+		pos.y += dy;
+	}
+	else
+	{
+		pos.z += dz;
+	}
+
+	// ポジションを設定し、ボックスコンポーネントを更新する必要があります。
+	dynamicActor->SetPosition(pos);
+	dynamicCollider->OnUpdateWorldTransform();
 }
 
 void PhysWorld::AddCollider(Collider* box)

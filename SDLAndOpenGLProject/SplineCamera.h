@@ -1,6 +1,6 @@
 #pragma once
 #include "CameraComponent.h"
-#include <vector>
+#include "Actor.h"
 
 struct Spline
 {

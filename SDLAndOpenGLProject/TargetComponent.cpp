@@ -1,7 +1,5 @@
 #include "TargetComponent.h"
 #include "Actor.h"
-#include "WinMain.h"
-#include "BaseScene.h"
 #include "PhysWorld.h"
 #include "Math.h"
 #include "HUD.h"

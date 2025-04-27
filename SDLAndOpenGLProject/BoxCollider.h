@@ -1,6 +1,7 @@
 #pragma once
 #include "Collider.h"
 
+
 //ボックスのColliderを追加するコンポーネント
 class BoxCollider : public Collider
 {

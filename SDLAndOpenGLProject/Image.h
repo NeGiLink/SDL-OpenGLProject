@@ -1,9 +1,9 @@
 #pragma once
 #include "Math.h"
-#include <cstdint>
-#include <string>
-#include <functional>
-#include <vector>
+#include "Texture.h"
+#include "Shader.h"
+#include "WinMain.h"
+#include "BaseScene.h"
 
 //画像描画をカプセル化したクラス
 class Image

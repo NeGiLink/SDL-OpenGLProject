@@ -1,12 +1,5 @@
 #include "TestCharacter.h"
-#include "Mesh.h"
-#include "SkeletalMeshRenderer.h"
-#include "Animator.h"
-#include "WinMain.h"
-#include "BaseScene.h"
-#include "Renderer.h"
-#include "BoxCollider.h"
-#include "Sword.h"
+
 
 TestCharacter::TestCharacter()
 	:ActorObject()

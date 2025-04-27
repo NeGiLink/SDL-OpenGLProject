@@ -1,6 +1,5 @@
-
 #include "MoveComponent.h"
-#include "Actor.h"
+
 
 MoveComponent::MoveComponent(class ActorObject* owner, int updateOrder)
 	:Component(owner, updateOrder)

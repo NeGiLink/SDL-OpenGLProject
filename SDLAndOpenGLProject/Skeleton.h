@@ -1,10 +1,11 @@
 #pragma once
 #include "BoneTransform.h"
 #include "BoneActor.h"
-#include <string>
-#include <vector>
-#include <unordered_map>
-#include <assimp/mesh.h>
+#include "Assimp.h"
+#include "MatrixPalette.h"
+#include <GL/glew.h>
+#include "Actor.h"
+
 
 class Skeleton
 {

@@ -1,10 +1,9 @@
 #pragma once
-#include "Math.h"
 #include "Image.h"
-#include <cstdint>
-#include <string>
-#include <functional>
-#include <vector>
+#include "Math.h"
+#include "Texture.h"
+#include "Shader.h"
+#include "Font.h"
 
 class Text : public Image
 {
