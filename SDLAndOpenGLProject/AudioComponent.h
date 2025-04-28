@@ -4,6 +4,8 @@
 #include <vector>
 #include <string>
 
+//オーディオ機能をまとめたクラス
+//3D、2Dのオーディオ処理を行う
 class AudioComponent : public Component
 {
 public:

@@ -1,7 +1,7 @@
 #include "GameApp.h"
 
-#include "GameScene.h"
-#include "TitleScene.h"
+#include "DebugScene01.h"
+#include "DebugScene02.h"
 
 
 BaseScene* GameApp::mActiveScene = nullptr;
@@ -15,13 +15,13 @@ GameApp::GameApp(GameWinMain* main)
 bool GameApp::Initialize()
 {
 	//シーン生成
-	mTitleScene = new TitleScene(mWinMain);
-	mGameScene = new GameScene(mWinMain);
+	mDebugScene01 = new DebugScene01(mWinMain);
+	mDebugScene02 = new DebugScene02(mWinMain);
 	//シーンをリストに追加
-	SceneManager::AddSceneList(0, mTitleScene);
-	SceneManager::AddSceneList(1, mGameScene);
+	SceneManager::AddSceneList(0, mDebugScene01);
+	SceneManager::AddSceneList(1, mDebugScene02);
 	//ベースに最初のシーンを設定
-	mActiveScene = mTitleScene;
+	mActiveScene = mDebugScene01;
 	//staticなシーンとして保存
 	//mActiveScene = mBaseScene;
 	//シーンの初期化

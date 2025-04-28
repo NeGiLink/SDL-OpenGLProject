@@ -306,6 +306,12 @@ bool Mesh::LoadFromFBX(const std::string& fileName, Renderer* renderer, int inde
 		//vertexPos *= 10.0f;
 		radius = Math::Max(radius, vertexPos.LengthSq());
 		box.UpdateMinMax(vertexPos);
+		//ˆêŽž“I‚ÈC³
+		if (!mesh->HasBones())
+		{
+			pos.x = -pos.x;
+			norm.x = -norm.x;
+		}
 
 		Vertex v;
 		v.f = pos.x; vertices.push_back(v);

@@ -4,7 +4,12 @@
 #include <SDL3/SDL_mouse.h>
 #include "Math.h"
 
-// The different button states
+/*
+* 入力処理をまとめたファイル
+* キーボード、マウス、コントローラーの入力を取得可能
+*/
+
+// ボタンの状態
 enum ButtonState
 {
 	ENone,
@@ -13,15 +18,15 @@ enum ButtonState
 	EHeld
 };
 
-// Helper for keyboard input
+// キーボード入力のヘルパークラス
 class KeyboardState
 {
 public:
-	// Friend so InputSystem can easily update it
+	// InputSystemの更新
 	friend class InputSystem;
-	// Get just the boolean true/false value of key
+	// キーの真偽値（真または偽）のみを取得
 	bool GetKeyValue(SDL_Scancode keyCode) const;
-	// Get a state based on current and previous frame
+	// 現在のフレームと前のフレームに基づいて状態を取得
 	bool GetKeyDown(SDL_Scancode keyCode) const;
 	bool GetKeyUp(SDL_Scancode keyCode) const;
 	bool GetKey(SDL_Scancode keyCode) const;
@@ -30,42 +35,42 @@ private:
 	Uint8			mPrevState[SDL_SCANCODE_COUNT];
 };
 
-// Helper for mouse input
+// マウス入力のヘルパークラス
 class MouseState
 {
 public:
 	friend class InputSystem;
 
-	// For mouse position
+	// マウスの位置情報
 	const Vector2& GetPosition() const { return mMousePos; }
 	const Vector2& GetScrollWheel() const { return mScrollWheel; }
 	bool IsRelative() const { return mIsRelative; }
 
-	// For buttons
+	// マウスの入力情報
 	bool GetButtonValue(int button) const;
 	ButtonState GetButtonState(int button) const;
 	bool GetButtonDown(int button) const;
 	bool GetButtonUp(int button) const;
 	bool GetButton(int button) const;
 private:
-	// Store current mouse position
+	// 現在のマウスの位置を保存
 	Vector2 mMousePos;
-	// Motion of scroll wheel
+	// スクロールホイールの移動
 	Vector2 mScrollWheel;
-	// Store button data
-	Uint32 mCurrButtons;
-	Uint32 mPrevButtons;
-	// Are we in relative mouse mode
-	bool mIsRelative;
+	// ボタンデータを保存
+	Uint32	mCurrButtons;
+	Uint32	mPrevButtons;
+	// 相対マウスモードフラグ
+	bool	mIsRelative;
 };
 
-// Helper for controller input
+// コントローラー入力のヘルパークラス
 class ControllerState
 {
 public:
 	friend class InputSystem;
 
-	// For buttons
+	// ボタン入力情報
 	bool GetButtonValue(SDL_GamepadButton button) const;
 	ButtonState GetButtonState(SDL_GamepadButton button) const;
 
@@ -81,20 +86,20 @@ public:
 	bool GetIsConnected() const { return mIsConnected; }
 private:
 
-	// Current/previous buttons
-	Uint8 mCurrButtons[SDL_GAMEPAD_BUTTON_COUNT];
-	Uint8 mPrevButtons[SDL_GAMEPAD_BUTTON_COUNT];
-	// Left/right sticks
+	// 現在/前のボタン情報
+	Uint8	mCurrButtons[SDL_GAMEPAD_BUTTON_COUNT];
+	Uint8	mPrevButtons[SDL_GAMEPAD_BUTTON_COUNT];
+	// 左/右スティック
 	Vector2 mLeftStick;
 	Vector2 mRightStick;
-	// Left/right trigger
-	float mLeftTrigger;
-	float mRightTrigger;
-	// Is this controller connected?
-	bool mIsConnected;
+	// 左/右トリガー
+	float	mLeftTrigger;
+	float	mRightTrigger;
+	// コントローラー接続フラグ
+	bool	mIsConnected;
 };
 
-// Wrapper that contains current state of input
+// 入力の現在の状態を含むラッパー
 struct InputState
 {
 	KeyboardState	Keyboard;
@@ -108,13 +113,13 @@ public:
 	static bool Initialize();
 	static void Shutdown();
 
-	// Called right before SDL_PollEvents loop
+	// SDL_PollEventsループの直前に呼び出す関数
 	static void PrepareForUpdate();
 	
-	// Called after SDL_PollEvents loop
+	// SDL_PollEventsループの後に呼び出す関数
 	static void Update();
 	
-	// Called to process an SDL event in input system
+	// 入力システムでSDLイベントを処理するために呼び出す関数
 	static void ProcessEvent(union SDL_Event& event);
 
 	static const InputState& GetState(){ return mState; }
@@ -127,9 +132,9 @@ private:
 	
 	static Vector2 Filter2D(int inputX, int inputY);
 	
-	static InputState mState;
+	static InputState		mState;
 
-	static SDL_Gamepad* mController;
+	static SDL_Gamepad*		mController;
 
-	static SDL_Window* mWindow;
+	static SDL_Window*		mWindow;
 };

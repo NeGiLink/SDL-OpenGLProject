@@ -10,6 +10,8 @@
 #include "VertexArray.h"
 #include "Animator.h"
 
+//スケルタルメッシュの描画を行うクラス
+//MeshRendererと同様スケルタルメッシュを読み込んで使用する
 class SkeletalMeshRenderer : public MeshRenderer
 {
 public:

@@ -2,6 +2,8 @@
 #include "Component.h"
 #include "Actor.h"
 
+//参考書産のオブジェクト移動機能
+//現在は未使用
 class MoveComponent : public Component
 {
 public:

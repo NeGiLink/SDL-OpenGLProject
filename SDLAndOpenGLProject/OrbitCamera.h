@@ -17,12 +17,12 @@ public:
 	void SetYawSpeed(float speed) { mYawSpeed = speed; }
 private:
 	// ターゲットのオフセット。
-	Vector3 mOffset;
+	Vector3		mOffset;
 	// カメラの上方向ベクトル。
-	Vector3 mUp;
+	Vector3		mUp;
 	// ピッチの回転/秒速度。
-	float mPitchSpeed;
+	float		mPitchSpeed;
 	// ヨーの回転/秒速度。
-	float mYawSpeed;
+	float		mYawSpeed;
 };
 

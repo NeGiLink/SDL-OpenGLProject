@@ -2,8 +2,11 @@
 #include "Actor.h"
 #include "MeshRenderer.h"
 #include "BoxCollider.h"
+#include "PushButtonMove.h"
 #include "Mesh.h"
 
+//箱型のオブジェクト
+//Unityのようにデフォルトで作成可能オブジェクト
 class CubeActor : public ActorObject
 {
 public:
@@ -11,12 +14,12 @@ public:
 
 	std::vector<class BoxCollider*> GetBoxs() { return mBoxs; }
 
-	void UpdateActor(float deltaTime) override;
-
 	void ActorInput(const struct InputState& keys) override;
 
-	void OnCollisionEnter(class ActorObject* target) override;
 private:
+	//AABBのコライダー
 	std::vector<class BoxCollider*> mBoxs;
+	//テストように用意した移動機能
+	PushButtonMove* mPushButtonMove;
 };
 

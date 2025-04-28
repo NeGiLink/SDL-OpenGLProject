@@ -2,7 +2,8 @@
 #include "Component.h"
 #include "Math.h"
 
-//球のCollision
+//円のCollisionクラス
+//現在は未使用
 class CircleComponent : public Component
 {
 public:

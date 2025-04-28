@@ -12,34 +12,6 @@ bool KeyboardState::GetKeyValue(SDL_Scancode keyCode) const
 {
     return mCurrState[keyCode] == 1;
 }
-/*
-ButtonState KeyboardState::GetKeyState(SDL_Scancode keyCode) const
-{
-	if (mPrevState[keyCode] == 0)
-	{
-		if (mCurrState[keyCode] == 0)
-		{
-			return ENone;
-		}
-		else
-		{
-			return EPressed;
-		}
-	}
-	//‘OƒtƒŒ[ƒ€‚ª1ˆÈã‚¾‚Á‚½‚ç
-	else
-	{
-		if (mCurrState[keyCode] == 0)
-		{
-			return EReleased;
-		}
-		else
-		{
-			return EHeld;
-		}
-	}
-}
-*/
 
 bool KeyboardState::GetKeyDown(SDL_Scancode keyCode) const
 {

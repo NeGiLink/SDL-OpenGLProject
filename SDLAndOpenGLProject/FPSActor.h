@@ -1,7 +1,9 @@
 #pragma once
 #include "Actor.h"
 #include "SoundEvent.h"
-#include "MoveComponent.h"
+
+#include "BasicInputAction.h"
+
 #include "AudioSystem.h"
 #include "AudioComponent.h"
 #include "FPSCamera.h"
@@ -21,23 +23,21 @@ public:
 	
 	void ActorInput(const struct InputState& keys) override;
 
-	void Shoot();
-
 	void SetFootstepSurface(float value);
 
 	void SetVisible(bool visible);
 
-	void FixCollisions();
-
 	void OnCollisionEnter(class ActorObject* target) override;
+
+	void OnCollisionExit(class ActorObject* target) override;
 private:
-	class MoveComponent*	mMoveComp;
+	BasicInputAction*		mBasicInput;
 	
 	class AudioComponent*	mAudioComp;
 	
 	class MeshRenderer*		mMeshComp;
 	
-	class FPSCamera*		mCameraComp;
+	class FPSCamera*		mFPSCamera;
 	
 	class BoxCollider*		mBoxComp;
 	

@@ -1,12 +1,12 @@
-#include "GameScene.h"
+#include "DebugScene02.h"
 #include "GameFunctions.h"
 
-GameScene::GameScene(GameWinMain* winMain)
+DebugScene02::DebugScene02(GameWinMain* winMain)
 	:BaseScene(winMain)
 {
 }
 
-bool GameScene::Initialize()
+bool DebugScene02::Initialize()
 {
 	BaseScene::Initialize();
 	// Load English text
@@ -16,91 +16,102 @@ bool GameScene::Initialize()
 	ActorObject* a = nullptr;
 	Quaternion q;
 
-	// Setup floor
-	a = new PlaneActor();
-	Vector3 pos = Vector3(0.0f,-1.5f,0.0f);
+	// デバッグ用のステージ追加
+	a = new DebugStageActor();
+	Vector3 pos = Vector3(0.0f, 0.0f, 0.0f);
 	a->SetPosition(pos);
-	a->SetRotation(Quaternion(Vector3::UnitX,Math::Pi));
+	a = new DebugStageActor();
+	pos = Vector3(0.0f, 10.0f, 10.0f);
+	a->SetPosition(pos);
+	q = Quaternion(Vector3::UnitX, -Math::PiOver2);
+	a->SetRotation(q);
 
 	// ポイントライトメッシュをロードする
 	mWinMain->GetRenderer()->SetPointLightMesh(mWinMain->GetRenderer()->GetMesh("PointLight.gpmesh"));
 	
 
-	// Setup lights
+	// 環境光の設定
 	mWinMain->GetRenderer()->SetAmbientLight(Vector3(0.4f, 0.4f, 0.4f));
 	DirectionalLight& dir = mWinMain->GetRenderer()->GetDirectionalLight();
 	dir.mDirection = Vector3(0.0f, -0.707f, -0.707f);
 	dir.mDiffuseColor = Vector3(0.78f, 0.88f, 1.0f);
 	dir.mSpecColor = Vector3(0.8f, 0.8f, 0.8f);
-
-	// UI elements
+	
+	// ゲーム内のUI生成
 	mHUD = new HUD();
 
-	mTestText = new Text(GetFont("Assets/Fonts/Carlito-Regular.ttf"), Vector2(500, 350));
+
+	Font* font = GetFont("Assets/Fonts/Carlito-Regular.ttf");
+	//シーン名生成
+	mSceneNameText = new Text(font, Vector2(500, 350));
+	mSceneNameText->SetText("DebugScene2");
+	mSceneNameText->SetFontSize(40);
+
+	mFrameRateText = new Text(font, Vector2(500, 250));
 	float time = Time::deltaTime;
-	mTestText->SetText(std::to_string(time));
-	mTestText->SetFontSize(40);
+	mFrameRateText->SetText(std::to_string(time));
+	mFrameRateText->SetFontSize(40);
+
+	mPoseButtonText = new Text(font, Vector2(-550, 350));
+	mPoseButtonText->SetText("Pose:ESC");
+	mPoseButtonText->SetFontSize(40);
+
+	mSceneLoadButtonText = new Text(font, Vector2(500, 150));
+	mSceneLoadButtonText->SetText("LoadScene:L Key");
+	mSceneLoadButtonText->SetFontSize(40);
+
+	mTPoseButtonText = new Text(font, Vector2(-500, -300));
+	mTPoseButtonText->SetText("TPose:1");
+	mTPoseButtonText->SetFontSize(40);
+
+	mIdlePoseButtonText = new Text(font, Vector2(-300, -300));
+	mIdlePoseButtonText->SetText("IdlePose:2");
+	mIdlePoseButtonText->SetFontSize(40);
+
+	mRunPoseButtonText = new Text(font, Vector2(-100, -300));
+	mRunPoseButtonText->SetText("RunPose:3");
+	mRunPoseButtonText->SetFontSize(40);
+
+	mJumpPoseButtonText = new Text(font, Vector2(100, -300));
+	mJumpPoseButtonText->SetText("JumpPose:4");
+	mJumpPoseButtonText->SetFontSize(40);
+
+	mCapoeiraPoseButtonText = new Text(font, Vector2(300, -300));
+	mCapoeiraPoseButtonText->SetText("CapoeiraPose:5");
+	mCapoeiraPoseButtonText->SetFontSize(40);
+
 	// Start music
 	mMusicEvent = mAudioSystem->PlayEvent("event:/Music");
 
-	// Enable relative mouse mode for camera look
+	// マウスカーソル位置を固定
 	SDL_SetWindowRelativeMouseMode(mWinMain->GetRenderer()->GetWindow(), true);
-	// Make an initial call to get relative to clear out
+	// マウスカーソルを非表示
 	SDL_GetRelativeMouseState(nullptr, nullptr);
 
-	// Different camera actors
+	// プレイヤー生成
 	mFPSActor = new FPSActor();
+	mFPSActor->SetPosition(Vector3(0.0f, 1.0f, 0.0f));
 
 	mPlayer = mFPSActor;
 
-	mCube = new CubeActor();
-	mCube->SetPosition(Vector3(2.0f, -1.0f, 4.0f));
+	q = Quaternion(Vector3::UnitY, Math::Pi);
 
-	mCapsule = new CapsuleActor();
-	mCapsule->SetPosition(Vector3(2.0f, -1.0f, 4.0f));
-	mCube->AddChildActor(mCapsule);
-	mCapsule->SetPosition(Vector3(1.0f,0.0f,0.0f));
-
-	mSphere = new SphereActor();
-	mSphere->SetPosition(Vector3(-2.0f, -1.0f, 4.0f));
-
-	mDice = new DiceActor();
-	mDice->SetPosition(Vector3(0.0f, -1.0f, -4.0f));
+	mYBotActor = new YBotActor();
+	mYBotActor->SetPosition(Vector3(2.0f, 0.0f, 4.0f));
+	mYBotActor->SetRotation(q);
 	
-
-	//a = new YBotActor();
+	mTestCharacter = new TestCharacter();
+	mTestCharacter->SetPosition(Vector3(-2.0f, 0.0f, 4.0f));
+	mTestCharacter->SetRotation(q);
 	
-	a = new TestCharacter();
-	/*
-
-	//a = new SmallCharacter();
-
-	// Create target actors
-	q = Quaternion();
-	a = new TargetActor();
-	a->SetPosition(Vector3(0.0f, 1.0f, 14.5f));
-	a->SetRotation(q);
-	a = new TargetActor();
-	a->SetPosition(Vector3(0.0f, 4.0f, 14.5f));
-	a->SetRotation(q);
-	a = new TargetActor();
-	a->SetPosition(Vector3(-5.0f, 2.0f, 14.5f));
-	a->SetRotation(q);
-	a = new TargetActor();
-	a->SetPosition(Vector3(5.0f, 2.0f, 14.5f));
-	a->SetRotation(q);
-	a = new TargetActor();
-	a->SetPosition(Vector3(-14.5f, 2.0f, 0.0f));
-	a->SetRotation(Quaternion(Vector3::UnitY, Math::PiOver2));
-	a = new TargetActor();
-	a->SetPosition(Vector3(14.5f, 2.0f, 0.0f));
-	a->SetRotation(Quaternion(Vector3::UnitY, -Math::PiOver2));
-	*/
+	mSmallCharacter = new SmallCharacter();
+	mSmallCharacter->SetPosition(Vector3(-4.0f, 0.0f, 4.0f));
+	mSmallCharacter->SetRotation(q);
 
 	return true;
 }
 
-bool GameScene::InputUpdate()
+bool DebugScene02::InputUpdate()
 {
 	//入力操作
 	SDL_Event event;
@@ -164,17 +175,17 @@ bool GameScene::InputUpdate()
 	return true;
 }
 
-bool GameScene::Update()
+bool DebugScene02::Update()
 {
 
 	float time = Time::GetFrameRate();
-	mTestText->SetText("FPS : " + FloatToString::ToStringWithoutDecimal(time));
+	mFrameRateText->SetText("FPS : " + FloatToString::ToStringWithoutDecimal(time));
 
 	BaseScene::Update();
 	return true;
 }
 
-void GameScene::HandleKeyPress(int key)
+void DebugScene02::HandleKeyPress(int key)
 {
 	switch (key)
 	{
@@ -182,34 +193,6 @@ void GameScene::HandleKeyPress(int key)
 		// Create pause menu
 		new PauseMenu();
 		break;
-	case '-':
-	{
-		// Reduce master volume
-		float volume = mAudioSystem->GetBusVolume("bus:/");
-		volume = Math::Max(0.0f, volume - 0.1f);
-		mAudioSystem->SetBusVolume("bus:/", volume);
-		break;
-	}
-	case '=':
-	{
-		// Increase master volume
-		float volume = mAudioSystem->GetBusVolume("bus:/");
-		volume = Math::Min(1.0f, volume + 0.1f);
-		mAudioSystem->SetBusVolume("bus:/", volume);
-		break;
-	}
-	case '1':
-	{
-		// Load English text
-		LoadText("Assets/English.gptext");
-		break;
-	}
-	case '2':
-	{
-		// Load Russian text
-		LoadText("Assets/Russian.gptext");
-		break;
-	}
 	case SDL_BUTTON_LEFT:
 	{
 		break;
