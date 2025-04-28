@@ -5,12 +5,13 @@
 #include "Mesh.h"
 #include "TargetComponent.h"
 
+//的オブジェクトのクラス
 class TargetActor : public ActorObject
 {
 public:
 	TargetActor();
 private:
-	std::vector<class BoxCollider*>	mBoxs;
+	std::vector<class BoxCollider*>		mBoxs;
 
 	class MeshRenderer*					mMeshComp;
 };

@@ -1,12 +1,12 @@
-#include "TitleScene.h"
+#include "DebugScene01.h"
 #include "GameFunctions.h"
 
-TitleScene::TitleScene(GameWinMain* winMain)
+DebugScene01::DebugScene01(GameWinMain* winMain)
 	:BaseScene(winMain)
 {
 }
 
-bool TitleScene::Initialize()
+bool DebugScene01::Initialize()
 {
 
 	BaseScene::Initialize();
@@ -17,81 +17,88 @@ bool TitleScene::Initialize()
 	ActorObject* a = nullptr;
 	Quaternion q;
 
-	// Setup floor
-	a = new PlaneActor();
-	Vector3 pos = Vector3(0.0f, -1.5f, 0.0f);
+	// デバッグ用のステージ追加
+	a = new DebugStageActor();
+	Vector3 pos = Vector3(0.0f, 0.0f, 0.0f);
 	a->SetPosition(pos);
-	a->SetRotation(Quaternion(Vector3::UnitX, Math::Pi));
+	a = new DebugStageActor();
+	pos = Vector3(0.0f, 10.0f, 10.0f);
+	a->SetPosition(pos);
+	q = Quaternion(Vector3::UnitX, -Math::PiOver2);
+	a->SetRotation(q);
 
 	// ポイントライトメッシュをロードする
 	mWinMain->GetRenderer()->SetPointLightMesh(mWinMain->GetRenderer()->GetMesh("PointLight.gpmesh"));
 
-	// Setup lights
+	// 環境光の設定
 	mWinMain->GetRenderer()->SetAmbientLight(Vector3(0.4f, 0.4f, 0.4f));
 	DirectionalLight& dir = mWinMain->GetRenderer()->GetDirectionalLight();
 	dir.mDirection = Vector3(0.0f, -0.707f, -0.707f);
 	dir.mDiffuseColor = Vector3(0.78f, 0.88f, 1.0f);
 	dir.mSpecColor = Vector3(0.8f, 0.8f, 0.8f);
-	// UI elements
+	
+	// ゲーム内のUI生成
 	mHUD = new HUD();
 
-	mTestText = new Text(GetFont("Assets/Fonts/CHI_Nohohon_free-R.ttf"), Vector2(500, 350));
-	std::string name = "タイトル";
-	mTestText->SetText("TitleScene");
-	mTestText->SetFontSize(40);
+
+	Font* font = GetFont("Assets/Fonts/Carlito-Regular.ttf");
+	//シーン名生成
+	mSceneNameText = new Text(font, Vector2(500, 350));
+	mSceneNameText->SetText("DebugScene1");
+	mSceneNameText->SetFontSize(40);
+	
+	mPoseButtonText = new Text(font, Vector2(-550, 350));
+	mPoseButtonText->SetText("Pose:ESC Key");
+	mPoseButtonText->SetFontSize(40);
+
+	mSceneLoadButtonText = new Text(font, Vector2(500, 150));
+	mSceneLoadButtonText->SetText("LoadScene:L Key");
+	mSceneLoadButtonText->SetFontSize(40);
+	
 	// Start music
 	mMusicEvent = mAudioSystem->PlayEvent("event:/Music");
 
-	// Enable relative mouse mode for camera look
+	// マウスカーソル位置を固定
 	SDL_SetWindowRelativeMouseMode(mWinMain->GetRenderer()->GetWindow(), true);
-	// Make an initial call to get relative to clear out
+	// マウスカーソルを非表示
 	SDL_GetRelativeMouseState(nullptr, nullptr);
 
-	// Different camera actors
+	// プレイヤー生成
 	mFPSActor = new FPSActor();
+	mFPSActor->SetPosition(Vector3(0.0f,1.0f,0.0f));
 
 	mPlayer = mFPSActor;
-	mCube = new CubeActor();
-	mCube->SetPosition(Vector3(0.0f, -1.0f, 4.0f));
 	
-	/*
+	mCube = new CubeActor();
+	mCube->SetPosition(Vector3(0.0f, 0.5f, 4.0f));
+	
 	mCapsule = new CapsuleActor();
-	mCapsule->SetPosition(Vector3(2.0f, -1.0f, 4.0f));
-	mCube->AddChildActor(mCapsule);
-	mCapsule->SetPosition(Vector3(1.0f, 0.0f, 0.0f));
+	mCapsule->SetPosition(Vector3(2.0f, 0.5f, 4.0f));
 
 	mSphere = new SphereActor();
-	mSphere->SetPosition(Vector3(-2.0f, -1.0f, 4.0f));
+	mSphere->SetPosition(Vector3(-2.0f, 0.5f, 4.0f));
 
 	mDice = new DiceActor();
-	mDice->SetPosition(Vector3(0.0f, -1.0f, -4.0f));
-	*/
+	mDice->SetPosition(Vector3(4.0f, 0.5f, 4.0f));
 
-
-	//a = new YBotActor();
-
-	//a = new TestCharacter();
-
-	//a = new SmallCharacter();
-
-	// Create target actors
+	// 的オブジェクト生成
 	q = Quaternion();
 	a = new TargetActor();
-	a->SetPosition(Vector3(0.0f, 1.0f, 14.5f));
+	a->SetPosition(Vector3(0.0f, 1.0f, 10.0f));
 	a->SetRotation(q);
 	a = new TargetActor();
-	a->SetPosition(Vector3(0.0f, 4.0f, 14.5f));
+	a->SetPosition(Vector3(0.0f, 4.0f, 10.0f));
 	a->SetRotation(q);
 	a = new TargetActor();
-	a->SetPosition(Vector3(-5.0f, 2.0f, 14.5f));
+	a->SetPosition(Vector3(-5.0f, 2.0f, 10.0f));
 	a->SetRotation(q);
 	a = new TargetActor();
-	a->SetPosition(Vector3(5.0f, 2.0f, 14.5f));
+	a->SetPosition(Vector3(5.0f, 2.0f, 10.0f));
 	a->SetRotation(q);
 	return true;
 }
 
-bool TitleScene::InputUpdate()
+bool DebugScene01::InputUpdate()
 {
 	//入力操作
 	SDL_Event event;
@@ -155,48 +162,20 @@ bool TitleScene::InputUpdate()
 	return true;
 }
 
-bool TitleScene::Update()
+bool DebugScene01::Update()
 {
 	BaseScene::Update();
 	return true;
 }
 
-void TitleScene::HandleKeyPress(int key)
+void DebugScene01::HandleKeyPress(int key)
 {
 	switch (key)
 	{
 	case SDLK_ESCAPE:
 		// Create pause menu
-		//new PauseMenu();
+		new PauseMenu();
 		break;
-	case '-':
-	{
-		// Reduce master volume
-		float volume = mAudioSystem->GetBusVolume("bus:/");
-		volume = Math::Max(0.0f, volume - 0.1f);
-		mAudioSystem->SetBusVolume("bus:/", volume);
-		break;
-	}
-	case '=':
-	{
-		// Increase master volume
-		float volume = mAudioSystem->GetBusVolume("bus:/");
-		volume = Math::Min(1.0f, volume + 0.1f);
-		mAudioSystem->SetBusVolume("bus:/", volume);
-		break;
-	}
-	case '1':
-	{
-		// Load English text
-		LoadText("Assets/English.gptext");
-		break;
-	}
-	case '2':
-	{
-		// Load Russian text
-		LoadText("Assets/Russian.gptext");
-		break;
-	}
 	case SDL_BUTTON_LEFT:
 	{
 		break;

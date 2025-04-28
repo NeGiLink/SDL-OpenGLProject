@@ -59,131 +59,6 @@ void PhysWorld::TestPairwise(std::function<void(ActorObject*, ActorObject*)> f)
 	}
 }
 
-//X軸Ver
-void PhysWorld::DecideColliderXAxis()
-{
-
-	for (size_t i = 0; i < mColliderXAxis.size(); i++)
-	{
-		// 現在のボックスに対してmax.xを取得する
-		Collider* a = mColliderXAxis[i];
-		float max = a->GetWorldBox().mMax.x;
-		for (size_t j = i + 1; j < mColliderXAxis.size(); j++)
-		{
-			Collider* b = mColliderXAxis[j];
-			// AABB[j]の最小値がAABB[i]の最大値を超えている場合、
-			// AABB[i]との交差は他に存在しないためbreak
-			if (b->GetWorldBox().mMin.x > max)
-			{
-				break;
-			}
-			else if (OnAllCollision(a, b))
-			{
-				mHitColliderXAxis.emplace(a, b);
-			}
-		}
-	}
-}
-//Y軸Ver
-void PhysWorld::DecideColliderYAxis()
-{
-
-	for (size_t i = 0; i < mColliderYAxis.size(); i++)
-	{
-		// 現在のボックスに対してmax.xを取得する
-		Collider* a = mColliderYAxis[i];
-		float max = a->GetWorldBox().mMax.y;
-		for (size_t j = i + 1; j < mColliderYAxis.size(); j++)
-		{
-			Collider* b = mColliderYAxis[j];
-			// AABB[j]の最小値がAABB[i]の最大値を超えている場合、
-			// AABB[i]との交差は他に存在しないためbreak
-			if (b->GetWorldBox().mMin.y > max)
-			{
-				break;
-			}
-			else if (OnAllCollision(a, b))
-			{
-				mHitColliderYAxis.emplace(a, b);
-			}
-		}
-	}
-}
-//Z軸Ver
-void PhysWorld::DecideColliderZAxis()
-{
-
-	for (size_t i = 0; i < mColliderZAxis.size(); i++)
-	{
-		// 現在のボックスに対してmax.xを取得する
-		Collider* a = mColliderZAxis[i];
-		float max = a->GetWorldBox().mMax.z;
-		for (size_t j = i + 1; j < mColliderZAxis.size(); j++)
-		{
-			Collider* b = mColliderZAxis[j];
-			// AABB[j]の最小値がAABB[i]の最大値を超えている場合、
-			// AABB[i]との交差は他に存在しないためbreak
-			if (b->GetWorldBox().mMin.z > max)
-			{
-				break;
-			}
-			else if (OnAllCollision(a, b))
-			{
-				mHitColliderZAxis.emplace(a, b);
-			}
-		}
-	}
-}
-
-bool PhysWorld::OnAllCollision(Collider* a, Collider* b)
-{
-	//Box Box
-	if (a->GetType() == Collider::BoxType && b->GetType() == Collider::BoxType)
-	{
-		return OnCollision(a->GetWorldBox(), b->GetWorldBox());
-	}
-	//Sphere Sphere
-	if (a->GetType() == Collider::SphereType && b->GetType() == Collider::SphereType)
-	{
-		return OnCollision(a->GetWorldSphere(), b->GetWorldSphere());
-	}
-	//Capsule Capsule
-	if (a->GetType() == Collider::CapsuleType && b->GetType() == Collider::CapsuleType)
-	{
-		return OnCollision(a->GetWorldCapsule(), b->GetWorldCapsule());
-	}
-	//Box Sphere
-	if (a->GetType() == Collider::BoxType && b->GetType() == Collider::SphereType) 
-	{
-		return OnCollision(a->GetWorldBox(), b->GetWorldSphere());
-	}
-	//Sphere Box
-	if (a->GetType() == Collider::SphereType && b->GetType() == Collider::BoxType)
-	{
-		return OnCollision(a->GetWorldSphere(), b->GetWorldBox());
-	}
-	//Box Capsule
-	if (a->GetType() == Collider::BoxType && b->GetType() == Collider::CapsuleType) 
-	{
-		return OnCollision(a->GetWorldBox(), b->GetWorldCapsule());
-	}
-	//Capsule Box
-	if (a->GetType() == Collider::CapsuleType && b->GetType() == Collider::BoxType)
-	{
-		return OnCollision(a->GetWorldCapsule(), b->GetWorldBox());
-	}
-	//Sphere Capsule
-	if (a->GetType() == Collider::SphereType && b->GetType() == Collider::CapsuleType)
-	{
-		return OnCollision(a->GetWorldSphere(), b->GetWorldCapsule());
-	}
-	//Capsule Sphere
-	if (a->GetType() == Collider::CapsuleType && b->GetType() == Collider::SphereType)
-	{
-		return OnCollision(a->GetWorldCapsule(), b->GetWorldSphere());
-	}
-}
-
 void PhysWorld::SweepAndPruneXYZ()
 {
 	// まずX軸でソート
@@ -215,7 +90,7 @@ void PhysWorld::SweepAndPruneXYZ()
 			if (aabbA.mMax.z < aabbB.mMin.z || aabbA.mMin.z > aabbB.mMax.z)
 				continue;
 
-			// ここまで来たらAとBは当たっている！
+			// ここまで来たらAとBは当たっている
 			auto actorA = colliderA->GetOwner();
 			auto actorB = colliderB->GetOwner();
 

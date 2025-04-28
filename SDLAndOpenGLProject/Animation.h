@@ -3,6 +3,7 @@
 #include "Assimp.h"
 #include "SDL3.h"
 
+//アニメーション1つの情報を持つクラス
 class Animation
 {
 public:

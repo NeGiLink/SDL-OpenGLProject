@@ -46,19 +46,19 @@ protected:
 	FMOD::Studio::EventInstance* GetEventInstance(unsigned int id);
 private:
 	// イベントインスタンスに使用する次のIDを追跡
-	static unsigned int sNextID;
+	static unsigned int													sNextID;
 
-	class BaseScene* mGame;
+	class BaseScene*													mGame;
 	// Map of loaded banks
-	std::unordered_map<std::string, FMOD::Studio::Bank*> mBanks;
+	std::unordered_map<std::string, FMOD::Studio::Bank*>				mBanks;
 	// イベント名とイベント説明のマップ
-	std::unordered_map<std::string, FMOD::Studio::EventDescription*> mEvents;
+	std::unordered_map<std::string, FMOD::Studio::EventDescription*>	mEvents;
 	// イベントIDからイベントインスタンスへのマップ
-	std::unordered_map<unsigned int, FMOD::Studio::EventInstance*> mEventInstances;
+	std::unordered_map<unsigned int, FMOD::Studio::EventInstance*>		mEventInstances;
 	// Map of buses
-	std::unordered_map<std::string, FMOD::Studio::Bus*> mBuses;
+	std::unordered_map<std::string, FMOD::Studio::Bus*>					mBuses;
 	// FMOD studio system
-	FMOD::Studio::System* mSystem;
+	FMOD::Studio::System*												mSystem;
 	// FMOD Low-level system (in case needed)
-	FMOD::System* mLowLevelSystem;
+	FMOD::System*														mLowLevelSystem;
 };

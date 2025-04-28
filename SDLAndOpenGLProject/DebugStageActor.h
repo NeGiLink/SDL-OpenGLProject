@@ -4,17 +4,15 @@
 #include "BoxCollider.h"
 #include "Mesh.h"
 
-//平面型のオブジェクト
-//Unityのようにデフォルトで作成可能オブジェクト
-class PlaneActor : public ActorObject
+//デバッグステージを生成するクラス
+class DebugStageActor : public ActorObject
 {
 public:
-	PlaneActor();
-	~PlaneActor();
+	DebugStageActor();
 	std::vector<class BoxCollider*> GetBoxs() { return mBoxs; }
 private:
-	//AABBのコライダー
 	std::vector<class BoxCollider*> mBoxs;
 
-	class MeshRenderer* mMeshComp;
+	class MeshRenderer*				mMeshComp;
 };
+

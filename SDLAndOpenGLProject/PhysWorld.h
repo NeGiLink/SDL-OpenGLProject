@@ -3,7 +3,8 @@
 #include "Math.h"
 #include "Collision.h"
 
-
+//すべてのオブジェクトの衝突判定を管理しているクラス
+//Unityの当たり判定の衝突判定部分みたいな機能
 class PhysWorld
 {
 public:
@@ -29,15 +30,6 @@ public:
 	//素朴なpairwise衝突判定
 	void TestPairwise(std::function<void(class ActorObject*, class ActorObject*)> f);
 
-	//sweepprune使用した衝突判定
-	//void TestSweepAndPrune(std::function<void(class ActorObject*, class ActorObject*)> f);
-
-	void DecideColliderXAxis();
-	void DecideColliderYAxis();
-	void DecideColliderZAxis();
-	//基底Colliderで二つのColliderを比較する関数
-	bool OnAllCollision(class Collider* a,class Collider* b);
-
 	//XYZのSweeppruneを使用した衝突判定
 	void SweepAndPruneXYZ();
 
@@ -47,24 +39,24 @@ public:
 	void AddCollider(class Collider* box);
 	void RemoveCollider(class Collider* box);
 private:
-	class BaseScene* mGame;
+	class BaseScene*									mGame;
 
-	std::vector<class Collider*> mCollider;
+	std::vector<class Collider*>						mCollider;
 
-	std::vector<class Collider*> mColliderXAxis;
+	std::vector<class Collider*>						mColliderXAxis;
 
-	std::vector<class Collider*> mColliderYAxis;
+	std::vector<class Collider*>						mColliderYAxis;
 
-	std::vector<class Collider*> mColliderZAxis;
+	std::vector<class Collider*>						mColliderZAxis;
 
-	std::set<std::pair<Collider*, Collider*>> mHitColliderXAxis;
+	std::set<std::pair<Collider*, Collider*>>			mHitColliderXAxis;
 
-	std::set<std::pair<Collider*, Collider*>> mHitColliderYAxis;
+	std::set<std::pair<Collider*, Collider*>>			mHitColliderYAxis;
 
-	std::set<std::pair<Collider*, Collider*>> mHitColliderZAxis;
+	std::set<std::pair<Collider*, Collider*>>			mHitColliderZAxis;
 
 
-	std::set<std::pair<ActorObject*, ActorObject*>> mPrevHitPairs;
+	std::set<std::pair<ActorObject*, ActorObject*>>		mPrevHitPairs;
 
-	std::set<std::pair<ActorObject*, ActorObject*>> mCurrentHitPairs;
+	std::set<std::pair<ActorObject*, ActorObject*>>		mCurrentHitPairs;
 };

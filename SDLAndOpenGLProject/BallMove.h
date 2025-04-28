@@ -1,6 +1,8 @@
 #pragma once
 #include "MoveComponent.h"
 
+//弾の移動処理に使用していた
+//現在は未使用
 class BallMove : public MoveComponent
 {
 public:

@@ -4,7 +4,6 @@
 SmallCharacter::SmallCharacter()
 	:ActorObject()
 {
-	SetPosition(Vector3(-4.0f, -1.0f, 0.0f));
 	animator = new Animator();
 	GetGame()->GetAnimator(animatorName, animator);
 	mMeshComp = new SkeletalMeshRenderer(this);
@@ -18,8 +17,6 @@ SmallCharacter::SmallCharacter()
 	animator->Load("Assets/Capoeira.fbx",true);
 	animator->Load("Assets/T-Pose.fbx",true);
 	animator->PlayAnimation(animator->GetAnimations()[State::TPose]);
-
-	//mSword = new Sword(game);
 }
 
 void SmallCharacter::ActorInput(const struct InputState& keys)
@@ -44,17 +41,4 @@ void SmallCharacter::ActorInput(const struct InputState& keys)
 	{
 		animator->PlayBlendAnimation(animator->GetAnimations()[State::Capoeira]);
 	}
-}
-
-void SmallCharacter::UpdateActor(float deltaTime)
-{
-	/*
-	Matrix4 mat = mMeshComp->GetSkeleton()->GetBonePosition("RightHand");
-	Vector3 pos = mPosition + mat.GetTranslation();
-	mSword->SetPosition(pos);
-	Quaternion r = mat.GetRotation();
-	r.RotateByAxisAngle(Vector3::UnitX, 240);
-	r.RotateByAxisAngle(Vector3::UnitY, -45);
-	mSword->SetRotation(r);
-	*/
 }

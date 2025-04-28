@@ -1,10 +1,11 @@
 #pragma once
 #include "BaseScene.h"
 
-class TitleScene : public BaseScene
+//通常のモデルなどを生成しているゲームシーン
+class DebugScene01 : public BaseScene
 {
 public:
-	TitleScene(class GameWinMain* winMain);
+	DebugScene01(class GameWinMain* winMain);
 
 	bool Initialize()override;
 
@@ -26,11 +27,17 @@ private:
 
 	class CapsuleActor*				mCapsule;
 
+	class DebugStageActor*			mDebugStage;
+
 	std::vector<class PlaneActor*>	mPlanes;
 
 	class SpriteComponent*			mCrosshair;
 
 	class SoundEvent				mMusicEvent;
 
-	class Text*						mTestText;
+	class Text*						mSceneNameText;
+
+	class Text*						mPoseButtonText;
+
+	class Text*						mSceneLoadButtonText;
 };

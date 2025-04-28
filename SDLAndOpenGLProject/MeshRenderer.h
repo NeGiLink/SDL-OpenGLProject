@@ -6,6 +6,8 @@
 #include "Texture.h"
 #include "VertexArray.h"
 
+//メッシュの描画を行うクラス
+//読み込んだメッシュをセットして使用する
 class MeshRenderer : public Component
 {
 public:

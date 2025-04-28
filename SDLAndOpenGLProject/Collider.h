@@ -5,6 +5,8 @@
 #include "BaseScene.h"
 #include "PhysWorld.h"
 
+//コライダーの基底クラス
+//コライダーに必要な情報を持っています。
 class Collider : public Component
 {
 public:

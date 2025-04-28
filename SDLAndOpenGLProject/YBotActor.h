@@ -13,7 +13,6 @@ class YBotActor : public ActorObject
 public:
 	YBotActor();
 	void ActorInput(const struct InputState& keys) override;
-	void UpdateActor(float deltaTime) override;
 private:
 	enum State
 	{

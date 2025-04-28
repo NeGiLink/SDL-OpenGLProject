@@ -4,6 +4,8 @@
 #include "SphereCollider.h"
 #include "Mesh.h"
 
+//球型のオブジェクト
+//Unityのようにデフォルトで作成可能オブジェクト
 class SphereActor : public ActorObject
 {
 public:
@@ -15,6 +17,7 @@ public:
 
 	void OnCollisionEnter(class ActorObject* target) override;
 private:
+	//球のコライダー
 	class SphereCollider* mSphere;
 };
 

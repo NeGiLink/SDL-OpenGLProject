@@ -1,6 +1,8 @@
 #pragma once
 #include "Actor.h"
 
+//スケルタルメッシュのボーン1つ1つの情報を管理するBoneActor
+//主に子オブジェクトの位置管理を行っています。
 class BoneActor : public ActorObject
 {
 public:
@@ -14,12 +16,12 @@ public:
 
 	void SetParentActor(ActorObject* actor) { parentActor = actor; }
 private:
-	std::string boneName;
+	std::string		boneName;
 
-	int boneIndex;
+	int				boneIndex;
 
-	Matrix4 mBoneMatrix;
+	Matrix4			mBoneMatrix;
 
-	ActorObject* parentActor;
+	ActorObject*	parentActor;
 };
 

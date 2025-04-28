@@ -13,7 +13,6 @@ public:
 	SmallCharacter();
 
 	void ActorInput(const struct InputState& keys) override;
-	void UpdateActor(float deltaTime) override;
 private:
 	enum State
 	{

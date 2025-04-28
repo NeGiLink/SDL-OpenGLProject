@@ -30,7 +30,10 @@ public:
 
 	ColliderType GetType() override { return ColliderType::SphereType; }
 private:
-	Sphere mObjectSphere;
-	Sphere mWorldSphere;
-	bool mShouldRotate;
+
+	Sphere	mObjectSphere;
+	
+	Sphere	mWorldSphere;
+	
+	bool	mShouldRotate;
 };

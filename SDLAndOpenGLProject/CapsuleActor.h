@@ -4,6 +4,8 @@
 #include "CapsuleCollider.h"
 #include "Mesh.h"
 
+//カプセル型のオブジェクト
+//Unityのようにデフォルトで作成可能オブジェクト
 class CapsuleActor : public ActorObject
 {
 public:
@@ -15,5 +17,6 @@ public:
 
 	void OnCollisionEnter(class ActorObject* target) override;
 private:
+	//カプセルコライダー
 	class CapsuleCollider* mCapsule;
 };

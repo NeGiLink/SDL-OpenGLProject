@@ -19,7 +19,12 @@ bool Animation::Load(const std::string& fileName)
 	}
 
 	// **JSON ÇÃèÍçáÅiè]óàÇÃèàóùÅj**
-	return LoadFromJSON(fileName);
+	if (extension == "gpmesh")
+	{
+		return LoadFromJSON(fileName);
+	}
+
+	return false;
 }
 
 bool Animation::LoadFromJSON(const std::string& fileName)
@@ -314,28 +319,24 @@ void Animation::CalcInterpolatedTranslation(aiVector3D& Out, float AnimationTime
 	}
 
 	size_t TranslationIndex = FindTranslation(AnimationTime, pNodeAnim);
+	
 	size_t NextTranslationIndex = (TranslationIndex + 1);
+	
 	assert(NextTranslationIndex < pNodeAnim->mNumPositionKeys);
+	
 	float DeltaTime = pNodeAnim->mPositionKeys[NextTranslationIndex].mTime - pNodeAnim->mPositionKeys[TranslationIndex].mTime;
+	
 	float Factor = (AnimationTime - (float)pNodeAnim->mPositionKeys[TranslationIndex].mTime) / DeltaTime;
+	
 	assert(Factor >= 0.0f && Factor <= 1.0f);
+	
 	const aiVector3D& StartTranslation = pNodeAnim->mPositionKeys[TranslationIndex].mValue;
+	
 	const aiVector3D& EndTranslation = pNodeAnim->mPositionKeys[NextTranslationIndex].mValue;
+	
 	Out = StartTranslation + (EndTranslation - StartTranslation) * Factor;
 }
 
-size_t Animation::FindRotation(float AnimationTime, const aiNodeAnim* pNodeAnim)
-{
-	assert(pNodeAnim->mNumRotationKeys > 0);
-
-	for (size_t i = 0; i < pNodeAnim->mNumRotationKeys - 1; i++) {
-		if (AnimationTime < (float)pNodeAnim->mRotationKeys[i + 1].mTime) {
-			return i;
-		}
-	}
-
-	assert(0);
-}
 void Animation::CalcInterpolatedRotation(aiQuaternion& Out, float AnimationTime, const aiNodeAnim* pNodeAnim)
 {
 	if (pNodeAnim->mNumRotationKeys == 1) {
@@ -349,29 +350,38 @@ void Animation::CalcInterpolatedRotation(aiQuaternion& Out, float AnimationTime,
 	}
 
 	size_t RotationIndex = FindRotation(AnimationTime, pNodeAnim);
+	
 	size_t NextRotationIndex = (RotationIndex + 1);
+	
 	assert(NextRotationIndex < pNodeAnim->mNumRotationKeys);
+	
 	float DeltaTime = pNodeAnim->mRotationKeys[NextRotationIndex].mTime - pNodeAnim->mRotationKeys[RotationIndex].mTime;
+	
 	float Factor = (AnimationTime - (float)pNodeAnim->mRotationKeys[RotationIndex].mTime) / DeltaTime;
+	
 	assert(Factor >= 0.0f && Factor <= 1.0f);
+	
 	const aiQuaternion& StartRotationQ = pNodeAnim->mRotationKeys[RotationIndex].mValue;
+	
 	const aiQuaternion& EndRotationQ = pNodeAnim->mRotationKeys[NextRotationIndex].mValue;
+	
 	aiQuaternion::Interpolate(Out, StartRotationQ, EndRotationQ, Factor);
+	
 	Out = Out.Normalize();
 }
-
-size_t Animation::FindScaling(float AnimationTime, const aiNodeAnim* pNodeAnim)
+size_t Animation::FindRotation(float AnimationTime, const aiNodeAnim* pNodeAnim)
 {
-	assert(pNodeAnim->mNumPositionKeys > 0);
+	assert(pNodeAnim->mNumRotationKeys > 0);
 
-	for (size_t i = 0; i < pNodeAnim->mNumScalingKeys - 1; i++) {
-		if (AnimationTime < (float)pNodeAnim->mScalingKeys[i + 1].mTime) {
+	for (size_t i = 0; i < pNodeAnim->mNumRotationKeys - 1; i++) {
+		if (AnimationTime < (float)pNodeAnim->mRotationKeys[i + 1].mTime) {
 			return i;
 		}
 	}
 
 	assert(0);
 }
+
 void Animation::CalcInterpolatedScaling(aiVector3D& Out, float AnimationTime, const aiNodeAnim* pNodeAnim)
 {
 	if (pNodeAnim->mNumScalingKeys == 1) {
@@ -384,13 +394,34 @@ void Animation::CalcInterpolatedScaling(aiVector3D& Out, float AnimationTime, co
 		return;
 	}
 
+	
 	size_t ScalingIndex = FindScaling(AnimationTime, pNodeAnim);
+	
 	size_t NextScalingIndex = (ScalingIndex + 1);
+	
 	assert(NextScalingIndex < pNodeAnim->mNumScalingKeys);
+	
 	float DeltaTime = pNodeAnim->mScalingKeys[NextScalingIndex].mTime - pNodeAnim->mScalingKeys[ScalingIndex].mTime;
+	
 	float Factor = (AnimationTime - (float)pNodeAnim->mScalingKeys[ScalingIndex].mTime) / DeltaTime;
+	
 	assert(Factor >= 0.0f && Factor <= 1.0f);
+	
 	const aiVector3D& StartScaling = pNodeAnim->mScalingKeys[ScalingIndex].mValue;
+	
 	const aiVector3D& EndScaling = pNodeAnim->mScalingKeys[NextScalingIndex].mValue;
+	
 	Out = StartScaling + (EndScaling - StartScaling) * Factor;
+}
+size_t Animation::FindScaling(float AnimationTime, const aiNodeAnim* pNodeAnim)
+{
+	assert(pNodeAnim->mNumPositionKeys > 0);
+
+	for (size_t i = 0; i < pNodeAnim->mNumScalingKeys - 1; i++) {
+		if (AnimationTime < (float)pNodeAnim->mScalingKeys[i + 1].mTime) {
+			return i;
+		}
+	}
+
+	assert(0);
 }
