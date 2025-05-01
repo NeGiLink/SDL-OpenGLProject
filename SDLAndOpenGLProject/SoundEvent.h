@@ -1,5 +1,5 @@
 #pragma once
-#include <string>
+#include "Typedefs.h"
 #include "Math.h"
 
 //SE,BGM‚ğæ“¾EÄ¶‚·‚éƒNƒ‰ƒX
@@ -17,12 +17,12 @@ public:
 	void SetPaused(bool pause);
 	void SetVolume(float value);
 	void SetPitch(float value);
-	void SetParameter(const std::string& name, float value);
+	void SetParameter(const string& name, float value);
 	// Getters
 	bool GetPaused() const;
 	float GetVolume() const;
 	float GetPitch() const;
-	float GetParameter(const std::string& name);
+	float GetParameter(const string& name);
 	// Positional
 	bool Is3D() const;
 	void Set3DAttributes(const Matrix4& worldTrans);

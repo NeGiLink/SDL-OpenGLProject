@@ -67,7 +67,7 @@ void AudioSystem::Shutdown()
 	}
 }
 
-void AudioSystem::LoadBank(const std::string& name)
+void AudioSystem::LoadBank(const string& name)
 {
 	// 二重ロードを防ぐ
 	if (mBanks.find(name) != mBanks.end())
@@ -96,7 +96,7 @@ void AudioSystem::LoadBank(const std::string& name)
 		if (numEvents > 0)
 		{
 			// このバンクのイベントの説明のリストを取得します
-			std::vector<FMOD::Studio::EventDescription*> events(numEvents);
+			vector<FMOD::Studio::EventDescription*> events(numEvents);
 			bank->getEventList(events.data(), numEvents, &numEvents);
 			char eventName[maxPathLength];
 			for (int i = 0; i < numEvents; i++)
@@ -115,7 +115,7 @@ void AudioSystem::LoadBank(const std::string& name)
 		if (numBuses > 0)
 		{
 			// このバンクのバスのリストを取得する
-			std::vector<FMOD::Studio::Bus*> buses(numBuses);
+			vector<FMOD::Studio::Bus*> buses(numBuses);
 			bank->getBusList(buses.data(), numBuses, &numBuses);
 			char busName[512];
 			for (int i = 0; i < numBuses; i++)
@@ -130,7 +130,7 @@ void AudioSystem::LoadBank(const std::string& name)
 	}
 }
 
-void AudioSystem::UnloadBank(const std::string& name)
+void AudioSystem::UnloadBank(const string& name)
 {
 	// Ignore if not loaded
 	auto iter = mBanks.find(name);
@@ -146,7 +146,7 @@ void AudioSystem::UnloadBank(const std::string& name)
 	if (numEvents > 0)
 	{
 		// Get event descriptions for this bank
-		std::vector<FMOD::Studio::EventDescription*> events(numEvents);
+		vector<FMOD::Studio::EventDescription*> events(numEvents);
 		// Get list of events
 		bank->getEventList(events.data(), numEvents, &numEvents);
 		char eventName[512];
@@ -169,7 +169,7 @@ void AudioSystem::UnloadBank(const std::string& name)
 	if (numBuses > 0)
 	{
 		// Get list of buses in this bank
-		std::vector<FMOD::Studio::Bus*> buses(numBuses);
+		vector<FMOD::Studio::Bus*> buses(numBuses);
 		bank->getBusList(buses.data(), numBuses, &numBuses);
 		char busName[512];
 		for (int i = 0; i < numBuses; i++)
@@ -206,7 +206,7 @@ void AudioSystem::UnloadAllBanks()
 	mEvents.clear();
 }
 
-SoundEvent AudioSystem::PlayEvent(const std::string& name)
+SoundEvent AudioSystem::PlayEvent(const string& name)
 {
 	unsigned int retID = 0;
 	auto iter = mEvents.find(name);
@@ -231,7 +231,7 @@ SoundEvent AudioSystem::PlayEvent(const std::string& name)
 void AudioSystem::Update(float deltaTime)
 {
 	// Find any stopped event instances
-	std::vector<unsigned int> done;
+	vector<unsigned int> done;
 	for (auto& iter : mEventInstances)
 	{
 		FMOD::Studio::EventInstance* e = iter.second;
@@ -288,7 +288,7 @@ void AudioSystem::SetListener(const Matrix4& viewMatrix)
 	mSystem->setListenerAttributes(0, &listener);
 }
 
-float AudioSystem::GetBusVolume(const std::string& name) const
+float AudioSystem::GetBusVolume(const string& name) const
 {
 	float retVal = 0.0f;
 	const auto iter = mBuses.find(name);
@@ -299,7 +299,7 @@ float AudioSystem::GetBusVolume(const std::string& name) const
 	return retVal;
 }
 
-bool AudioSystem::GetBusPaused(const std::string& name) const
+bool AudioSystem::GetBusPaused(const string& name) const
 {
 	bool retVal = false;
 	const auto iter = mBuses.find(name);
@@ -310,7 +310,7 @@ bool AudioSystem::GetBusPaused(const std::string& name) const
 	return retVal;
 }
 
-void AudioSystem::SetBusVolume(const std::string& name, float volume)
+void AudioSystem::SetBusVolume(const string& name, float volume)
 {
 	auto iter = mBuses.find(name);
 	if (iter != mBuses.end())
@@ -319,7 +319,7 @@ void AudioSystem::SetBusVolume(const std::string& name, float volume)
 	}
 }
 
-void AudioSystem::SetBusPaused(const std::string& name, bool pause)
+void AudioSystem::SetBusPaused(const string& name, bool pause)
 {
 	auto iter = mBuses.find(name);
 	if (iter != mBuses.end())

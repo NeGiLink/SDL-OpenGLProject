@@ -39,7 +39,7 @@ bool GBuffer::Create(int width, int height)
 	}
 
 	// Create a vector of the color attachments
-	std::vector<GLenum> attachments;
+	vector<GLenum> attachments;
 	for (int i = 0; i < NUM_GBUFFER_TEXTURES; i++)
 	{
 		attachments.emplace_back(GL_COLOR_ATTACHMENT0 + i);

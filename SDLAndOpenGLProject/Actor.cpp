@@ -176,19 +176,19 @@ void ActorObject::AddChildActor(ActorObject* actor)
 	{
 		if (a == actor) { return; }
 	}
-	//TODO: 親になるアクターの行列を再計算、
+	// 親になるアクターの行列を再計算、
 	// 自身の親からしか計算していないので親の更新を考慮していないため不十分
 	ComputeWorldTransform(mParentActor != nullptr ? &mParentActor->GetWorldTransform() : nullptr);
 	Matrix4 parentInvert = mWorldTransform;
 	parentInvert.Invert();
 
-	//TODO: 子になるアクターの行列を再計算、
+	// 子になるアクターの行列を再計算、
 	// 自身の親からしか計算していないので親の更新を考慮していないため不十分
 	auto parentActor = actor->GetParentActor();
 	actor->ComputeWorldTransform(parentActor != nullptr ? &parentActor->GetWorldTransform() : nullptr);
 	Matrix4 child = actor->GetWorldTransform();
 
-	//TODO: 親になるアクターの逆行列を掛けて子のアクターの親基準のローカル情報を計算して設定
+	//親になるアクターの逆行列を掛けて子のアクターの親基準のローカル情報を計算して設定
 	Matrix4 childLocal = child * parentInvert;
 	actor->SetPosition(childLocal.GetTranslation());
 	actor->SetRotation(childLocal.GetRotation());

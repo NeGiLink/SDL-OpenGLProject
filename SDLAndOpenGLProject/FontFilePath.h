@@ -3,5 +3,5 @@
 
 namespace Font 
 {
-	std::string FontFilePath = "Assets/Fonts/";
+	string FontFilePath = "Assets/Fonts/";
 }

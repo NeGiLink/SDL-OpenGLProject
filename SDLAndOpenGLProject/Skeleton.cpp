@@ -1,10 +1,10 @@
 #include "Skeleton.h"
 
 
-bool Skeleton::Load(const std::string& fileName)
+bool Skeleton::Load(const string& fileName)
 {
 	// ファイルの拡張子を取得
-	std::string extension = fileName.substr(fileName.find_last_of('.') + 1);
+	string extension = fileName.substr(fileName.find_last_of('.') + 1);
 
 	// **FBX の場合**
 	if (extension == "fbx")
@@ -16,7 +16,7 @@ bool Skeleton::Load(const std::string& fileName)
 	return LoadFromJSON(fileName);
 }
 
-bool Skeleton::LoadFromJSON(const std::string& fileName)
+bool Skeleton::LoadFromJSON(const string& fileName)
 {
 	std::ifstream file(fileName);
 	if (!file.is_open())
@@ -25,9 +25,9 @@ bool Skeleton::LoadFromJSON(const std::string& fileName)
 		return false;
 	}
 
-	std::stringstream fileStream;
+	stringstream fileStream;
 	fileStream << file.rdbuf();
-	std::string contents = fileStream.str();
+	string contents = fileStream.str();
 	rapidjson::StringStream jsonStr(contents.c_str());
 	rapidjson::Document doc;
 	doc.ParseStream(jsonStr);
@@ -128,42 +128,109 @@ bool Skeleton::LoadFromJSON(const std::string& fileName)
 }
 
 
-bool Skeleton::LoadFromFBX(const std::string& fileName)
+bool Skeleton::LoadFromFBX(const string& fileName)
 {
+	//ファイル読み込み
 	Assimp::Importer importer;
+	//三角形でポリゴンを取得、ボーンのウェイトを最大4つに制限、スケーリングを1unitに
 	const aiScene* scene = importer.ReadFile(fileName,
 		aiProcess_Triangulate | aiProcess_LimitBoneWeights | aiProcess_GlobalScale);
-
+	//モデルがあるか確認
 	if (!scene || !scene->HasMeshes()) {
+		//ないならエラーメッセージ
 		SDL_Log("Failed to load FBX: %s", importer.GetErrorString());
 		return false;
 	}
-
+	//ボーンの初期化
 	mBones.clear();
-
-	for (unsigned int i = 0; i < scene->mNumMeshes; i++) {
+	//メッシュの数でfor文
+	for (unsigned int i = 0; i < scene->mNumMeshes; i++) 
+	{
 		aiMesh* mesh = scene->mMeshes[i];
+		//メッシュ内のボーン数でfor文
+		for (unsigned int j = 0; j < mesh->mNumBones; j++) 
+		{
+			//ボーンを取得
+			aiBone* bone = mesh->mBones[j];
+			//ボーン名を取得
+			string boneName = bone->mName.C_Str();
+			//取得したボーン名から短縮した名前に変換したものを取得
+			string boneShortName = ConvertSimpleBoneName(bone->mName.C_Str());
+			//boneNameToIndexにすでに同じボーンがないかチェック
+			if (boneNameToIndex.find(boneName) != boneNameToIndex.end()) continue;
+			//ボーンの構造体
+			Bone boneStruct;
+			//ボーンのmOffsetMatrixをvectorに格納
+			mOffsetMatrix.push_back(bone->mOffsetMatrix);
+			//ボーン本来の名前を代入
+			boneStruct.mName = boneName;
+			//ボーンの短縮名を代入
+			boneStruct.mShortName = boneShortName;
+			// 後で SetParentBones() で設定する
+			boneStruct.mParent = -1;
 
+			// バインドポーズの変換
+			//ボーンのmOffsetMatrix取得
+			aiMatrix4x4 bindPose = bone->mOffsetMatrix;
+			aiVector3D pos;
+			aiQuaternion rot;
+			aiVector3D scale;
+			//ボーンのバインドポーズを各値に分解
+			bindPose.Decompose(scale, rot, pos);
+
+			//rot.x = -rot.x;
+			//pos.x = -pos.x;
+			//ローカルのバインドポーズに回転、平行移動、スケーリングを格納
+			boneStruct.mLocalBindPose.mRotation = Quaternion(rot.x, rot.y, rot.z, rot.w);
+			boneStruct.mLocalBindPose.mPosition = Vector3(pos.x, pos.y, pos.z);
+			boneStruct.mLocalBindPose.mScale = Vector3(scale.x, scale.y, scale.z);
+			//boneNameToIndexにボーン名をキーにボーン番号を格納
+			boneNameToIndex[boneName] = static_cast<int>(mBones.size());
+			//同じくmBoneTransformにボーンの番号を格納
+			mBoneTransform[boneStruct.mShortName] = static_cast<int>(mBones.size());
+			//ボーンベクターに格納
+			mBones.push_back(boneStruct);
+
+			//assimpではオフセット行列をそのまま利用
+			mGlobalInvBindPoses.push_back(boneStruct.mLocalBindPose.ToMatrix());
+			//ボーンのオブジェクトを生成
+			BoneActor* boneActor = new BoneActor();
+			boneActor->SetBoneIndex(static_cast<int>(mBones.size()));
+			boneActor->SetBoneName(boneShortName);
+			mBoneActors.push_back(boneActor);
+		}
+		/*
 		for (unsigned int j = 0; j < mesh->mNumBones; j++) {
 			aiBone* bone = mesh->mBones[j];
-			std::string boneName = bone->mName.C_Str();
-			std::string boneGetName = ConvertSimpleBoneName(bone->mName.C_Str());
+			string boneName = bone->mName.C_Str();
+			string boneGetName = ConvertSimpleBoneName(bone->mName.C_Str());
 
 			if (boneNameToIndex.find(boneName) != boneNameToIndex.end()) continue;
 
+			// Blender → Unity の補正回転
+			aiMatrix4x4 blenderToUnity;
+			aiMatrix4x4::RotationX(-AI_MATH_PI / 2.0f, blenderToUnity);
+
+			// オフセットマトリクスに補正を掛ける（注意：行列の掛け順がAssimpでは「右から」）
+			aiMatrix4x4 corrected = bone->mOffsetMatrix * blenderToUnity;
+
+			mOffsetMatrix.push_back(corrected);
+
 			Bone newBone;
-			mOffsetMatrix.push_back(bone->mOffsetMatrix);
 			newBone.mName = boneName;
 			newBone.mGetName = boneGetName;
 			// 後で SetParentBones() で設定する
 			newBone.mParent = -1;
 
 			// バインドポーズの変換
-			aiMatrix4x4 bindPose = bone->mOffsetMatrix;
+			aiMatrix4x4 bindPose = corrected;
 			aiVector3D pos;
 			aiQuaternion rot;
 			aiVector3D scale;
 			bindPose.Decompose(scale, rot, pos);
+
+			rot.x = -rot.x;
+			pos.x = -pos.x;
 
 			newBone.mLocalBindPose.mRotation = Quaternion(rot.x, rot.y, rot.z, rot.w);
 			newBone.mLocalBindPose.mPosition = Vector3(pos.x, pos.y, pos.z);
@@ -181,6 +248,7 @@ bool Skeleton::LoadFromFBX(const std::string& fileName)
 			boneActor->SetBoneName(boneGetName);
 			mBoneActors.push_back(boneActor);
 		}
+		*/
 	}
 
 	// 親子関係を設定
@@ -191,16 +259,17 @@ bool Skeleton::LoadFromFBX(const std::string& fileName)
 void Skeleton::SetParentBones(aiNode* node, int parentIndex)
 {
 	//不明なボーンの場合に次にそのまま再起するための処理を追加
-	std::string nodeName = node->mName.data;
+	string nodeName = node->mName.data;
 	int nextIndex = parentIndex;
 
 	// このノードがボーンとして登録されているか確認
-	if (boneNameToIndex.find(nodeName) != boneNameToIndex.end()) {
+	if (boneNameToIndex.find(nodeName) != boneNameToIndex.end()) 
+	{
 		int boneIndex = boneNameToIndex[nodeName];
 		mBones[boneIndex].mParent = parentIndex;
 		nextIndex = boneIndex;
 
-		//TODO：バインドポーズをローカル情報に変換
+		//バインドポーズをローカル情報に変換
 		aiMatrix4x4 localMatrix = mOffsetMatrix[boneIndex];
 		localMatrix = localMatrix.Inverse();
 
@@ -209,6 +278,13 @@ void Skeleton::SetParentBones(aiNode* node, int parentIndex)
 			aiMatrix4x4 parentMatrixInv = mOffsetMatrix[parentIndex];
 			localMatrix = parentMatrixInv * localMatrix;
 		}
+		/*
+		// 補正行列の適用（ローカル空間にも同じく）
+		aiMatrix4x4 blenderToUnity;
+		aiMatrix4x4::RotationX(-AI_MATH_PI / 2.0f, blenderToUnity);
+		localMatrix = blenderToUnity * localMatrix;
+		*/
+
 		aiVector3D pos;
 		aiQuaternion rot;
 		aiVector3D scale;
@@ -220,25 +296,26 @@ void Skeleton::SetParentBones(aiNode* node, int parentIndex)
 	}
 
 	// 子ノードを再帰的に処理
-	for (unsigned int i = 0; i < node->mNumChildren; i++) {
+	for (unsigned int i = 0; i < node->mNumChildren; i++) 
+	{
 		SetParentBones(node->mChildren[i], nextIndex);
 	}
 }
 
-std::string Skeleton::ConvertSimpleBoneName(std::string boneName)
+string Skeleton::ConvertSimpleBoneName(string boneName)
 {
-	std::string bone = boneName;
+	string bone = boneName;
 	// 各ボーンの部位の名前の配列
-	std::vector<std::string> boneNames = {
+	vector<string> boneNames = {
 		"Hips","Spine","Chest","Neck","Head",
 		"LeftShoulder","LeftArm","LeftForeArm","LeftHand",
 		"RightShoulder","RightArm","RightForeArm","RightHand",
 		"LeftUpLeg","LeftLeg","LeftFoot",
 		"RightUpLeg","RightLeg","RightFoot",
 	};
-	for (std::string bonename : boneNames) 
+	for (string bonename : boneNames) 
 	{
-		if (bone.find(bonename) != std::string::npos && EndsWith(bone, bonename)) 
+		if (bone.find(bonename) != string::npos && EndsWith(bone, bonename)) 
 		{
 			bone = bonename;
 		}
@@ -246,13 +323,13 @@ std::string Skeleton::ConvertSimpleBoneName(std::string boneName)
 	return bone;
 }
 
-bool Skeleton::EndsWith(const std::string& str, const std::string& suffix)
+bool Skeleton::EndsWith(const string& str, const string& suffix)
 {
 	if (str.size() < suffix.size()) return false;
 	return str.substr(str.size() - suffix.size()) == suffix;
 }
 
-Matrix4 Skeleton::GetBonePosition(std::string boneName)
+Matrix4 Skeleton::GetBonePosition(string boneName)
 {
 	Matrix4 boneMatrix;
 	int index = 0;
@@ -265,7 +342,7 @@ Matrix4 Skeleton::GetBonePosition(std::string boneName)
 	return boneMatrix;
 }
 
-void Skeleton::AddBoneChildActor(std::string boneName, class ActorObject* actor)
+void Skeleton::AddBoneChildActor(string boneName, class ActorObject* actor)
 {
 	int index = 0;
 	if (mBoneTransform.find(boneName) != mBoneTransform.end())

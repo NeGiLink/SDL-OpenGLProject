@@ -11,7 +11,7 @@ class TargetActor : public ActorObject
 public:
 	TargetActor();
 private:
-	std::vector<class BoxCollider*>		mBoxs;
+	vector<class BoxCollider*>		mBoxs;
 
 	class MeshRenderer*					mMeshComp;
 };

@@ -5,7 +5,7 @@ BasicInputAction::BasicInputAction(ActorObject* owner, int updateOrder)
 	, mAngularSpeed(0.0f)
 	, mForwardSpeed(0.0f)
 {
-	mGravity = true;
+	mGravity = false;
 	mJumping = false;
 }
 

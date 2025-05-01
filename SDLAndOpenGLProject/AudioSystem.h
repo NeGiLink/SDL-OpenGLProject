@@ -1,6 +1,7 @@
 #pragma once
 #include "SoundEvent.h"
 #include "Math.h"
+#include "Typedefs.h"
 
 // FMODヘッダーを含めるのを避けるための前方宣言
 namespace FMOD
@@ -26,21 +27,21 @@ public:
 	void Shutdown();
 
 	// Load/unload banks
-	void LoadBank(const std::string& name);
-	void UnloadBank(const std::string& name);
+	void LoadBank(const string& name);
+	void UnloadBank(const string& name);
 	void UnloadAllBanks();
 
-	SoundEvent PlayEvent(const std::string& name);
+	SoundEvent PlayEvent(const string& name);
 
 	void Update(float deltaTime);
 
 	// ポジショナルオーディオ用
 	void SetListener(const Matrix4& viewMatrix);
 	// 制御バス
-	float GetBusVolume(const std::string& name) const;
-	bool GetBusPaused(const std::string& name) const;
-	void SetBusVolume(const std::string& name, float volume);
-	void SetBusPaused(const std::string& name, bool pause);
+	float GetBusVolume(const string& name) const;
+	bool GetBusPaused(const string& name) const;
+	void SetBusVolume(const string& name, float volume);
+	void SetBusPaused(const string& name, bool pause);
 protected:
 	friend class SoundEvent;
 	FMOD::Studio::EventInstance* GetEventInstance(unsigned int id);
@@ -50,13 +51,13 @@ private:
 
 	class BaseScene*													mGame;
 	// Map of loaded banks
-	std::unordered_map<std::string, FMOD::Studio::Bank*>				mBanks;
+	std::unordered_map<string, FMOD::Studio::Bank*>				mBanks;
 	// イベント名とイベント説明のマップ
-	std::unordered_map<std::string, FMOD::Studio::EventDescription*>	mEvents;
+	std::unordered_map<string, FMOD::Studio::EventDescription*>	mEvents;
 	// イベントIDからイベントインスタンスへのマップ
 	std::unordered_map<unsigned int, FMOD::Studio::EventInstance*>		mEventInstances;
 	// Map of buses
-	std::unordered_map<std::string, FMOD::Studio::Bus*>					mBuses;
+	std::unordered_map<string, FMOD::Studio::Bus*>					mBuses;
 	// FMOD studio system
 	FMOD::Studio::System*												mSystem;
 	// FMOD Low-level system (in case needed)

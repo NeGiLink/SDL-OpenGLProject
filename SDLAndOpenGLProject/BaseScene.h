@@ -30,17 +30,17 @@ public:
 
 	class GameWinMain* GetWinMain() { return mWinMain; }
 
-	class Font* GetFont(const std::string& fileName);
+	class Font* GetFont(const string& fileName);
 
-	void LoadText(const std::string& fileName);
+	void LoadText(const string& fileName);
 	
-	const std::string& GetText(const std::string& key);
+	const string& GetText(const string& key);
 	
-	const std::string& GetFreeText(const std::string& key);
+	const string& GetFreeText(const string& key);
 
-	class Skeleton* GetSkeleton(const std::string& fileName);
+	class Skeleton* GetSkeleton(const string& fileName);
 
-	class Animator* GetAnimator(const std::string& fileName, class Animator* animator);
+	class Animator* GetAnimator(const string& fileName, class Animator* animator);
 
 	class AudioSystem* GetAudioSystem() { return mAudioSystem; }
 	
@@ -48,11 +48,11 @@ public:
 	
 	class HUD* GetHUD() { return mHUD; }
 	// Manage UI stack
-	const std::vector<class UIScreen*>& GetUIStack() { return mUIStack; }
+	const vector<class UIScreen*>& GetUIStack() { return mUIStack; }
 	
 	void PushUI(class UIScreen* screen);
 
-	const std::vector<class Image*>& GetImageStack() { return mImageStack; }
+	const vector<class Image*>& GetImageStack() { return mImageStack; }
 	
 	void PushImage(class Image* screen);
 
@@ -61,7 +61,7 @@ public:
 	
 	void RemovePlane(class PlaneActor* plane);
 	
-	std::vector<class PlaneActor*>& GetPlanes() { return mPlanes; }
+	vector<class PlaneActor*>& GetPlanes() { return mPlanes; }
 
 	class ActorObject* GetPlayer() { return mPlayer; }
 protected:
@@ -72,22 +72,22 @@ protected:
 	bool												mUpdatingActors;
 
 	// All the actors in the game
-	std::vector<class ActorObject*>						mActors;
-	std::vector<class UIScreen*>						mUIStack;
-	std::vector<class Image*>							mImageStack;
+	vector<class ActorObject*>						mActors;
+	vector<class UIScreen*>						mUIStack;
+	vector<class Image*>							mImageStack;
 	// Map for fonts
-	std::unordered_map<std::string, class Font*>		mFonts;
+	std::unordered_map<string, class Font*>		mFonts;
 	// Map of loaded skeletons
-	std::unordered_map<std::string, class Skeleton*>	mSkeletons;
+	std::unordered_map<string, class Skeleton*>	mSkeletons;
 	// Map of loaded animations
-	std::unordered_map<std::string, class Animation*>	mAnims;
-	std::unordered_map<std::string, class Animator*>	mAnimators;
+	std::unordered_map<string, class Animation*>	mAnims;
+	std::unordered_map<string, class Animator*>	mAnimators;
 	// Map for text localization
-	std::unordered_map<std::string, std::string>		mText;
+	std::unordered_map<string, string>		mText;
 	// Any pending actors
-	std::vector<class ActorObject*>						mPendingActors;
+	vector<class ActorObject*>						mPendingActors;
 
-	std::vector<class PlaneActor*>						mPlanes;
+	vector<class PlaneActor*>						mPlanes;
 
 	class AudioSystem*									mAudioSystem;
 	class PhysWorld*									mPhysWorld;

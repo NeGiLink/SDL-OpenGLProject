@@ -53,7 +53,11 @@ void GameWinMain::RunLoop()
 	while (GameStateClass::mGameState != GameState::GameEnd)
 	{
 		Time::UpdateDeltaTime();
+		//ロード処理
+		mGameApp->LoadUpdate();
+		//入力処理
 		mGameApp->ProcessInput();
+		//座標更新処理
 		mGameApp->Update();
 		Render();
 	}

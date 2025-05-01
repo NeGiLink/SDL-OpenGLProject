@@ -19,6 +19,11 @@ FPSActor::FPSActor()
 	mBoxComp->SetObjectBox(myBox);
 	mBoxComp->SetShouldRotate(false);
 	mBoxComp->SetStaticObject(false);
+	/*
+	mDice = new DiceActor();
+	AddChildActor(mDice);
+	mDice->SetPosition(Vector3(1.5f, 0.0f, 2.0f));
+	*/
 }
 
 void FPSActor::UpdateActor(float deltaTime)
@@ -41,9 +46,22 @@ void FPSActor::UpdateActor(float deltaTime)
 
 void FPSActor::ActorInput(const struct InputState& keys)
 {
+	/*
+	if (keys.Keyboard.GetKeyDown(SDL_SCANCODE_0))
+	{
+		RemoveChildActor(mDice);
+	}
+	else if (keys.Keyboard.GetKeyDown(SDL_SCANCODE_1))
+	{
+		AddChildActor(mDice);
+		mDice->SetPosition(Vector3(1.5f, 0.0f, 2.0f));
+	}
+	*/
+
 	mBasicInput->MoveInputUpdate(keys);
 	float pitchSpeed = mBasicInput->CameraInputUpdate();
 	mFPSCamera->SetPitchSpeed(pitchSpeed);
+
 }
 
 void FPSActor::SetFootstepSurface(float value)

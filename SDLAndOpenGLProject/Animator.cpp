@@ -10,7 +10,7 @@
 /// アニメーションのループ設定
 /// </param>
 /// <returns></returns>
-bool Animator::Load(const std::string& fileName,bool animLoop)
+bool Animator::Load(const string& fileName,bool animLoop)
 {
 	Animation* anim = new Animation(mSkeleton);
 
@@ -101,8 +101,8 @@ float Animator::PlayBlendAnimation(Animation* anim, float playRate, float blendT
 
 void Animator::ComputeMatrixPalette()
 {
-	const std::vector<Matrix4>& globalInvBindPoses = mSkeleton->GetGlobalInvBindPoses();
-	std::vector<Matrix4> currentPoses;
+	const vector<Matrix4>& globalInvBindPoses = mSkeleton->GetGlobalInvBindPoses();
+	vector<Matrix4> currentPoses;
 	mAnimation->GetGlobalPoseAtTime(currentPoses, mSkeleton, mAnimTime);
 	mSkeleton->SetGlobalCurrentPoses(currentPoses);
 	// Setup the palette for each bone
@@ -118,10 +118,10 @@ void Animator::ComputeMatrixPalette()
 
 void Animator::BlendComputeMatrixPalette()
 {
-	const std::vector<Matrix4>& globalInvBindPoses = mSkeleton->GetGlobalInvBindPoses();
-	std::vector<Matrix4> nowPose;
-	std::vector<Matrix4> nextPose;
-	std::vector<Matrix4> goalPose;
+	const vector<Matrix4>& globalInvBindPoses = mSkeleton->GetGlobalInvBindPoses();
+	vector<Matrix4> nowPose;
+	vector<Matrix4> nextPose;
+	vector<Matrix4> goalPose;
 
 	// 経過時間に対する補間率
 	float t = Math::Clamp(mBlendAnimTime / mBlendElapsed, 0.0f, 1.0f);

@@ -4,14 +4,18 @@ YBotActor::YBotActor()
 	:ActorObject()
 {
 	animator = new Animator();
+	
 	GetGame()->GetAnimator(animatorName, animator);
+	
 	//SkeletalMeshRenderer生成
 	mSkeletonMesh = new SkeletalMeshRenderer(this);
+
 	//Meshの読み込み
-	mSkeletonMesh->SetMeshs(GetGame()->GetWinMain()->GetRenderer()->GetMeshs("Y Bot.fbx"));
 	//Skeletonの読み込み
-	mSkeletonMesh->SetSkeleton(GetGame()->GetSkeleton("Assets/Models/Y Bot.fbx"),this);
+	mSkeletonMesh->LoadSkeletonMesh("Y Bot.fbx",this);
+	
 	mSkeletonMesh->SetAnimator(animator);
+	
 	//Skeletonデータをアニメーターに設定
 	animator->SetSkeleton(mSkeletonMesh->GetSkeleton());
 	animator->Load("Assets/Sword And Shield Idle.fbx",true);
@@ -20,11 +24,10 @@ YBotActor::YBotActor()
 	animator->Load("Assets/Capoeira.fbx",true);
 	animator->Load("Assets/T-Pose.fbx",true);
 	animator->PlayAnimation(animator->GetAnimations()[State::TPose]);
-	/*
+
 	mSword = new Sword();
 	mSkeletonMesh->GetSkeleton()->AddBoneChildActor("RightHand", mSword);
 	mSword->SetPosition(Vector3());
-	*/
 }
 
 void YBotActor::ActorInput(const struct InputState& keys)

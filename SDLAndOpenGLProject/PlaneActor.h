@@ -11,10 +11,10 @@ class PlaneActor : public ActorObject
 public:
 	PlaneActor();
 	~PlaneActor();
-	std::vector<class BoxCollider*> GetBoxs() { return mBoxs; }
+	vector<class BoxCollider*> GetBoxs() { return mBoxs; }
 private:
 	//AABBのコライダー
-	std::vector<class BoxCollider*> mBoxs;
+	vector<class BoxCollider*> mBoxs;
 
 	class MeshRenderer* mMeshComp;
 };

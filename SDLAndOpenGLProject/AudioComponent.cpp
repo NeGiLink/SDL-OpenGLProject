@@ -59,7 +59,7 @@ void AudioComponent::OnUpdateWorldTransform()
 	}
 }
 
-SoundEvent AudioComponent::PlayEvent(const std::string& name)
+SoundEvent AudioComponent::PlayEvent(const string& name)
 {
 	SoundEvent e = mOwner->GetGame()->GetAudioSystem()->PlayEvent(name);
 	// 2D or 3D?

@@ -34,9 +34,9 @@ protected:
 	class Image*							mRadarArrow;
 
 	// ゲーム内のすべてのターゲットコンポーネント
-	std::vector<class TargetComponent*>		mTargetComps;
+	vector<class TargetComponent*>		mTargetComps;
 	// レーダーに対するブリップの2Dオフセット
-	std::vector<Vector2>					mBlips;
+	vector<Vector2>					mBlips;
 	// レーダーの範囲と半径を調整する
 	float									mRadarRange;
 	float									mRadarRadius;

@@ -4,6 +4,7 @@
 Component::Component(ActorObject* owner, int updateOrder)
 	:mOwner(owner)
 	, mUpdateOrder(updateOrder)
+	, mGame(owner->GetGame())
 {
 	// Actorのコンポーネントベクトルに追加する
 	mOwner->AddComponent(this);

@@ -14,7 +14,7 @@ Shader::~Shader()
 
 }
 
-bool Shader::Load(const std::string& vertName, const std::string& fragName)
+bool Shader::Load(const string& vertName, const string& fragName)
 {
 	// 頂点シェーダーとピクセルシェーダーをコンパイルする
 	if (!CompileShader(vertName,
@@ -135,7 +135,7 @@ void Shader::SetNoTexture()
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-bool Shader::CompileShader(const std::string& fileName,
+bool Shader::CompileShader(const string& fileName,
 	GLenum shaderType,
 	GLuint& outShader)
 {
@@ -146,7 +146,7 @@ bool Shader::CompileShader(const std::string& fileName,
 		// すべてのテキストを文字列に読み込み
 		std::stringstream sstream;
 		sstream << shaderFile.rdbuf();
-		std::string contents = sstream.str();
+		string contents = sstream.str();
 		const char* contentsChar = contents.c_str();
 
 		// 指定されたタイプのシェーダーを作成します。
@@ -210,7 +210,7 @@ MaterialShader::~MaterialShader()
 {
 }
 
-bool MaterialShader::Load(const std::string& vertName, const std::string& fragName)
+bool MaterialShader::Load(const string& vertName, const string& fragName)
 {
 	// 頂点シェーダーとピクセルシェーダーをコンパイルする。
 	if (!CompileShader(vertName,
@@ -269,7 +269,7 @@ void MaterialShader::SetMaterialUniform(const char* name, const Vector3& color)
 	glUniform3f(loc, color.x, color.y, color.z);
 }
 
-bool MaterialShader::CompileShader(const std::string& fileName, GLenum shaderType, GLuint& outShader)
+bool MaterialShader::CompileShader(const string& fileName, GLenum shaderType, GLuint& outShader)
 {
 	// Open file
 	std::ifstream shaderFile(fileName);
@@ -278,7 +278,7 @@ bool MaterialShader::CompileShader(const std::string& fileName, GLenum shaderTyp
 		// すべてのテキストを文字列に読み込みます。
 		std::stringstream sstream;
 		sstream << shaderFile.rdbuf();
-		std::string contents = sstream.str();
+		string contents = sstream.str();
 		const char* contentsChar = contents.c_str();
 
 		// 指定されたタイプのシェーダーを作成します。

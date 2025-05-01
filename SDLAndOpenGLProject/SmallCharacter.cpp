@@ -5,12 +5,17 @@ SmallCharacter::SmallCharacter()
 	:ActorObject()
 {
 	animator = new Animator();
+	
 	GetGame()->GetAnimator(animatorName, animator);
-	mMeshComp = new SkeletalMeshRenderer(this);
-	mMeshComp->SetMeshs(GetGame()->GetWinMain()->GetRenderer()->GetMeshs("goblin_d_shareyko.fbx"));
-	mMeshComp->SetSkeleton(GetGame()->GetSkeleton("Assets/Models/goblin_d_shareyko.fbx"),this);
-	mMeshComp->SetAnimator(animator);
-	animator->SetSkeleton(mMeshComp->GetSkeleton());
+
+	mSkeletonMesh = new SkeletalMeshRenderer(this);
+	
+	mSkeletonMesh->LoadSkeletonMesh("goblin_d_shareyko.fbx", this);
+	
+	mSkeletonMesh->SetAnimator(animator);
+	
+	animator->SetSkeleton(mSkeletonMesh->GetSkeleton());
+	
 	animator->Load("Assets/Idle.fbx",true);
 	animator->Load("Assets/Running.fbx",true);
 	animator->Load("Assets/Jumping.fbx");

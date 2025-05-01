@@ -11,7 +11,7 @@ class Image
 public:
 	Image(bool active = true);
 	virtual ~Image();
-	virtual void Load(std::string file);
+	virtual void Load(string file);
 	virtual void SetTexture(class Texture* texture);
 	virtual void SetPosition(Vector2 pos);
 	virtual void SetScale(Vector3 scale);

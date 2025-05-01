@@ -11,13 +11,13 @@
 class Button
 {
 public:
-	Button(const std::string& name, class Font* font,
+	Button(const string& name, class Font* font,
 		std::function<void()> onClick,
 		const Vector2& pos, const Vector2& dims);
 	~Button();
 
 	// ボタンの名前を設定します
-	void SetName(const std::string& name);
+	void SetName(const string& name);
 
 	// Getters/setters
 	class Texture* GetNameTex() { return mNameTex; }
@@ -32,7 +32,7 @@ public:
 private:
 	std::function<void()>	mOnClick;
 	
-	std::string				mName;
+	string				mName;
 	
 	class Texture*			mNameTex;
 	
@@ -67,11 +67,11 @@ public:
 	// UI画面の状態を取得する
 	UIState GetState() const { return mState; }
 	// タイトルテキストを変更する
-	void SetTitle(const std::string& text,
+	void SetTitle(const string& text,
 		const Vector3& color = Color::White,
 		int pointSize = 40);
 	// この画面にボタンを追加する関数
-	void AddButton(const std::string& name, std::function<void()> onClick);
+	void AddButton(const string& name, std::function<void()> onClick);
 protected:
 	// 画像を描画する関数
 	void DrawTexture(class Shader* shader, class Texture* texture,
@@ -95,5 +95,5 @@ protected:
 	// 状態
 	UIState					mState;
 	// ボタンのリスト
-	std::vector<Button*>	mButtons;
+	vector<Button*>	mButtons;
 };

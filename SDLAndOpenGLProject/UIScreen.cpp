@@ -139,7 +139,7 @@ void UIScreen::Close()
 	mState = EClosing;
 }
 
-void UIScreen::SetTitle(const std::string& text,
+void UIScreen::SetTitle(const string& text,
 	const Vector3& color,
 	int pointSize)
 {
@@ -158,7 +158,7 @@ void UIScreen::SetTitle(const std::string& text,
 	//mTitle = mFont->RenderText(text, color, pointSize);
 }
 
-void UIScreen::AddButton(const std::string& name, std::function<void()> onClick)
+void UIScreen::AddButton(const string& name, std::function<void()> onClick)
 {
 	Vector2 dims(static_cast<float>(mButtonOn->GetTexture()->GetWidth()),
 		static_cast<float>(mButtonOn->GetTexture()->GetHeight()));
@@ -206,7 +206,7 @@ void UIScreen::SetRelativeMouseMode(bool relative)
 	}
 }
 
-Button::Button(const std::string& name, Font* font,
+Button::Button(const string& name, Font* font,
 	std::function<void()> onClick,
 	const Vector2& pos, const Vector2& dims)
 	:mOnClick(onClick)
@@ -228,7 +228,7 @@ Button::~Button()
 	}
 }
 
-void Button::SetName(const std::string& name)
+void Button::SetName(const string& name)
 {
 	mName = name;
 

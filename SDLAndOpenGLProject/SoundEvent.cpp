@@ -67,7 +67,7 @@ void SoundEvent::SetPitch(float value)
 	}
 }
 
-void SoundEvent::SetParameter(const std::string& name, float value)
+void SoundEvent::SetParameter(const string& name, float value)
 {
 	auto event = mSystem ? mSystem->GetEventInstance(mID) : nullptr;
 	if (event)
@@ -109,7 +109,7 @@ float SoundEvent::GetPitch() const
 	return retVal;
 }
 
-float SoundEvent::GetParameter(const std::string& name)
+float SoundEvent::GetParameter(const string& name)
 {
 	float retVal = 0.0f;
 	auto event = mSystem ? mSystem->GetEventInstance(mID) : nullptr;

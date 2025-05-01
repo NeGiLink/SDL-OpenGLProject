@@ -11,10 +11,10 @@ Font::~Font()
 
 }
 
-bool Font::Load(const std::string& fileName)
+bool Font::Load(const string& fileName)
 {
 	// We support these font sizes
-	std::vector<int> fontSizes = {
+	vector<int> fontSizes = {
 		8, 9,
 		10, 11, 12, 14, 16, 18,
 		20, 22, 24, 26, 28,
@@ -46,7 +46,7 @@ void Font::Unload()
 	}
 }
 
-Texture* Font::RenderText(const std::string& textKey,
+Texture* Font::RenderText(const string& textKey,
 	const Vector3& color /*= Color::White*/,
 	int pointSize /*= 24*/)
 {
@@ -64,7 +64,7 @@ Texture* Font::RenderText(const std::string& textKey,
 	if (iter != mFontData.end())
 	{
 		TTF_Font* font = iter->second;
-		const std::string& actualText = mGame->GetText(textKey);
+		const string& actualText = mGame->GetText(textKey);
 		// Draw this to a surface (blended for alpha)
 		SDL_Surface* pixelsSurf = TTF_RenderText_Blended(font, actualText.c_str(), actualText.length(), sdlColor);
 		if (!pixelsSurf) {
@@ -99,7 +99,7 @@ Texture* Font::RenderText(const std::string& textKey,
 	return texture;
 }
 
-Texture* Font::RenderFreeText(const std::string& textKey, const Vector3& color, int pointSize)
+Texture* Font::RenderFreeText(const string& textKey, const Vector3& color, int pointSize)
 {
 	Texture* texture = nullptr;
 
@@ -115,7 +115,7 @@ Texture* Font::RenderFreeText(const std::string& textKey, const Vector3& color, 
 	if (iter != mFontData.end())
 	{
 		TTF_Font* font = iter->second;
-		const std::string& actualText = textKey;
+		const string& actualText = textKey;
 		// Draw this to a surface (blended for alpha)
 		SDL_Surface* pixelsSurf = TTF_RenderText_Blended(font, actualText.c_str(), actualText.length(), sdlColor);
 		if (!pixelsSurf) {

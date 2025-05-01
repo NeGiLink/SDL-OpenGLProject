@@ -1,6 +1,7 @@
 
 #pragma once
 #include "SDL3.h"
+#include "Typedefs.h"
 
 struct DirectionalLight
 {
@@ -40,9 +41,9 @@ public:
 
 	void SetPointLightMesh(class Mesh* mesh) { mPointLightMesh = mesh; }
 
-	class Texture* GetTexture(const std::string& fileName);
-	class Mesh* GetMesh(const std::string& fileName);
-	std::vector<class Mesh*> GetMeshs(const std::string& fileName);
+	class Texture* GetTexture(const string& fileName);
+	class Mesh* GetMesh(const string& fileName);
+	vector<class Mesh*> GetMeshs(const string& fileName);
 
 	void SetViewMatrix(const Matrix4& view) { mView = view; }
 
@@ -87,18 +88,18 @@ private:
 	void SetLightUniforms(class Shader* shader, const Matrix4& view);
 
 	// テクスチャのマップが読み込み変数
-	std::unordered_map<std::string, class Texture*>		mTextures;
+	std::unordered_map<string, class Texture*>		mTextures;
 	// メッシュの地図がロード
-	std::unordered_map<std::string, class Mesh*>		mMeshes;
+	std::unordered_map<string, class Mesh*>		mMeshes;
 
 	// 描かれたすべてのスプライトコンポーネント
-	std::vector<class SpriteComponent*>					mSprites;
+	vector<class SpriteComponent*>					mSprites;
 	//未使用
-	std::vector<class LineRenderer*>					mLineSprites;
+	vector<class LineRenderer*>					mLineSprites;
 
 	// すべての（骨格以外の）メッシュコンポーネント
-	std::vector<class MeshRenderer*>					mMeshComps;
-	std::vector<class SkeletalMeshRenderer*>			mSkeletalMeshes;
+	vector<class MeshRenderer*>					mMeshComps;
+	vector<class SkeletalMeshRenderer*>			mSkeletalMeshes;
 
 	// Game
 	class GameWinMain*									mGame;
@@ -140,7 +141,7 @@ private:
 	// GBuffer shader
 	class Shader*										mGGlobalShader;
 	class Shader*										mGPointLightShader;
-	std::vector<class PointLightComponent*>				mPointLights;
+	vector<class PointLightComponent*>				mPointLights;
 	class Mesh*											mPointLightMesh;
 	/*
 	//Line Shader

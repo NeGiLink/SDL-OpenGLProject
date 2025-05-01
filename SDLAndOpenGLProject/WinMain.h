@@ -7,6 +7,8 @@
 #include "SceneManager.h"
 #include "InputSystem.h"
 
+#include "Typedefs.h"
+
 enum GameState
 {
 	GamePlay,

@@ -17,7 +17,7 @@ Image::~Image()
 {
 }
 
-void Image::Load(std::string file)
+void Image::Load(string file)
 {
 	mTexture = mGame->GetWinMain()->GetRenderer()->GetTexture(file);
 }

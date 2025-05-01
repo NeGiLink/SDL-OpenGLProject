@@ -93,6 +93,15 @@ void SkeletalMeshRenderer::Update(float deltaTime)
 	}
 	*/
 }
+void SkeletalMeshRenderer::LoadSkeletonMesh(const string& fileName, ActorObject* actor)
+{
+	const vector<class Mesh*>& mesh = mGame->GetWinMain()->GetRenderer()->GetMeshs(fileName);
+	mMeshs.insert(mMeshs.end(), mesh.begin(), mesh.end());
+
+	Skeleton* sk = mGame->GetSkeleton(fileName);
+	mSkeleton = sk;
+	mSkeleton->SetParentActor(actor);
+}
 /*
 float SkeletalMeshRenderer::PlayAnimation(Animation* anim, float playRate)
 {
@@ -128,8 +137,8 @@ float SkeletalMeshRenderer::PlayBlendAnimation(Animation* anim, float playRate, 
 
 void SkeletalMeshRenderer::ComputeMatrixPalette()
 {
-	const std::vector<Matrix4>& globalInvBindPoses = mSkeleton->GetGlobalInvBindPoses();
-	std::vector<Matrix4> currentPoses;
+	const vector<Matrix4>& globalInvBindPoses = mSkeleton->GetGlobalInvBindPoses();
+	vector<Matrix4> currentPoses;
 	mAnimation->GetGlobalPoseAtTime(currentPoses, mSkeleton, mAnimTime);
 	mSkeleton->SetGlobalCurrentPoses(currentPoses);
 	// Setup the palette for each bone
@@ -145,10 +154,10 @@ void SkeletalMeshRenderer::ComputeMatrixPalette()
 
 void SkeletalMeshRenderer::BlendComputeMatrixPalette()
 {
-	const std::vector<Matrix4>& globalInvBindPoses = mSkeleton->GetGlobalInvBindPoses();
-	std::vector<Matrix4> nowPose;
-	std::vector<Matrix4> nextPose;
-	std::vector<Matrix4> goalPose;
+	const vector<Matrix4>& globalInvBindPoses = mSkeleton->GetGlobalInvBindPoses();
+	vector<Matrix4> nowPose;
+	vector<Matrix4> nextPose;
+	vector<Matrix4> goalPose;
 
 	// Œo‰ßŽžŠÔ‚É‘Î‚·‚é•âŠÔ—¦
 	float t = Math::Clamp(mBlendAnimTime / mBlendElapsed, 0.0f, 1.0f);

@@ -485,7 +485,7 @@ bool OnCollision(const LineSegment& l, const Plane& p, float& outT)
 }
 
 bool TestSidePlane(float start, float end, float negd, const Vector3& norm,
-	std::vector<std::pair<float, Vector3>>& out)
+	vector<std::pair<float, Vector3>>& out)
 {
 	float denom = end - start;
 	if (Math::NearZero(denom))
@@ -513,7 +513,7 @@ bool OnCollision(const LineSegment& l, const AABB& b, float& outT,
 	Vector3& outNorm)
 {
 	// Vector to save all possible t values, and normals for those sides
-	std::vector<std::pair<float, Vector3>> tValues;
+	vector<std::pair<float, Vector3>> tValues;
 	// Test the x planes
 	TestSidePlane(l.mStart.x, l.mEnd.x, b.mMin.x, Vector3::NegUnitX,
 		tValues);

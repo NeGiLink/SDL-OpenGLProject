@@ -16,7 +16,7 @@ Text::~Text()
 
 }
 
-void Text::SetText(const std::string& name)
+void Text::SetText(const string& name)
 {
 	mName = name;
 
