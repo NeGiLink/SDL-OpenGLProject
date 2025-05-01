@@ -6,7 +6,7 @@ struct Spline
 {
 	// スプラインの制御点（
 	// セグメント内の点の数をnとすると、n+2のポイントが必要）
-	std::vector<Vector3> mControlPoints;
+	vector<Vector3> mControlPoints;
 	// 開始インデックスがP1であるスプラインセグメントを考慮して、
 	// t値に基づいて位置を計算します。
 	Vector3 Compute(size_t startIdx, float t) const;

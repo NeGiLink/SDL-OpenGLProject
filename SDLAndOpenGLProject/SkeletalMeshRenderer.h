@@ -21,12 +21,15 @@ public:
 
 	void Update(float deltaTime) override;
 
+	void LoadSkeletonMesh(const string& fileName,class ActorObject* actor);
+	
 	// Setters
 	void SetSkeleton(class Skeleton* sk, class ActorObject* actor) 
 	{
 		mSkeleton = sk; 
 		mSkeleton->SetParentActor(actor);
 	}
+
 
 	void SetAnimator(class Animator* animator) { mAnimator = animator; }
 

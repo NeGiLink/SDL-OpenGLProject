@@ -19,9 +19,6 @@
     <Filter Include="SourceFiles">
       <UniqueIdentifier>{a3fc0ee0-7038-4b50-81b2-53a79b7ec651}</UniqueIdentifier>
     </Filter>
-    <Filter Include="SourceFiles\A_Mains/メイン">
-      <UniqueIdentifier>{cc57f91a-d7f4-4425-b1f1-fbeee5f70532}</UniqueIdentifier>
-    </Filter>
     <Filter Include="SourceFiles\B_GameObjects">
       <UniqueIdentifier>{531719a1-6d92-4b9b-a699-00233e6ee899}</UniqueIdentifier>
     </Filter>
@@ -87,6 +84,9 @@
     </Filter>
     <Filter Include="SourceFiles\M_Utilitys">
       <UniqueIdentifier>{d595bc1c-3b9f-4f68-968d-793bcd77046b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceFiles\A_Mains">
+      <UniqueIdentifier>{cc57f91a-d7f4-4425-b1f1-fbeee5f70532}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -292,13 +292,13 @@
       <Filter>SourceFiles\N_Unused/未使用ファイル</Filter>
     </ClCompile>
     <ClCompile Include="GameApp.cpp">
-      <Filter>SourceFiles\A_Mains/メイン</Filter>
+      <Filter>SourceFiles\A_Mains</Filter>
     </ClCompile>
     <ClCompile Include="Main.cpp">
-      <Filter>SourceFiles\A_Mains/メイン</Filter>
+      <Filter>SourceFiles\A_Mains</Filter>
     </ClCompile>
     <ClCompile Include="WinMain.cpp">
-      <Filter>SourceFiles\A_Mains/メイン</Filter>
+      <Filter>SourceFiles\A_Mains</Filter>
     </ClCompile>
     <ClCompile Include="CollisionActor.cpp">
       <Filter>SourceFiles\N_Unused/未使用ファイル</Filter>
@@ -555,10 +555,10 @@
       <Filter>SourceFiles\N_Unused/未使用ファイル</Filter>
     </ClInclude>
     <ClInclude Include="WinMain.h">
-      <Filter>SourceFiles\A_Mains/メイン</Filter>
+      <Filter>SourceFiles\A_Mains</Filter>
     </ClInclude>
     <ClInclude Include="GameApp.h">
-      <Filter>SourceFiles\A_Mains/メイン</Filter>
+      <Filter>SourceFiles\A_Mains</Filter>
     </ClInclude>
     <ClInclude Include="CollisionActor.h">
       <Filter>SourceFiles\N_Unused/未使用ファイル</Filter>
@@ -583,6 +583,12 @@
     </ClInclude>
     <ClInclude Include="AudioComponent.h">
       <Filter>SourceFiles\C_Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Typedefs.h">
+      <Filter>SourceFiles\K_Defines</Filter>
+    </ClInclude>
+    <ClInclude Include="StringFormat.h">
+      <Filter>SourceFiles\M_Utilitys</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

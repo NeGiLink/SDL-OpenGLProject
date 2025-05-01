@@ -8,7 +8,7 @@ class Shader
 public:
 	Shader();
 	~Shader();
-	bool Load(const std::string& vertName, const std::string& fragName);
+	bool Load(const string& vertName, const string& fragName);
 	void Unload();
 	// これをアクティブシェーダープログラムとして設定します。
 	void SetActive();
@@ -33,7 +33,7 @@ public:
 	void SetNoTexture();
 private:
 	// 指定されたシェーダーのコンパイルを試みます
-	bool CompileShader(const std::string& fileName,
+	bool CompileShader(const string& fileName,
 		GLenum shaderType,
 		GLuint& outShader);
 
@@ -53,7 +53,7 @@ class MaterialShader
 {
 	MaterialShader();
 	~MaterialShader();
-	bool Load(const std::string& vertName, const std::string& fragName);
+	bool Load(const string& vertName, const string& fragName);
 	void Unload();
 	// これをアクティブシェーダープログラムとして設定します。
 	void SetActive();
@@ -65,7 +65,7 @@ class MaterialShader
 	void SetMaterialUniform(const char* name, const Vector3& color);
 private:
 	// 指定されたシェーダーのコンパイルを試みます
-	bool CompileShader(const std::string& fileName,
+	bool CompileShader(const string& fileName,
 		GLenum shaderType,
 		GLuint& outShader);
 

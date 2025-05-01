@@ -3,5 +3,5 @@
 
 namespace File 
 {
-	std::string assetPath = "Assets/";
+	string assetPath = "Assets/";
 }

@@ -11,7 +11,7 @@ PauseMenu::PauseMenu()
 		Close();
 		});
 	AddButton("QuitButton", [this]() {
-		new DialogBox("QuitText",
+		new GameDialogBox("QuitText",
 			[this]() {
 				GameStateClass::SetGameState(GameState::GameEnd);
 			});

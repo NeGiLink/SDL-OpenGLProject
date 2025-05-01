@@ -57,7 +57,7 @@ bool DebugScene02::Initialize()
 	mPoseButtonText->SetFontSize(40);
 
 	mSceneLoadButtonText = new Text(font, Vector2(500, 150));
-	mSceneLoadButtonText->SetText("LoadScene:L Key");
+	mSceneLoadButtonText->SetText("LoadScene:K Key");
 	mSceneLoadButtonText->SetFontSize(40);
 
 	mTPoseButtonText = new Text(font, Vector2(-500, -300));
@@ -98,8 +98,8 @@ bool DebugScene02::Initialize()
 
 	mYBotActor = new YBotActor();
 	mYBotActor->SetPosition(Vector3(2.0f, 0.0f, 4.0f));
-	mYBotActor->SetRotation(q);
-	
+	//mYBotActor->SetRotation(q);
+	/*
 	mTestCharacter = new TestCharacter();
 	mTestCharacter->SetPosition(Vector3(-2.0f, 0.0f, 4.0f));
 	mTestCharacter->SetRotation(q);
@@ -107,6 +107,7 @@ bool DebugScene02::Initialize()
 	mSmallCharacter = new SmallCharacter();
 	mSmallCharacter->SetPosition(Vector3(-4.0f, 0.0f, 4.0f));
 	mSmallCharacter->SetRotation(q);
+	*/
 
 	return true;
 }

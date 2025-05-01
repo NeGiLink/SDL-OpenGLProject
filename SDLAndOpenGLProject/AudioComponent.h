@@ -15,9 +15,9 @@ public:
 	void Update(float deltaTime) override;
 	void OnUpdateWorldTransform() override;
 
-	SoundEvent PlayEvent(const std::string& name);
+	SoundEvent PlayEvent(const string& name);
 	void StopAllEvents();
 private:
-	std::vector<SoundEvent> mEvents2D;
-	std::vector<SoundEvent> mEvents3D;
+	vector<SoundEvent> mEvents2D;
+	vector<SoundEvent> mEvents3D;
 };

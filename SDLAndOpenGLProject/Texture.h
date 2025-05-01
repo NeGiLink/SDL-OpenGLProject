@@ -11,7 +11,7 @@ public:
 	Texture();
 	~Texture();
 
-	bool Load(const std::string& fileName);
+	bool Load(const string& fileName);
 	bool LoadFromAssimp(const aiTexture* embeddedTex);
 	void Unload();
 	void CreateFromSurface(struct SDL_Surface* surface);

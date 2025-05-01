@@ -8,7 +8,7 @@ class BoneActor : public ActorObject
 public:
 	void ComputeWorldTransform(const class Matrix4* parentMatrix)override;
 
-	void SetBoneName(std::string name) { boneName = name; }
+	void SetBoneName(string name) { boneName = name; }
 
 	void SetBoneIndex(int index) { boneIndex = index; }
 
@@ -16,7 +16,7 @@ public:
 
 	void SetParentActor(ActorObject* actor) { parentActor = actor; }
 private:
-	std::string		boneName;
+	string		boneName;
 
 	int				boneIndex;
 

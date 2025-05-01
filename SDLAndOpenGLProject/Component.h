@@ -24,4 +24,6 @@ protected:
 	class ActorObject* mOwner;
 	// コンポーネントの順序を更新する
 	int mUpdateOrder;
+
+	class BaseScene* mGame;
 };

@@ -12,13 +12,13 @@ class CubeActor : public ActorObject
 public:
 	CubeActor();
 
-	std::vector<class BoxCollider*> GetBoxs() { return mBoxs; }
+	vector<class BoxCollider*> GetBoxs() { return mBoxs; }
 
 	void ActorInput(const struct InputState& keys) override;
 
 private:
 	//AABBのコライダー
-	std::vector<class BoxCollider*> mBoxs;
+	vector<class BoxCollider*> mBoxs;
 	//テストように用意した移動機能
 	PushButtonMove* mPushButtonMove;
 };

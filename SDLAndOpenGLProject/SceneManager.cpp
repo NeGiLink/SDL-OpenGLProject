@@ -14,15 +14,15 @@ void SceneManager::LoadScene(int index)
 	loading = true;
 }
 
-void SceneManager::AddSceneList(int sceneIndex, class BaseScene* scene)
+void SceneManager::AddSceneList(class BaseScene* scene)
 {
-	auto iter = mScenes.find(sceneIndex);
+	auto iter = mScenes.find(mScenes.size());
 	if (iter != mScenes.end())
 	{
 		return;
 	}
 	else
 	{
-		mScenes.emplace(sceneIndex, scene);
+		mScenes.emplace(mScenes.size(), scene);
 	}
 }

@@ -1,5 +1,6 @@
 #pragma once
 #include "Math.h"
+#include "Typedefs.h"
 
 //各当たり判定の構造体をまとめたファイル
 //ボックス、球、線など
@@ -79,7 +80,7 @@ struct ConvexPolygon
 {
 	bool Contains(const Vector2& point) const;
 	// 頂点は時計回りに並べられています
-	std::vector<Vector2> mVertices;
+	vector<Vector2> mVertices;
 };
 
 // 交差点機能

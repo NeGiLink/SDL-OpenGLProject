@@ -1,6 +1,6 @@
 #include "DialogBox.h"
 
-DialogBox::DialogBox(const std::string& text,
+GameDialogBox::GameDialogBox(const string& text,
 	std::function<void()> onOK)
 	:UIScreen()
 {
@@ -20,6 +20,6 @@ DialogBox::DialogBox(const std::string& text,
 		});
 }
 
-DialogBox::~DialogBox()
+GameDialogBox::~GameDialogBox()
 {
 }

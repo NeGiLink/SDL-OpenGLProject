@@ -9,7 +9,7 @@ class Animator
 {
 public:
 	//アニメーション読み込み処理
-	bool Load(const std::string& fileName,bool animLoop = 0);
+	bool Load(const string& fileName,bool animLoop = 0);
 
 	void Update(float deltaTime);
 
@@ -28,7 +28,7 @@ public:
 
 	MatrixPalette GetPalette() { return mPalette; }
 
-	std::vector<Animation*> GetAnimations() { return mAnimations; }
+	vector<Animation*> GetAnimations() { return mAnimations; }
 
 	class Skeleton* GetSkeleton() { return mSkeleton; }
 
@@ -50,7 +50,7 @@ private:
 	MatrixPalette					mPalette;
 
 	//アニメーションを配列で持ってる変数
-	std::vector<Animation*>			mAnimations;
+	vector<Animation*>			mAnimations;
 
 	class Skeleton*					mSkeleton;
 

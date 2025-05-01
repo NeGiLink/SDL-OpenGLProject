@@ -70,7 +70,7 @@ bool BaseScene::Update()
 		mPendingActors.clear();
 
 		// Add any dead actors to a temp vector
-		std::vector<ActorObject*> deadActors;
+		vector<ActorObject*> deadActors;
 		for (auto actor : mActors)
 		{
 			if (actor->GetState() == ActorObject::EDead)
@@ -174,7 +174,7 @@ void BaseScene::RemoveActor(ActorObject* actor)
 	}
 }
 
-Font* BaseScene::GetFont(const std::string& fileName)
+Font* BaseScene::GetFont(const string& fileName)
 {
 	auto iter = mFonts.find(fileName);
 	if (iter != mFonts.end())
@@ -198,7 +198,7 @@ Font* BaseScene::GetFont(const std::string& fileName)
 	}
 }
 
-void BaseScene::LoadText(const std::string& fileName)
+void BaseScene::LoadText(const string& fileName)
 {
 	// Clear the existing map, if already loaded
 	mText.clear();
@@ -210,9 +210,9 @@ void BaseScene::LoadText(const std::string& fileName)
 		return;
 	}
 	// Read the entire file to a string stream
-	std::stringstream fileStream;
+	stringstream fileStream;
 	fileStream << file.rdbuf();
-	std::string contents = fileStream.str();
+	string contents = fileStream.str();
 	// Open this file in rapidJSON
 	rapidjson::StringStream jsonStr(contents.c_str());
 	rapidjson::Document doc;
@@ -235,9 +235,9 @@ void BaseScene::LoadText(const std::string& fileName)
 	}
 }
 
-const std::string& BaseScene::GetText(const std::string& key)
+const string& BaseScene::GetText(const string& key)
 {
-	static std::string errorMsg("**KEY NOT FOUND**");
+	static string errorMsg("**KEY NOT FOUND**");
 	// Find this text in the map, if it exists
 	auto iter = mText.find(key);
 	if (iter != mText.end())
@@ -250,9 +250,9 @@ const std::string& BaseScene::GetText(const std::string& key)
 	}
 }
 
-const std::string& BaseScene::GetFreeText(const std::string& key)
+const string& BaseScene::GetFreeText(const string& key)
 {
-	static std::string errorMsg("**KEY NOT FOUND**");
+	static string errorMsg("**KEY NOT FOUND**");
 	// Find this text in the map, if it exists
 	auto iter = mText.find(key);
 	if (iter != mText.end())
@@ -265,9 +265,10 @@ const std::string& BaseScene::GetFreeText(const std::string& key)
 	}
 }
 
-Skeleton* BaseScene::GetSkeleton(const std::string& fileName)
+Skeleton* BaseScene::GetSkeleton(const string& fileName)
 {
-	auto iter = mSkeletons.find(fileName);
+	string file = Model::ModelPath + fileName;
+	auto iter = mSkeletons.find(file);
 	if (iter != mSkeletons.end())
 	{
 		return iter->second;
@@ -275,9 +276,9 @@ Skeleton* BaseScene::GetSkeleton(const std::string& fileName)
 	else
 	{
 		Skeleton* sk = new Skeleton();
-		if (sk->Load(fileName))
+		if (sk->Load(file))
 		{
-			mSkeletons.emplace(fileName, sk);
+			mSkeletons.emplace(file, sk);
 		}
 		else
 		{
@@ -288,7 +289,7 @@ Skeleton* BaseScene::GetSkeleton(const std::string& fileName)
 	}
 }
 
-Animator* BaseScene::GetAnimator(const std::string& fileName, Animator* animator)
+Animator* BaseScene::GetAnimator(const string& fileName, Animator* animator)
 {
 	auto iter = mAnimators.find(fileName);
 	if (iter != mAnimators.end())
@@ -346,7 +347,7 @@ void BaseScene::UpdateGame()
 		mPendingActors.clear();
 
 		// Add any dead actors to a temp vector
-		std::vector<ActorObject*> deadActors;
+		vector<ActorObject*> deadActors;
 		for (auto actor : mActors)
 		{
 			if (actor->GetState() == ActorObject::EDead)

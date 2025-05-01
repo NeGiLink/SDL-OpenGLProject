@@ -1343,19 +1343,19 @@ public:
 		return Matrix4(temp);
 	}
 
-	static Matrix4 CreateOrtho(float width, float height, float near, float far)
+	static Matrix4 CreateOrtho(float width, float height, float near_SDL, float far_SDL)
 	{
 		float temp[4][4] =
 		{
 			{ 2.0f / width, 0.0f, 0.0f, 0.0f },
 			{ 0.0f, 2.0f / height, 0.0f, 0.0f },
-			{ 0.0f, 0.0f, 1.0f / (far - near), 0.0f },
-			{ 0.0f, 0.0f, near / (near - far), 1.0f }
+			{ 0.0f, 0.0f, 1.0f / (far_SDL - near_SDL), 0.0f },
+			{ 0.0f, 0.0f, near_SDL / (near_SDL - far_SDL), 1.0f }
 		};
 		return Matrix4(temp);
 	}
 
-	static Matrix4 CreatePerspectiveFOV(float fovY, float width, float height, float near, float far)
+	static Matrix4 CreatePerspectiveFOV(float fovY, float width, float height, float near_SDL, float far_SDL)
 	{
 		float yScale = Math::Cot(fovY / 2.0f);
 		float xScale = yScale * height / width;
@@ -1363,8 +1363,8 @@ public:
 		{
 			{ xScale, 0.0f, 0.0f, 0.0f },
 			{ 0.0f, yScale, 0.0f, 0.0f },
-			{ 0.0f, 0.0f, far / (far - near), 1.0f },
-			{ 0.0f, 0.0f, -near * far / (far - near), 0.0f }
+			{ 0.0f, 0.0f, far_SDL / (far_SDL - near_SDL), 1.0f },
+			{ 0.0f, 0.0f, -near_SDL * far_SDL / (far_SDL - near_SDL), 0.0f }
 		};
 		return Matrix4(temp);
 	}

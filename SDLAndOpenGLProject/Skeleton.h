@@ -20,47 +20,49 @@ public:
 	struct Bone
 	{
 		BoneTransform mLocalBindPose;
-		std::string mName;
-		std::string mGetName;
+		string mName;
+		string mShortName;
 		int mParent;
 	};
 
-	bool Load(const std::string& fileName);
+	bool Load(const string& fileName);
 
 	// ファイルから読み込み
-	bool LoadFromJSON(const std::string& fileName);
+	bool LoadFromJSON(const string& fileName);
 
-	bool LoadFromFBX(const std::string& fileName);
+	bool LoadFromFBX(const string& fileName);
 
 	void SetParentBones(aiNode* node, int parentIndex);
 
-	std::string ConvertSimpleBoneName(std::string boneName);
+	string ConvertSimpleBoneName(string boneName);
 
-	bool EndsWith(const std::string& str, const std::string& suffix);
+	bool EndsWith(const string& str, const string& suffix);
 
-
+	aiVector3D GetTranslation(const aiMatrix4x4& matrix) {
+		return aiVector3D(matrix.a4, matrix.b4, matrix.c4);
+	}
 
 	// Getter functions
 	size_t GetNumBones() const { return mBones.size(); }
 
 	const Bone& GetBone(size_t idx) const { return mBones[idx]; }
 	
-	const std::vector<Bone>& GetBones() const { return mBones; }
+	const vector<Bone>& GetBones() const { return mBones; }
 
-	std::vector<BoneActor*> GetBoneActor() const { return mBoneActors; }
+	vector<BoneActor*> GetBoneActor() const { return mBoneActors; }
 	
-	const std::vector<Matrix4>& GetGlobalInvBindPoses() const { return mGlobalInvBindPoses; }
+	const vector<Matrix4>& GetGlobalInvBindPoses() const { return mGlobalInvBindPoses; }
 
 	//アニメーション適用後のボーンの行列変数のGetter
-	const std::vector<Matrix4>& GetGlobalCurrentPoses() const { return mGlobalCurrentPoses; }
+	const vector<Matrix4>& GetGlobalCurrentPoses() const { return mGlobalCurrentPoses; }
 	//アニメーション適用語の各ボーンの行列をセットするSetter
-	void SetGlobalCurrentPoses(std::vector<Matrix4>& poses) { mGlobalCurrentPoses = poses; }
+	void SetGlobalCurrentPoses(vector<Matrix4>& poses) { mGlobalCurrentPoses = poses; }
 	
-	const std::unordered_map<std::string, int>& GetBoneNameToIndex() const { return boneNameToIndex; }
+	const std::unordered_map<string, int>& GetBoneNameToIndex() const { return boneNameToIndex; }
 
-	Matrix4 GetBonePosition(std::string boneName);
+	Matrix4 GetBonePosition(string boneName);
 	//指定したボーンにオブジェクトを子オブジェクトとして設定
-	void AddBoneChildActor(std::string boneName,class ActorObject* actor);
+	void AddBoneChildActor(string boneName,class ActorObject* actor);
 
 	void SetParentActor(ActorObject* parent);
 protected:
@@ -69,18 +71,18 @@ protected:
 	void ComputeGlobalInvBindPose();
 private:
 	// 骨格の骨
-	std::vector<Bone>						mBones;
-	std::vector<BoneActor*>					mBoneActors;
+	vector<Bone>						mBones;
+	vector<BoneActor*>					mBoneActors;
 	//計算用のオフセット変数
-	std::vector<aiMatrix4x4>				mOffsetMatrix;
+	vector<aiMatrix4x4>				mOffsetMatrix;
 	// 各Boneに対するグローバル逆束縛ポーズ
-	std::vector<Matrix4>					mGlobalInvBindPoses;
+	vector<Matrix4>					mGlobalInvBindPoses;
 	//スケルトンのボーンのアニメーション適用後の座標を持つマトリックス
-	std::vector<Matrix4>					mGlobalCurrentPoses;
+	vector<Matrix4>					mGlobalCurrentPoses;
 
-	std::unordered_map<std::string, int>	boneNameToIndex;
+	std::unordered_map<string, int>	boneNameToIndex;
 
-	std::unordered_map<std::string,int>		mBoneTransform;
+	std::unordered_map<string,int>		mBoneTransform;
 
 	SkeletonType							mSkeletonType;
 };

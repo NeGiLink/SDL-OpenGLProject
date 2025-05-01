@@ -9,7 +9,7 @@ class Animation
 public:
 	Animation(class Skeleton* skeleton);
 
-	bool Load(const std::string& fileName);
+	bool Load(const string& fileName);
 
 	size_t	GetNumBones() const { return mNumBones; }
 	
@@ -31,12 +31,12 @@ public:
 
 	// 指定されたアニメーションの時間における各ボーンのグローバル（現在の）ポーズ行列を提供されたベクターに充填。
 	// 時間は0.0f以上でmDuration以下であること。
-	void GetGlobalPoseAtTime(std::vector<Matrix4>& outPoses, const class Skeleton* inSkeleton, float inTime) const;
+	void GetGlobalPoseAtTime(vector<Matrix4>& outPoses, const class Skeleton* inSkeleton, float inTime) const;
 
 private:
-	bool LoadFromJSON(const std::string& fileName);
+	bool LoadFromJSON(const string& fileName);
 
-	bool LoadFromFBX(const std::string& fileName);
+	bool LoadFromFBX(const string& fileName);
 
 	size_t FindTranslation(float AnimationTime, const aiNodeAnim* pNodeAnim);
 
@@ -60,7 +60,7 @@ private:
 	// トラック上の各フレームに対する情報を変換。
 	// 外側のベクトルの各インデックスは骨であり、
 	// 内側のベクトルはフレームです。
-	std::vector<std::vector<BoneTransform>> mTracks;
+	vector<vector<BoneTransform>> mTracks;
 
 	class Skeleton*							mSkeleton;
 	//アニメーションをループさせるためのフラグ

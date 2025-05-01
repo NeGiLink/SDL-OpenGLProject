@@ -29,6 +29,7 @@ private:
 
 	class Sword*					mSword;
 
-	std::string						animatorName = "YBot";
+	string							animatorName = "YBot";
+	
 };
 

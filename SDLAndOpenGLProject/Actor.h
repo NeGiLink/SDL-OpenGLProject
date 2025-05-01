@@ -181,11 +181,11 @@ protected:
 
 	bool							mRecomputeWorldTransform;
 
-	std::vector<class Component*>	mComponents;
+	vector<class Component*>	mComponents;
 	//親オブジェクト
 	class ActorObject*				mParentActor;
 	//子オブジェクトの配列
-	std::vector<class ActorObject*> mChildActor;
+	vector<class ActorObject*> mChildActor;
 	//オブジェクトのタグ
 	ActorTag						mActorTag = ActorTag::None;
 

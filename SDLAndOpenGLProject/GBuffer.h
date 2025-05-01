@@ -30,7 +30,7 @@ public:
 	void SetTexturesActive();
 private:
 	// Textures associated with G-buffer
-	std::vector<class Texture*> mTextures;
+	vector<class Texture*> mTextures;
 	// Frame buffer object ID
 	unsigned int				mBufferID;
 };

@@ -18,8 +18,8 @@ bool GameApp::Initialize()
 	mDebugScene01 = new DebugScene01(mWinMain);
 	mDebugScene02 = new DebugScene02(mWinMain);
 	//シーンをリストに追加
-	SceneManager::AddSceneList(0, mDebugScene01);
-	SceneManager::AddSceneList(1, mDebugScene02);
+	SceneManager::AddSceneList(mDebugScene01);
+	SceneManager::AddSceneList(mDebugScene02);
 	//ベースに最初のシーンを設定
 	mActiveScene = mDebugScene01;
 	//staticなシーンとして保存
@@ -53,7 +53,6 @@ bool GameApp::LoadUpdate()
 		//シーンを変更
 		mActiveScene = SceneManager::GetNowScene();
 		//staticも変更
-		//mActiveScene = mBaseScene;
 		//新しいシーンの初期化
 		mActiveScene->Initialize();
 		//Rendererのシーンも変更
@@ -66,11 +65,7 @@ bool GameApp::LoadUpdate()
 
 bool GameApp::Update()
 {
-	//ロードフラグがtrueなら
-	LoadUpdate();
-
 	mActiveScene->Update();
-
 	return true;
 }
 

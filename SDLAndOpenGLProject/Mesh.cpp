@@ -21,10 +21,10 @@ Mesh::~Mesh()
 {
 }
 
-bool Mesh::Load(const std::string& fileName, Renderer* renderer, int index)
+bool Mesh::Load(const string& fileName, Renderer* renderer, int index)
 {
 	// ファイルの拡張子を取得
-	std::string extension = fileName.substr(fileName.find_last_of('.') + 1);
+	string extension = fileName.substr(fileName.find_last_of('.') + 1);
 
 	// **FBX の場合**
 	if (extension == "fbx")
@@ -40,7 +40,7 @@ bool Mesh::Load(const std::string& fileName, Renderer* renderer, int index)
 	return false; 
 }
 
-int Mesh::CheckMeshIndex(const std::string& fileName, Renderer* renderer)
+int Mesh::CheckMeshIndex(const string& fileName, Renderer* renderer)
 {
 	int index = 0;
 	std::ifstream fileCheck(fileName);
@@ -64,7 +64,7 @@ int Mesh::CheckMeshIndex(const std::string& fileName, Renderer* renderer)
 	return index;
 }
 //独自フォーマット用読み込み関数
-bool Mesh::LoadFromJSON(const std::string& fileName, Renderer* renderer, int index)
+bool Mesh::LoadFromJSON(const string& fileName, Renderer* renderer, int index)
 {
 	std::ifstream file(fileName);
 	if (!file.is_open())
@@ -75,7 +75,7 @@ bool Mesh::LoadFromJSON(const std::string& fileName, Renderer* renderer, int ind
 
 	std::stringstream fileStream;
 	fileStream << file.rdbuf();
-	std::string contents = fileStream.str();
+	string contents = fileStream.str();
 	rapidjson::StringStream jsonStr(contents.c_str());
 	rapidjson::Document doc;
 	doc.ParseStream(jsonStr);
@@ -101,7 +101,7 @@ bool Mesh::LoadFromJSON(const std::string& fileName, Renderer* renderer, int ind
 	VertexArray::Layout layout = VertexArray::PosNormTex;
 	size_t vertSize = 8;
 
-	std::string vertexFormat = doc["vertexformat"].GetString();
+	string vertexFormat = doc["vertexformat"].GetString();
 	if (vertexFormat == "PosNormSkinTex")
 	{
 		layout = VertexArray::PosNormSkinTex;
@@ -131,7 +131,7 @@ bool Mesh::LoadFromJSON(const std::string& fileName, Renderer* renderer, int ind
 	for (rapidjson::SizeType i = 0; i < textures.Size(); i++)
 	{
 		// Is this texture already loaded?
-		std::string texName = textures[i].GetString();
+		string texName = textures[i].GetString();
 		Texture* t = renderer->GetTexture(texName);
 		if (t == nullptr)
 		{
@@ -172,7 +172,7 @@ bool Mesh::LoadFromJSON(const std::string& fileName, Renderer* renderer, int ind
 
 	AABB box = AABB(Vector3::Infinity, Vector3::NegInfinity);
 
-	std::vector<Vertex> vertices;
+	vector<Vertex> vertices;
 	vertices.reserve(vertsJson.Size() * vertSize);
 	float radius = 0.0f;
 	for (rapidjson::SizeType i = 0; i < vertsJson.Size(); i++)
@@ -239,7 +239,7 @@ bool Mesh::LoadFromJSON(const std::string& fileName, Renderer* renderer, int ind
 		return false;
 	}
 
-	std::vector<unsigned int> indices;
+	vector<unsigned int> indices;
 	indices.reserve(indJson.Size() * 3);
 	for (rapidjson::SizeType i = 0; i < indJson.Size(); i++)
 	{
@@ -267,11 +267,12 @@ bool Mesh::LoadFromJSON(const std::string& fileName, Renderer* renderer, int ind
 	return true;
 }
 //FBX用読み込み関数
-bool Mesh::LoadFromFBX(const std::string& fileName, Renderer* renderer, int index)
+bool Mesh::LoadFromFBX(const string& fileName, Renderer* renderer, int index)
 {
 	//ファイルチェック
 	std::ifstream fileCheck(fileName);
-	if (!fileCheck) {
+	if (!fileCheck) 
+	{
 		SDL_Log("FBX file not found: %s", fileName.c_str());
 		return false;
 	}
@@ -288,30 +289,43 @@ bool Mesh::LoadFromFBX(const std::string& fileName, Renderer* renderer, int inde
 
 	//メッシュをロード
 	aiMesh* mesh;
-	std::vector<Vertex> vertices;
-	std::vector<unsigned int> indices;
+	vector<Vertex> vertices;
+	vector<unsigned int> indices;
 	float radius = 0.0f;
 	AABB box = AABB(Vector3::Infinity, Vector3::NegInfinity);
 
 	mesh = scene->mMeshes[index];
+
+	//新しく追加部分
+	// -90°回転
+	aiMatrix4x4 blenderToUnity;
+	aiMatrix4x4::RotationX(-AI_MATH_PI / 2.0f, blenderToUnity);
 
 	//頂点データの変換
 	for (unsigned int i = 0; i < mesh->mNumVertices; i++)
 	{
 		aiVector3D pos = mesh->mVertices[i];
 		aiVector3D norm = mesh->mNormals[i];
-		aiVector3D uv = mesh->HasTextureCoords(0) ? mesh->mTextureCoords[0][i] : aiVector3D(0, 0, 0);
-
-		Vector3 vertexPos(pos.x, pos.y, pos.z);
-		//vertexPos *= 10.0f;
-		radius = Math::Max(radius, vertexPos.LengthSq());
-		box.UpdateMinMax(vertexPos);
 		//一時的な修正
+		//メッシュだけのモデルのみX軸反転と-90度回転
 		if (!mesh->HasBones())
 		{
-			pos.x = -pos.x;
-			norm.x = -norm.x;
+			//xを反転
+			pos.x *= -1;
+			norm.x *= -1;
+
+			// Blender座標補正
+			pos = blenderToUnity * pos;
+			norm = blenderToUnity * norm;
 		}
+
+		aiVector3D uv = mesh->HasTextureCoords(0) ? mesh->mTextureCoords[0][i] : aiVector3D(0, 0, 0);
+
+
+		Vector3 vertexPos(pos.x, pos.y, pos.z);
+		radius = Math::Max(radius, vertexPos.LengthSq());
+		box.UpdateMinMax(vertexPos);
+
 
 		Vertex v;
 		v.f = pos.x; vertices.push_back(v);
@@ -405,8 +419,8 @@ bool Mesh::LoadFromFBX(const std::string& fileName, Renderer* renderer, int inde
 
 	radius = Math::Sqrt(radius);
 	//テクスチャとマテリアルの読み込み
-	std::unordered_map<std::string, Texture*> loadedTextures;
-	std::string texFile = "MaterialTetxure.png";
+	std::unordered_map<string, Texture*> loadedTextures;
+	string texFile = "MaterialTetxure.png";
 	for (unsigned int i = 0; i < scene->mNumMaterials; i++) {
 		// メッシュに関連付けられたマテリアルを取得
 		aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];

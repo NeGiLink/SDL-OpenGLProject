@@ -3,9 +3,9 @@
 
 namespace Model 
 {
-	const std::string AssetPath = "Assets/";
+	const string AssetPath = "Assets/";
 
-	const std::string ModelPath = "Assets/Models/";
+	const string ModelPath = "Assets/Models/";
 
-	const std::string ModelTexturePath = "Assets/Models/Textures/";
+	const string ModelTexturePath = "Assets/Models/Textures/";
 }

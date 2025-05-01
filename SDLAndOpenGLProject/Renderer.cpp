@@ -310,7 +310,7 @@ void Renderer::RemovePointLight(PointLightComponent* light)
 	mPointLights.erase(iter);
 }
 
-Texture* Renderer::GetTexture(const std::string& fileName)
+Texture* Renderer::GetTexture(const string& fileName)
 {
 	Texture* tex = nullptr;
 	auto iter = mTextures.find(fileName);
@@ -334,9 +334,9 @@ Texture* Renderer::GetTexture(const std::string& fileName)
 	return tex;
 }
 
-Mesh* Renderer::GetMesh(const std::string& fileName)
+Mesh* Renderer::GetMesh(const string& fileName)
 {
-	std::string file = Model::ModelPath + fileName;
+	string file = Model::ModelPath + fileName;
 	Mesh* m = nullptr;
 	auto iter = mMeshes.find(file);
 	if (iter != mMeshes.end())
@@ -359,20 +359,21 @@ Mesh* Renderer::GetMesh(const std::string& fileName)
 	return m;
 }
 
-std::vector<class Mesh*> Renderer::GetMeshs(const std::string& fileName)
+vector<class Mesh*> Renderer::GetMeshs(const string& fileName)
 {
-	std::string file = Model::ModelPath + fileName;
+	string file = Model::ModelPath + fileName;
 	//返す複数のメッシュ
-	std::vector<class Mesh*> ms;
+	vector<class Mesh*> ms;
 	//メッシュの数を確認する用
 	Mesh* m = nullptr;
 	m = new Mesh();
 	int maxMesh = m->CheckMeshIndex(file, this);
 	for (int i = 0; i < maxMesh; i++)
 	{
-		std::string inTex = std::to_string(i);
+		string inTex = std::to_string(i);
 		Mesh* mesh = nullptr;
 		auto iter = mMeshes.find(file + inTex.c_str());
+		//すでに読み込んでいるものならそこから取得
 		if (iter != mMeshes.end())
 		{
 			mesh = iter->second;

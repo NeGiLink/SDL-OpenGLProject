@@ -41,13 +41,13 @@ public:
 private:
 	class BaseScene*									mGame;
 
-	std::vector<class Collider*>						mCollider;
+	vector<class Collider*>						mCollider;
 
-	std::vector<class Collider*>						mColliderXAxis;
+	vector<class Collider*>						mColliderXAxis;
 
-	std::vector<class Collider*>						mColliderYAxis;
+	vector<class Collider*>						mColliderYAxis;
 
-	std::vector<class Collider*>						mColliderZAxis;
+	vector<class Collider*>						mColliderZAxis;
 
 	std::set<std::pair<Collider*, Collider*>>			mHitColliderXAxis;
 

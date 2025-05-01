@@ -7,10 +7,10 @@ Animation::Animation(Skeleton* skeleton)
 {
 }
 
-bool Animation::Load(const std::string& fileName)
+bool Animation::Load(const string& fileName)
 {
 	// ファイルの拡張子を取得
-	std::string extension = fileName.substr(fileName.find_last_of('.') + 1);
+	string extension = fileName.substr(fileName.find_last_of('.') + 1);
 
 	// **FBX の場合**
 	if (extension == "fbx")
@@ -27,7 +27,7 @@ bool Animation::Load(const std::string& fileName)
 	return false;
 }
 
-bool Animation::LoadFromJSON(const std::string& fileName)
+bool Animation::LoadFromJSON(const string& fileName)
 {
 	std::ifstream file(fileName);
 	if (!file.is_open())
@@ -36,9 +36,9 @@ bool Animation::LoadFromJSON(const std::string& fileName)
 		return false;
 	}
 
-	std::stringstream fileStream;
+	stringstream fileStream;
 	fileStream << file.rdbuf();
-	std::string contents = fileStream.str();
+	string contents = fileStream.str();
 	rapidjson::StringStream jsonStr(contents.c_str());
 	rapidjson::Document doc;
 	doc.ParseStream(jsonStr);
@@ -142,7 +142,7 @@ bool Animation::LoadFromJSON(const std::string& fileName)
 	return true;
 }
 
-bool Animation::LoadFromFBX(const std::string& fileName)
+bool Animation::LoadFromFBX(const string& fileName)
 {
 	Assimp::Importer importer;
 	const aiScene* scene = importer.ReadFile(fileName,
@@ -183,7 +183,7 @@ bool Animation::LoadFromFBX(const std::string& fileName)
 	// 各ボーンのアニメーションを取得
 	for (unsigned int i = 0; i < anim->mNumChannels; i++) {
 		aiNodeAnim* channel = anim->mChannels[i];
-		std::string boneName = channel->mNodeName.C_Str();
+		string boneName = channel->mNodeName.C_Str();
 
 		auto it = mSkeleton->GetBoneNameToIndex().find(boneName);
 		if (it == mSkeleton->GetBoneNameToIndex().end()) {
@@ -208,11 +208,14 @@ bool Animation::LoadFromFBX(const std::string& fileName)
 			//※現状はまだ未修整
 			aiVector3D basePos = channel->mPositionKeys[0].mValue;
 			//aiVector3D basePos = aiVector3D(temp.mPosition.x, temp.mPosition.y, temp.mPosition.z);
-			temp.mPosition += Vector3(pos.x - basePos.x, pos.y - basePos.y, pos.z - basePos.z);
+			Vector3 finalPos = Vector3(pos.x - basePos.x, pos.y - basePos.y, pos.z - basePos.z);
+			//finalPos.x = -finalPos.x;
+			temp.mPosition += finalPos;
 
 			// 回転キーの適用
 			aiQuaternion rot;
 			CalcInterpolatedRotation(rot, j, channel);
+			//rot.x = -rot.x;
 			temp.mRotation = Quaternion(rot.x, rot.y, rot.z, rot.w);
 
 			// スケールキーの適用
@@ -223,12 +226,63 @@ bool Animation::LoadFromFBX(const std::string& fileName)
 			// `emplace_back()` ではなく、インデックス代入
 			mTracks[boneIndex][j] = temp;
 		}
+
+		// Blender → Unity 座標変換（-90° X軸回転）
+		aiMatrix4x4 blenderToUnity;
+		aiMatrix4x4::RotationX(-AI_MATH_PI / 2.0f, blenderToUnity);
+		/*
+		//計算を全て補間を利用
+		// フレームごとに `BoneTransform` を作成
+		for (size_t j = 0; j < mNumFrames; j++) {
+			BoneTransform temp = mSkeleton->GetBone(boneIndex).mLocalBindPose;
+
+			// 位置キーの適用
+			aiVector3D pos;
+			CalcInterpolatedTranslation(pos, j, channel);
+			//位置の違うモデルのために変化量を計算して利用
+			//このままだと初期状態で移動している場合は適用されない！
+			//本来はボーンの元の状態から変化を計算する
+			//※現状はまだ未修整
+			aiVector3D basePos = channel->mPositionKeys[0].mValue;
+			aiVector3D finalPos = pos - basePos;
+
+			finalPos.x = -finalPos.x;
+
+			// 補正行列を適用（位置）
+			finalPos = blenderToUnity * finalPos;
+			temp.mPosition += Vector3(finalPos.x, finalPos.y, finalPos.z);
+			//temp.mPosition += Vector3(pos.x - basePos.x, pos.y - basePos.y, pos.z - basePos.z);
+
+			// 回転キーの適用
+			aiQuaternion rot;
+			CalcInterpolatedRotation(rot, j, channel);
+
+			rot.x = -rot.x;
+
+			// 補正行列を適用（回転）
+			aiMatrix4x4 rotMat = aiMatrix4x4(rot.GetMatrix());
+			rotMat = blenderToUnity * rotMat;
+			aiQuaternion correctedRot;
+			aiMatrix3x3 rotationMatrix(rotMat);
+			correctedRot = aiQuaternion(rotationMatrix);
+
+			temp.mRotation = Quaternion(correctedRot.x, correctedRot.y, correctedRot.z, correctedRot.w);
+
+			// スケールキーの適用
+			aiVector3D scale;
+			CalcInterpolatedScaling(scale, j, channel);
+			temp.mScale = Vector3(scale.x, scale.y, scale.z);
+
+			// `emplace_back()` ではなく、インデックス代入
+			mTracks[boneIndex][j] = temp;
+		}
+		*/
 	}
 
 	return true;
 }
 
-void Animation::GetGlobalPoseAtTime(std::vector<Matrix4>& outPoses, const Skeleton* inSkeleton, float inTime) const
+void Animation::GetGlobalPoseAtTime(vector<Matrix4>& outPoses, const Skeleton* inSkeleton, float inTime) const
 {
 	if (outPoses.size() != mNumBones)
 	{
@@ -262,7 +316,7 @@ void Animation::GetGlobalPoseAtTime(std::vector<Matrix4>& outPoses, const Skelet
 		outPoses[0] = Matrix4::Identity;
 	}
 
-	const std::vector<Skeleton::Bone>& bones = inSkeleton->GetBones();
+	const vector<Skeleton::Bone>& bones = inSkeleton->GetBones();
 	// 残りのポーズを設定してください。
 	for (size_t bone = 1; bone < mNumBones; bone++)
 	{

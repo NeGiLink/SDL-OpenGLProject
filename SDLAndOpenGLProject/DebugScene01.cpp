@@ -41,19 +41,20 @@ bool DebugScene01::Initialize()
 	mHUD = new HUD();
 
 
-	Font* font = GetFont("Assets/Fonts/Carlito-Regular.ttf");
+	Font* font = GetFont("Assets/Fonts/NotoSansJP-Bold.ttf");
 	//シーン名生成
 	mSceneNameText = new Text(font, Vector2(500, 350));
-	mSceneNameText->SetText("DebugScene1");
+	mSceneNameText->SetText(u8"デバッグシーン1");
 	mSceneNameText->SetFontSize(40);
 	
-	mPoseButtonText = new Text(font, Vector2(-550, 350));
-	mPoseButtonText->SetText("Pose:ESC Key");
+	mPoseButtonText = new Text(font, Vector2(-500, 350));
+	mPoseButtonText->SetText(u8"ポーズ:ESC Key");
 	mPoseButtonText->SetFontSize(40);
 
-	mSceneLoadButtonText = new Text(font, Vector2(500, 150));
-	mSceneLoadButtonText->SetText("LoadScene:L Key");
-	mSceneLoadButtonText->SetFontSize(40);
+	mSceneLoadButtonText = new Text(font, Vector2(450, 150));
+	string t = u8"シーンのロード:L Key";
+	mSceneLoadButtonText->SetText(t);
+	mSceneLoadButtonText->SetFontSize(48);
 	
 	// Start music
 	mMusicEvent = mAudioSystem->PlayEvent("event:/Music");

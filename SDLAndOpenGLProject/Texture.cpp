@@ -13,7 +13,7 @@ Texture::~Texture()
 
 }
 
-bool Texture::Load(const std::string& fileName)
+bool Texture::Load(const string& fileName)
 {
 	int channels = 0;
 

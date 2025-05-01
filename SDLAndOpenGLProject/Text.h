@@ -12,15 +12,16 @@ public:
 	~Text();
 
 	// Set the name of the button
-	void SetText(const std::string& name);
+	void SetText(const string& name);
 
 	void SetFontSize(int size);
 
 	void SetColor(Vector3 color);
 
+
 	class Font* GetFont()const { return mFont; }
 private:
-	std::string		mName;
+	string		mName;
 	
 	class Font*		mFont;
 	

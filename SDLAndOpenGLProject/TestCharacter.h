@@ -23,11 +23,11 @@ private:
 		TPose
 	};
 
-	class SkeletalMeshRenderer*		mMeshComp;
+	class SkeletalMeshRenderer*		mSkeletonMesh;
 
 	class Animator*					animator;
 
 	class Sword*					mSword;
 
-	std::string						animatorName = "TestCharacter";
+	string						animatorName = "TestCharacter";
 };

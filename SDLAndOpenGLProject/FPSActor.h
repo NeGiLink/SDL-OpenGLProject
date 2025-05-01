@@ -11,6 +11,7 @@
 #include "BallActor.h"
 #include "BoxCollider.h"
 #include "PlaneActor.h"
+#include "DiceActor.h"
 
 //一人称視点のプレイヤー操作クラス
 //現在ゲーム内の移動に使用しています。
@@ -40,6 +41,8 @@ private:
 	class FPSCamera*		mFPSCamera;
 	
 	class BoxCollider*		mBoxComp;
+
+	class DiceActor*		mDice;
 	
 	SoundEvent				mFootstep;
 	

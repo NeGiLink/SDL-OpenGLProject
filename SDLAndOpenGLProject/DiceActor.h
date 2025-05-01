@@ -10,9 +10,9 @@ class DiceActor : public ActorObject
 public:
 	DiceActor();
 
-	std::vector<class BoxCollider*> GetBoxs() { return mBoxs; }
+	vector<class BoxCollider*> GetBoxs() { return mBoxs; }
 private:
-	std::vector<class BoxCollider*> mBoxs;
+	vector<class BoxCollider*> mBoxs;
 
 	Vector3							mPos;
 };

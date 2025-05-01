@@ -29,7 +29,7 @@ private:
 
 	class DebugStageActor*			mDebugStage;
 
-	std::vector<class PlaneActor*>	mPlanes;
+	vector<class PlaneActor*>	mPlanes;
 
 	class SpriteComponent*			mCrosshair;
 
