@@ -146,7 +146,8 @@ bool Animation::LoadFromFBX(const string& fileName)
 {
 	Assimp::Importer importer;
 	const aiScene* scene = importer.ReadFile(fileName,
-		aiProcess_Triangulate | aiProcess_LimitBoneWeights| aiProcess_GlobalScale);
+		aiProcess_Triangulate | aiProcess_LimitBoneWeights|
+		aiProcess_GlobalScale | aiProcess_MakeLeftHanded);
 
 	if (!scene || !scene->HasAnimations()) {
 		SDL_Log("No animations found in FBX: %s", fileName.c_str());
@@ -226,57 +227,6 @@ bool Animation::LoadFromFBX(const string& fileName)
 			// `emplace_back()` ではなく、インデックス代入
 			mTracks[boneIndex][j] = temp;
 		}
-
-		// Blender → Unity 座標変換（-90° X軸回転）
-		aiMatrix4x4 blenderToUnity;
-		aiMatrix4x4::RotationX(-AI_MATH_PI / 2.0f, blenderToUnity);
-		/*
-		//計算を全て補間を利用
-		// フレームごとに `BoneTransform` を作成
-		for (size_t j = 0; j < mNumFrames; j++) {
-			BoneTransform temp = mSkeleton->GetBone(boneIndex).mLocalBindPose;
-
-			// 位置キーの適用
-			aiVector3D pos;
-			CalcInterpolatedTranslation(pos, j, channel);
-			//位置の違うモデルのために変化量を計算して利用
-			//このままだと初期状態で移動している場合は適用されない！
-			//本来はボーンの元の状態から変化を計算する
-			//※現状はまだ未修整
-			aiVector3D basePos = channel->mPositionKeys[0].mValue;
-			aiVector3D finalPos = pos - basePos;
-
-			finalPos.x = -finalPos.x;
-
-			// 補正行列を適用（位置）
-			finalPos = blenderToUnity * finalPos;
-			temp.mPosition += Vector3(finalPos.x, finalPos.y, finalPos.z);
-			//temp.mPosition += Vector3(pos.x - basePos.x, pos.y - basePos.y, pos.z - basePos.z);
-
-			// 回転キーの適用
-			aiQuaternion rot;
-			CalcInterpolatedRotation(rot, j, channel);
-
-			rot.x = -rot.x;
-
-			// 補正行列を適用（回転）
-			aiMatrix4x4 rotMat = aiMatrix4x4(rot.GetMatrix());
-			rotMat = blenderToUnity * rotMat;
-			aiQuaternion correctedRot;
-			aiMatrix3x3 rotationMatrix(rotMat);
-			correctedRot = aiQuaternion(rotationMatrix);
-
-			temp.mRotation = Quaternion(correctedRot.x, correctedRot.y, correctedRot.z, correctedRot.w);
-
-			// スケールキーの適用
-			aiVector3D scale;
-			CalcInterpolatedScaling(scale, j, channel);
-			temp.mScale = Vector3(scale.x, scale.y, scale.z);
-
-			// `emplace_back()` ではなく、インデックス代入
-			mTracks[boneIndex][j] = temp;
-		}
-		*/
 	}
 
 	return true;
@@ -362,7 +312,8 @@ size_t Animation::FindTranslation(float AnimationTime, const aiNodeAnim* pNodeAn
 }
 void Animation::CalcInterpolatedTranslation(aiVector3D& Out, float AnimationTime, const aiNodeAnim* pNodeAnim)
 {
-	if (pNodeAnim->mNumPositionKeys == 1) {
+	if (pNodeAnim->mNumPositionKeys == 1) 
+	{
 		Out = pNodeAnim->mPositionKeys[0].mValue;
 		return;
 	}

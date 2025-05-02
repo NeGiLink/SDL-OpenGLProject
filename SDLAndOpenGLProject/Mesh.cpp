@@ -279,7 +279,9 @@ bool Mesh::LoadFromFBX(const string& fileName, Renderer* renderer, int index)
 	//モデル情報取得
 	Assimp::Importer importer;
 	const aiScene* scene = importer.ReadFile(fileName,
-		aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_GenNormals | aiProcess_GlobalScale);
+		aiProcess_Triangulate | aiProcess_FlipUVs | 
+		aiProcess_GenNormals  | aiProcess_GlobalScale |
+		aiProcess_MakeLeftHanded);
 	//MeshCheck
 	if (!scene || !scene->HasMeshes())
 	{
@@ -306,18 +308,6 @@ bool Mesh::LoadFromFBX(const string& fileName, Renderer* renderer, int index)
 	{
 		aiVector3D pos = mesh->mVertices[i];
 		aiVector3D norm = mesh->mNormals[i];
-		//一時的な修正
-		//メッシュだけのモデルのみX軸反転と-90度回転
-		if (!mesh->HasBones())
-		{
-			//xを反転
-			pos.x *= -1;
-			norm.x *= -1;
-
-			// Blender座標補正
-			pos = blenderToUnity * pos;
-			norm = blenderToUnity * norm;
-		}
 
 		aiVector3D uv = mesh->HasTextureCoords(0) ? mesh->mTextureCoords[0][i] : aiVector3D(0, 0, 0);
 
@@ -346,9 +336,11 @@ bool Mesh::LoadFromFBX(const string& fileName, Renderer* renderer, int index)
 			Vertex boneIndex = { 0 };
 			Vertex weight[4] = { 0,0,0,0 };
 			ai_real allWeight = 0.0f;
-			for (unsigned int j = 0; j < mesh->mNumBones; j++) {
+			for (unsigned int j = 0; j < mesh->mNumBones; j++) 
+			{
 				aiBone* bone = mesh->mBones[j];
-				for (unsigned int weightIndex = 0; weightIndex < bone->mNumWeights; weightIndex++) {
+				for (unsigned int weightIndex = 0; weightIndex < bone->mNumWeights; weightIndex++) 
+				{
 					if (bone->mWeights[weightIndex].mVertexId != i ||
 						bone->mWeights[weightIndex].mWeight <= 0)
 					{
@@ -376,7 +368,8 @@ bool Mesh::LoadFromFBX(const string& fileName, Renderer* renderer, int index)
 				}
 			}
 			//ゼロ除算回避しつつ正規化
-			if (allWeight > 0.0f) {
+			if (allWeight > 0.0f) 
+			{
 				//ウェイトの合計を1.0に正規化（ゼロ除算を回避)
 				allWeight = 1.0f / allWeight;
 				weight[0].f *= allWeight;
@@ -386,9 +379,12 @@ bool Mesh::LoadFromFBX(const string& fileName, Renderer* renderer, int index)
 			}
 
 			//ウェイト順にソート
-			for (int i = 0; i < 3; i++) {
-				for (int j = i + 1; j < 4; j++) {
-					if (weight[i].f < weight[j].f) {
+			for (int i = 0; i < 3; i++) 
+			{
+				for (int j = i + 1; j < 4; j++) 
+				{
+					if (weight[i].f < weight[j].f) 
+					{
 						std::swap(weight[i], weight[j]);
 						std::swap(boneIndex.b[i], boneIndex.b[j]);
 					}
@@ -421,12 +417,14 @@ bool Mesh::LoadFromFBX(const string& fileName, Renderer* renderer, int index)
 	//テクスチャとマテリアルの読み込み
 	std::unordered_map<string, Texture*> loadedTextures;
 	string texFile = "MaterialTetxure.png";
-	for (unsigned int i = 0; i < scene->mNumMaterials; i++) {
+	for (unsigned int i = 0; i < scene->mNumMaterials; i++) 
+	{
 		// メッシュに関連付けられたマテリアルを取得
 		aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
 		aiString texturePath;
 		//ファイルにFBXがあるか
-		if (material->GetTexture(aiTextureType_DIFFUSE, 0, &texturePath) == AI_SUCCESS) {
+		if (material->GetTexture(aiTextureType_DIFFUSE, 0, &texturePath) == AI_SUCCESS) 
+		{
 			texFile = texturePath.C_Str();
 
 			// 埋め込みテクスチャかどうかチェック
@@ -446,9 +444,11 @@ bool Mesh::LoadFromFBX(const string& fileName, Renderer* renderer, int index)
 			}
 			// 通常の外部テクスチャ
 			else {
-				if (loadedTextures.find(texFile) == loadedTextures.end()) {
+				if (loadedTextures.find(texFile) == loadedTextures.end()) 
+				{
 					Texture* newTex = new Texture();
-					if (newTex->Load(Model::ModelTexturePath + texFile)) {
+					if (newTex->Load(Model::ModelTexturePath + texFile)) 
+					{
 						loadedTextures[texFile] = newTex;
 					}
 					else {
@@ -457,7 +457,8 @@ bool Mesh::LoadFromFBX(const string& fileName, Renderer* renderer, int index)
 				}
 			}
 
-			if (loadedTextures.find(texFile) != loadedTextures.end()) {
+			if (loadedTextures.find(texFile) != loadedTextures.end()) 
+			{
 				mTextures.push_back(loadedTextures[texFile]);
 			}
 		}
@@ -465,9 +466,11 @@ bool Mesh::LoadFromFBX(const string& fileName, Renderer* renderer, int index)
 		else 
 		{
 			//マテリアル用のテクスチャ取得
-			if (loadedTextures.find(texFile) == loadedTextures.end()) {
+			if (loadedTextures.find(texFile) == loadedTextures.end()) 
+			{
 				Texture* newTex = new Texture();
-				if (newTex->Load(Model::ModelTexturePath + texFile)) {
+				if (newTex->Load(Model::ModelTexturePath + texFile)) 
+				{
 					loadedTextures[texFile] = newTex;
 				}
 				else {
@@ -475,7 +478,8 @@ bool Mesh::LoadFromFBX(const string& fileName, Renderer* renderer, int index)
 				}
 			}
 
-			if (loadedTextures.find(texFile) != loadedTextures.end()) {
+			if (loadedTextures.find(texFile) != loadedTextures.end()) 
+			{
 				mTextures.push_back(loadedTextures[texFile]);
 			}
 		}
@@ -490,7 +494,8 @@ bool Mesh::LoadFromFBX(const string& fileName, Renderer* renderer, int index)
 		};
 
 		aiColor4D diffuseColor;
-		if (AI_SUCCESS == aiGetMaterialColor(material, AI_MATKEY_COLOR_DIFFUSE, &diffuseColor)) {
+		if (AI_SUCCESS == aiGetMaterialColor(material, AI_MATKEY_COLOR_DIFFUSE, &diffuseColor)) 
+		{
 
 			info.Color = Vector4(diffuseColor.r, diffuseColor.g, diffuseColor.b, diffuseColor.a);
 		}
@@ -515,9 +520,11 @@ bool Mesh::LoadFromFBX(const string& fileName, Renderer* renderer, int index)
 		mMaterialInfo.push_back(info);
 
 		float shininess = 0.0f;
-		if (scene->HasMaterials()) {
+		if (scene->HasMaterials()) 
+		{
 
-			if (AI_SUCCESS != material->Get(AI_MATKEY_SHININESS, shininess)) {
+			if (AI_SUCCESS != material->Get(AI_MATKEY_SHININESS, shininess)) 
+			{
 				// デフォルト値を設定
 				shininess = 100.0f;
 			}

@@ -9,7 +9,7 @@ void BoneActor::ComputeWorldTransform(const Matrix4* parentMatrix)
 
 		mModelTransform = Matrix4::CreateScale(mLocalScale);
 		mModelTransform *= Matrix4::CreateFromQuaternion(mLocalRotation);
-		mModelTransform *= Matrix4::CreateTranslation(mLocalPosition + parentActor->GetLocalPosition());
+		mModelTransform *= Matrix4::CreateTranslation(mLocalPosition);
 
 		//親がいたら
 		if (parentMatrix) 
@@ -19,7 +19,8 @@ void BoneActor::ComputeWorldTransform(const Matrix4* parentMatrix)
 		//いなかったら
 		else 
 		{
-			mWorldTransform = mModelTransform;
+			//ボーンのマトリックスにモデル自身のマトリックスを乗算
+			mWorldTransform = mModelTransform * parentActor->GetLocalTransform();
 		}
 		//子オブジェクトの座標計算
 		for (auto child : mChildActor)

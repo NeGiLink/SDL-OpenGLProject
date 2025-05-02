@@ -89,7 +89,10 @@ public:
 	// 2 Ver
 	void						SetScale(float scale) { mLocalScale = Vector3(scale,scale,scale);  mRecomputeWorldTransform = true; }
 	// Rotation‚ÌGetters/setters
-	const Quaternion&			GetLocalRotation() const { return mLocalRotation; }
+	const Quaternion&			GetLocalRotation() const 
+	{
+		return mLocalRotation; 
+	}
 
 	void						SetRotation(const Quaternion& rotation) { mLocalRotation = rotation;  mRecomputeWorldTransform = true; }
 	
