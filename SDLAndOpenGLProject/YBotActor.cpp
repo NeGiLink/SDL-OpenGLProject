@@ -32,24 +32,50 @@ YBotActor::YBotActor()
 
 void YBotActor::ActorInput(const struct InputState& keys)
 {
-	if (keys.Keyboard.GetKeyDown(SDL_SCANCODE_1))
+	if (keys.Keyboard.GetKeyDown(KEY_1))
 	{
 		animator->PlayBlendAnimation(animator->GetAnimations()[State::TPose]);
 	}
-	else if (keys.Keyboard.GetKeyDown(SDL_SCANCODE_2))
+	else if (keys.Keyboard.GetKeyDown(KEY_2))
 	{
 		animator->PlayBlendAnimation(animator->GetAnimations()[State::Idle]);
 	}
-	else if (keys.Keyboard.GetKeyDown(SDL_SCANCODE_3))
+	else if (keys.Keyboard.GetKeyDown(KEY_3))
 	{
 		animator->PlayBlendAnimation(animator->GetAnimations()[State::Run]);
 	}
-	else if (keys.Keyboard.GetKeyDown(SDL_SCANCODE_4))
+	else if (keys.Keyboard.GetKeyDown(KEY_4))
 	{
 		animator->PlayBlendAnimation(animator->GetAnimations()[State::Jump]);
 	}
-	else if (keys.Keyboard.GetKeyDown(SDL_SCANCODE_5))
+	else if (keys.Keyboard.GetKeyDown(KEY_5))
 	{
 		animator->PlayBlendAnimation(animator->GetAnimations()[State::Capoeira]);
 	}
+
+	Vector3 pos = mLocalPosition;
+	if (keys.Keyboard.GetKey(KEY_RIGHT))
+	{
+		pos.x += 0.01f;
+	}
+	if (keys.Keyboard.GetKey(KEY_LEFT))
+	{
+		pos.x -= 0.01f;
+	}
+	SetPosition(pos);
+
+	Quaternion q = mLocalRotation;
+	if (keys.Keyboard.GetKey(KEY_X))
+	{
+		if (keys.Keyboard.GetKey(KEY_LSHIFT))
+		{
+			mRotationAmountY += 0.01f;
+		}
+		else
+		{
+			mRotationAmountY -= 0.01f;
+		}
+	}
+	q = Quaternion(Vector3::UnitY, mRotationAmountY);
+	SetRotation(q);
 }

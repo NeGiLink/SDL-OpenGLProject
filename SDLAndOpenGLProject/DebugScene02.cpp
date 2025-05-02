@@ -98,7 +98,7 @@ bool DebugScene02::Initialize()
 
 	mYBotActor = new YBotActor();
 	mYBotActor->SetPosition(Vector3(2.0f, 0.0f, 4.0f));
-	//mYBotActor->SetRotation(q);
+	mYBotActor->SetRotation(q);
 	/*
 	mTestCharacter = new TestCharacter();
 	mTestCharacter->SetPosition(Vector3(-2.0f, 0.0f, 4.0f));

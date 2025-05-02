@@ -134,7 +134,8 @@ bool Skeleton::LoadFromFBX(const string& fileName)
 	Assimp::Importer importer;
 	//三角形でポリゴンを取得、ボーンのウェイトを最大4つに制限、スケーリングを1unitに
 	const aiScene* scene = importer.ReadFile(fileName,
-		aiProcess_Triangulate | aiProcess_LimitBoneWeights | aiProcess_GlobalScale);
+		aiProcess_Triangulate | aiProcess_LimitBoneWeights |
+		aiProcess_GlobalScale | aiProcess_MakeLeftHanded);
 	//モデルがあるか確認
 	if (!scene || !scene->HasMeshes()) {
 		//ないならエラーメッセージ
@@ -199,56 +200,6 @@ bool Skeleton::LoadFromFBX(const string& fileName)
 			boneActor->SetBoneName(boneShortName);
 			mBoneActors.push_back(boneActor);
 		}
-		/*
-		for (unsigned int j = 0; j < mesh->mNumBones; j++) {
-			aiBone* bone = mesh->mBones[j];
-			string boneName = bone->mName.C_Str();
-			string boneGetName = ConvertSimpleBoneName(bone->mName.C_Str());
-
-			if (boneNameToIndex.find(boneName) != boneNameToIndex.end()) continue;
-
-			// Blender → Unity の補正回転
-			aiMatrix4x4 blenderToUnity;
-			aiMatrix4x4::RotationX(-AI_MATH_PI / 2.0f, blenderToUnity);
-
-			// オフセットマトリクスに補正を掛ける（注意：行列の掛け順がAssimpでは「右から」）
-			aiMatrix4x4 corrected = bone->mOffsetMatrix * blenderToUnity;
-
-			mOffsetMatrix.push_back(corrected);
-
-			Bone newBone;
-			newBone.mName = boneName;
-			newBone.mGetName = boneGetName;
-			// 後で SetParentBones() で設定する
-			newBone.mParent = -1;
-
-			// バインドポーズの変換
-			aiMatrix4x4 bindPose = corrected;
-			aiVector3D pos;
-			aiQuaternion rot;
-			aiVector3D scale;
-			bindPose.Decompose(scale, rot, pos);
-
-			rot.x = -rot.x;
-			pos.x = -pos.x;
-
-			newBone.mLocalBindPose.mRotation = Quaternion(rot.x, rot.y, rot.z, rot.w);
-			newBone.mLocalBindPose.mPosition = Vector3(pos.x, pos.y, pos.z);
-			newBone.mLocalBindPose.mScale = Vector3(scale.x, scale.y, scale.z);
-
-			boneNameToIndex[boneName] = static_cast<int>(mBones.size());
-			mBoneTransform[newBone.mGetName] = static_cast<int>(mBones.size());
-			mBones.push_back(newBone);
-
-			//assimpではオフセット行列をそのまま利用
-			mGlobalInvBindPoses.push_back(newBone.mLocalBindPose.ToMatrix());
-
-			BoneActor* boneActor = new BoneActor();
-			boneActor->SetBoneIndex(static_cast<int>(mBones.size()));
-			boneActor->SetBoneName(boneGetName);
-			mBoneActors.push_back(boneActor);
-		}
-		*/
 	}
 
 	// 親子関係を設定
@@ -278,12 +229,6 @@ void Skeleton::SetParentBones(aiNode* node, int parentIndex)
 			aiMatrix4x4 parentMatrixInv = mOffsetMatrix[parentIndex];
 			localMatrix = parentMatrixInv * localMatrix;
 		}
-		/*
-		// 補正行列の適用（ローカル空間にも同じく）
-		aiMatrix4x4 blenderToUnity;
-		aiMatrix4x4::RotationX(-AI_MATH_PI / 2.0f, blenderToUnity);
-		localMatrix = blenderToUnity * localMatrix;
-		*/
 
 		aiVector3D pos;
 		aiQuaternion rot;

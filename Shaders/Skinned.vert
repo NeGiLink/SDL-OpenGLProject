@@ -50,7 +50,9 @@ void main()
 		+ (skinnedNormal * uMatrixPalette[inSkinBones.z]) * inSkinWeights.z
 		+ (skinnedNormal * uMatrixPalette[inSkinBones.w]) * inSkinWeights.w;
 	// Transform normal into world space (w = 0)
-	fragNormal = (skinnedNormal * uWorldTransform).xyz;
+	mat3 normalMatrix = transpose(inverse(mat3(uWorldTransform)));
+	fragNormal = normalize(normalMatrix * inNormal);
+	//fragNormal = (skinnedNormal * uWorldTransform).xyz;
 
 	// Pass along the texture coordinate to frag shader
 	fragTexCoord = inTexCoord;
