@@ -4,7 +4,7 @@ PushButtonMove::PushButtonMove(ActorObject* owner, int updateOrder)
 	:Component(owner, updateOrder)
 	, mForwardSpeed(0.0f)
 {
-	mSpeed = 0.0f;
+	mSpeed = 0.5f;
 }
 
 void PushButtonMove::Update(float deltaTime)
@@ -22,16 +22,6 @@ void PushButtonMove::Update(float deltaTime)
 void PushButtonMove::MoveInputUpdate(const InputState& keys)
 {
 	Vector3 pos;
-	/*
-	if (keys.Keyboard.GetKeyDown(SDL_SCANCODE_LSHIFT))
-	{
-		pos.y += 0.5f;
-	}
-	else if (keys.Keyboard.GetKeyDown(SDL_SCANCODE_RCTRL))
-	{
-		pos.y -= 0.5f;
-	}
-	*/
 
 	if (keys.Keyboard.GetKeyDown(SDL_SCANCODE_RIGHT))
 	{

@@ -65,6 +65,7 @@ bool GameApp::LoadUpdate()
 
 bool GameApp::Update()
 {
+	mActiveScene->FixedUpdate();
 	mActiveScene->Update();
 	return true;
 }

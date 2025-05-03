@@ -3,10 +3,10 @@
 #include "Math.h"
 
 //ƒJƒƒ‰‚ÌŠî’êƒNƒ‰ƒX
-class CameraComponent : public Component
+class BaseCamera : public Component
 {
 public:
-	CameraComponent(class ActorObject* owner, int updateOrder = 200);
+	BaseCamera(class ActorObject* owner, int updateOrder = 200);
 protected:
 	void SetViewMatrix(const Matrix4& view);
 };

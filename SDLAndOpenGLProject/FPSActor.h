@@ -3,7 +3,7 @@
 #include "SoundEvent.h"
 
 #include "BasicInputAction.h"
-
+#include "Rigidbody.h"
 #include "AudioSystem.h"
 #include "AudioComponent.h"
 #include "FPSCamera.h"
@@ -33,6 +33,8 @@ public:
 	void OnCollisionExit(class ActorObject* target) override;
 private:
 	BasicInputAction*		mBasicInput;
+
+	Rigidbody* mRigidbody;
 	
 	class AudioComponent*	mAudioComp;
 	

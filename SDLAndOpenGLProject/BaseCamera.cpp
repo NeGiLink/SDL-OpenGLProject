@@ -1,16 +1,16 @@
-#include "CameraComponent.h"
+#include "BaseCamera.h"
 #include "Actor.h"
 #include "Renderer.h"
 #include "WinMain.h"
 #include "BaseScene.h"
 #include "AudioSystem.h"
 
-CameraComponent::CameraComponent(ActorObject* owner, int updateOrder)
+BaseCamera::BaseCamera(ActorObject* owner, int updateOrder)
 	:Component(owner, updateOrder)
 {
 }
 
-void CameraComponent::SetViewMatrix(const Matrix4& view)
+void BaseCamera::SetViewMatrix(const Matrix4& view)
 {
 	// ビュー行列をレンダラーとオーディオシステムに渡す
 	BaseScene* game = mOwner->GetGame();

@@ -1,9 +1,9 @@
 #pragma once
-#include "CameraComponent.h"
+#include "BaseCamera.h"
 #include "Actor.h"
 
 //‹O“¹ƒJƒƒ‰‚ÌƒNƒ‰ƒX
-class OrbitCamera : public CameraComponent
+class OrbitCamera : public BaseCamera
 {
 public:
 	OrbitCamera(class ActorObject* owner);

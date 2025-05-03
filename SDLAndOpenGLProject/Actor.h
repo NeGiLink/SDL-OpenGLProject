@@ -26,6 +26,12 @@ public:
 	ActorObject();
 	//デストラクタ
 	virtual ~ActorObject();
+	// ゲームから一定数で呼び出される更新関数（オーバーライド不可）
+	void FixedUpdate(float deltaTime);
+	// Actorに接続されたすべてのコンポーネントを更新します（オーバーライド不可）
+	void						FixedUpdateComponents(float deltaTime);
+	// 任意のActor固有の更新コード（上書き可能）
+	virtual void				FixedUpdateActor(float deltaTime);
 	// ゲームから呼び出される更新関数（オーバーライド不可）
 	void						Update(float deltaTime);
 	// Actorに接続されたすべてのコンポーネントを更新します（オーバーライド不可）

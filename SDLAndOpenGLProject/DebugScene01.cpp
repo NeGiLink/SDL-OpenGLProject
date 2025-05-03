@@ -19,10 +19,10 @@ bool DebugScene01::Initialize()
 
 	// デバッグ用のステージ追加
 	a = new DebugStageActor();
-	Vector3 pos = Vector3(0.0f, 0.0f, 0.0f);
+	Vector3 pos = Vector3(0.0f, -5.0f, 0.0f);
 	a->SetPosition(pos);
 	a = new DebugStageActor();
-	pos = Vector3(0.0f, 10.0f, 10.0f);
+	pos = Vector3(0.0f, 5.0f, 10.0f);
 	a->SetPosition(pos);
 	q = Quaternion(Vector3::UnitX, -Math::PiOver2);
 	a->SetRotation(q);

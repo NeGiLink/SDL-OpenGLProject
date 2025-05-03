@@ -29,7 +29,7 @@ Vector3 Spline::Compute(size_t startIdx, float t) const
 }
 
 SplineCamera::SplineCamera(ActorObject* owner)
-	:CameraComponent(owner)
+	:BaseCamera(owner)
 	, mIndex(1)
 	, mT(0.0f)
 	, mSpeed(0.5f)
@@ -39,7 +39,7 @@ SplineCamera::SplineCamera(ActorObject* owner)
 
 void SplineCamera::Update(float deltaTime)
 {
-	CameraComponent::Update(deltaTime);
+	BaseCamera::Update(deltaTime);
 	// t’l‚ğXV‚·‚é
 	if (!mPaused)
 	{

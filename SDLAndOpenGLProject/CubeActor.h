@@ -14,12 +14,8 @@ public:
 
 	vector<class BoxCollider*> GetBoxs() { return mBoxs; }
 
-	void ActorInput(const struct InputState& keys) override;
-
 private:
 	//AABBのコライダー
 	vector<class BoxCollider*> mBoxs;
-	//テストように用意した移動機能
-	PushButtonMove* mPushButtonMove;
 };
 

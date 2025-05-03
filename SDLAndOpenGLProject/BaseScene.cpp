@@ -6,6 +6,7 @@ BaseScene::BaseScene(GameWinMain* winMain)
 	, mAudioSystem(nullptr)
 	, mPhysWorld(nullptr)
 	, mUpdatingActors(false)
+	, mFixed_Delta_Time(0.02f)
 {
 }
 
@@ -47,6 +48,28 @@ bool BaseScene::InputUpdate()
 	return true;
 }
 
+bool BaseScene::FixedUpdate()
+{
+	float deltaTime = Time::deltaTime;
+	fixedTimeAccumulator += deltaTime;
+
+	// 複数回 FixedUpdate が必要な場合に備える
+	while (fixedTimeAccumulator >= mFixed_Delta_Time)
+	{
+		//Rigidbody などの物理処理をここで呼ぶ
+		
+		for (auto actor : mActors)
+		{
+			actor->FixedUpdate(Time::deltaTime);
+		}
+		mPhysWorld->SweepAndPruneXYZ();
+
+		fixedTimeAccumulator -= mFixed_Delta_Time;
+	}
+
+	return true;
+}
+
 bool BaseScene::Update()
 {
 	//特定のシーンに読み込まれたオブジェクトやコンポーネントを
@@ -61,7 +84,7 @@ bool BaseScene::Update()
 		}
 		mUpdatingActors = false;
 
-		// Move any pending actors to mActors
+		// 保留中のアクターをmActorsに移動します
 		for (auto pending : mPendingActors)
 		{
 			pending->ComputeWorldTransform(NULL);
@@ -85,8 +108,6 @@ bool BaseScene::Update()
 			delete actor;
 		}
 	}
-
-	mPhysWorld->SweepAndPruneXYZ();
 
 	// Update audio system
 	mAudioSystem->Update(Time::deltaTime);

@@ -15,6 +15,10 @@ Component::~Component()
 	mOwner->RemoveComponent(this);
 }
 
+void Component::FixedUpdate(float deltaTime)
+{
+}
+
 void Component::Update(float deltaTime)
 {
 }

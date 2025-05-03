@@ -26,6 +26,27 @@ ActorObject::~ActorObject()
 	}
 }
 
+void ActorObject::FixedUpdate(float deltaTime)
+{
+	if (mState == EActive)
+	{
+		FixedUpdateComponents(deltaTime);
+		FixedUpdateActor(deltaTime);
+	}
+}
+
+void ActorObject::FixedUpdateComponents(float deltaTime)
+{
+	for (auto comp : mComponents)
+	{
+		comp->FixedUpdate(deltaTime);
+	}
+}
+
+void ActorObject::FixedUpdateActor(float deltaTime)
+{
+}
+
 void ActorObject::Update(float deltaTime)
 {
 	if (mState == EActive)

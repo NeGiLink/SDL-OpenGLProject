@@ -23,7 +23,3 @@ PlaneActor::PlaneActor()
 		}
 	}
 }
-
-PlaneActor::~PlaneActor()
-{
-}

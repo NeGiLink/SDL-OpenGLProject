@@ -16,12 +16,4 @@ CubeActor::CubeActor()
 			mBoxs.push_back(box);
 		}
 	}
-
-	mPushButtonMove = new PushButtonMove(this);
-	mPushButtonMove->SetSpeed(0.5f);
-}
-
-void CubeActor::ActorInput(const InputState& keys)
-{
-	mPushButtonMove->MoveInputUpdate(keys);
 }

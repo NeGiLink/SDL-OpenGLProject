@@ -10,7 +10,6 @@ class PlaneActor : public ActorObject
 {
 public:
 	PlaneActor();
-	~PlaneActor();
 	vector<class BoxCollider*> GetBoxs() { return mBoxs; }
 private:
 	//AABBのコライダー

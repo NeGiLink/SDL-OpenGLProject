@@ -15,6 +15,8 @@ public:
 
 	virtual bool InputUpdate();
 
+	virtual bool FixedUpdate();
+
 	virtual bool Update();
 
 	virtual void HandleKeyPress(int key);
@@ -96,4 +98,9 @@ protected:
 	class ActorObject*									mPlayer;
 
 	//SoundEvent											mMusicEvent;
+
+	// 50HzÅAUnityÇ∆ìØÇ∂
+	const float mFixed_Delta_Time = 0.02f; 
+
+	float fixedTimeAccumulator;
 };
