@@ -6,6 +6,8 @@ FPSActor::FPSActor()
 {
 	mBasicInput = new BasicInputAction(this);
 
+	mRigidbody = new Rigidbody(this);
+
 	mAudioComp = new AudioComponent(this);
 	mLastFootstep = 0.0f;
 	mFootstep = mAudioComp->PlayEvent("event:/Footstep");
@@ -59,9 +61,7 @@ void FPSActor::ActorInput(const struct InputState& keys)
 	*/
 
 	mBasicInput->MoveInputUpdate(keys);
-	float pitchSpeed = mBasicInput->CameraInputUpdate();
-	mFPSCamera->SetPitchSpeed(pitchSpeed);
-
+	mFPSCamera->CameraInputUpdate();
 }
 
 void FPSActor::SetFootstepSurface(float value)

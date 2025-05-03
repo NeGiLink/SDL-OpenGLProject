@@ -1,17 +1,34 @@
 #include "FPSCamera.h"
 
 FPSCamera::FPSCamera(ActorObject* owner)
-	:CameraComponent(owner)
+	:BaseCamera(owner)
+	, mAngularSpeed(0.0f)
 	, mPitchSpeed(0.0f)
 	, mMaxPitch(Math::Pi / 3.0f)
 	, mPitch(0.0f)
+	, mHorizontalMouseSpeed(500.0f)
+	, mVertexMouseSpeed(500.0f)
 {
 }
 
 void FPSCamera::Update(float deltaTime)
 {
 	// 親更新を呼び出す。（今は何もしない）
-	CameraComponent::Update(deltaTime);
+	BaseCamera::Update(deltaTime);
+
+	//視点回転
+	if (!Math::NearZero(mAngularSpeed))
+	{
+		Quaternion rot = mOwner->GetLocalRotation();
+		float angle = mAngularSpeed * deltaTime;
+		// Create quaternion for incremental rotation
+		// (Rotate about up axis)
+		Quaternion inc(Vector3::UnitY, angle);
+		// Concatenate old and new quaternion
+		rot = Quaternion::Concatenate(rot, inc);
+		mOwner->SetRotation(rot);
+	}
+
 	// カメラの位置はオーナーの位置です。
 	Vector3 cameraPos = mOwner->GetLocalPosition();
 
@@ -33,4 +50,35 @@ void FPSCamera::Update(float deltaTime)
 	// マトリックスを作成し、ビューとして設定します。
 	Matrix4 view = Matrix4::CreateLookAt(cameraPos, target, up);
 	SetViewMatrix(view);
+}
+
+void FPSCamera::CameraInputUpdate()
+{
+	//SDLでマウスの移動数値を取得
+	float x, y;
+	SDL_GetRelativeMouseState(&x, &y);
+	//マウスでの最大移動数値を設定
+
+	// 最大速度での回転/秒
+	const float maxAngularSpeed = Math::Pi * 8;
+	float angularSpeed = 0.0f;
+	if (x != 0)
+	{
+		// [-1.0, 1.0]に変換する
+		angularSpeed = static_cast<float>(x) / mHorizontalMouseSpeed;
+		// 回転/秒で掛ける
+		angularSpeed *= maxAngularSpeed;
+	}
+	mAngularSpeed = angularSpeed;
+
+	// 音高を計算する
+	const float maxPitchSpeed = Math::Pi * 8;
+	float pitchSpeed = 0.0f;
+	if (y != 0)
+	{
+		// [-1.0, 1.0]に変換する
+		pitchSpeed = static_cast<float>(y) / mVertexMouseSpeed;
+		pitchSpeed *= maxPitchSpeed;
+	}
+	mPitchSpeed = pitchSpeed;
 }

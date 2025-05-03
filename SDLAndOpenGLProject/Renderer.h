@@ -63,8 +63,6 @@ public:
 	float GetScreenWidth() const { return mScreenWidth; }
 	float GetScreenHeight() const { return mScreenHeight; }
 
-	void SetMirrorView(const Matrix4& view) { mMirrorView = view; }
-	class Texture* GetMirrorTexture() { return mMirrorTexture; }
 	class GBuffer* GetGBuffer() { return mGBuffer; }
 
 	// Mesh shader
@@ -76,30 +74,34 @@ public:
 
 	SDL_Window* GetWindow() { return mWindow; }
 
+	static void SetClearColor(Vector4 color) { mClearColor = color; }
 private:
 	void Draw3DScene(unsigned int framebuffer, const Matrix4& view, const Matrix4& proj,
 		float viewPortScale = 1.0f, bool lit = true);
-	bool CreateMirrorTarget();
+	
 	void DrawFromGBuffer();
 
 	bool LoadShaders();
+	
 	void CreateSpriteVerts();
+	
 	void CreateLineSpriteVerts();
+	
 	void SetLightUniforms(class Shader* shader, const Matrix4& view);
 
 	// テクスチャのマップが読み込み変数
-	std::unordered_map<string, class Texture*>		mTextures;
+	std::unordered_map<string, class Texture*>			mTextures;
 	// メッシュの地図がロード
-	std::unordered_map<string, class Mesh*>		mMeshes;
+	std::unordered_map<string, class Mesh*>				mMeshes;
 
 	// 描かれたすべてのスプライトコンポーネント
-	vector<class SpriteComponent*>					mSprites;
+	vector<class SpriteComponent*>						mSprites;
 	//未使用
-	vector<class LineRenderer*>					mLineSprites;
+	vector<class LineRenderer*>							mLineSprites;
 
 	// すべての（骨格以外の）メッシュコンポーネント
-	vector<class MeshRenderer*>					mMeshComps;
-	vector<class SkeletalMeshRenderer*>			mSkeletalMeshes;
+	vector<class MeshRenderer*>							mMeshComps;
+	vector<class SkeletalMeshRenderer*>					mSkeletalMeshes;
 
 	// Game
 	class GameWinMain*									mGame;
@@ -133,15 +135,12 @@ private:
 	float												mScreenWidth;
 	float												mScreenHeight;
 
-	unsigned int										mMirrorBuffer;
-	class Texture*										mMirrorTexture;
-	Matrix4												mMirrorView;
 
 	class GBuffer*										mGBuffer;
 	// GBuffer shader
 	class Shader*										mGGlobalShader;
 	class Shader*										mGPointLightShader;
-	vector<class PointLightComponent*>				mPointLights;
+	vector<class PointLightComponent*>					mPointLights;
 	class Mesh*											mPointLightMesh;
 	/*
 	//Line Shader
@@ -149,4 +148,6 @@ private:
 	// Sprite vertex array
 	class VertexArray*									mLineSpriteVerts;
 	*/
+
+	static Vector4 mClearColor;
 };

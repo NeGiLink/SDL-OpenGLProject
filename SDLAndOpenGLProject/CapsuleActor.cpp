@@ -13,13 +13,3 @@ CapsuleActor::CapsuleActor()
 	mCapsule->SetObjectCapsule(capsule);
 
 }
-
-void CapsuleActor::UpdateActor(float deltaTime)
-{
-}
-
-void CapsuleActor::OnCollisionEnter(ActorObject* target)
-{
-	SDL_Log("Capsule Hit!");
-	SDL_Log("Pos %.2f,%.2f,%.2f", mLocalPosition.x, mLocalPosition.y, mLocalPosition.z);
-}

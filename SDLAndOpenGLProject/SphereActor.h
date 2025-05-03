@@ -11,11 +11,7 @@ class SphereActor : public ActorObject
 public:
 	SphereActor();
 
-	void UpdateActor(float deltaTime) override;
-
 	class SphereCollider* GetSphere() { return mSphere; }
-
-	void OnCollisionEnter(class ActorObject* target) override;
 private:
 	//球のコライダー
 	class SphereCollider* mSphere;

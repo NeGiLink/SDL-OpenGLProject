@@ -1,7 +1,7 @@
 #include "OrbitCamera.h"
 
 OrbitCamera::OrbitCamera(ActorObject* owner)
-	:CameraComponent(owner)
+	:BaseCamera(owner)
 	, mOffset(-400.0f, 0.0f, 0.0f)
 	, mUp(Vector3::UnitZ)
 	, mPitchSpeed(0.0f)
@@ -11,7 +11,7 @@ OrbitCamera::OrbitCamera(ActorObject* owner)
 
 void OrbitCamera::Update(float deltaTime)
 {
-	CameraComponent::Update(deltaTime);
+	BaseCamera::Update(deltaTime);
 	// ワールドアップに関するヨーのためのクォータニオンを作成する。
 	Quaternion yaw(Vector3::UnitZ, mYawSpeed * deltaTime);
 	// オフセットを変形してヨーで上に移動します。

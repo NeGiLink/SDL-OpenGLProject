@@ -1,7 +1,7 @@
 #include "FollowCamera.h"
 
 FollowCamera::FollowCamera(ActorObject* owner)
-	:CameraComponent(owner)
+	:BaseCamera(owner)
 	, mHorzDist(350.0f)
 	, mVertDist(150.0f)
 	, mTargetDist(100.0f)
@@ -11,7 +11,7 @@ FollowCamera::FollowCamera(ActorObject* owner)
 
 void FollowCamera::Update(float deltaTime)
 {
-	CameraComponent::Update(deltaTime);
+	BaseCamera::Update(deltaTime);
 	// ばね定数から減衰を計算する
 	float dampening = 2.0f * Math::Sqrt(mSpringConstant);
 	// 理想的な位置を計算する

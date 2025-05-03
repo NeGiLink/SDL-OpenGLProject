@@ -17,14 +17,14 @@
 #include "PointLightComponent.h"
 #include "MeshFilePath.h"
 
+Vector4 Renderer::mClearColor = Vector4(0.5f, 0.7f, 1.0f, 1.0f);
+
 Renderer::Renderer(GameWinMain* game)
 	:mGame(game)
 	, mNowScene(nullptr)
 	, mSpriteShader(nullptr)
 	, mMeshShader(nullptr)
 	, mSkinnedShader(nullptr)
-	, mMirrorBuffer(0)
-	, mMirrorTexture(nullptr)
 	, mGBuffer(nullptr)
 	, mGGlobalShader(nullptr)
 	, mGPointLightShader(nullptr)
@@ -58,8 +58,8 @@ bool Renderer::Initialize(float screenWidth, float screenHeight)
 	// OpenGLにハードウェアアクセラレーションを使用
 	SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
 
-	mWindow = SDL_CreateWindow("SDL&OpenGLProject",
-		static_cast<int>(mScreenWidth), static_cast<int>(mScreenHeight), SDL_WINDOW_OPENGL);
+	mWindow = SDL_CreateWindow("SDL&OpenGLProject",static_cast<int>(mScreenWidth), static_cast<int>(mScreenHeight), SDL_WINDOW_OPENGL);
+
 	if (!mWindow)
 	{
 		SDL_Log("Failed to create window: %s", SDL_GetError());
@@ -94,13 +94,6 @@ bool Renderer::Initialize(float screenWidth, float screenHeight)
 	//線を描画するための二点を作成
 	//CreateLineSpriteVerts();
 
-	// ミラー用のレンダーターゲットを作成する
-	if (!CreateMirrorTarget())
-	{
-		SDL_Log("Failed to create render target for mirror.");
-		return false;
-	}
-
 	// Gバッファを作成する
 	mGBuffer = new GBuffer();
 	int width = static_cast<int>(mScreenWidth);
@@ -114,59 +107,85 @@ bool Renderer::Initialize(float screenWidth, float screenHeight)
 	return true;
 }
 
-void Renderer::Shutdown()
+bool Renderer::LoadShaders()
 {
-	// 存在する場合は、レンダーターゲットテクスチャをすべて削除。
-	if (mMirrorTexture != nullptr)
+	// スプライトシェーダーを作成する
+	mSpriteShader = new Shader();
+	if (!mSpriteShader->Load("Shaders/Sprite.vert", "Shaders/Sprite.frag"))
 	{
-		glDeleteFramebuffers(1, &mMirrorBuffer);
-		mMirrorTexture->Unload();
-		delete mMirrorTexture;
+		return false;
 	}
-	// Gバッファを取り除く
-	if (mGBuffer != nullptr)
-	{
-		mGBuffer->Destroy();
-		delete mGBuffer;
-	}
-	// ポイントライトを削除する
-	while (!mPointLights.empty())
-	{
-		delete mPointLights.back();
-	}
-	
-	delete mSpriteVerts;
-	
-	mSpriteShader->Unload();
-	
-	delete mSpriteShader;
-	
-	mMeshShader->Unload();
-	
-	delete mMeshShader;
-	
-	SDL_GL_DestroyContext(mContext);
 
-	SDL_DestroyWindow(mWindow);
-}
-
-void Renderer::UnloadData()
-{
-	// テクスチャを破壊する
-	for (auto i : mTextures)
-	{
-		i.second->Unload();
-		delete i.second;
+	mSpriteShader->SetActive();
+	// ビュー投影行列を設定する
+	Matrix4 spriteViewProj = Matrix4::CreateSimpleViewProj(mScreenWidth, mScreenHeight);
+	mSpriteShader->SetMatrixUniform("uViewProj", spriteViewProj);
+	/*
+	//Lineの描画用のシェーダーを作成する
+	mLineShader = new Shader();
+	if (!mLineShader->Load("Shaders/LineSprite.vert", "Shaders/LineSprite.frag")) {
+		return false;
 	}
-	mTextures.clear();
+	mLineShader->SetActive();
+	mLineShader->SetMatrixUniform("uViewProj", spriteViewProj);
+	*/
+	// ビュー投影行列を設定する
+	mView = Matrix4::CreateLookAt(Vector3::Zero, Vector3::UnitX, Vector3::UnitZ);
+	mProjection = Matrix4::CreatePerspectiveFOV(Math::ToRadians(70.0f),mScreenWidth, mScreenHeight, 0.1f, 10000.0f);
 
-	// メッシュを破壊する
-	for (auto i : mMeshes)
+	// 基本的なメッシュシェーダーを作成する
+	mMeshShader = new Shader();
+	if (!mMeshShader->Load("Shaders/Phong.vert", "Shaders/GBufferWrite.frag"))
 	{
-		i.second->Unload();
-		delete i.second;
+		return false;
 	}
-	mMeshes.clear();
+	mMeshShader->SetActive();
+
+
+	mMeshShader->SetMatrixUniform("uViewProj", mView * mProjection);
+
+	// スキンシェーダーを作成する
+	mSkinnedShader = new Shader();
+	if (!mSkinnedShader->Load("Shaders/Skinned.vert", "Shaders/GBufferWrite.frag"))
+	{
+		return false;
+	}
+
+	mSkinnedShader->SetActive();
+	mSkinnedShader->SetMatrixUniform("uViewProj", mView * mProjection);
+
+	// GBufferから描画するためのシェーダーを作成する（グローバルライティング）
+	mGGlobalShader = new Shader();
+	if (!mGGlobalShader->Load("Shaders/GBufferGlobal.vert", "Shaders/GBufferGlobal.frag"))
+	{
+		return false;
+	}
+	// GBufferのために、各サンプラーをインデックスに関連付ける
+	mGGlobalShader->SetActive();
+	mGGlobalShader->SetIntUniform("uGDiffuse", 0);
+	mGGlobalShader->SetIntUniform("uGNormal", 1);
+	mGGlobalShader->SetIntUniform("uGWorldPos", 2);
+	// ビュー投影はただのスプライトのものです
+	mGGlobalShader->SetMatrixUniform("uViewProj", spriteViewProj);
+	// 世界の変形スケールが画面に適用され、yが反転します
+	Matrix4 gbufferWorld = Matrix4::CreateScale(mScreenWidth, -mScreenHeight,
+		1.0f);
+	mGGlobalShader->SetMatrixUniform("uWorldTransform", gbufferWorld);
+
+	// GBufferからポイントライト用のシェーダーを作成する
+	mGPointLightShader = new Shader();
+	if (!mGPointLightShader->Load("Shaders/BasicMesh.vert","Shaders/GBufferPointLight.frag"))
+	{
+		return false;
+	}
+	// サンプラーインデックスを設定する
+	mGPointLightShader->SetActive();
+	mGPointLightShader->SetIntUniform("uGDiffuse", 0);
+	mGPointLightShader->SetIntUniform("uGNormal", 1);
+	mGPointLightShader->SetIntUniform("uGWorldPos", 2);
+	mGPointLightShader->SetVector2Uniform("uScreenDimensions",Vector2(mScreenWidth, mScreenHeight));
+
+	return true;
 }
 
 void Renderer::Draw()
@@ -217,6 +236,155 @@ void Renderer::Draw()
 
 	// バッファを入れ替える
 	SDL_GL_SwapWindow(mWindow);
+}
+
+void Renderer::Draw3DScene(unsigned int framebuffer, const Matrix4& view, const Matrix4& proj,
+	float viewPortScale, bool lit)
+{
+	// 現在のフレームバッファを設定する
+	glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
+
+	// スケールに基づいてビューポートサイズを設定します
+	glViewport(0, 0,static_cast<int>(mScreenWidth * viewPortScale),static_cast<int>(mScreenHeight * viewPortScale));
+
+	// カラー バッファ/深度バッファをクリア
+	glClearColor(mClearColor.x, mClearColor.y, mClearColor.z, mClearColor.w);
+	glDepthMask(GL_TRUE);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	// メッシュコンポーネントを描画する深度バッファリングを有効にする
+	// アルファブレンドを無効にする
+	glEnable(GL_DEPTH_TEST);
+	glDisable(GL_BLEND);
+	// メッシュシェーダーをアクティブに設定します
+	mMeshShader->SetActive();
+	// ビュー投影行列を更新する
+	mMeshShader->SetMatrixUniform("uViewProj", view * proj);
+	// 照明のユニフォームを更新する
+	if (lit)
+	{
+		SetLightUniforms(mMeshShader, view);
+	}
+
+	for (auto mc : mMeshComps)
+	{
+		if (mc->GetVisible())
+		{
+			mc->Draw(mMeshShader);
+		}
+	}
+
+	// スキンメッシュを有効
+	mSkinnedShader->SetActive();
+	// ビュー投影行列を更新する
+	mSkinnedShader->SetMatrixUniform("uViewProj", view * proj);
+	// 照明のユニフォームを更新する
+	if (lit)
+	{
+		SetLightUniforms(mSkinnedShader, view);
+	}
+	for (auto sk : mSkeletalMeshes)
+	{
+		if (sk->GetVisible())
+		{
+			sk->Draw(mSkinnedShader);
+		}
+	}
+}
+
+void Renderer::DrawFromGBuffer()
+{
+	// グローバルライティングパスの深度テストを無効にします
+	glDisable(GL_DEPTH_TEST);
+	// グローバルGバッファシェーダをアクティブにする
+	mGGlobalShader->SetActive();
+	// スプライトの頂点クアッドを有効化する
+	mSpriteVerts->SetActive();
+	// Gバッファーテクスチャをサンプリングするように設定する
+	mGBuffer->SetTexturesActive();
+	// 照明ユニフォームを設定する
+	SetLightUniforms(mGGlobalShader, mView);
+	// 三角形を描画
+	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+
+	// Gバッファからデフォルトフレームバッファに深度バッファをコピーする
+	glBindFramebuffer(GL_READ_FRAMEBUFFER, mGBuffer->GetBufferID());
+	int width = static_cast<int>(mScreenWidth);
+	int height = static_cast<int>(mScreenHeight);
+	glBlitFramebuffer(0, 0, width, height,0, 0, width, height,GL_DEPTH_BUFFER_BIT, GL_NEAREST);
+
+	// 深度テストを有効にしますが、深度バッファへの書き込みを無効にします。
+	glEnable(GL_DEPTH_TEST);
+	glDepthMask(GL_FALSE);
+
+	// 点光源シェーダーとメッシュをアクティブに設定します。
+	mGPointLightShader->SetActive();
+	for (unsigned int i = 0; i < mPointLightMesh->GetVertexArrays().size(); i++) 
+	{
+		mPointLightMesh->GetVertexArrays()[i]->SetActive();
+	}
+	// ビュー投影行列を設定する
+	mGPointLightShader->SetMatrixUniform("uViewProj",mView * mProjection);
+	// サンプリングのためにGバッファーのテクスチャを設定します
+	mGBuffer->SetTexturesActive();
+
+	// 点光源の色は既存の色に追加される
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_ONE, GL_ONE);
+
+	// ポイントライトを描画
+	for (PointLightComponent* p : mPointLights)
+	{
+		p->Draw(mGPointLightShader, mPointLightMesh);
+	}
+}
+
+void Renderer::Shutdown()
+{
+	// Gバッファを取り除く
+	if (mGBuffer != nullptr)
+	{
+		mGBuffer->Destroy();
+		delete mGBuffer;
+	}
+	// ポイントライトを削除する
+	while (!mPointLights.empty())
+	{
+		delete mPointLights.back();
+	}
+	
+	delete mSpriteVerts;
+	
+	mSpriteShader->Unload();
+	
+	delete mSpriteShader;
+	
+	mMeshShader->Unload();
+	
+	delete mMeshShader;
+	
+	SDL_GL_DestroyContext(mContext);
+
+	SDL_DestroyWindow(mWindow);
+}
+
+void Renderer::UnloadData()
+{
+	// テクスチャを破壊する
+	for (auto i : mTextures)
+	{
+		i.second->Unload();
+		delete i.second;
+	}
+	mTextures.clear();
+
+	// メッシュを破壊する
+	for (auto i : mMeshes)
+	{
+		i.second->Unload();
+		delete i.second;
+	}
+	mMeshes.clear();
 }
 
 void Renderer::AddSprite(SpriteComponent* sprite)
@@ -397,237 +565,6 @@ vector<class Mesh*> Renderer::GetMeshs(const string& fileName)
 		}
 	}
 	return ms;
-}
-
-void Renderer::Draw3DScene(unsigned int framebuffer, const Matrix4& view, const Matrix4& proj,
-	float viewPortScale, bool lit)
-{
-	// 現在のフレームバッファを設定する
-	glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
-
-	// スケールに基づいてビューポートサイズを設定します
-	glViewport(0, 0,
-		static_cast<int>(mScreenWidth * viewPortScale),
-		static_cast<int>(mScreenHeight * viewPortScale)
-	);
-
-	// カラー バッファ/深度バッファをクリア
-	glClearColor(0.5f, 0.7f, 1.0f, 1.0f);
-	glDepthMask(GL_TRUE);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-	// メッシュコンポーネントを描画する深度バッファリングを有効にする
-	// アルファブレンドを無効にする
-	glEnable(GL_DEPTH_TEST);
-	glDisable(GL_BLEND);
-	// メッシュシェーダーをアクティブに設定します
-	mMeshShader->SetActive();
-	// ビュー投影行列を更新する
-	mMeshShader->SetMatrixUniform("uViewProj", view * proj);
-	// 照明のユニフォームを更新する
-	if (lit)
-	{
-		SetLightUniforms(mMeshShader, view);
-	}
-
-	for (auto mc : mMeshComps)
-	{
-		if (mc->GetVisible())
-		{
-			mc->Draw(mMeshShader);
-		}
-	}
-
-	// スキンメッシュを有効
-	mSkinnedShader->SetActive();
-	// ビュー投影行列を更新する
-	mSkinnedShader->SetMatrixUniform("uViewProj", view * proj);
-	// 照明のユニフォームを更新する
-	if (lit)
-	{
-		SetLightUniforms(mSkinnedShader, view);
-	}
-	for (auto sk : mSkeletalMeshes)
-	{
-		if (sk->GetVisible())
-		{
-			sk->Draw(mSkinnedShader);
-		}
-	}
-}
-
-bool Renderer::CreateMirrorTarget()
-{
-	int width = static_cast<int>(mScreenWidth) / 4;
-	int height = static_cast<int>(mScreenHeight) / 4;
-
-	// ミラーテクスチャのフレームバッファを生成する
-	glGenFramebuffers(1, &mMirrorBuffer);
-	glBindFramebuffer(GL_FRAMEBUFFER, mMirrorBuffer);
-
-	// レンダリングに使用するテクスチャを作成します
-	mMirrorTexture = new Texture();
-	mMirrorTexture->CreateForRendering(width, height, GL_RGB);
-
-	// このターゲットに深度バッファを追加してください
-	GLuint depthBuffer;
-	glGenRenderbuffers(1, &depthBuffer);
-	glBindRenderbuffer(GL_RENDERBUFFER, depthBuffer);
-	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, width, height);
-	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthBuffer);
-
-	// フレームバッファの出力ターゲットとしてミラーテクスチャを付加する
-	glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, mMirrorTexture->GetTextureID(), 0);
-
-	// このフレームバッファに描画するためのバッファのリストを設定します
-	GLenum drawBuffers[] = { GL_COLOR_ATTACHMENT0 };
-	glDrawBuffers(1, drawBuffers);
-
-	// すべてが正常に動作したことを確認
-	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-	{
-		// うまくいかなかった場合は、フレームバッファを削除し、
-		// テクスチャをアンロード/削除して偽を返します。
-		glDeleteFramebuffers(1, &mMirrorBuffer);
-		mMirrorTexture->Unload();
-		delete mMirrorTexture;
-		mMirrorTexture = nullptr;
-		return false;
-	}
-	return true;
-}
-
-void Renderer::DrawFromGBuffer()
-{
-	// グローバルライティングパスの深度テストを無効にします
-	glDisable(GL_DEPTH_TEST);
-	// グローバルGバッファシェーダをアクティブにする
-	mGGlobalShader->SetActive();
-	// スプライトの頂点クアッドを有効化する
-	mSpriteVerts->SetActive();
-	// Gバッファーテクスチャをサンプリングするように設定する
-	mGBuffer->SetTexturesActive();
-	// 照明ユニフォームを設定する
-	SetLightUniforms(mGGlobalShader, mView);
-	// 三角形を描画
-	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
-
-	// Gバッファからデフォルトフレームバッファに深度バッファをコピーする
-	glBindFramebuffer(GL_READ_FRAMEBUFFER, mGBuffer->GetBufferID());
-	int width = static_cast<int>(mScreenWidth);
-	int height = static_cast<int>(mScreenHeight);
-	glBlitFramebuffer(0, 0, width, height,
-		0, 0, width, height,
-		GL_DEPTH_BUFFER_BIT, GL_NEAREST);
-
-	// 深度テストを有効にしますが、深度バッファへの書き込みを無効にします。
-	glEnable(GL_DEPTH_TEST);
-	glDepthMask(GL_FALSE);
-
-	// 点光源シェーダーとメッシュをアクティブに設定します。
-	mGPointLightShader->SetActive();
-	for (unsigned int i = 0; i < mPointLightMesh->GetVertexArrays().size(); i++) {
-		mPointLightMesh->GetVertexArrays()[i]->SetActive();
-	}
-	// ビュー投影行列を設定する
-	mGPointLightShader->SetMatrixUniform("uViewProj",
-		mView * mProjection);
-	// サンプリングのためにGバッファーのテクスチャを設定します
-	mGBuffer->SetTexturesActive();
-
-	// 点光源の色は既存の色に追加される
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_ONE, GL_ONE);
-
-	// ポイントライトを描画
-	for (PointLightComponent* p : mPointLights)
-	{
-		p->Draw(mGPointLightShader, mPointLightMesh);
-	}
-}
-
-bool Renderer::LoadShaders()
-{
-	// スプライトシェーダーを作成する
-	mSpriteShader = new Shader();
-	if (!mSpriteShader->Load("Shaders/Sprite.vert", "Shaders/Sprite.frag"))
-	{
-		return false;
-	}
-
-	mSpriteShader->SetActive();
-	// ビュー投影行列を設定する
-	Matrix4 spriteViewProj = Matrix4::CreateSimpleViewProj(mScreenWidth, mScreenHeight);
-	mSpriteShader->SetMatrixUniform("uViewProj", spriteViewProj);
-	/*
-	//Lineの描画用のシェーダーを作成する
-	mLineShader = new Shader();
-	if (!mLineShader->Load("Shaders/LineSprite.vert", "Shaders/LineSprite.frag")) {
-		return false;
-	}
-	mLineShader->SetActive();
-	mLineShader->SetMatrixUniform("uViewProj", spriteViewProj);
-	*/
-
-	// 基本的なメッシュシェーダーを作成する
-	mMeshShader = new Shader();
-	if (!mMeshShader->Load("Shaders/Phong.vert", "Shaders/GBufferWrite.frag"))
-	{
-		return false;
-	}
-
-	mMeshShader->SetActive();
-	// ビュー投影行列を設定する
-	mView = Matrix4::CreateLookAt(Vector3::Zero, Vector3::UnitX, Vector3::UnitZ);
-	mProjection = Matrix4::CreatePerspectiveFOV(Math::ToRadians(70.0f),
-		mScreenWidth, mScreenHeight, 0.1f, 10000.0f);
-
-	mMeshShader->SetMatrixUniform("uViewProj", mView * mProjection);
-
-	// スキンシェーダーを作成する
-	mSkinnedShader = new Shader();
-	if (!mSkinnedShader->Load("Shaders/Skinned.vert", "Shaders/GBufferWrite.frag"))
-	{
-		return false;
-	}
-
-	mSkinnedShader->SetActive();
-	mSkinnedShader->SetMatrixUniform("uViewProj", mView * mProjection);
-
-	// GBufferから描画するためのシェーダーを作成する（グローバルライティング）
-	mGGlobalShader = new Shader();
-	if (!mGGlobalShader->Load("Shaders/GBufferGlobal.vert", "Shaders/GBufferGlobal.frag"))
-	{
-		return false;
-	}
-	// GBufferのために、各サンプラーをインデックスに関連付ける
-	mGGlobalShader->SetActive();
-	mGGlobalShader->SetIntUniform("uGDiffuse", 0);
-	mGGlobalShader->SetIntUniform("uGNormal", 1);
-	mGGlobalShader->SetIntUniform("uGWorldPos", 2);
-	// ビュー投影はただのスプライトのものです
-	mGGlobalShader->SetMatrixUniform("uViewProj", spriteViewProj);
-	// 世界の変形スケールが画面に適用され、yが反転します
-	Matrix4 gbufferWorld = Matrix4::CreateScale(mScreenWidth, -mScreenHeight,
-		1.0f);
-	mGGlobalShader->SetMatrixUniform("uWorldTransform", gbufferWorld);
-
-	// GBufferからポイントライト用のシェーダーを作成する
-	mGPointLightShader = new Shader();
-	if (!mGPointLightShader->Load("Shaders/BasicMesh.vert",
-		"Shaders/GBufferPointLight.frag"))
-	{
-		return false;
-	}
-	// サンプラーインデックスを設定する
-	mGPointLightShader->SetActive();
-	mGPointLightShader->SetIntUniform("uGDiffuse", 0);
-	mGPointLightShader->SetIntUniform("uGNormal", 1);
-	mGPointLightShader->SetIntUniform("uGWorldPos", 2);
-	mGPointLightShader->SetVector2Uniform("uScreenDimensions",
-		Vector2(mScreenWidth, mScreenHeight));
-
-	return true;
 }
 
 void Renderer::CreateSpriteVerts()

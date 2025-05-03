@@ -153,7 +153,7 @@
     <ClCompile Include="BoneTransform.cpp" />
     <ClCompile Include="BoxCollider.cpp" />
     <ClCompile Include="CameraActor.cpp" />
-    <ClCompile Include="CameraComponent.cpp" />
+    <ClCompile Include="BaseCamera.cpp" />
     <ClCompile Include="CapsuleActor.cpp" />
     <ClCompile Include="CapsuleCollider.cpp" />
     <ClCompile Include="CircleComponent.cpp" />
@@ -175,6 +175,7 @@
     <ClCompile Include="InputSystem.cpp" />
     <ClCompile Include="LineRenderer.cpp" />
     <ClCompile Include="PushButtonMove.cpp" />
+    <ClCompile Include="Rigidbody.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="SmallCharacter.cpp" />
     <ClCompile Include="SphereActor.cpp" />
@@ -234,7 +235,7 @@
     <ClInclude Include="BoneTransform.h" />
     <ClInclude Include="BoxCollider.h" />
     <ClInclude Include="CameraActor.h" />
-    <ClInclude Include="CameraComponent.h" />
+    <ClInclude Include="BaseCamera.h" />
     <ClInclude Include="CapsuleActor.h" />
     <ClInclude Include="CapsuleCollider.h" />
     <ClInclude Include="CircleComponent.h" />
@@ -261,8 +262,10 @@
     <ClInclude Include="MeshFilePath.h" />
     <ClInclude Include="PushButtonMove.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="Rigidbody.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="SDL3.h" />
+    <ClInclude Include="SDL_Scancode.h" />
     <ClInclude Include="SmallCharacter.h" />
     <ClInclude Include="SphereActor.h" />
     <ClInclude Include="SphereCollider.h" />

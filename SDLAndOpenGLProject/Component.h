@@ -10,6 +10,7 @@ public:
 	Component(class ActorObject* owner, int updateOrder = 100);
 	// デストラクター
 	virtual ~Component();
+	virtual void FixedUpdate(float deltaTime);
 	// デルタ時間でこのコンポーネントを更新してください
 	virtual void Update(float deltaTime);
 	// このコンポーネントの入力を処理する

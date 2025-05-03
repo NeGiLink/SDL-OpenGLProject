@@ -1,5 +1,5 @@
 #pragma once
-#include "CameraComponent.h"
+#include "BaseCamera.h"
 #include "Actor.h"
 
 struct Spline
@@ -14,7 +14,7 @@ struct Spline
 	size_t GetNumPoints() const { return mControlPoints.size(); }
 };
 
-class SplineCamera : public CameraComponent
+class SplineCamera : public BaseCamera
 {
 public:
 	SplineCamera(class ActorObject* owner);

@@ -1321,7 +1321,7 @@ public:
 		};
 		return Matrix4(temp);
 	}
-
+	//カメラがある位置（eye）から、特定のターゲット（target）を見るような視点変換行列を行う
 	static Matrix4 CreateLookAt(const Vector3& eye, const Vector3& target, const Vector3& up)
 	{
 
@@ -1355,6 +1355,8 @@ public:
 		return Matrix4(temp);
 	}
 
+	//透視投影行列（Perspective Projection Matrix）を作成する関数
+	//3D空間のシーンを、カメラを通して「遠くの物は小さく見える」ようなパース（遠近感）付きの2D画面に投影する行列を構築
 	static Matrix4 CreatePerspectiveFOV(float fovY, float width, float height, float near_SDL, float far_SDL)
 	{
 		float yScale = Math::Cot(fovY / 2.0f);
