@@ -8,6 +8,13 @@
 class PhysWorld
 {
 public:
+	enum Axis 
+	{
+		X,
+		Y,
+		Z
+	};
+
 	PhysWorld(class BaseScene* game);
 
 	// Õ“ËŒ‹‰Ê‚ÉŠÖ‚·‚éî•ñ‚ğ‚Ü‚Æ‚ß‚Ä‚¢‚é

@@ -3,7 +3,6 @@
 #include "SoundEvent.h"
 
 #include "BasicInputAction.h"
-#include "Rigidbody.h"
 #include "AudioSystem.h"
 #include "AudioComponent.h"
 #include "FPSCamera.h"
@@ -20,6 +19,8 @@ class FPSActor : public ActorObject
 public:
 	FPSActor();
 
+	void FixedUpdateActor(float deltaTime)override;
+
 	void UpdateActor(float deltaTime) override;
 	
 	void ActorInput(const struct InputState& keys) override;
@@ -33,8 +34,6 @@ public:
 	void OnCollisionExit(class ActorObject* target) override;
 private:
 	BasicInputAction*		mBasicInput;
-
-	Rigidbody* mRigidbody;
 	
 	class AudioComponent*	mAudioComp;
 	

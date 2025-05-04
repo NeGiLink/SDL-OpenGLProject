@@ -62,6 +62,7 @@ bool BaseScene::FixedUpdate()
 		{
 			actor->FixedUpdate(Time::deltaTime);
 		}
+
 		mPhysWorld->SweepAndPruneXYZ();
 
 		fixedTimeAccumulator -= mFixed_Delta_Time;

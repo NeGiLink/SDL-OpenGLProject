@@ -17,15 +17,6 @@ bool DebugScene01::Initialize()
 	ActorObject* a = nullptr;
 	Quaternion q;
 
-	// デバッグ用のステージ追加
-	a = new DebugStageActor();
-	Vector3 pos = Vector3(0.0f, -5.0f, 0.0f);
-	a->SetPosition(pos);
-	a = new DebugStageActor();
-	pos = Vector3(0.0f, 5.0f, 10.0f);
-	a->SetPosition(pos);
-	q = Quaternion(Vector3::UnitX, -Math::PiOver2);
-	a->SetRotation(q);
 
 	// ポイントライトメッシュをロードする
 	mWinMain->GetRenderer()->SetPointLightMesh(mWinMain->GetRenderer()->GetMesh("PointLight.gpmesh"));
@@ -55,6 +46,11 @@ bool DebugScene01::Initialize()
 	string t = u8"シーンのロード:L Key";
 	mSceneLoadButtonText->SetText(t);
 	mSceneLoadButtonText->SetFontSize(48);
+
+	mFrameRateText = new Text(font, Vector2(500, 250));
+	float time = Time::deltaTime;
+	mFrameRateText->SetText(std::to_string(time));
+	mFrameRateText->SetFontSize(40);
 	
 	// Start music
 	mMusicEvent = mAudioSystem->PlayEvent("event:/Music");
@@ -96,6 +92,17 @@ bool DebugScene01::Initialize()
 	a = new TargetActor();
 	a->SetPosition(Vector3(5.0f, 2.0f, 10.0f));
 	a->SetRotation(q);
+
+	// デバッグ用のステージ追加
+	a = new DebugStageActor();
+	Vector3 pos = Vector3(0.0f, 0.0f, 0.0f);
+	a->SetPosition(pos);
+	a = new DebugStageActor();
+	pos = Vector3(0.0f, 10.0f, 10.0f);
+	a->SetPosition(pos);
+	q = Quaternion(Vector3::UnitX, -Math::PiOver2);
+	a->SetRotation(q);
+
 	return true;
 }
 
@@ -165,6 +172,8 @@ bool DebugScene01::InputUpdate()
 
 bool DebugScene01::Update()
 {
+	float time = Time::GetFrameRate();
+	mFrameRateText->SetText("FPS : " + FloatToString::ToStringWithoutDecimal(time));
 	BaseScene::Update();
 	return true;
 }

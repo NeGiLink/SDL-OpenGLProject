@@ -16,16 +16,6 @@ bool DebugScene02::Initialize()
 	ActorObject* a = nullptr;
 	Quaternion q;
 
-	// デバッグ用のステージ追加
-	a = new DebugStageActor();
-	Vector3 pos = Vector3(0.0f, 0.0f, 0.0f);
-	a->SetPosition(pos);
-	a = new DebugStageActor();
-	pos = Vector3(0.0f, 10.0f, 10.0f);
-	a->SetPosition(pos);
-	q = Quaternion(Vector3::UnitX, -Math::PiOver2);
-	a->SetRotation(q);
-
 	// ポイントライトメッシュをロードする
 	mWinMain->GetRenderer()->SetPointLightMesh(mWinMain->GetRenderer()->GetMesh("PointLight.gpmesh"));
 	
@@ -108,6 +98,16 @@ bool DebugScene02::Initialize()
 	mSmallCharacter->SetPosition(Vector3(-4.0f, 0.0f, 4.0f));
 	mSmallCharacter->SetRotation(q);
 	*/
+
+	// デバッグ用のステージ追加
+	a = new DebugStageActor();
+	Vector3 pos = Vector3(0.0f, 0.0f, 0.0f);
+	a->SetPosition(pos);
+	a = new DebugStageActor();
+	pos = Vector3(0.0f, 10.0f, 10.0f);
+	a->SetPosition(pos);
+	q = Quaternion(Vector3::UnitX, -Math::PiOver2);
+	a->SetRotation(q);
 
 	return true;
 }

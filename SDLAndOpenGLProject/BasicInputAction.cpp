@@ -8,9 +8,8 @@ BasicInputAction::BasicInputAction(ActorObject* owner, int updateOrder)
 	mJumping = false;
 }
 
-void BasicInputAction::Update(float deltaTime)
+void BasicInputAction::FixedUpdate(float deltaTime)
 {
-
 	//XAZˆÚ“®ˆ—
 	if (!Math::NearZero(mForwardSpeed) || !Math::NearZero(mStrafeSpeed))
 	{
@@ -19,33 +18,11 @@ void BasicInputAction::Update(float deltaTime)
 		pos += mOwner->GetRight() * mStrafeSpeed * deltaTime;
 		mOwner->SetPosition(pos);
 	}
+}
 
-	if (mGravity)
-	{
-		if (!Math::NearZero(mJumpPower) && !mJumping)
-		{
-			Vector3 pos = mOwner->GetLocalPosition();
-			pos += mOwner->GetUp() * mJumpPower * deltaTime;
-			mOwner->SetPosition(pos);
-		}
-		/*
-		else
-		{
-			Vector3 pos = mOwner->GetLocalPosition();
-			pos -= mOwner->GetUp() * 4.905f * deltaTime;
-			mOwner->SetPosition(pos);
-		}
-		*/
-	}
-	else
-	{
-		if (!Math::NearZero(mJumpPower))
-		{
-			Vector3 pos = mOwner->GetLocalPosition();
-			pos += mOwner->GetUp() * mJumpPower * deltaTime;
-			mOwner->SetPosition(pos);
-		}
-	}
+void BasicInputAction::Update(float deltaTime)
+{
+
 }
 
 void BasicInputAction::MoveInputUpdate(const InputState& keys)
@@ -56,25 +33,29 @@ void BasicInputAction::MoveInputUpdate(const InputState& keys)
 	// wasd movement
 	if (keys.Keyboard.GetKey(SDL_SCANCODE_W))
 	{
-		forwardSpeed += 4.0f;
+		forwardSpeed += 8.0f;
 	}
 	if (keys.Keyboard.GetKey(SDL_SCANCODE_S))
 	{
-		forwardSpeed -= 4.0f;
+		forwardSpeed -= 8.0f;
 	}
 	if (keys.Keyboard.GetKey(SDL_SCANCODE_A))
 	{
-		strafeSpeed -= 4.0f;
+		strafeSpeed -= 8.0f;
 	}
 	if (keys.Keyboard.GetKey(SDL_SCANCODE_D))
 	{
-		strafeSpeed += 4.0f;
+		strafeSpeed += 8.0f;
 	}
 	if (mGravity)
 	{
-		if (keys.Keyboard.GetKey(SDL_SCANCODE_SPACE))
+		if (keys.Keyboard.GetKeyDown(SDL_SCANCODE_SPACE))
 		{
-			upSpeed += 250.0f;
+			//upSpeed += 250.0f;
+			if (mOwner->GetRigidbody())
+			{
+				mOwner->GetRigidbody()->AddForce(Vector3::UnitY * 2000.0f);
+			}
 		}
 	}
 	else

@@ -28,6 +28,11 @@ FPSActor::FPSActor()
 	*/
 }
 
+void FPSActor::FixedUpdateActor(float deltaTime)
+{
+
+}
+
 void FPSActor::UpdateActor(float deltaTime)
 {
 	ActorObject::UpdateActor(deltaTime);
@@ -60,6 +65,7 @@ void FPSActor::ActorInput(const struct InputState& keys)
 	}
 	*/
 
+
 	mBasicInput->MoveInputUpdate(keys);
 	mFPSCamera->CameraInputUpdate();
 }
@@ -80,10 +86,12 @@ void FPSActor::OnCollisionEnter(ActorObject* target)
 {
 	if(target->GetActorTag() == ActorTag::Ground)
 	mBasicInput->SetJumping(false);
+	SDL_Log("Ground Hit");
 }
 
 void FPSActor::OnCollisionExit(ActorObject* target)
 {
 	if(target->GetActorTag() == ActorTag::Ground)
 	mBasicInput->SetJumping(true);
+	SDL_Log("Jump");
 }
