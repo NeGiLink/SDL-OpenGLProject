@@ -80,14 +80,34 @@ void PhysWorld::SweepAndPruneXYZ()
 			Collider* colliderB = mColliderXAxis[j];
 			const AABB& aabbB = colliderB->GetWorldBox();
 
+			const float contactOffset = 0.001f;
+
+			/*
+			// X軸の最大と最小が交差してなかったらbreak（高速化）
+			// ※ contactOffset を加味して比較
+			if (aabbB.mMin.x - contactOffset > aabbA.mMax.x + contactOffset)
+				break;
+
+			// Y軸とZ軸の交差判定にも contactOffset を考慮
+			if (aabbA.mMax.y + contactOffset < aabbB.mMin.y - contactOffset ||
+				aabbA.mMin.y - contactOffset > aabbB.mMax.y + contactOffset)
+				continue;
+
+			if (aabbA.mMax.z + contactOffset < aabbB.mMin.z - contactOffset ||
+				aabbA.mMin.z - contactOffset > aabbB.mMax.z + contactOffset)
+				continue;
+			*/
 			// X軸の最大と最小が交差してなかったらbreak（高速化）
 			if (aabbB.mMin.x > aabbA.mMax.x)
 				break;
 
-			// ここでY軸とZ軸の交差もきちんと見る
-			if (aabbA.mMax.y < aabbB.mMin.y || aabbA.mMin.y > aabbB.mMax.y)
+			// Y軸とZ軸の交差判定にも contactOffset を考慮
+			if (aabbA.mMax.y < aabbB.mMin.y ||
+				aabbA.mMin.y > aabbB.mMax.y)
 				continue;
-			if (aabbA.mMax.z < aabbB.mMin.z || aabbA.mMin.z > aabbB.mMax.z)
+
+			if (aabbA.mMax.z < aabbB.mMin.z ||
+				aabbA.mMin.z > aabbB.mMax.z)
 				continue;
 
 			// ここまで来たらAとBは当たっている
@@ -104,7 +124,7 @@ void PhysWorld::SweepAndPruneXYZ()
 			{
 				actorA->OnCollisionStay(actorB);
 				actorB->OnCollisionStay(actorA);
-
+				//当たり続けている時も判定
 				if (!colliderA->IsStaticObject() && colliderB->IsStaticObject())
 				{
 					FixCollisions(colliderA, colliderB);
@@ -118,6 +138,15 @@ void PhysWorld::SweepAndPruneXYZ()
 			{
 				actorA->OnCollisionEnter(actorB);
 				actorB->OnCollisionEnter(actorA);
+				//当たり初めに判定
+				if (!colliderA->IsStaticObject() && colliderB->IsStaticObject())
+				{
+					FixCollisions(colliderA, colliderB);
+				}
+				else if (colliderA->IsStaticObject() && !colliderB->IsStaticObject())
+				{
+					FixCollisions(colliderB, colliderA);
+				}
 			}
 		}
 	}
@@ -163,21 +192,46 @@ void PhysWorld::FixCollisions(class Collider* dynamicCollider, class Collider* s
 	float dz = Math::Abs(dz1) < Math::Abs(dz2) ?
 		dz1 : dz2;
 
+	constexpr float skinWidth = 0.001f;
+
+	Axis collisionAxis;
 	// 最も近い方に応じてx/y位置を調整
 	if (Math::Abs(dx) < Math::Abs(dy) && Math::Abs(dx) < Math::Abs(dz))
 	{
-		pos.x += dx;
+		pos.x += dx + Math::Sign(dx) * skinWidth;
+		collisionAxis = X;
 	}
 	else if (Math::Abs(dy) < Math::Abs(dx) && Math::Abs(dy) < Math::Abs(dz))
 	{
-		pos.y += dy;
+		pos.y += dy + Math::Sign(dy) * skinWidth;
+		collisionAxis = Y;
 	}
 	else
 	{
-		pos.z += dz;
+		pos.z += dz + Math::Sign(dz) * skinWidth;
+		collisionAxis = Z;
 	}
 
 	// ポジションを設定し、ボックスコンポーネントを更新する必要があります。
+	if (dynamicActor->GetRigidbody())
+	{
+		Vector3 velocity = dynamicActor->GetRigidbody()->GetVelocity();
+
+		if (collisionAxis == X)
+		{
+			velocity.x = 0.0f;
+		}
+		else if (collisionAxis == Y)
+		{
+			velocity.y = 0.0f;
+		}
+		else if (collisionAxis == Z)
+		{
+			velocity.z = 0.0f;
+		}
+
+		dynamicActor->GetRigidbody()->SetVelocity(velocity);
+	}
 	dynamicActor->SetPosition(pos);
 	dynamicCollider->OnUpdateWorldTransform();
 }

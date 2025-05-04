@@ -40,4 +40,6 @@ private:
 	class Text*						mPoseButtonText;
 
 	class Text*						mSceneLoadButtonText;
+
+	class Text*						mFrameRateText;
 };

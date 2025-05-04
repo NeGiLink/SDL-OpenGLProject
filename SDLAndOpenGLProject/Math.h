@@ -98,6 +98,13 @@ namespace Math
 	{
 		return fmod(numer, denom);
 	}
+
+	inline int Sign(float value)
+	{
+		if (value > 0) return 1;
+		if (value < 0) return -1;
+		return 0;
+	}
 }
 
 // 2D Vector

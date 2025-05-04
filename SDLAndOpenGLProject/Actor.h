@@ -3,6 +3,8 @@
 #include "CollisionActor.h"
 #include "BaseScene.h"
 #include "Component.h"
+#include "Collider.h"
+#include "Rigidbody.h"
 
 enum ActorTag
 {
@@ -27,7 +29,7 @@ public:
 	//デストラクタ
 	virtual ~ActorObject();
 	// ゲームから一定数で呼び出される更新関数（オーバーライド不可）
-	void FixedUpdate(float deltaTime);
+	void						FixedUpdate(float deltaTime);
 	// Actorに接続されたすべてのコンポーネントを更新します（オーバーライド不可）
 	void						FixedUpdateComponents(float deltaTime);
 	// 任意のActor固有の更新コード（上書き可能）
@@ -151,6 +153,10 @@ public:
 	
 	class BaseScene*			GetGame() { return mGame; }
 
+	class Rigidbody* GetRigidbody() { return mRigidbody; }
+
+	class Collider* GetCollider() { return mCollider; }
+
 	//親のアクターのGetter
 
 	//当たった時に呼び出される関数
@@ -199,4 +205,8 @@ protected:
 	ActorTag						mActorTag = ActorTag::None;
 
 	class BaseScene*				mGame;
+
+	class Rigidbody*				mRigidbody;
+
+	class Collider*					mCollider;
 };
