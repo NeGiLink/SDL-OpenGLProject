@@ -24,18 +24,22 @@ public:
 	virtual const Sphere& GetWorldSphere() const = 0;
 	virtual const Capsule& GetWorldCapsule() const = 0;
 
-	bool IsCollider() { return collider; }
-	void SetCollider(bool active) { collider = active; }
+	bool IsCollider() { return mCollider; }
+	void SetCollider(bool active) { mCollider = active; }
 
-	bool IsStaticObject() { return staticObject; }
-	void SetStaticObject(bool active) { staticObject = active; }
+	bool IsStaticObject() { return mStaticObject; }
+	void SetStaticObject(bool active) { mStaticObject = active; }
+
+	float GetContactOffset() { return mContactOffset; }
 protected:
-	AABB mWorldBox;
+	AABB	mWorldBox;
 	//オブジェクト同士の当たり判定をするかしないか
 	//UnityのColliderかTriggerかを切り替えるフラグ
-	bool collider = true;
+	bool	mCollider = true;
 	//オブジェクトを動かさないか動かすかを決める
 	//Rigidbodyのような機能がないため追加
-	bool staticObject = true;
+	bool	mStaticObject = true;
+
+	float	mContactOffset;
 };
 

@@ -27,7 +27,7 @@ YBotActor::YBotActor()
 
 	mSword = new Sword();
 	mSkeletonMesh->GetSkeleton()->AddBoneChildActor("RightHand", mSword);
-	mSword->SetPosition(Vector3());
+	mSword->SetLocalPosition(Vector3());
 }
 
 void YBotActor::ActorInput(const struct InputState& keys)
@@ -62,7 +62,7 @@ void YBotActor::ActorInput(const struct InputState& keys)
 	{
 		pos.x -= 0.01f;
 	}
-	SetPosition(pos);
+	SetLocalPosition(pos);
 
 	Quaternion q = mLocalRotation;
 	if (keys.Keyboard.GetKey(KEY_X))
@@ -77,5 +77,5 @@ void YBotActor::ActorInput(const struct InputState& keys)
 		}
 	}
 	q = Quaternion(Vector3::UnitY, mRotationAmountY);
-	SetRotation(q);
+	SetLocalRotation(q);
 }

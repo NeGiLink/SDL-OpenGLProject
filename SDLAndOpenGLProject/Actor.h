@@ -25,9 +25,9 @@ public:
 		EDead
 	};
 	//コンストラクタ
-	ActorObject();
+								ActorObject();
 	//デストラクタ
-	virtual ~ActorObject();
+	virtual						~ActorObject();
 	// ゲームから一定数で呼び出される更新関数（オーバーライド不可）
 	void						FixedUpdate(float deltaTime);
 	// Actorに接続されたすべてのコンポーネントを更新します（オーバーライド不可）
@@ -74,13 +74,13 @@ public:
 	// PositionのGetters/setters
 	const Vector3&				GetLocalPosition() const { return mLocalPosition; }
 
-	void						SetPosition(const Vector3& pos) 
+	void						SetLocalPosition(const Vector3& pos) 
 	{
 		mLocalPosition = pos; 
 		mRecomputeWorldTransform = true; 
 	}
 	//Positionを加算で足す関数
-	void						AddPosition(const Vector3& pos) 
+	void						AddLocalPosition(const Vector3& pos) 
 	{
 		mLocalPosition += pos;
 		mRecomputeWorldTransform = true;
@@ -93,18 +93,31 @@ public:
 	// ScaleのGetters/setters
 	Vector3						GetLocalScale() const { return mLocalScale; }
 	// 1 Ver
-	void						SetScale(Vector3 scale) { mLocalScale = scale;  mRecomputeWorldTransform = true; }
-	// 2 Ver
-	void						SetScale(float scale) { mLocalScale = Vector3(scale,scale,scale);  mRecomputeWorldTransform = true; }
-	// RotationのGetters/setters
-	const Quaternion&			GetLocalRotation() const 
+	void						SetLocalScale(Vector3 scale) 
 	{
-		return mLocalRotation; 
+		mLocalScale = scale;
+		mRecomputeWorldTransform = true; 
 	}
+	// 2 Ver
+	void						SetLocalScale(float scale) 
+	{
+		mLocalScale = Vector3(scale,scale,scale);
+		mRecomputeWorldTransform = true; 
+	}
+	// RotationのGetters/setters
+	const Quaternion&			GetLocalRotation() const { return mLocalRotation; }
 
-	void						SetRotation(const Quaternion& rotation) { mLocalRotation = rotation;  mRecomputeWorldTransform = true; }
+	void						SetLocalRotation(const Quaternion& rotation) 
+	{
+		mLocalRotation = rotation;
+		mRecomputeWorldTransform = true; 
+	}
 	
-	void						AddRotation(const Quaternion& rotation) { mLocalRotation = rotation;  mRecomputeWorldTransform = true; }
+	void						AddLocalRotation(const Quaternion& rotation) 
+	{
+		mLocalRotation = rotation;
+		mRecomputeWorldTransform = true; 
+	}
 	
 	//軸別の回転量のGetters/setters
 	float						GetRotationAmountX() { return mRotationAmountX; }
@@ -153,9 +166,9 @@ public:
 	
 	class BaseScene*			GetGame() { return mGame; }
 
-	class Rigidbody* GetRigidbody() { return mRigidbody; }
+	class Rigidbody*			GetRigidbody() { return mRigidbody; }
 
-	class Collider* GetCollider() { return mCollider; }
+	class Collider*				GetCollider() { return mCollider; }
 
 	//親のアクターのGetter
 

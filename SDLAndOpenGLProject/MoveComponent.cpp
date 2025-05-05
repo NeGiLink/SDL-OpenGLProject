@@ -20,7 +20,7 @@ void MoveComponent::Update(float deltaTime)
 		Quaternion inc(Vector3::UnitY, angle);
 		// Concatenate old and new quaternion
 		rot = Quaternion::Concatenate(rot, inc);
-		mOwner->SetRotation(rot);
+		mOwner->SetLocalRotation(rot);
 	}
 
 	if (!Math::NearZero(mForwardSpeed) || !Math::NearZero(mStrafeSpeed) || !Math::NearZero(mYSpeed))
@@ -29,7 +29,7 @@ void MoveComponent::Update(float deltaTime)
 		pos += mOwner->GetForward() * mForwardSpeed * deltaTime;
 		pos += mOwner->GetRight() * mStrafeSpeed * deltaTime;
 		pos += mOwner->GetUp() * mYSpeed * deltaTime;
-		mOwner->SetPosition(pos);
+		mOwner->SetLocalPosition(pos);
 	}
 
 }

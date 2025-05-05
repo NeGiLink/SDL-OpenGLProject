@@ -21,5 +21,5 @@ void Sword::ActorInput(const struct InputState& keys)
 	{
 		scale -= 0.1f;
 	}
-	SetScale(scale);
+	SetLocalScale(scale);
 }

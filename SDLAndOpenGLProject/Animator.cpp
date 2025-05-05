@@ -110,9 +110,9 @@ void Animator::ComputeMatrixPalette()
 	{
 		// Global inverse bind pose matrix times current pose matrix
 		mPalette.mEntry[i] = globalInvBindPoses[i] * currentPoses[i];
-		mSkeleton->GetBoneActor()[i]->SetScale(currentPoses[i].GetScale());
-		mSkeleton->GetBoneActor()[i]->SetRotation(currentPoses[i].GetRotation());
-		mSkeleton->GetBoneActor()[i]->SetPosition(currentPoses[i].GetTranslation());
+		mSkeleton->GetBoneActor()[i]->SetLocalScale(currentPoses[i].GetScale());
+		mSkeleton->GetBoneActor()[i]->SetLocalRotation(currentPoses[i].GetRotation());
+		mSkeleton->GetBoneActor()[i]->SetLocalPosition(currentPoses[i].GetTranslation());
 	}
 }
 
@@ -157,8 +157,8 @@ void Animator::BlendComputeMatrixPalette()
 	for (size_t i = 0; i < mSkeleton->GetNumBones(); i++)
 	{
 		mPalette.mEntry[i] = globalInvBindPoses[i] * goalPose[i];
-		mSkeleton->GetBoneActor()[i]->SetScale(goalPose[i].GetScale());
-		mSkeleton->GetBoneActor()[i]->SetRotation(goalPose[i].GetRotation());
-		mSkeleton->GetBoneActor()[i]->SetPosition(goalPose[i].GetTranslation());
+		mSkeleton->GetBoneActor()[i]->SetLocalScale(goalPose[i].GetScale());
+		mSkeleton->GetBoneActor()[i]->SetLocalRotation(goalPose[i].GetRotation());
+		mSkeleton->GetBoneActor()[i]->SetLocalPosition(goalPose[i].GetTranslation());
 	}
 }

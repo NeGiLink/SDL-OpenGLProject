@@ -15,7 +15,7 @@ void PushButtonMove::Update(float deltaTime)
 		Vector3 pos = mOwner->GetLocalPosition();
 		pos += mOwner->GetForward() * mForwardSpeed;
 		pos += mOwner->GetRight() * mStrafeSpeed;
-		mOwner->SetPosition(pos);
+		mOwner->SetLocalPosition(pos);
 	}
 }
 

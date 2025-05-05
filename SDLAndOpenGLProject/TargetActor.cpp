@@ -4,7 +4,7 @@
 TargetActor::TargetActor()
 	:ActorObject()
 {
-	SetRotation(Quaternion(Vector3::UnitZ, Math::Pi));
+	SetLocalRotation(Quaternion(Vector3::UnitZ, Math::Pi));
 	mMeshComp = new MeshRenderer(this);
 	mMeshComp->SetMeshs(GetGame()->GetWinMain()->GetRenderer()->GetMeshs("Target.fbx"));
 
