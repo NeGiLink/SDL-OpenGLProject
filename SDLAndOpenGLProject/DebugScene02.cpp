@@ -80,15 +80,15 @@ bool DebugScene02::Initialize()
 
 	// プレイヤー生成
 	mFPSActor = new FPSActor();
-	mFPSActor->SetPosition(Vector3(0.0f, 1.0f, 0.0f));
+	mFPSActor->SetLocalPosition(Vector3(0.0f, 1.0f, 0.0f));
 
 	mPlayer = mFPSActor;
 
 	q = Quaternion(Vector3::UnitY, Math::Pi);
 
 	mYBotActor = new YBotActor();
-	mYBotActor->SetPosition(Vector3(2.0f, 0.0f, 4.0f));
-	mYBotActor->SetRotation(q);
+	mYBotActor->SetLocalPosition(Vector3(2.0f, 0.0f, 4.0f));
+	mYBotActor->SetLocalRotation(q);
 	/*
 	mTestCharacter = new TestCharacter();
 	mTestCharacter->SetPosition(Vector3(-2.0f, 0.0f, 4.0f));
@@ -102,12 +102,12 @@ bool DebugScene02::Initialize()
 	// デバッグ用のステージ追加
 	a = new DebugStageActor();
 	Vector3 pos = Vector3(0.0f, 0.0f, 0.0f);
-	a->SetPosition(pos);
+	a->SetLocalPosition(pos);
 	a = new DebugStageActor();
 	pos = Vector3(0.0f, 10.0f, 10.0f);
-	a->SetPosition(pos);
+	a->SetLocalPosition(pos);
 	q = Quaternion(Vector3::UnitX, -Math::PiOver2);
-	a->SetRotation(q);
+	a->SetLocalRotation(q);
 
 	return true;
 }

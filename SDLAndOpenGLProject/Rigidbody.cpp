@@ -29,9 +29,10 @@ void Rigidbody::FixedUpdate(float deltaTime)
     // 位置更新
     Vector3 position = mOwner->GetLocalPosition();
     position += mVelocity * deltaTime;
-    mOwner->SetPosition(position);
+    mOwner->SetLocalPosition(position);
 
-    // 力のリセット（次フレームでまたAddForceするため）
+    // 力のリセット
+    //（次フレームでまたAddForceするため）
     mForces = Vector3::Zero;
 }
 

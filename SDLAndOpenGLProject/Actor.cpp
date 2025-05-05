@@ -32,6 +32,7 @@ void ActorObject::FixedUpdate(float deltaTime)
 	{
 		FixedUpdateComponents(deltaTime);
 		FixedUpdateActor(deltaTime);
+		ComputeWorldTransform(NULL);
 	}
 }
 
@@ -130,12 +131,12 @@ void ActorObject::LocalBonePositionUpdateActor(Matrix4 boneMatrix, const Matrix4
 {
 	Vector3 position = parentActor.GetTranslation() + boneMatrix.GetTranslation();
 	position += mPositionOffset;
-	SetPosition(position);
+	SetLocalPosition(position);
 	Quaternion r = Quaternion(boneMatrix.GetRotation());
 	r = Quaternion::Concatenate(r, Quaternion(Vector3::UnitX, mRotationAmountX));
 	r = Quaternion::Concatenate(r, Quaternion(Vector3::UnitY, mRotationAmountY));
 	r = Quaternion::Concatenate(r, Quaternion(Vector3::UnitZ, mRotationAmountZ));
-	SetRotation(r);
+	SetLocalRotation(r);
 }
 
 void ActorObject::RotateToNewForward(const Vector3& forward)
@@ -146,19 +147,19 @@ void ActorObject::RotateToNewForward(const Vector3& forward)
 	// Facing down X
 	if (dot > 0.9999f)
 	{
-		SetRotation(Quaternion::Identity);
+		SetLocalRotation(Quaternion::Identity);
 	}
 	// Facing down -X
 	else if (dot < -0.9999f)
 	{
-		SetRotation(Quaternion(Vector3::UnitZ, Math::Pi));
+		SetLocalRotation(Quaternion(Vector3::UnitZ, Math::Pi));
 	}
 	else
 	{
 		// Rotate about axis from cross product
 		Vector3 axis = Vector3::Cross(Vector3::UnitX, forward);
 		axis.Normalize();
-		SetRotation(Quaternion(axis, angle));
+		SetLocalRotation(Quaternion(axis, angle));
 	}
 }
 
@@ -211,9 +212,9 @@ void ActorObject::AddChildActor(ActorObject* actor)
 
 	//親になるアクターの逆行列を掛けて子のアクターの親基準のローカル情報を計算して設定
 	Matrix4 childLocal = child * parentInvert;
-	actor->SetPosition(childLocal.GetTranslation());
-	actor->SetRotation(childLocal.GetRotation());
-	actor->SetScale(childLocal.GetScale());
+	actor->SetLocalPosition(childLocal.GetTranslation());
+	actor->SetLocalRotation(childLocal.GetRotation());
+	actor->SetLocalScale(childLocal.GetScale());
 
 
 	actor->AddParentActor(this);

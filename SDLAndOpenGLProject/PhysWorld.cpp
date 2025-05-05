@@ -82,33 +82,28 @@ void PhysWorld::SweepAndPruneXYZ()
 
 			const float contactOffset = 0.001f;
 
-			/*
+			const float contactOffsetA = colliderA->GetContactOffset();
+			const float contactOffsetB = colliderB->GetContactOffset();
+
 			// X軸の最大と最小が交差してなかったらbreak（高速化）
 			// ※ contactOffset を加味して比較
-			if (aabbB.mMin.x - contactOffset > aabbA.mMax.x + contactOffset)
+			if (aabbB.mMin.x - contactOffsetB > aabbA.mMax.x + contactOffsetA)
+			{
 				break;
+			}
 
 			// Y軸とZ軸の交差判定にも contactOffset を考慮
-			if (aabbA.mMax.y + contactOffset < aabbB.mMin.y - contactOffset ||
-				aabbA.mMin.y - contactOffset > aabbB.mMax.y + contactOffset)
+			if (aabbA.mMax.y + contactOffsetA < aabbB.mMin.y - contactOffsetB ||
+				aabbA.mMin.y - contactOffsetA > aabbB.mMax.y + contactOffsetB)
+			{
 				continue;
+			}
 
-			if (aabbA.mMax.z + contactOffset < aabbB.mMin.z - contactOffset ||
-				aabbA.mMin.z - contactOffset > aabbB.mMax.z + contactOffset)
+			if (aabbA.mMax.z + contactOffsetA < aabbB.mMin.z - contactOffsetB ||
+				aabbA.mMin.z - contactOffsetA > aabbB.mMax.z + contactOffsetB)
+			{
 				continue;
-			*/
-			// X軸の最大と最小が交差してなかったらbreak（高速化）
-			if (aabbB.mMin.x > aabbA.mMax.x)
-				break;
-
-			// Y軸とZ軸の交差判定にも contactOffset を考慮
-			if (aabbA.mMax.y < aabbB.mMin.y ||
-				aabbA.mMin.y > aabbB.mMax.y)
-				continue;
-
-			if (aabbA.mMax.z < aabbB.mMin.z ||
-				aabbA.mMin.z > aabbB.mMax.z)
-				continue;
+			}
 
 			// ここまで来たらAとBは当たっている
 			auto actorA = colliderA->GetOwner();
@@ -129,7 +124,8 @@ void PhysWorld::SweepAndPruneXYZ()
 				{
 					FixCollisions(colliderA, colliderB);
 				}
-				else if (colliderA->IsStaticObject() && !colliderB->IsStaticObject())
+				else 
+				if (colliderA->IsStaticObject() && !colliderB->IsStaticObject())
 				{
 					FixCollisions(colliderB, colliderA);
 				}
@@ -138,12 +134,14 @@ void PhysWorld::SweepAndPruneXYZ()
 			{
 				actorA->OnCollisionEnter(actorB);
 				actorB->OnCollisionEnter(actorA);
+
 				//当たり初めに判定
 				if (!colliderA->IsStaticObject() && colliderB->IsStaticObject())
 				{
 					FixCollisions(colliderA, colliderB);
 				}
-				else if (colliderA->IsStaticObject() && !colliderB->IsStaticObject())
+				else 
+				if (colliderA->IsStaticObject() && !colliderB->IsStaticObject())
 				{
 					FixCollisions(colliderB, colliderA);
 				}
@@ -169,6 +167,8 @@ void PhysWorld::SweepAndPruneXYZ()
 
 void PhysWorld::FixCollisions(class Collider* dynamicCollider, class Collider* staticCollider)
 {
+	const float contactOffset = dynamicCollider->GetContactOffset();
+
 	dynamicCollider->GetOwner()->ComputeWorldTransform(NULL);
 
 	ActorObject* dynamicActor = dynamicCollider->GetOwner();
@@ -192,23 +192,21 @@ void PhysWorld::FixCollisions(class Collider* dynamicCollider, class Collider* s
 	float dz = Math::Abs(dz1) < Math::Abs(dz2) ?
 		dz1 : dz2;
 
-	constexpr float skinWidth = 0.001f;
-
 	Axis collisionAxis;
 	// 最も近い方に応じてx/y位置を調整
 	if (Math::Abs(dx) < Math::Abs(dy) && Math::Abs(dx) < Math::Abs(dz))
 	{
-		pos.x += dx + Math::Sign(dx) * skinWidth;
+		pos.x += dx + Math::Sign(dx) * contactOffset;
 		collisionAxis = X;
 	}
 	else if (Math::Abs(dy) < Math::Abs(dx) && Math::Abs(dy) < Math::Abs(dz))
 	{
-		pos.y += dy + Math::Sign(dy) * skinWidth;
+		pos.y += dy + Math::Sign(dy) * contactOffset;
 		collisionAxis = Y;
 	}
 	else
 	{
-		pos.z += dz + Math::Sign(dz) * skinWidth;
+		pos.z += dz + Math::Sign(dz) * contactOffset;
 		collisionAxis = Z;
 	}
 
@@ -232,7 +230,9 @@ void PhysWorld::FixCollisions(class Collider* dynamicCollider, class Collider* s
 
 		dynamicActor->GetRigidbody()->SetVelocity(velocity);
 	}
-	dynamicActor->SetPosition(pos);
+	//平行移動を更新
+	dynamicActor->SetLocalPosition(pos);
+	//コライダーの座標更新
 	dynamicCollider->OnUpdateWorldTransform();
 }
 

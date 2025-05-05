@@ -4,8 +4,9 @@
 Collider::Collider(ActorObject* owner, int updateOrder)
 	:Component(owner,updateOrder)
 	, mWorldBox(Vector3::Zero, Vector3::Zero)
-	, collider(true)
-	, staticObject(true)
+	, mCollider(true)
+	, mStaticObject(true)
+	, mContactOffset(0.001f)
 {
 	mOwner->GetGame()->GetPhysWorld()->AddCollider(this);
 }

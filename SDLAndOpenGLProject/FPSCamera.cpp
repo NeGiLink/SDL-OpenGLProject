@@ -26,7 +26,7 @@ void FPSCamera::Update(float deltaTime)
 		Quaternion inc(Vector3::UnitY, angle);
 		// Concatenate old and new quaternion
 		rot = Quaternion::Concatenate(rot, inc);
-		mOwner->SetRotation(rot);
+		mOwner->SetLocalRotation(rot);
 	}
 
 	// カメラの位置はオーナーの位置です。

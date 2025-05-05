@@ -62,46 +62,46 @@ bool DebugScene01::Initialize()
 
 	// プレイヤー生成
 	mFPSActor = new FPSActor();
-	mFPSActor->SetPosition(Vector3(0.0f,1.0f,0.0f));
+	mFPSActor->SetLocalPosition(Vector3(0.0f,1.0f,0.0f));
 
 	mPlayer = mFPSActor;
 	
 	mCube = new CubeActor();
-	mCube->SetPosition(Vector3(0.0f, 0.5f, 4.0f));
+	mCube->SetLocalPosition(Vector3(0.0f, 0.5f, 4.0f));
 	
 	mCapsule = new CapsuleActor();
-	mCapsule->SetPosition(Vector3(2.0f, 0.5f, 4.0f));
+	mCapsule->SetLocalPosition(Vector3(2.0f, 0.5f, 4.0f));
 
 	mSphere = new SphereActor();
-	mSphere->SetPosition(Vector3(-2.0f, 0.5f, 4.0f));
+	mSphere->SetLocalPosition(Vector3(-2.0f, 0.5f, 4.0f));
 
 	mDice = new DiceActor();
-	mDice->SetPosition(Vector3(4.0f, 0.5f, 4.0f));
+	mDice->SetLocalPosition(Vector3(4.0f, 0.5f, 4.0f));
 
 	// 的オブジェクト生成
 	q = Quaternion();
 	a = new TargetActor();
-	a->SetPosition(Vector3(0.0f, 1.0f, 10.0f));
-	a->SetRotation(q);
+	a->SetLocalPosition(Vector3(0.0f, 1.0f, 10.0f));
+	a->SetLocalRotation(q);
 	a = new TargetActor();
-	a->SetPosition(Vector3(0.0f, 4.0f, 10.0f));
-	a->SetRotation(q);
+	a->SetLocalPosition(Vector3(0.0f, 4.0f, 10.0f));
+	a->SetLocalRotation(q);
 	a = new TargetActor();
-	a->SetPosition(Vector3(-5.0f, 2.0f, 10.0f));
-	a->SetRotation(q);
+	a->SetLocalPosition(Vector3(-5.0f, 2.0f, 10.0f));
+	a->SetLocalRotation(q);
 	a = new TargetActor();
-	a->SetPosition(Vector3(5.0f, 2.0f, 10.0f));
-	a->SetRotation(q);
+	a->SetLocalPosition(Vector3(5.0f, 2.0f, 10.0f));
+	a->SetLocalRotation(q);
 
 	// デバッグ用のステージ追加
 	a = new DebugStageActor();
 	Vector3 pos = Vector3(0.0f, 0.0f, 0.0f);
-	a->SetPosition(pos);
+	a->SetLocalPosition(pos);
 	a = new DebugStageActor();
 	pos = Vector3(0.0f, 10.0f, 10.0f);
-	a->SetPosition(pos);
+	a->SetLocalPosition(pos);
 	q = Quaternion(Vector3::UnitX, -Math::PiOver2);
-	a->SetRotation(q);
+	a->SetLocalRotation(q);
 
 	return true;
 }
@@ -147,7 +147,6 @@ bool DebugScene01::InputUpdate()
 		}
 	}
 	const InputState& state = InputSystem::GetState();
-	//const bool* state = SDL_GetKeyboardState(NULL);
 	if (GameStateClass::mGameState == GameState::GamePlay)
 	{
 		for (auto actor : mActors)

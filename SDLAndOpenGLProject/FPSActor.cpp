@@ -84,14 +84,14 @@ void FPSActor::SetVisible(bool visible)
 }
 void FPSActor::OnCollisionEnter(ActorObject* target)
 {
-	if(target->GetActorTag() == ActorTag::Ground)
+	if (target->GetActorTag() != ActorTag::Ground) { return; }
 	mBasicInput->SetJumping(false);
 	SDL_Log("Ground Hit");
 }
 
 void FPSActor::OnCollisionExit(ActorObject* target)
 {
-	if(target->GetActorTag() == ActorTag::Ground)
+	if (target->GetActorTag() != ActorTag::Ground) { return; }
 	mBasicInput->SetJumping(true);
 	SDL_Log("Jump");
 }

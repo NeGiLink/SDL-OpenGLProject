@@ -16,7 +16,7 @@ void BasicInputAction::FixedUpdate(float deltaTime)
 		Vector3 pos = mOwner->GetLocalPosition();
 		pos += mOwner->GetForward() * mForwardSpeed * deltaTime;
 		pos += mOwner->GetRight() * mStrafeSpeed * deltaTime;
-		mOwner->SetPosition(pos);
+		mOwner->SetLocalPosition(pos);
 	}
 }
 
@@ -49,7 +49,7 @@ void BasicInputAction::MoveInputUpdate(const InputState& keys)
 	}
 	if (mGravity)
 	{
-		if (keys.Keyboard.GetKeyDown(SDL_SCANCODE_SPACE))
+		if (keys.Keyboard.GetKeyDown(SDL_SCANCODE_SPACE) && !mJumping)
 		{
 			//upSpeed += 250.0f;
 			if (mOwner->GetRigidbody())
