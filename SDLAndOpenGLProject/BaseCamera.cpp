@@ -8,6 +8,7 @@
 BaseCamera::BaseCamera(ActorObject* owner, int updateOrder)
 	:Component(owner, updateOrder)
 {
+	mGame->SetMainCamera(this);
 }
 
 void BaseCamera::SetViewMatrix(const Matrix4& view)

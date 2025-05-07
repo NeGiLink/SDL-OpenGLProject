@@ -6,7 +6,7 @@ const Vector2 Vector2::UnitY(0.0f, 1.0f);
 const Vector2 Vector2::NegUnitX(-1.0f, 0.0f);
 const Vector2 Vector2::NegUnitY(0.0f, -1.0f);
 
-const Vector3 Vector3::Zero(0.0f, 0.0f, 0.f);
+const Vector3 Vector3::Zero(0.0f, 0.0f, 0.0f);
 const Vector3 Vector3::UnitX(1.0f, 0.0f, 0.0f);
 const Vector3 Vector3::UnitY(0.0f, 1.0f, 0.0f);
 const Vector3 Vector3::UnitZ(0.0f, 0.0f, 1.0f);
@@ -261,4 +261,31 @@ Matrix4 Matrix4::CreateFromQuaternion(const class Quaternion& q)
 
 	return Matrix4(mat);
 	*/
+}
+
+inline Vector3 Quaternion::ToEulerAngles() const
+{
+	Vector3 euler;
+
+	// クランプにより精度誤差対応
+	float sinr_cosp = 2.0f * (w * x + y * z);
+	float cosr_cosp = 1.0f - 2.0f * (x * x + y * y);
+	euler.x = std::atan2(sinr_cosp, cosr_cosp); // pitch
+
+	float sinp = 2.0f * (w * y - z * x);
+	if (std::abs(sinp) >= 1)
+		euler.y = std::copysign(Math::Pi / 2.0f, sinp); // ±90°（ジンバルロック）
+	else
+		euler.y = std::asin(sinp); // yaw
+
+	float siny_cosp = 2.0f * (w * z + x * y);
+	float cosy_cosp = 1.0f - 2.0f * (y * y + z * z);
+	euler.z = std::atan2(siny_cosp, cosy_cosp); // roll
+
+	// ラジアン → 度
+	euler.x *= (180.0f / Math::Pi);
+	euler.y *= (180.0f / Math::Pi);
+	euler.z *= (180.0f / Math::Pi);
+
+	return euler;
 }

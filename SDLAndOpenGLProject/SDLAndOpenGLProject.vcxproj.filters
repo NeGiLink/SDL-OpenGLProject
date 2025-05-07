@@ -91,6 +91,9 @@
     <Filter Include="SourceFiles\D_Rigidbody">
       <UniqueIdentifier>{7e09cc8c-afca-421b-aed9-07cf5a263a8a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="SourceFiles\B_GameObjects\3Ds\CameraObjects">
+      <UniqueIdentifier>{686865f2-7cd1-4ca5-9ddc-ab9dc5dd8618}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Actor.cpp">
@@ -329,6 +332,12 @@
     </ClCompile>
     <ClCompile Include="Rigidbody.cpp">
       <Filter>SourceFiles\D_Rigidbody</Filter>
+    </ClCompile>
+    <ClCompile Include="FollowObjectMovement.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="TPSCamera.cpp">
+      <Filter>SourceFiles\B_GameObjects\3Ds\CameraObjects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -601,6 +610,12 @@
     </ClInclude>
     <ClInclude Include="Rigidbody.h">
       <Filter>SourceFiles\D_Rigidbody</Filter>
+    </ClInclude>
+    <ClInclude Include="FollowObjectMovement.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="TPSCamera.h">
+      <Filter>SourceFiles\B_GameObjects\3Ds\CameraObjects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

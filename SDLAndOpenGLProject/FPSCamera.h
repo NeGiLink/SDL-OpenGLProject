@@ -40,4 +40,3 @@ private:
 	float mHorizontalMouseSpeed;
 	float mVertexMouseSpeed;
 };
-

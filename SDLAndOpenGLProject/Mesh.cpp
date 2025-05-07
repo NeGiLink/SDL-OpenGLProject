@@ -281,7 +281,9 @@ bool Mesh::LoadFromFBX(const string& fileName, Renderer* renderer, int index)
 	const aiScene* scene = importer.ReadFile(fileName,
 		aiProcess_Triangulate | aiProcess_FlipUVs | 
 		aiProcess_GenNormals  | aiProcess_GlobalScale |
-		aiProcess_MakeLeftHanded);
+		aiProcess_MakeLeftHanded |
+		aiProcess_FlipUVs |
+		aiProcess_FlipWindingOrder);
 	//MeshCheck
 	if (!scene || !scene->HasMeshes())
 	{

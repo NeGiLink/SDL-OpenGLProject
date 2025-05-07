@@ -66,6 +66,11 @@ public:
 	vector<class PlaneActor*>& GetPlanes() { return mPlanes; }
 
 	class ActorObject* GetPlayer() { return mPlayer; }
+
+	class BaseCamera* GetCamera() { return mMainCamera; }
+
+	void SetMainCamera(class BaseCamera* camera) { mMainCamera = camera; }
+
 protected:
 
 	class GameWinMain*										mWinMain;
@@ -96,6 +101,8 @@ protected:
 	class HUD*											mHUD;
 
 	class ActorObject*									mPlayer;
+
+	class BaseCamera*									mMainCamera;
 
 	//SoundEvent											mMusicEvent;
 

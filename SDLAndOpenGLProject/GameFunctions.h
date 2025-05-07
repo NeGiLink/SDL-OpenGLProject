@@ -17,6 +17,8 @@
 #include "TestCharacter.h"
 #include "YBotActor.h"
 #include "SmallCharacter.h"
+//カメラの基底クラスのインクルード
+#include "BaseCamera.h"
 //スケルタルメッシュ関係のインクルード
 #include "MeshRenderer.h"
 #include "Skeleton.h"

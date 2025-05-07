@@ -167,6 +167,7 @@
     <ClCompile Include="DialogBox.cpp" />
     <ClCompile Include="DiceActor.cpp" />
     <ClCompile Include="FollowCamera.cpp" />
+    <ClCompile Include="FollowObjectMovement.cpp" />
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="FPSActor.cpp" />
     <ClCompile Include="FPSCamera.cpp" />
@@ -184,6 +185,7 @@
     <ClCompile Include="Text.cpp" />
     <ClCompile Include="Time.cpp" />
     <ClCompile Include="DebugScene01.cpp" />
+    <ClCompile Include="TPSCamera.cpp" />
     <ClCompile Include="WinMain.cpp" />
     <ClCompile Include="DebugScene02.cpp" />
     <ClCompile Include="GBuffer.cpp" />
@@ -250,6 +252,7 @@
     <ClInclude Include="DiceActor.h" />
     <ClInclude Include="FilePath.h" />
     <ClInclude Include="FollowCamera.h" />
+    <ClInclude Include="FollowObjectMovement.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="FontFilePath.h" />
     <ClInclude Include="FPSActor.h" />
@@ -275,6 +278,7 @@
     <ClInclude Include="Text.h" />
     <ClInclude Include="Time.h" />
     <ClInclude Include="DebugScene01.h" />
+    <ClInclude Include="TPSCamera.h" />
     <ClInclude Include="Typedefs.h" />
     <ClInclude Include="WinMain.h" />
     <ClInclude Include="DebugScene02.h" />
