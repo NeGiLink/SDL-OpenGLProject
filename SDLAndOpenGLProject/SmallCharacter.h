@@ -5,6 +5,7 @@
 #include "Animator.h"
 #include "BoxCollider.h"
 #include "Sword.h"
+#include "CubeActor.h"
 
 
 class SmallCharacter : public ActorObject

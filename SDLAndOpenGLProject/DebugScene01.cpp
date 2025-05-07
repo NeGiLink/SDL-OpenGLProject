@@ -70,7 +70,9 @@ bool DebugScene01::Initialize()
 	mCube->SetLocalPosition(Vector3(0.0f, 0.5f, 4.0f));
 	
 	mCapsule = new CapsuleActor();
-	mCapsule->SetLocalPosition(Vector3(2.0f, 0.5f, 4.0f));
+	mCube->AddChildActor(mCapsule);
+	mCapsule->SetLocalPosition(Vector3(1.0f, 0.0f, 1.0f));
+
 
 	mSphere = new SphereActor();
 	mSphere->SetLocalPosition(Vector3(-2.0f, 0.5f, 4.0f));

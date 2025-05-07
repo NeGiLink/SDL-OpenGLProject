@@ -79,25 +79,26 @@ bool DebugScene02::Initialize()
 	SDL_GetRelativeMouseState(nullptr, nullptr);
 
 	// プレイヤー生成
-	mFPSActor = new FPSActor();
-	mFPSActor->SetLocalPosition(Vector3(0.0f, 1.0f, 0.0f));
+	//mFPSActor = new FPSActor();
+	//mFPSActor->SetLocalPosition(Vector3(0.0f, 1.0f, 0.0f));
 
-	mPlayer = mFPSActor;
+	mTestCharacter = new TestCharacter();
+	mTestCharacter->SetLocalPosition(Vector3(0.0f, 0.0f, 0.0f));
+	mTestCharacter->SetLocalRotation(Quaternion(Vector3::UnitY, Math::Pi));
+
+	mPlayer = mTestCharacter;
 
 	q = Quaternion(Vector3::UnitY, Math::Pi);
 
+	/*
 	mYBotActor = new YBotActor();
 	mYBotActor->SetLocalPosition(Vector3(2.0f, 0.0f, 4.0f));
 	mYBotActor->SetLocalRotation(q);
-	/*
-	mTestCharacter = new TestCharacter();
-	mTestCharacter->SetPosition(Vector3(-2.0f, 0.0f, 4.0f));
-	mTestCharacter->SetRotation(q);
 	
-	mSmallCharacter = new SmallCharacter();
-	mSmallCharacter->SetPosition(Vector3(-4.0f, 0.0f, 4.0f));
-	mSmallCharacter->SetRotation(q);
 	*/
+	mSmallCharacter = new SmallCharacter();
+	mSmallCharacter->SetLocalPosition(Vector3(-4.0f, 0.0f, 4.0f));
+	mSmallCharacter->SetLocalRotation(Quaternion());
 
 	// デバッグ用のステージ追加
 	a = new DebugStageActor();

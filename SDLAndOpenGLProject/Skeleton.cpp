@@ -135,7 +135,9 @@ bool Skeleton::LoadFromFBX(const string& fileName)
 	//三角形でポリゴンを取得、ボーンのウェイトを最大4つに制限、スケーリングを1unitに
 	const aiScene* scene = importer.ReadFile(fileName,
 		aiProcess_Triangulate | aiProcess_LimitBoneWeights |
-		aiProcess_GlobalScale | aiProcess_MakeLeftHanded);
+		aiProcess_GlobalScale | aiProcess_MakeLeftHanded |
+		aiProcess_FlipUVs |
+		aiProcess_FlipWindingOrder);
 	//モデルがあるか確認
 	if (!scene || !scene->HasMeshes()) {
 		//ないならエラーメッセージ

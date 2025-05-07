@@ -4,6 +4,13 @@
 TestCharacter::TestCharacter()
 	:ActorObject()
 {
+
+	mFollowCamera = new FollowCamera(this);
+
+	mMovement = new FollowObjectMovement(this);
+
+	mRigidbody = new Rigidbody(this);
+
 	animator = new Animator();
 	
 	GetGame()->GetAnimator(animatorName, animator);
@@ -22,6 +29,13 @@ TestCharacter::TestCharacter()
 	animator->Load("Assets/Capoeira.fbx",true);
 	animator->Load("Assets/T-Pose.fbx",true);
 	animator->PlayAnimation(animator->GetAnimations()[State::TPose]);
+
+	// ボックスの当たり判定の機能を追加
+	mBoxComp = new BoxCollider(this);
+	AABB myBox(Vector3(-0.5f, 0.0f, -0.5f), Vector3(0.5f, 2.0f, 0.5f));
+	mBoxComp->SetObjectBox(myBox);
+	mBoxComp->SetShouldRotate(false);
+	mBoxComp->SetStaticObject(false);
 }
 
 void TestCharacter::ActorInput(const struct InputState& keys)
@@ -46,4 +60,6 @@ void TestCharacter::ActorInput(const struct InputState& keys)
 	{
 		animator->PlayBlendAnimation(animator->GetAnimations()[State::Capoeira]);
 	}
+
+	mMovement->MoveInputUpdate(keys);
 }

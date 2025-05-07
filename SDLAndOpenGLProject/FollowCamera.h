@@ -10,6 +10,8 @@ public:
 
 	void Update(float deltaTime) override;
 
+	void ProcessInput(const struct InputState& keyState)override;
+
 	void SnapToIdeal();
 
 	void SetHorzDist(float dist) { mHorzDist = dist; }
@@ -17,7 +19,10 @@ public:
 	void SetTargetDist(float dist) { mTargetDist = dist; }
 	void SetSpringConstant(float spring) { mSpringConstant = spring; }
 private:
+	//ターゲットの真後ろ限定の処理
 	Vector3 ComputeCameraPos() const;
+	//マウスで操作カメラの向きを更新できる処理
+	Vector3 ComputeFreeCameraPos();
 
 	// カメラの位置
 	Vector3		mActualPos;
@@ -31,5 +36,17 @@ private:
 	float		mTargetDist;
 	// ばね定数（高いほど硬い）
 	float		mSpringConstant;
+
+	// ピッチの回転/秒速度。
+	float		mPitchSpeed;
+
+	float		mYaw = 0.0f;
+	float		mPitch = 0.0f;
+
+	//マウススピード
+	float		mHorizontalMouseSpeed;
+	float		mVertexMouseSpeed;
+	//カメラを固定するかのフラグ
+	bool		mFixed;
 };
 
