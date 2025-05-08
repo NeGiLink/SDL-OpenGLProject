@@ -8,7 +8,9 @@ FollowObjectMovement::FollowObjectMovement(ActorObject* owner, int updateOrder)
 
 void FollowObjectMovement::FixedUpdate(float deltaTime)
 {
-	float rotationSpeed = 600.0f * deltaTime;
+	//追従オブジェクトの回転処理
+	//移動方向に正面を向かせる処理
+	float rotationSpeed = 25.0f * deltaTime;
 	Quaternion targetRotation;
 	if (!Math::NearZero(mVelocity.x)|| !Math::NearZero(mVelocity.y)|| !Math::NearZero(mVelocity.z))
 	{
@@ -17,48 +19,59 @@ void FollowObjectMovement::FixedUpdate(float deltaTime)
 		mOwner->SetLocalRotation(currnetRotation);
 	}
 
+	//移動処理
+	// カメラの方向で前後左右を決めて移動
+	// カメラの前方と右ベクトルを取得（XZ平面に投影）
+	Vector3 camForward = mGame->GetCamera()->GetCameraForward();
+	camForward.y = 0;
+	camForward.Normalize();
+	// カメラの右ベクトルを取得
+	Vector3 camRight = mGame->GetCamera()->GetCameraRight();
+	camRight.y = 0;
+	camRight.Normalize();
 
-	//New X、Z移動処理
-	if (!Math::NearZero(mVelocity.x) || !Math::NearZero(mVelocity.z))
-	{
+	// 入力方向に基づく移動ベクトル（zが前後、xが左右）
+	Vector3 moveDir = (camForward * mInputDirection.z) + (camRight * mInputDirection.x);
+
+	if (!Math::NearZero(moveDir.LengthSq())) {
 		Vector3 pos = mOwner->GetLocalPosition();
-		pos += mOwner->GetForward() * (mMaxSpeed * mVelocity.z) * deltaTime;
-		pos += mOwner->GetRight() * (mMaxSpeed * mVelocity.x) * deltaTime;
+		moveDir.Normalize();
+		pos += moveDir * mMaxSpeed * deltaTime;
 		mOwner->SetLocalPosition(pos);
 	}
 }
 
 void FollowObjectMovement::Update(float deltaTime)
 {
-	Vector3 inputDir = mInputDir;
-
+	//※入力とカメラのyawマトリックスから移動量を取得
+	Vector3 inputDir = mInputDirection;
 	// カメラの回転行列を取得（yawだけ）
 	// Y軸回転のみ
 	Matrix4 cameraYawRot = mGame->GetCamera()->GetCameraYawRot();
 	Vector3 moveDir = Vector3::Transform(inputDir, cameraYawRot);
-
+	if (moveDir.Length() <= 0) { return; }
 	mVelocity = moveDir;
 }
 
 void FollowObjectMovement::MoveInputUpdate(const InputState& keys)
 {
-	mInputDir = Vector3();
+	mInputDirection = Vector3();
 	// wasd movement
 	if (keys.Keyboard.GetKey(SDL_SCANCODE_W))
 	{
-		mInputDir.z = 1.0f;
+		mInputDirection.z = 1.0f;
 	}
 	if (keys.Keyboard.GetKey(SDL_SCANCODE_S))
 	{
-		mInputDir.z = -1.0f;
+		mInputDirection.z = -1.0f;
 	}
 	if (keys.Keyboard.GetKey(SDL_SCANCODE_A))
 	{
-		mInputDir.x = -1.0f;
+		mInputDirection.x = -1.0f;
 	}
 	if (keys.Keyboard.GetKey(SDL_SCANCODE_D))
 	{
-		mInputDir.x = 1.0f;
+		mInputDirection.x = 1.0f;
 	}
 
 	if (mGravity)

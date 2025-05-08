@@ -22,10 +22,6 @@ SmallCharacter::SmallCharacter()
 	animator->Load("Assets/Capoeira.fbx",true);
 	animator->Load("Assets/T-Pose.fbx",true);
 	animator->PlayAnimation(animator->GetAnimations()[State::TPose]);
-
-	CubeActor* cube = new CubeActor();
-	AddChildActor(cube);
-	cube->SetLocalPosition(Vector3(1.0f,0.0f,1.0f));
 }
 
 void SmallCharacter::ActorInput(const struct InputState& keys)

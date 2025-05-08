@@ -5,12 +5,6 @@ TestCharacter::TestCharacter()
 	:ActorObject()
 {
 
-	mFollowCamera = new FollowCamera(this);
-
-	mMovement = new FollowObjectMovement(this);
-
-	mRigidbody = new Rigidbody(this);
-
 	animator = new Animator();
 	
 	GetGame()->GetAnimator(animatorName, animator);
@@ -60,6 +54,4 @@ void TestCharacter::ActorInput(const struct InputState& keys)
 	{
 		animator->PlayBlendAnimation(animator->GetAnimations()[State::Capoeira]);
 	}
-
-	mMovement->MoveInputUpdate(keys);
 }

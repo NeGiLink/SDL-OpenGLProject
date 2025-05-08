@@ -5,8 +5,6 @@
 #include "Animator.h"
 #include "BoxCollider.h"
 #include "Sword.h"
-#include "FollowCamera.h"
-#include "FollowObjectMovement.h"
 
 //テスト用に生成してる3Dキャラクターのうち一体のクラス
 class TestCharacter : public ActorObject
@@ -28,10 +26,6 @@ private:
 	class SkeletalMeshRenderer*		mSkeletonMesh;
 
 	class Animator*					animator;
-
-	class FollowCamera*				mFollowCamera;
-
-	class FollowObjectMovement*		mMovement;
 
 	class BoxCollider*				mBoxComp;
 

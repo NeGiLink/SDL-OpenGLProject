@@ -3,6 +3,12 @@
 YBotActor::YBotActor()
 	:ActorObject()
 {
+	mFollowCamera = new FollowCamera(this);
+
+	mMovement = new FollowObjectMovement(this);
+
+	mRigidbody = new Rigidbody(this);
+
 	animator = new Animator();
 	
 	GetGame()->GetAnimator(animatorName, animator);
@@ -28,10 +34,30 @@ YBotActor::YBotActor()
 	mSword = new Sword();
 	mSkeletonMesh->GetSkeleton()->AddBoneChildActor("RightHand", mSword);
 	mSword->SetLocalPosition(Vector3());
+
+	// ボックスの当たり判定の機能を追加
+	mBoxComp = new BoxCollider(this);
+	AABB myBox(Vector3(-0.5f, 0.0f, -0.5f), Vector3(0.5f, 2.0f, 0.5f));
+	mBoxComp->SetObjectBox(myBox);
+	mBoxComp->SetShouldRotate(false);
+	mBoxComp->SetStaticObject(false);
+}
+
+void YBotActor::UpdateActor(float deltaTime)
+{
+	if (mMovement->GetInputDirection().Length() > 0)
+	{
+		animator->PlayBlendAnimation(animator->GetAnimations()[State::Run]);
+	}
+	else if (mMovement->GetInputDirection().Length() <= 0)
+	{
+		animator->PlayBlendAnimation(animator->GetAnimations()[State::Idle]);
+	}
 }
 
 void YBotActor::ActorInput(const struct InputState& keys)
 {
+	/*
 	if (keys.Keyboard.GetKeyDown(KEY_1))
 	{
 		animator->PlayBlendAnimation(animator->GetAnimations()[State::TPose]);
@@ -78,4 +104,6 @@ void YBotActor::ActorInput(const struct InputState& keys)
 	}
 	q = Quaternion(Vector3::UnitY, mRotationAmountY);
 	SetLocalRotation(q);
+	*/
+	mMovement->MoveInputUpdate(keys);
 }
