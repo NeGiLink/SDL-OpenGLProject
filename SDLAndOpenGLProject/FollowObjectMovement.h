@@ -13,27 +13,24 @@ public:
 	//基本的な移動動作を行う関数
 	void MoveInputUpdate(const struct InputState& keys);
 	//***Getter***
-	
-	//***Setter***
-
 	bool GetJumping() { return mJumping; }
+	
+	Vector3 GetInputDirection() { return mInputDirection; }
 
+	//***Setter***
 	void SetJumping(bool active) { mJumping = active; }
 
+
 private:
-
+	//移動スピード
 	float	mMaxSpeed;
-
+	
 	bool	mGravity;
 
 	bool	mJumping;
 
-	Vector3 mMoveForward;
-
-	Vector3 mMoveRight;
-
 	Vector3 mVelocity;
 
-	Vector3 mInputDir;
+	Vector3 mInputDirection;
 };
 

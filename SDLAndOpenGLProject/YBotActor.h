@@ -5,6 +5,8 @@
 #include "Animator.h"
 #include "BoxCollider.h"
 #include "Sword.h"
+#include "FollowCamera.h"
+#include "FollowObjectMovement.h"
 
 //テスト用に3Dモデルを読み込んでいるクラス
 //名前はどのモデル化分かりやすくするためにこの名前にしました。
@@ -12,6 +14,9 @@ class YBotActor : public ActorObject
 {
 public:
 	YBotActor();
+
+	void UpdateActor(float deltaTime)override;
+
 	void ActorInput(const struct InputState& keys) override;
 private:
 	enum State
@@ -30,6 +35,11 @@ private:
 	class Sword*					mSword;
 
 	string							animatorName = "YBot";
+
+	class FollowCamera* mFollowCamera;
+
+	class FollowObjectMovement* mMovement;
+
+	class BoxCollider* mBoxComp;
 	
 };
-

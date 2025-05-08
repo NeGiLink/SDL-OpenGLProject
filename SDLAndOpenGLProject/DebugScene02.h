@@ -16,11 +16,8 @@ public:
 	bool Update()override;
 	
 	void HandleKeyPress(int key)override;
-
-	class FPSActor* GetFPSPlayer() { return mFPSActor; }
 private:
 	// Game-specific code
-	class FPSActor*					mFPSActor;
 
 	class TestCharacter*			mTestCharacter;
 

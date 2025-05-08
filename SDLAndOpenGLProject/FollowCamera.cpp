@@ -2,7 +2,7 @@
 
 FollowCamera::FollowCamera(ActorObject* owner)
 	:BaseCamera(owner)
-	, mHorzDist(5.0f)
+	, mHorzDist(3.5f)
 	, mVertDist(2.4f)
 	, mTargetDist(2.5f)
 	, mSpringConstant(12.8f)
@@ -23,6 +23,7 @@ void FollowCamera::Update(float deltaTime)
 		mActualPos = idealPos;
 		// ターゲットは所有者アクター
 		Vector3 target = mOwner->GetPosition();
+		target.y += 1.5f;
 		// カメラのビュー行列を作成
 		Matrix4 view = Matrix4::CreateLookAt(mActualPos, target, Vector3::UnitY);
 		SetViewMatrix(view);
