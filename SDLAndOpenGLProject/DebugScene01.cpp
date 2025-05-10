@@ -60,6 +60,16 @@ bool DebugScene01::Initialize()
 	// マウスカーソルを非表示
 	SDL_GetRelativeMouseState(nullptr, nullptr);
 
+	// デバッグ用のステージ追加
+	a = new DebugStageActor();
+	Vector3 pos = Vector3(0.0f, 0.0f, 0.0f);
+	a->SetLocalPosition(pos);
+	a = new DebugStageActor();
+	pos = Vector3(0.0f, 10.0f, 10.0f);
+	a->SetLocalPosition(pos);
+	q = Quaternion(Vector3::UnitX, -Math::PiOver2);
+	a->SetLocalRotation(q);
+
 	// プレイヤー生成
 	mFPSActor = new FPSActor();
 	mFPSActor->SetLocalPosition(Vector3(0.0f,1.0f,0.0f));
@@ -70,15 +80,17 @@ bool DebugScene01::Initialize()
 	mCube->SetLocalPosition(Vector3(0.0f, 0.5f, 4.0f));
 	
 	mCapsule = new CapsuleActor();
+	mCapsule->SetLocalPosition(Vector3(2.0f, 2.0f, 4.0f));
 	mCube->AddChildActor(mCapsule);
-	mCapsule->SetLocalPosition(Vector3(1.0f, 0.0f, 1.0f));
 
 
 	mSphere = new SphereActor();
 	mSphere->SetLocalPosition(Vector3(-2.0f, 0.5f, 4.0f));
+	mCube->AddChildActor(mSphere);
 
 	mDice = new DiceActor();
 	mDice->SetLocalPosition(Vector3(4.0f, 0.5f, 4.0f));
+	mCube->AddChildActor(mDice);
 
 	// 的オブジェクト生成
 	q = Quaternion();
@@ -95,15 +107,6 @@ bool DebugScene01::Initialize()
 	a->SetLocalPosition(Vector3(5.0f, 2.0f, 10.0f));
 	a->SetLocalRotation(q);
 
-	// デバッグ用のステージ追加
-	a = new DebugStageActor();
-	Vector3 pos = Vector3(0.0f, 0.0f, 0.0f);
-	a->SetLocalPosition(pos);
-	a = new DebugStageActor();
-	pos = Vector3(0.0f, 10.0f, 10.0f);
-	a->SetLocalPosition(pos);
-	q = Quaternion(Vector3::UnitX, -Math::PiOver2);
-	a->SetLocalRotation(q);
 
 	return true;
 }

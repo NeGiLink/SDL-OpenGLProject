@@ -4,8 +4,8 @@ CapsuleActor::CapsuleActor()
 	:ActorObject()
 {
 	MeshRenderer* mc = new MeshRenderer(this);
-	Mesh* mesh = GetGame()->GetWinMain()->GetRenderer()->GetMesh("Capsule.fbx");
-	mc->SetMesh(mesh);
+	vector<class Mesh*> mesh = GetGame()->GetWinMain()->GetRenderer()->GetMeshs("Capsule.fbx");
+	mc->SetMeshs(mesh);
 
 	// Add collision Sphere
 	mCapsule = new CapsuleCollider(this);

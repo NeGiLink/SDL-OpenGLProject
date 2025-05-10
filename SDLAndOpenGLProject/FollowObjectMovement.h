@@ -3,6 +3,7 @@
 #include "Actor.h"
 #include "BaseCamera.h"
 
+//三人称用のオブジェクトの移動処理
 class FollowObjectMovement : public Component
 {
 public:

@@ -16,6 +16,65 @@ bool Skeleton::Load(const string& fileName)
 	return LoadFromJSON(fileName);
 }
 
+bool Skeleton::LoadFromSkeletonBin(const string& fileName)
+{
+	string name = StringConverter::RemoveString(fileName, Model::ModelPath);
+	name = StringConverter::removeExtension(name);
+	std::ifstream in(Model::BinaryFilePath + name + Model::BinarySkelPath, std::ios::binary);
+	if (!in)
+	{
+		SDL_Log("Failed to open Skeleton bin: %s", fileName.c_str());
+		return false;
+	}
+
+	uint32_t boneCount = 0;
+	in.read((char*)&boneCount, sizeof(uint32_t));
+
+	if (boneCount > MAX_SKELETON_BONES)
+	{
+		SDL_Log("Skeleton bin exceeds max bones");
+		return false;
+	}
+
+	mBones.clear();
+	mBones.reserve(boneCount);
+
+	for (uint32_t i = 0; i < boneCount; ++i)
+	{
+		SkeletonBinBone bin{};
+		in.read((char*)&bin, sizeof(SkeletonBinBone));
+
+		Bone b;
+		b.mName = bin.name;
+		b.mShortName = bin.shortName;
+		b.mParent = bin.parentIndex;
+		b.mLocalBindPose.mPosition = bin.position;
+		b.mLocalBindPose.mRotation = bin.rotation;
+		b.mLocalBindPose.mScale = bin.scale;
+
+		//boneNameToIndexにボーン名をキーにボーン番号を格納
+		boneNameToIndex[b.mName] = static_cast<int>(mBones.size());
+		//同じくmBoneTransformにボーンの番号を格納
+		mBoneTransform[b.mShortName] = static_cast<int>(mBones.size());
+
+		//ボーンベクターに格納
+		mBones.push_back(b);
+
+		//assimpではオフセット行列をそのまま利用
+		mGlobalInvBindPoses.push_back(b.mLocalBindPose.ToMatrix());
+
+
+		//ボーンのオブジェクトを生成
+		BoneActor* boneActor = new BoneActor();
+		boneActor->SetBoneIndex(static_cast<int>(mBones.size()));
+		boneActor->SetBoneName(b.mShortName);
+		mBoneActors.push_back(boneActor);
+	}
+
+	ComputeGlobalInvBindPose();
+	return true;
+}
+
 bool Skeleton::LoadFromJSON(const string& fileName)
 {
 	std::ifstream file(fileName);
@@ -206,6 +265,33 @@ bool Skeleton::LoadFromFBX(const string& fileName)
 
 	// 親子関係を設定
 	SetParentBones(scene->mRootNode, -1);
+
+	//fileNameからPath部分だけ取り除く
+	string result = StringConverter::RemoveString(fileName, Model::ModelPath);
+	result = StringConverter::removeExtension(result);
+	std::ofstream out(Model::BinaryFilePath + result + Model::BinarySkelPath, std::ios::binary);
+	if (!out)
+	{
+		SDL_Log("Failed to open skelbin for writing.");
+		return false;
+	}
+
+	uint32_t boneCount = static_cast<uint32_t>(mBones.size());
+	out.write((char*)&boneCount, sizeof(uint32_t));
+
+	for (const Bone& b : mBones)
+	{
+		SkeletonBinBone bin{};
+		strncpy_s(bin.name, b.mName.c_str(), 64);
+		strncpy_s(bin.shortName, b.mShortName.c_str(), 64);
+		bin.parentIndex = b.mParent;
+		bin.position = b.mLocalBindPose.mPosition;
+		bin.rotation = b.mLocalBindPose.mRotation;
+		bin.scale = b.mLocalBindPose.mScale;
+
+		out.write((char*)&bin, sizeof(SkeletonBinBone));
+	}
+
 	return true;
 }
 

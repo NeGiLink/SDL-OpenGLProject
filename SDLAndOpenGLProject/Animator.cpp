@@ -49,7 +49,7 @@ void Animator::Update(float deltaTime)
 		ComputeMatrixPalette();
 	}
 
-	if (blending)
+	if (mBlending)
 	{
 		mBlendAnimTime += deltaTime * mAnimPlayRate;
 
@@ -57,12 +57,12 @@ void Animator::Update(float deltaTime)
 
 		BlendComputeMatrixPalette();
 
-		if (t >= mBlendElapsed)
+		if (mBlendAnimTime >= mBlendElapsed)
 		{
 			mAnimTime = mBlendAnimTime;
 			mAnimation = mBlendAnimation;
 			mBlendAnimation = nullptr;
-			blending = false;
+			mBlending = false;
 		}
 	}
 }
@@ -94,7 +94,7 @@ float Animator::PlayBlendAnimation(Animation* anim, float playRate, float blendT
 
 	mBlendAnimation->SetIsAnimationEnd(false);
 	mAnimation->SetIsAnimationEnd(false);
-	blending = true;
+	mBlending = true;
 
 	return mAnimation->GetDuration();
 }

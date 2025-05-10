@@ -19,14 +19,14 @@ void BoxCollider::OnUpdateWorldTransform()
 	// オブジェクトボックスにリセットする
 	mWorldBox = mObjectBox;
 	// Scale
-	mWorldBox.mMin *= mOwner->GetLocalScale();
-	mWorldBox.mMax *= mOwner->GetLocalScale();
+	mWorldBox.mMin *= mOwner->GetScale();
+	mWorldBox.mMax *= mOwner->GetScale();
 	// Rotate (if we want to)
 	if (mShouldRotate)
 	{
-		mWorldBox.Rotate(mOwner->GetLocalRotation());
+		mWorldBox.Rotate(mOwner->GetRotation());
 	}
 	// Translate
-	mWorldBox.mMin += mOwner->GetLocalPosition();
-	mWorldBox.mMax += mOwner->GetLocalPosition();
+	mWorldBox.mMin += mOwner->GetPosition();
+	mWorldBox.mMax += mOwner->GetPosition();
 }

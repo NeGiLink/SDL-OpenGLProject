@@ -6,6 +6,21 @@
 #include <GL/glew.h>
 #include "Actor.h"
 
+struct SkeletonBinBone
+{
+	// ボーン名（固定長）
+	char name[64];       
+	// 短縮版ボーン名
+	char shortName[64];
+	// 親ボーンインデックス（-1 なら root）
+	int32_t parentIndex;      
+	// バインドポーズの位置
+	Vector3 position;         
+	// バインドポーズの回転
+	Quaternion rotation;      
+	// バインドポーズのスケール（オプション）
+	Vector3 scale;            
+};
 
 class Skeleton
 {
@@ -26,6 +41,8 @@ public:
 	};
 
 	bool Load(const string& fileName);
+
+	bool LoadFromSkeletonBin(const string& fileName);
 
 	// ファイルから読み込み
 	bool LoadFromJSON(const string& fileName);

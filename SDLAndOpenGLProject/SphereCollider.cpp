@@ -21,5 +21,5 @@ void SphereCollider::OnUpdateWorldTransform()
 	
 	mWorldSphere.mRadius = mObjectSphere.mRadius * maxScale;
 
-	mWorldSphere.mCenter = mObjectSphere.mCenter * maxScale + mOwner->GetLocalPosition();
+	mWorldSphere.mCenter = mObjectSphere.mCenter * maxScale + mOwner->GetPosition();
 }

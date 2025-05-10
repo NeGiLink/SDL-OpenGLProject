@@ -333,11 +333,11 @@
     <ClCompile Include="Rigidbody.cpp">
       <Filter>SourceFiles\D_Rigidbody</Filter>
     </ClCompile>
-    <ClCompile Include="FollowObjectMovement.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="TPSCamera.cpp">
       <Filter>SourceFiles\B_GameObjects\3Ds\CameraObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="FollowObjectMovement.cpp">
+      <Filter>SourceFiles\C_Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -611,11 +611,11 @@
     <ClInclude Include="Rigidbody.h">
       <Filter>SourceFiles\D_Rigidbody</Filter>
     </ClInclude>
-    <ClInclude Include="FollowObjectMovement.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="TPSCamera.h">
       <Filter>SourceFiles\B_GameObjects\3Ds\CameraObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="FollowObjectMovement.h">
+      <Filter>SourceFiles\C_Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

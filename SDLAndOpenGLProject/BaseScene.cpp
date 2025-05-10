@@ -298,7 +298,11 @@ Skeleton* BaseScene::GetSkeleton(const string& fileName)
 	else
 	{
 		Skeleton* sk = new Skeleton();
-		if (sk->Load(file))
+		if (sk->LoadFromSkeletonBin(file))
+		{
+			mSkeletons.emplace(file, sk);
+		}
+		else if (sk->Load(file))
 		{
 			mSkeletons.emplace(file, sk);
 		}
