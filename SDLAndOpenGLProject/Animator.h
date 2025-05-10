@@ -9,32 +9,32 @@ class Animator
 {
 public:
 	//アニメーション読み込み処理
-	bool Load(const string& fileName,bool animLoop = 0);
+	bool							Load(const string& fileName,bool animLoop = 0);
 
-	void Update(float deltaTime);
+	void							Update(float deltaTime);
 
-	void SetSkeleton(class Skeleton* skeleton) { mSkeleton = skeleton; }
+	void							SetSkeleton(class Skeleton* skeleton) { mSkeleton = skeleton; }
 
 	// アニメーションを再生します。
 	// アニメーションの長さを返します。
-	float PlayAnimation(class Animation* anim, float playRate = 1.0f);
+	float							PlayAnimation(class Animation* anim, float playRate = 1.0f);
 
-	float PlayBlendAnimation(class Animation* anim, float playRate = 1.0f, float blendTime = 0.5f);
+	float							PlayBlendAnimation(class Animation* anim, float playRate = 1.0f, float blendTime = 0.25f);
 
-	void ComputeMatrixPalette();
+	void							ComputeMatrixPalette();
 
-	void BlendComputeMatrixPalette();
+	void							BlendComputeMatrixPalette();
 
+	//Getter
+	MatrixPalette					GetPalette() { return mPalette; }
 
-	MatrixPalette GetPalette() { return mPalette; }
+	vector<Animation*>				GetAnimations() { return mAnimations; }
 
-	vector<Animation*> GetAnimations() { return mAnimations; }
+	class Skeleton*					GetSkeleton() { return mSkeleton; }
 
-	class Skeleton* GetSkeleton() { return mSkeleton; }
+	class Animation*				GetAnimation() { return mAnimation; }
 
-	class Animation* GetAnimation() { return mAnimation; }
-
-	class Animation* GetBlendAnimation() { return mBlendAnimation; }
+	class Animation*				GetBlendAnimation() { return mBlendAnimation; }
 	//アニメーションの倍率
 	float							GetAnimPlayRate() { return mAnimPlayRate; }
 	//現在再生中のアニメーションの時間
@@ -43,14 +43,16 @@ public:
 	float							GetBlendAnimTime() { return mBlendAnimTime; }
 	// 現在のブレンド経過時間
 	float							GetBlendElapsed() { return mBlendElapsed; }
+
+	//Setter
 	//アニメーションのブレンドを行うためのフラグ
-	bool							IsBlending() { return blending; }
+	bool							IsBlending() { return mBlending; }
 private:
 
 	MatrixPalette					mPalette;
 
 	//アニメーションを配列で持ってる変数
-	vector<Animation*>			mAnimations;
+	vector<Animation*>				mAnimations;
 
 	class Skeleton*					mSkeleton;
 
@@ -66,6 +68,6 @@ private:
 	// 現在のブレンド経過時間
 	float							mBlendElapsed = 0.0f;
 	//アニメーションのブレンドを行うためのフラグ
-	bool							blending;
+	bool							mBlending;
 };
 

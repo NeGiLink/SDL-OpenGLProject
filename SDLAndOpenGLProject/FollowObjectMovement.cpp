@@ -4,6 +4,7 @@ FollowObjectMovement::FollowObjectMovement(ActorObject* owner, int updateOrder)
 	:Component(owner, updateOrder)
 	, mMaxSpeed(8.0f)
 {
+	mGravity = true;
 }
 
 void FollowObjectMovement::FixedUpdate(float deltaTime)

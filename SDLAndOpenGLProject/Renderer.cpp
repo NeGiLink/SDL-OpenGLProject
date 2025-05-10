@@ -514,7 +514,11 @@ Mesh* Renderer::GetMesh(const string& fileName)
 	else
 	{
 		m = new Mesh();
-		if (m->Load(file, this , 0))
+		if (m->LoadFromMeshBin(file, this, 0))
+		{
+			mMeshes.emplace(file, m);
+		}
+		else if (m->Load(file, this , 0))
 		{
 			mMeshes.emplace(file, m);
 		}
@@ -529,18 +533,20 @@ Mesh* Renderer::GetMesh(const string& fileName)
 
 vector<class Mesh*> Renderer::GetMeshs(const string& fileName)
 {
-	string file = Model::ModelPath + fileName;
+	//ファイルパス追加
+	string filePath = Model::ModelPath + fileName;
 	//返す複数のメッシュ
 	vector<class Mesh*> ms;
-	//メッシュの数を確認する用
+	//メッシュの数を確認する処理
 	Mesh* m = nullptr;
 	m = new Mesh();
-	int maxMesh = m->CheckMeshIndex(file, this);
+	int maxMesh = m->CheckMeshIndex(filePath, this);
+
 	for (int i = 0; i < maxMesh; i++)
 	{
 		string inTex = std::to_string(i);
 		Mesh* mesh = nullptr;
-		auto iter = mMeshes.find(file + inTex.c_str());
+		auto iter = mMeshes.find(filePath + inTex.c_str());
 		//すでに読み込んでいるものならそこから取得
 		if (iter != mMeshes.end())
 		{
@@ -549,9 +555,14 @@ vector<class Mesh*> Renderer::GetMeshs(const string& fileName)
 		else
 		{
 			mesh = new Mesh();
-			if (mesh->Load(file, this , i))
+			//ここにLoad前にバイナリファイルがあるかを確認する
+			if (mesh->LoadFromMeshBin(filePath, this, i))
 			{
-				mMeshes.emplace(file + inTex.c_str(), mesh);
+				mMeshes.emplace(filePath + inTex.c_str(), mesh);
+			}
+			else if (mesh->Load(filePath, this , i))
+			{
+				mMeshes.emplace(filePath + inTex.c_str(), mesh);
 			}
 			else
 			{

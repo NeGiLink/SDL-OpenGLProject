@@ -1,6 +1,5 @@
 #include "Animation.h"
 #include "Skeleton.h"
-#include <rapidjson/document.h>
 
 Animation::Animation(Skeleton* skeleton)
 	:mSkeleton(skeleton)

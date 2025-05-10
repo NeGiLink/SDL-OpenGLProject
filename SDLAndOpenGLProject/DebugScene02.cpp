@@ -78,6 +78,15 @@ bool DebugScene02::Initialize()
 	// マウスカーソルを非表示
 	SDL_GetRelativeMouseState(nullptr, nullptr);
 
+	// デバッグ用のステージ追加
+	a = new DebugStageActor();
+	Vector3 pos = Vector3(0.0f, 0.0f, 0.0f);
+	a->SetLocalPosition(pos);
+	a = new DebugStageActor();
+	pos = Vector3(0.0f, 10.0f, 10.0f);
+	a->SetLocalPosition(pos);
+	q = Quaternion(Vector3::UnitX, -Math::PiOver2);
+	a->SetLocalRotation(q);
 
 	mTestCharacter = new TestCharacter();
 	mTestCharacter->SetLocalPosition(Vector3(2.0f, 0.0f, 4.0f));
@@ -95,15 +104,6 @@ bool DebugScene02::Initialize()
 	// プレイヤー生成
 	mPlayer = mYBotActor;
 
-	// デバッグ用のステージ追加
-	a = new DebugStageActor();
-	Vector3 pos = Vector3(0.0f, 0.0f, 0.0f);
-	a->SetLocalPosition(pos);
-	a = new DebugStageActor();
-	pos = Vector3(0.0f, 10.0f, 10.0f);
-	a->SetLocalPosition(pos);
-	q = Quaternion(Vector3::UnitX, -Math::PiOver2);
-	a->SetLocalRotation(q);
 
 	return true;
 }

@@ -5,7 +5,6 @@
 #include "Renderer.h"
 #include "Texture.h"
 #include "VertexArray.h"
-#include <rapidjson/document.h>
 #include <GL/glew.h>
 #include "MeshFilePath.h"
 #include "Typedefs.h"
@@ -21,6 +20,15 @@ struct MaterialInfo
 	float   Shininess;
 };
 
+struct MeshBinHeader {
+	uint32_t	layoutType;
+	uint32_t	vertexCount;
+	uint32_t	indexCount;
+	Vector3		min;
+	Vector3		max;
+	float		colliderRadius;
+};
+
 class Mesh
 {
 public:
@@ -28,13 +36,15 @@ public:
 	~Mesh();
 	// Load
 	bool Load(const string& fileName, class Renderer* renderer,int index);
+	// バイナリファイルからの読み込み処理
+	bool LoadFromMeshBin(const string& fileName, Renderer* renderer, int index);
+	//Meshの数を取得
+	int CheckMeshIndex(const string& fileName, class Renderer* renderer);
 	// Unload mesh
 	void Unload();
+	// Getter
 	// MeshのVertexArrayを配列で取得
-	vector<class VertexArray*> GetVertexArrays() 
-	{
-		return mVertexArrays; 
-	}
+	vector<class VertexArray*> GetVertexArrays() {return mVertexArrays; }
 	// テクスチャを配列で取得
 	class Texture* GetTexture(size_t index);
 	// シェーダー名を取得
@@ -45,19 +55,17 @@ public:
 	const vector<AABB> GetBoxs() const { return mBoxs; }
 	//マテリアル情報取得
 	const vector<MaterialInfo> GetMaterialInfo() const { return mMaterialInfo; }
-	//Meshの数を取得
-	int CheckMeshIndex(const string& fileName, class Renderer* renderer);
 private:
 	//JSONファイルの読み込み処理
 	bool LoadFromJSON(const string& fileName, class Renderer* renderer, int index);
 	// FBXファイルからJSONに変換処理
 	bool LoadFromFBX(const string& fileName, class Renderer* renderer, int index);
 	// AABBの当たり判定を配列で取得
-	vector<AABB> mBoxs;
+	vector<AABB>				mBoxs;
 	// Meshのテクスチャを取得
 	vector<class Texture*>		mTextures;
 	// MeshのVertexArrayの配列
-	vector<class VertexArray*> mVertexArrays;
+	vector<class VertexArray*>  mVertexArrays;
 	// シェーダー名
 	string						mShaderName;
 	// 球の半径

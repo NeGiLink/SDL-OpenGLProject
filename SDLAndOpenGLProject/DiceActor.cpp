@@ -4,8 +4,8 @@ DiceActor::DiceActor()
 	:ActorObject()
 {
 	MeshRenderer* mc = new MeshRenderer(this);
-	Mesh* mesh = GetGame()->GetWinMain()->GetRenderer()->GetMesh("TestCube.fbx");
-	mc->SetMesh(mesh);
+	vector<class Mesh*> mesh = GetGame()->GetWinMain()->GetRenderer()->GetMeshs("TestCube.fbx");
+	mc->SetMeshs(mesh);
 	// Add collision box
 	for (unsigned int i = 0; i < mc->GetMeshs().size(); i++) {
 		// ボックスの当たり判定機能追加

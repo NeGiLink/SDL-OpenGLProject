@@ -1,8 +1,5 @@
 #include "Mesh.h"
-
 #include "Shader.h"
-
-
 
 namespace
 {
@@ -62,6 +59,236 @@ int Mesh::CheckMeshIndex(const string& fileName, Renderer* renderer)
 	index = scene->mNumMeshes;
 
 	return index;
+}
+
+bool Mesh::LoadFromMeshBin(const string& fileName, Renderer* renderer, int index)
+{
+	string name = StringConverter::removeExtension(fileName);
+
+	//1:バイナリ情報に変換した頂点、インデックスデータをbinファイルから取得
+	string number = std::to_string(index);
+	//fileNameからPath部分だけ取り除く
+	string result = StringConverter::RemoveString(name, Model::ModelPath);
+
+	string binaryFilePath = Model::BinaryFilePath + result + number + Model::BinaryPath;
+	//バイナリファイルの確認
+	std::ifstream in(binaryFilePath, std::ios::binary);
+	if (!in) {
+		SDL_Log("Failed to open mesh binary: %s", binaryFilePath.c_str());
+		return false;
+	}
+
+	//バイナリデータの構造体宣言
+	MeshBinHeader header;
+	//宣言した構造体に読み込んだファイルの情報を読み込む
+	in.read((char*)&header, sizeof(header));
+	//Textureのタイプを代入
+	VertexArray::Layout layout = (header.layoutType == 0) ?
+		VertexArray::PosNormTex : VertexArray::PosNormSkinTex;
+
+	// 要素数を計算（1頂点あたりのVertex数）
+	size_t stride = (layout == VertexArray::PosNormTex) ? 8 : 13;
+	std::vector<Vertex> vertices(header.vertexCount * stride);
+	std::vector<uint32_t> indices(header.indexCount);
+
+	in.read((char*)vertices.data(), sizeof(Vertex) * vertices.size());
+	in.read((char*)indices.data(), sizeof(uint32_t) * indices.size());
+
+	// 中心位置や半径を再利用したい場合
+	AABB box = AABB(Vector3::Infinity, Vector3::NegInfinity);
+	box.mMin = header.min;
+	box.mMax = header.max;
+	mBoxs.push_back(box); // AABB中心などに使える
+	mRadiusArray.push_back(header.colliderRadius);
+
+	VertexArray* va = new VertexArray(vertices.data(), header.vertexCount,
+		layout, indices.data(), header.indexCount);
+	mVertexArrays.push_back(va);
+
+	//2:Assimpを使ってファイルからテクスチャとマテリアル情報を取得
+	string assimpFilePath = name + ".fbx";
+	//ファイルチェック
+	std::ifstream fileCheck(assimpFilePath);
+	if (!fileCheck)
+	{
+		SDL_Log("FBX file not found: %s", assimpFilePath.c_str());
+		return false;
+	}
+	//モデル情報取得
+	Assimp::Importer importer;
+	const aiScene* scene = importer.ReadFile(assimpFilePath,
+		aiProcess_Triangulate | aiProcess_FlipUVs |
+		aiProcess_GenNormals | aiProcess_GlobalScale |
+		aiProcess_MakeLeftHanded |
+		aiProcess_FlipWindingOrder);
+	//MeshCheck
+	if (!scene || !scene->HasMeshes())
+	{
+		SDL_Log("Assimp Error: %s", importer.GetErrorString());
+		return false;
+	}
+
+	aiMesh* mesh = scene->mMeshes[index];
+
+	//テクスチャとマテリアルの情報を取得
+		//テクスチャとマテリアルの読み込み
+	std::unordered_map<string, Texture*> loadedTextures;
+	string texFile = "MaterialTexure.png";
+	for (unsigned int i = 0; i < scene->mNumMaterials; i++)
+	{
+		// メッシュに関連付けられたマテリアルを取得
+		aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
+		aiString texturePath;
+		//ファイルにFBXがあるか
+		if (material->GetTexture(aiTextureType_DIFFUSE, 0, &texturePath) == AI_SUCCESS)
+		{
+			texFile = texturePath.C_Str();
+
+			// 埋め込みテクスチャかどうかチェック
+			if (texFile[0] == '.') {
+				int embeddedIndex = std::atoi(texFile.c_str() + 1);
+				if (embeddedIndex < scene->mNumTextures) {
+					aiTexture* embeddedTex = scene->mTextures[embeddedIndex];
+
+					Texture* newTex = new Texture();
+					if (newTex->LoadFromAssimp(embeddedTex)) {
+						loadedTextures[texFile] = newTex;
+					}
+					else {
+						delete newTex;
+					}
+				}
+			}
+			// 通常の外部テクスチャ
+			else {
+				if (loadedTextures.find(texFile) == loadedTextures.end())
+				{
+					Texture* newTex = new Texture();
+					if (newTex->Load(Model::ModelTexturePath + texFile))
+					{
+						loadedTextures[texFile] = newTex;
+					}
+					else {
+						delete newTex;
+					}
+				}
+			}
+
+			if (loadedTextures.find(texFile) != loadedTextures.end())
+			{
+				mTextures.push_back(loadedTextures[texFile]);
+			}
+		}
+		//ないならマテリアル用のテクスチャロード
+		else
+		{
+			//マテリアル用のテクスチャ取得
+			if (loadedTextures.find(texFile) == loadedTextures.end())
+			{
+				Texture* newTex = new Texture();
+				if (newTex->Load(Model::ModelTexturePath + texFile))
+				{
+					loadedTextures[texFile] = newTex;
+				}
+				else {
+					delete newTex;
+				}
+			}
+
+			if (loadedTextures.find(texFile) != loadedTextures.end())
+			{
+				mTextures.push_back(loadedTextures[texFile]);
+			}
+		}
+
+		MaterialInfo info
+		{
+				Vector4(0,0,0,0),
+				Vector3(0,0,0),
+				Vector3(0,0,0),
+				Vector3(0,0,0),
+				0
+		};
+
+		aiColor4D diffuseColor;
+		if (AI_SUCCESS == aiGetMaterialColor(material, AI_MATKEY_COLOR_DIFFUSE, &diffuseColor))
+		{
+
+			info.Color = Vector4(diffuseColor.r, diffuseColor.g, diffuseColor.b, diffuseColor.a);
+		}
+
+		// 拡散色（Diffuse Color）の取得
+		aiColor3D diffuse(1.0f, 1.0f, 1.0f);
+		material->Get(AI_MATKEY_COLOR_DIFFUSE, diffuse);
+
+		// 環境光（Ambient Color）の取得
+		aiColor3D ambient(0.2f, 0.2f, 0.2f);
+		material->Get(AI_MATKEY_COLOR_AMBIENT, ambient);
+
+		// 鏡面反射（Specular Color）の取得
+		aiColor3D specular(0.5f, 0.5f, 0.5f);
+		material->Get(AI_MATKEY_COLOR_SPECULAR, specular);
+
+		// シェーダーに値を送る（glUniform3f を使用）
+		info.Ambient = Vector3(ambient.r, ambient.g, ambient.b);
+		info.Diffuse = Vector3(diffuse.r, diffuse.g, diffuse.b);
+		info.Specular = Vector3(specular.r, specular.g, specular.b);
+
+		mMaterialInfo.push_back(info);
+
+		float shininess = 0.0f;
+		if (scene->HasMaterials())
+		{
+
+			if (AI_SUCCESS != material->Get(AI_MATKEY_SHININESS, shininess))
+			{
+				// デフォルト値を設定
+				shininess = 100.0f;
+			}
+			shininess = shininess / 128.0f;
+
+			info.Shininess = shininess;
+		}
+	}
+
+	
+	
+
+	/*
+	MeshBinHeader header;
+	in.read((char*)&header, sizeof(header));
+
+	for (uint32_t i = 0; i < header.subMeshCount; ++i) {
+		SubMeshHeader sub;
+		in.read((char*)&sub, sizeof(sub));
+
+		//Textureのタイプを代入
+		VertexArray::Layout layout = (header.layoutType == 0) ?
+			VertexArray::PosNormTex : VertexArray::PosNormSkinTex;
+
+		// 要素数を計算（1頂点あたりのVertex数）
+		size_t stride = (layout == VertexArray::PosNormTex) ? 8 : 13;
+
+		std::vector<Vertex> vertices(sub.vertexCount * stride);
+		std::vector<uint32_t> indices(sub.indexCount);
+
+		in.read((char*)vertices.data(), sizeof(Vertex) * vertices.size());
+		in.read((char*)indices.data(), sizeof(uint32_t) * indices.size());
+
+
+		// AABBや半径復元も可
+		mRadiusArray.push_back(sub.colliderRadius);
+		AABB box = AABB(Vector3::Infinity, Vector3::NegInfinity);
+		box.UpdateMinMax(sub.vertexPosition);
+		mBoxs.push_back(box);
+
+		VertexArray* va = new VertexArray(vertices.data(), sub.vertexCount,
+			layout, indices.data(), sub.indexCount);
+		mVertexArrays.push_back(va);
+	}
+	*/
+
+	return true;
 }
 //独自フォーマット用読み込み関数
 bool Mesh::LoadFromJSON(const string& fileName, Renderer* renderer, int index)
@@ -299,11 +526,6 @@ bool Mesh::LoadFromFBX(const string& fileName, Renderer* renderer, int index)
 
 	mesh = scene->mMeshes[index];
 
-	//新しく追加部分
-	// -90°回転
-	aiMatrix4x4 blenderToUnity;
-	aiMatrix4x4::RotationX(-AI_MATH_PI / 2.0f, blenderToUnity);
-
 	//頂点データの変換
 	for (unsigned int i = 0; i < mesh->mNumVertices; i++)
 	{
@@ -417,7 +639,7 @@ bool Mesh::LoadFromFBX(const string& fileName, Renderer* renderer, int index)
 	radius = Math::Sqrt(radius);
 	//テクスチャとマテリアルの読み込み
 	std::unordered_map<string, Texture*> loadedTextures;
-	string texFile = "MaterialTetxure.png";
+	string texFile = "MaterialTexure.png";
 	for (unsigned int i = 0; i < scene->mNumMaterials; i++) 
 	{
 		// メッシュに関連付けられたマテリアルを取得
@@ -550,6 +772,55 @@ bool Mesh::LoadFromFBX(const string& fileName, Renderer* renderer, int index)
 	VertexArray* va = new VertexArray(vertices.data(), vertexCount, layout, indices.data(), static_cast<unsigned>(indices.size()));
 	//頂点配列の作成
 	mVertexArrays.push_back(va);
+
+	//fileNameからPath部分だけ取り除く
+	string result = StringConverter::RemoveString(fileName, Model::ModelPath);
+
+
+	//バイナリに変換
+	/*
+	result = removeExtension(result);
+	string number = std::to_string(index);
+	std::ofstream out(result + number + Model::BinaryPath, std::ios::binary);
+
+	MeshBinHeader header{};
+	header.layoutType = (layout == VertexArray::PosNormTex) ? 0 : 1;
+	header.subMeshCount = scene->mNumMeshes;
+	out.write((char*)&header, sizeof(header));
+
+	for (unsigned int i = 0; i < scene->mNumMeshes; ++i) {
+		// 各メッシュごとに処理
+		SubMeshHeader sub{};
+		sub.vertexCount = vertexCount;
+		sub.indexCount = static_cast<uint32_t>(indices.size());
+		// そのメッシュのAABB
+		sub.vertexPosition = vertexPosition; 
+		sub.colliderRadius = radius;
+		out.write((char*)&sub, sizeof(sub));
+
+		// 頂点/インデックスデータ
+		out.write((char*)vertices.data(), sizeof(Vertex) * vertices.size());
+		out.write((char*)indices.data(), sizeof(uint32_t) * indices.size());
+	}
+	*/
+	MeshBinHeader header;
+	header.layoutType = (layout == VertexArray::PosNormTex) ? 0 : 1;
+	header.vertexCount = vertexCount;
+	header.indexCount = static_cast<uint32_t>(indices.size());
+
+
+	header.min = box.mMin;
+	header.max = box.mMax;
+	header.colliderRadius = radius;          // 半径計算済みと仮定
+	
+
+	result = StringConverter::removeExtension(result);
+	string number = std::to_string(index);
+	std::ofstream out(Model::BinaryFilePath + result + number + Model::BinaryPath, std::ios::binary);
+	out.write((char*)&header, sizeof(header));
+	out.write((char*)vertices.data(), sizeof(Vertex)* vertices.size());
+	out.write((char*)indices.data(), sizeof(uint32_t)* indices.size());
+
 	SDL_Log("FBX file exists: %s", fileName.c_str());
 	return true;
 }
