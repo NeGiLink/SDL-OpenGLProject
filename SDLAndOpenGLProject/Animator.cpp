@@ -12,14 +12,29 @@
 /// <returns></returns>
 bool Animator::Load(const string& fileName,bool animLoop)
 {
+	string path = Model::AnimationFilePath + fileName;
 	Animation* anim = new Animation(mSkeleton);
 
-	if (!anim->Load(fileName)) {
-		return false;
+		/*
+	if (anim->LoadFromBinary(fileName))
+	{
+		anim->SetLoop(animLoop);
+		mAnimations.push_back(anim);
+		return true;
 	}
+	else
+		*/
+	if (anim->Load(path))
+	{
+		anim->SetLoop(animLoop);
+		mAnimations.push_back(anim);
+		return true;
+	}
+	/*
 	anim->SetLoop(animLoop);
 	mAnimations.push_back(anim);
-	return true;
+	*/
+	return false;
 }
 
 void Animator::Update(float deltaTime)

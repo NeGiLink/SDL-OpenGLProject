@@ -11,6 +11,8 @@ ActorObject::ActorObject()
 	, mLocalScale(Vector3(1.0f,1.0f,1.0f))
 	, mGame(GameApp::GetActiveScene())
 	, mRecomputeWorldTransform(true)
+	, mWorldTransform()
+	, mModelTransform()
 {
 	mGame->AddActor(this);
 }

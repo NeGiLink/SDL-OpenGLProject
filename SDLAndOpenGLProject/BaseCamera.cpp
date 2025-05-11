@@ -7,6 +7,10 @@
 
 BaseCamera::BaseCamera(ActorObject* owner, int updateOrder)
 	:Component(owner, updateOrder)
+	, mCameraForward(Vector3::Zero)
+	, mCameraRight(Vector3::Zero)
+	, mCameraUp(Vector3::Zero)
+	, mCameraYawRot()
 {
 	mGame->SetMainCamera(this);
 }

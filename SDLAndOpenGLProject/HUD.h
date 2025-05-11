@@ -1,12 +1,9 @@
 #pragma once
 #include "UIScreen.h"
-#include <vector>
-#include "Texture.h"
-#include "Image.h"
-#include "Shader.h"
 #include "PhysWorld.h"
-#include "FPSActor.h"
 #include "TargetComponent.h"
+#include "Actor.h"
+
 //ゲーム上のUIをまとめて処理するクラス
 class HUD : public UIScreen
 {
@@ -34,9 +31,9 @@ protected:
 	class Image*							mRadarArrow;
 
 	// ゲーム内のすべてのターゲットコンポーネント
-	vector<class TargetComponent*>		mTargetComps;
+	vector<class TargetComponent*>			mTargetComps;
 	// レーダーに対するブリップの2Dオフセット
-	vector<Vector2>					mBlips;
+	vector<Vector2>							mBlips;
 	// レーダーの範囲と半径を調整する
 	float									mRadarRange;
 	float									mRadarRadius;

@@ -15,9 +15,8 @@
 #include "SkeletalMeshRenderer.h"
 #include "GBuffer.h"
 #include "PointLightComponent.h"
-#include "MeshFilePath.h"
 
-Vector4 Renderer::mClearColor = Vector4(0.5f, 0.7f, 1.0f, 1.0f);
+
 
 Renderer::Renderer(GameWinMain* game)
 	:mGame(game)
@@ -248,7 +247,7 @@ void Renderer::Draw3DScene(unsigned int framebuffer, const Matrix4& view, const 
 	glViewport(0, 0,static_cast<int>(mScreenWidth * viewPortScale),static_cast<int>(mScreenHeight * viewPortScale));
 
 	// カラー バッファ/深度バッファをクリア
-	glClearColor(mClearColor.x, mClearColor.y, mClearColor.z, mClearColor.w);
+	glClearColor(Color::mClearColor.x, Color::mClearColor.y, Color::mClearColor.z, Color::mClearColor.w);
 	glDepthMask(GL_TRUE);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 

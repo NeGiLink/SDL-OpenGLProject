@@ -18,12 +18,17 @@ public:
 	void UpdateActor(float deltaTime)override;
 
 	void ActorInput(const struct InputState& keys) override;
+
+	void OnCollisionEnter(class ActorObject* target) override;
+
+	void OnCollisionExit(class ActorObject* target) override;
 private:
 	enum State
 	{
 		Idle,
 		Run,
 		Jump,
+		RunJump,
 		Capoeira,
 		TPose
 	};

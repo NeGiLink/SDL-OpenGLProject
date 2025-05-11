@@ -24,11 +24,12 @@ YBotActor::YBotActor()
 	
 	//Skeletonデータをアニメーターに設定
 	animator->SetSkeleton(mSkeletonMesh->GetSkeleton());
-	animator->Load("Assets/Sword And Shield Idle.fbx",true);
-	animator->Load("Assets/Running.fbx",true);
-	animator->Load("Assets/Jumping.fbx");
-	animator->Load("Assets/Capoeira.fbx",true);
-	animator->Load("Assets/T-Pose.fbx",true);
+	animator->Load("Sword And Shield Idle.fbx",true);
+	animator->Load("Running.fbx",true);
+	animator->Load("Jumping.fbx");
+	animator->Load("Jump.fbx");
+	animator->Load("Capoeira.fbx",true);
+	animator->Load("T-Pose.fbx",true);
 	animator->PlayAnimation(animator->GetAnimations()[State::TPose]);
 
 	mSword = new Sword();
@@ -45,14 +46,18 @@ YBotActor::YBotActor()
 
 void YBotActor::UpdateActor(float deltaTime)
 {
-	if (mMovement->GetInputDirection().Length() > 0)
+	if (!mMovement->IsJumping())
 	{
-		animator->PlayBlendAnimation(animator->GetAnimations()[State::Run]);
+		if (mMovement->GetInputDirection().Length() > 0)
+		{
+			animator->PlayBlendAnimation(animator->GetAnimations()[State::Run]);
+		}
+		else if (mMovement->GetInputDirection().Length() <= 0)
+		{
+			animator->PlayBlendAnimation(animator->GetAnimations()[State::Idle]);
+		}
 	}
-	else if (mMovement->GetInputDirection().Length() <= 0)
-	{
-		animator->PlayBlendAnimation(animator->GetAnimations()[State::Idle]);
-	}
+
 }
 
 void YBotActor::ActorInput(const struct InputState& keys)
@@ -105,5 +110,22 @@ void YBotActor::ActorInput(const struct InputState& keys)
 	q = Quaternion(Vector3::UnitY, mRotationAmountY);
 	SetLocalRotation(q);
 	*/
+
+	if (keys.Keyboard.GetKeyDown(SDL_SCANCODE_SPACE) && !mMovement->IsJumping())
+	{
+		animator->PlayBlendAnimation(animator->GetAnimations()[State::RunJump]);
+	}
 	mMovement->MoveInputUpdate(keys);
+}
+
+void YBotActor::OnCollisionEnter(ActorObject* target)
+{
+	if (target->GetActorTag() != ActorTag::Ground) { return; }
+	mMovement->SetJumping(false);
+}
+
+void YBotActor::OnCollisionExit(ActorObject* target)
+{
+	if (target->GetActorTag() != ActorTag::Ground) { return; }
+	mMovement->SetJumping(true);
 }

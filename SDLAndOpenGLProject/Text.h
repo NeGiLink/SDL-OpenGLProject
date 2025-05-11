@@ -1,8 +1,5 @@
 #pragma once
 #include "Image.h"
-#include "Math.h"
-#include "Texture.h"
-#include "Shader.h"
 #include "Font.h"
 
 class Text : public Image

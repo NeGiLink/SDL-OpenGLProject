@@ -3,6 +3,21 @@
 #include "Assimp.h"
 #include "SDL3.h"
 
+struct AnimationBinHeader 
+{
+	uint32_t	version = 1;
+	float		duration;
+	uint32_t	numFrames;
+	uint32_t	numBones;
+};
+
+struct AnimationBinTransform 
+{
+	Vector3		position;
+	Quaternion	rotation;
+	Vector3		scale;
+};
+
 //アニメーション1つの情報を持つクラス
 class Animation
 {
@@ -10,6 +25,10 @@ public:
 	Animation(class Skeleton* skeleton);
 
 	bool Load(const string& fileName);
+
+	bool LoadFromBinary(const std::string& filePath);
+
+	bool SaveToBinary(const std::string& filePath);
 
 	size_t	GetNumBones() const { return mNumBones; }
 	

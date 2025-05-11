@@ -3,6 +3,10 @@
 FollowObjectMovement::FollowObjectMovement(ActorObject* owner, int updateOrder)
 	:Component(owner, updateOrder)
 	, mMaxSpeed(8.0f)
+	, mGravity(false)
+	, mJumping(false)
+	, mVelocity(Vector3::Zero)
+	, mInputDirection(Vector3::Zero)
 {
 	mGravity = true;
 }
@@ -81,7 +85,7 @@ void FollowObjectMovement::MoveInputUpdate(const InputState& keys)
 		{
 			if (mOwner->GetRigidbody())
 			{
-				mOwner->GetRigidbody()->AddForce(Vector3::UnitY * 2000.0f);
+				mOwner->GetRigidbody()->AddForce(Vector3::UnitY * 500.0f);
 			}
 		}
 	}
