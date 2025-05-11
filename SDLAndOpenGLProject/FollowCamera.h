@@ -10,8 +10,6 @@ public:
 
 	void Update(float deltaTime) override;
 
-	void ProcessInput(const struct InputState& keyState)override;
-
 	void SnapToIdeal();
 
 	void SetHorzDist(float dist) { mHorzDist = dist; }

@@ -1,5 +1,4 @@
 #pragma once
-//#define _SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING
 //STD関連の外部インクルード
 #include <array>
 #include <string>
@@ -17,5 +16,6 @@
 #include <cmath>
 #include <memory.h>
 #include <limits>
+#include <random>
 //Rapidjsonの外部インクルード
 #include <rapidjson/document.h>

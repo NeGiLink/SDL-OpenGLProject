@@ -14,7 +14,7 @@ public:
 	//Šî–{“I‚ÈˆÚ“®“®ì‚ğs‚¤ŠÖ”
 	void MoveInputUpdate(const struct InputState& keys);
 	//***Getter***
-	bool GetJumping() { return mJumping; }
+	bool IsJumping() { return mJumping; }
 	
 	Vector3 GetInputDirection() { return mInputDirection; }
 

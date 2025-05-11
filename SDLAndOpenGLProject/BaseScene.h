@@ -1,7 +1,7 @@
 #pragma once
 #include "Math.h"
 #include "WinMain.h"
-#include "MeshFilePath.h"
+
 
 //シーンの基底クラス
 //オブジェクトの更新などをまとめて行う部分になります。

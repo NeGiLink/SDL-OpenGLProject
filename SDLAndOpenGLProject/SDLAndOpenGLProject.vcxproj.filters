@@ -413,12 +413,6 @@
     <ClInclude Include="FilePath.h">
       <Filter>SourceFiles\K_Defines</Filter>
     </ClInclude>
-    <ClInclude Include="MeshFilePath.h">
-      <Filter>SourceFiles\K_Defines</Filter>
-    </ClInclude>
-    <ClInclude Include="FontFilePath.h">
-      <Filter>SourceFiles\K_Defines</Filter>
-    </ClInclude>
     <ClInclude Include="Animator.h">
       <Filter>SourceFiles\E_Animations</Filter>
     </ClInclude>

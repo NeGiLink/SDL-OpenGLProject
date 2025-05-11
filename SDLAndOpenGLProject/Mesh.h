@@ -5,9 +5,7 @@
 #include "Renderer.h"
 #include "Texture.h"
 #include "VertexArray.h"
-#include <GL/glew.h>
-#include "MeshFilePath.h"
-#include "Typedefs.h"
+#include "FilePath.h"
 
 
 //マテリアル情報の構造体

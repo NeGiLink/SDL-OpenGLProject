@@ -26,6 +26,79 @@ bool Animation::Load(const string& fileName)
 	return false;
 }
 
+bool Animation::LoadFromBinary(const std::string& filePath)
+{
+	string file = filePath;
+	file = StringConverter::RemoveString(file,Model::AssetPath);
+	file = StringConverter::removeExtension(file);
+	std::ifstream in(Model::BinaryFilePath + file + Model::BinaryAnimPath, std::ios::binary);
+	if (!in) {
+		SDL_Log("Failed to open animation bin: %s", filePath.c_str());
+		return false;
+	}
+
+	AnimationBinHeader header;
+	in.read((char*)&header, sizeof(header));
+
+	if (header.version != 1) {
+		SDL_Log("Unsupported animation version: %d", header.version);
+		return false;
+	}
+
+	mDuration = header.duration;
+	mNumFrames = header.numFrames;
+	mNumBones = mSkeleton->GetBones().size();
+	mFrameDuration = mDuration / (mNumFrames - 1);
+
+	mTracks.resize(mNumBones);
+	for (size_t bone = 0; bone < mNumBones; ++bone)
+	{
+		mTracks[bone].resize(mNumFrames);
+		for (size_t frame = 0; frame < mNumFrames; ++frame)
+		{
+			AnimationBinTransform transform;
+			in.read((char*)&transform, sizeof(transform));
+
+			BoneTransform bt;
+			bt.mPosition = transform.position;
+			bt.mRotation = transform.rotation;
+			bt.mScale = transform.scale;
+			mTracks[bone][frame] = bt;
+		}
+	}
+
+	return true;
+}
+
+bool Animation::SaveToBinary(const std::string& filePath)
+{
+	std::ofstream out(filePath, std::ios::binary);
+	if (!out) {
+		SDL_Log("Failed to open animation bin for writing: %s", filePath.c_str());
+		return false;
+	}
+
+	AnimationBinHeader header;
+	header.duration = mDuration;
+	header.numFrames = static_cast<uint32_t>(mNumFrames);
+	header.numBones = static_cast<uint32_t>(mNumBones);
+	out.write((char*)&header, sizeof(header));
+
+	for (size_t bone = 0; bone < mNumBones; ++bone)
+	{
+		for (size_t frame = 0; frame < mNumFrames; ++frame)
+		{
+			AnimationBinTransform transform;
+			transform.position = mTracks[bone][frame].mPosition;
+			transform.rotation = mTracks[bone][frame].mRotation;
+			transform.scale = mTracks[bone][frame].mScale;
+			out.write((char*)&transform, sizeof(transform));
+		}
+	}
+
+	return true;
+}
+
 bool Animation::LoadFromJSON(const string& fileName)
 {
 	std::ifstream file(fileName);
@@ -229,6 +302,11 @@ bool Animation::LoadFromFBX(const string& fileName)
 			mTracks[boneIndex][j] = temp;
 		}
 	}
+	/*
+	string result = StringConverter::RemoveString(fileName, Model::AssetPath);
+	result = StringConverter::removeExtension(result);
+	SaveToBinary(Model::BinaryFilePath + result + Model::BinaryAnimPath);
+	*/
 
 	return true;
 }

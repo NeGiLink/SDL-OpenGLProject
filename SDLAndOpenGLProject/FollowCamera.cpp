@@ -53,33 +53,6 @@ void FollowCamera::Update(float deltaTime)
 	}
 }
 
-void FollowCamera::ProcessInput(const InputState& keyState)
-{
-	if (keyState.Keyboard.GetKeyDown(KEY_UP))
-	{
-		mVertDist += 0.1f;
-	}
-	else if (keyState.Keyboard.GetKeyDown(KEY_DOWN))
-	{
-		mVertDist -= 0.1f;
-	}
-
-	if (keyState.Keyboard.GetKeyDown(KEY_LEFT))
-	{
-		mHorzDist += 0.1f;
-	}
-	else if (keyState.Keyboard.GetKeyDown(KEY_RIGHT))
-	{
-		mHorzDist -= 0.1f;
-	}
-
-	if (keyState.Keyboard.GetKeyDown(KEY_L))
-	{
-		SDL_Log("mHorzDist : %.2f", mHorzDist);
-		SDL_Log("mVertDist : %.2f", mVertDist);
-	}
-}
-
 void FollowCamera::SnapToIdeal()
 {
 	// 実際の位置を理想に設定する

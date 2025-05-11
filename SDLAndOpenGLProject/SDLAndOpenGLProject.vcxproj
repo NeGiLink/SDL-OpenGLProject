@@ -250,11 +250,9 @@
     <ClInclude Include="DebugStageActor.h" />
     <ClInclude Include="DialogBox.h" />
     <ClInclude Include="DiceActor.h" />
-    <ClInclude Include="FilePath.h" />
     <ClInclude Include="FollowCamera.h" />
     <ClInclude Include="FollowObjectMovement.h" />
     <ClInclude Include="Font.h" />
-    <ClInclude Include="FontFilePath.h" />
     <ClInclude Include="FPSActor.h" />
     <ClInclude Include="FPSCamera.h" />
     <ClInclude Include="GameApp.h" />
@@ -262,7 +260,7 @@
     <ClInclude Include="Image.h" />
     <ClInclude Include="InputSystem.h" />
     <ClInclude Include="LineRenderer.h" />
-    <ClInclude Include="MeshFilePath.h" />
+    <ClInclude Include="FilePath.h" />
     <ClInclude Include="PushButtonMove.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Rigidbody.h" />

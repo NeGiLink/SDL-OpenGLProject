@@ -16,11 +16,11 @@ SmallCharacter::SmallCharacter()
 	
 	animator->SetSkeleton(mSkeletonMesh->GetSkeleton());
 	
-	animator->Load("Assets/Idle.fbx",true);
-	animator->Load("Assets/Running.fbx",true);
-	animator->Load("Assets/Jumping.fbx");
-	animator->Load("Assets/Capoeira.fbx",true);
-	animator->Load("Assets/T-Pose.fbx",true);
+	animator->Load("Idle.fbx",true);
+	animator->Load("Running.fbx",true);
+	animator->Load("Jumping.fbx");
+	animator->Load("Capoeira.fbx",true);
+	animator->Load("T-Pose.fbx",true);
 	animator->PlayAnimation(animator->GetAnimations()[State::TPose]);
 }
 

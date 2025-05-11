@@ -95,7 +95,7 @@ bool DebugScene02::Initialize()
 	q = Quaternion(Vector3::UnitY, Math::Pi);
 
 	mYBotActor = new YBotActor();
-	mYBotActor->SetLocalPosition(Vector3());
+	mYBotActor->SetLocalPosition(Vector3(0.0f,0.0f,0.0f));
 	
 	mSmallCharacter = new SmallCharacter();
 	mSmallCharacter->SetLocalPosition(Vector3(-4.0f, 0.0f, 4.0f));
@@ -104,6 +104,20 @@ bool DebugScene02::Initialize()
 	// プレイヤー生成
 	mPlayer = mYBotActor;
 
+	// 的オブジェクト生成
+	q = Quaternion();
+	a = new TargetActor();
+	a->SetLocalPosition(Vector3(0.0f, 1.0f, 10.0f));
+	a->SetLocalRotation(q);
+	a = new TargetActor();
+	a->SetLocalPosition(Vector3(0.0f, 4.0f, 10.0f));
+	a->SetLocalRotation(q);
+	a = new TargetActor();
+	a->SetLocalPosition(Vector3(-5.0f, 2.0f, 10.0f));
+	a->SetLocalRotation(q);
+	a = new TargetActor();
+	a->SetLocalPosition(Vector3(5.0f, 2.0f, 10.0f));
+	a->SetLocalRotation(q);
 
 	return true;
 }

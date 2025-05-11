@@ -73,8 +73,6 @@ public:
 	void SetBaseScene(class BaseScene* scene) { mNowScene = scene; }
 
 	SDL_Window* GetWindow() { return mWindow; }
-
-	static void SetClearColor(Vector4 color) { mClearColor = color; }
 private:
 	void Draw3DScene(unsigned int framebuffer, const Matrix4& view, const Matrix4& proj,
 		float viewPortScale = 1.0f, bool lit = true);
@@ -149,5 +147,4 @@ private:
 	class VertexArray*									mLineSpriteVerts;
 	*/
 
-	static Vector4 mClearColor;
 };
