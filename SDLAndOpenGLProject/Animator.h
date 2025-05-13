@@ -9,7 +9,7 @@ class Animator
 {
 public:
 	//アニメーション読み込み処理
-	bool							Load(const string& fileName,bool animLoop = 0);
+	bool							Load(const string& fileName,bool animLoop = 0,bool rootMotion = 0);
 
 	void							Update(float deltaTime);
 
@@ -47,6 +47,7 @@ public:
 	//Setter
 	//アニメーションのブレンドを行うためのフラグ
 	bool							IsBlending() { return mBlending; }
+
 private:
 
 	MatrixPalette					mPalette;

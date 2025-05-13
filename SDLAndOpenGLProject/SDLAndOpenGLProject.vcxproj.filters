@@ -339,6 +339,9 @@
     <ClCompile Include="FollowObjectMovement.cpp">
       <Filter>SourceFiles\C_Components</Filter>
     </ClCompile>
+    <ClCompile Include="Transform.cpp">
+      <Filter>SourceFiles\B_GameObjects\Base</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actor.h">
@@ -610,6 +613,9 @@
     </ClInclude>
     <ClInclude Include="FollowObjectMovement.h">
       <Filter>SourceFiles\C_Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Transform.h">
+      <Filter>SourceFiles\B_GameObjects\Base</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
