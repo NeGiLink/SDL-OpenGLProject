@@ -1,140 +1,24 @@
-#include "Actor.h"
+#include "Transform.h"
 
-ActorObject::ActorObject()
-	: Transform()
-	, mState(EActive)
-	, mActorTag(ActorTag::None)
-	, mGame(GameApp::GetActiveScene())
-{
-	mGame->AddActor(this);
-}
-
-ActorObject::~ActorObject()
-{
-	mGame->RemoveActor(this);
-	// Need to delete components
-	// Because ~Component calls RemoveComponent, need a different style loop
-	while (!mComponents.empty())
-	{
-		delete mComponents.back();
-	}
-}
-
-void ActorObject::FixedUpdate(float deltaTime)
-{
-	if (mState == EActive)
-	{
-		FixedUpdateComponents(deltaTime);
-		FixedUpdateActor(deltaTime);
-		ComputeWorldTransform(NULL);
-	}
-}
-
-void ActorObject::FixedUpdateComponents(float deltaTime)
-{
-	for (auto comp : mComponents)
-	{
-		comp->FixedUpdate(deltaTime);
-	}
-}
-
-void ActorObject::FixedUpdateActor(float deltaTime)
+Transform::Transform()
+	: mLocalPosition(Vector3::Zero)
+	, mPositionOffset(Vector3::Zero)
+	, mLocalRotation(Quaternion::Identity)
+	, mRotationAmountX(0)
+	, mRotationAmountY(0)
+	, mRotationAmountZ(0)
+	, mLocalScale(Vector3(1.0f, 1.0f, 1.0f))
+	, mRecomputeWorldTransform(true)
+	, mWorldTransform()
+	, mModelTransform()
 {
 }
 
-void ActorObject::Update(float deltaTime)
-{
-	if (mState == EActive)
-	{
-		//ComputeLocalTransform();
-		UpdateComponents(deltaTime);
-		UpdateActor(deltaTime);
-		ComputeWorldTransform(NULL);
-	}
-}
-
-void ActorObject::UpdateComponents(float deltaTime)
-{
-	for (auto comp : mComponents)
-	{
-		comp->Update(deltaTime);
-	}
-}
-
-void ActorObject::UpdateActor(float deltaTime)
+Transform::~Transform()
 {
 }
 
-void ActorObject::ProcessInput(const struct InputState& keyState)
-{
-	if (mState == EActive)
-	{
-		// First process input for components
-		for (auto comp : mComponents)
-		{
-			comp->ProcessInput(keyState);
-		}
-
-		ActorInput(keyState);
-	}
-}
-
-void ActorObject::ActorInput(const struct InputState& keyState)
-{
-}
-
-/*
-void ActorObject::ComputeWorldTransform(const class Matrix4 *parentMatrix)
-{
-	//更新フラグがtrueなら
-	if (mRecomputeWorldTransform)
-	{
-		mRecomputeWorldTransform = false;
-
-		mModelTransform = Matrix4::CreateScale(mLocalScale);
-		mModelTransform *= Matrix4::CreateFromQuaternion(mLocalRotation);
-		mModelTransform *= Matrix4::CreateTranslation(mLocalPosition);
-
-
-		//親がいたら
-		if (parentMatrix) {
-			mWorldTransform = mModelTransform * (*parentMatrix);
-		}
-		//いなかったら
-		else {
-			mWorldTransform = mModelTransform;
-		}
-		mPosition = mWorldTransform.GetTranslation();
-		mRotation = mWorldTransform.GetRotation();
-		mScale =	mWorldTransform.GetScale();
-		//子オブジェクトの座標計算
-		for (auto child : mChildActor)
-		{
-			child->SetActive();
-			child->ComputeWorldTransform(&mWorldTransform);
-		}
-
-		// Inform components world transform updated
-		for (auto comp : mComponents)
-		{
-			comp->OnUpdateWorldTransform();
-		}
-	}
-}
-
-void ActorObject::LocalBonePositionUpdateActor(Matrix4 boneMatrix, const Matrix4& parentActor)
-{
-	Vector3 position = parentActor.GetTranslation() + boneMatrix.GetTranslation();
-	position += mPositionOffset;
-	SetLocalPosition(position);
-	Quaternion r = Quaternion(boneMatrix.GetRotation());
-	r = Quaternion::Concatenate(r, Quaternion(Vector3::UnitX, mRotationAmountX));
-	r = Quaternion::Concatenate(r, Quaternion(Vector3::UnitY, mRotationAmountY));
-	r = Quaternion::Concatenate(r, Quaternion(Vector3::UnitZ, mRotationAmountZ));
-	SetLocalRotation(r);
-}
-
-void ActorObject::RotateToNewForward(const Vector3& forward)
+void Transform::RotateToNewForward(const Vector3& forward)
 {
 	// Figure out difference between original (unit x) and new
 	float dot = Vector3::Dot(Vector3::UnitX, forward);
@@ -158,10 +42,70 @@ void ActorObject::RotateToNewForward(const Vector3& forward)
 	}
 }
 
-void ActorObject::AddComponent(Component* component)
+void Transform::ComputeWorldTransform(const Matrix4* parentMatrix)
+{
+	//更新フラグがtrueなら
+	if (mRecomputeWorldTransform)
+	{
+		mRecomputeWorldTransform = false;
+
+		mModelTransform = Matrix4::CreateScale(mLocalScale);
+		mModelTransform *= Matrix4::CreateFromQuaternion(mLocalRotation);
+		mModelTransform *= Matrix4::CreateTranslation(mLocalPosition);
+
+
+		//親がいたら
+		if (parentMatrix) {
+			mWorldTransform = mModelTransform * (*parentMatrix);
+		}
+		//いなかったら
+		else {
+			mWorldTransform = mModelTransform;
+		}
+		mPosition = mWorldTransform.GetTranslation();
+		mRotation = mWorldTransform.GetRotation();
+		mScale = mWorldTransform.GetScale();
+		//子オブジェクトの座標計算
+		for (auto child : mChildActor)
+		{
+			child->SetActive();
+			child->ComputeWorldTransform(&mWorldTransform);
+		}
+
+		// Inform components world transform updated
+		for (auto comp : mComponents)
+		{
+			comp->OnUpdateWorldTransform();
+		}
+	}
+}
+
+void Transform::LocalBonePositionUpdateActor(Matrix4 boneMatrix, const Matrix4& parentActor)
+{
+	Vector3 position = parentActor.GetTranslation() + boneMatrix.GetTranslation();
+	position += mPositionOffset;
+	SetLocalPosition(position);
+	Quaternion r = Quaternion(boneMatrix.GetRotation());
+	r = Quaternion::Concatenate(r, Quaternion(Vector3::UnitX, mRotationAmountX));
+	r = Quaternion::Concatenate(r, Quaternion(Vector3::UnitY, mRotationAmountY));
+	r = Quaternion::Concatenate(r, Quaternion(Vector3::UnitZ, mRotationAmountZ));
+	SetLocalRotation(r);
+}
+
+const Transform* Transform::GetChildActor(Transform* actor)
+{
+	for (Transform* a : mChildActor) {
+		if (a == actor) {
+			return a;
+		}
+	}
+	return nullptr;
+}
+
+void Transform::AddComponent(Component* component)
 {
 	// Find the insertion point in the sorted vector
-	// (The first element with a order higher than me)
+// (The first element with a order higher than me)
 	int myOrder = component->GetUpdateOrder();
 	auto iter = mComponents.begin();
 	for (;
@@ -178,7 +122,7 @@ void ActorObject::AddComponent(Component* component)
 	mComponents.insert(iter, component);
 }
 
-void ActorObject::RemoveComponent(Component* component)
+void Transform::RemoveComponent(Component* component)
 {
 	auto iter = std::find(mComponents.begin(), mComponents.end(), component);
 	if (iter != mComponents.end())
@@ -187,9 +131,9 @@ void ActorObject::RemoveComponent(Component* component)
 	}
 }
 
-void ActorObject::AddChildActor(ActorObject* actor)
+void Transform::AddChildActor(Transform* actor)
 {
-	for (ActorObject* a : mChildActor) 
+	for (Transform* a : mChildActor)
 	{
 		if (a == actor) { return; }
 	}
@@ -215,37 +159,26 @@ void ActorObject::AddChildActor(ActorObject* actor)
 	actor->AddParentActor(this);
 	mChildActor.push_back(actor);
 
-	//TODO: 親子関係構築後の再計算
+	//親子関係構築後の再計算
 	mRecomputeWorldTransform = true;
 }
 
-void ActorObject::RemoveChildActor(ActorObject* actor)
+void Transform::RemoveChildActor(Transform* child)
 {
-	auto iter = std::find(mChildActor.begin(), mChildActor.end(), actor);
+	auto iter = std::find(mChildActor.begin(), mChildActor.end(), child);
 	if (iter != mChildActor.end())
 	{
-		actor->AddParentActor(nullptr);
+		child->AddParentActor(nullptr);
 		mChildActor.erase(iter);
 	}
 }
 
-const ActorObject* ActorObject::GetChildActor(ActorObject* actor)
-{
-	for (ActorObject* a : mChildActor) {
-		if (a == actor) {
-			return a;
-		}
-	}
-	return nullptr;
-}
-
-void ActorObject::AddParentActor(ActorObject* parent)
+void Transform::AddParentActor(Transform* parent)
 {
 	mParentActor = parent;
 }
 
-void ActorObject::RemoveParentActor()
+void Transform::RemoveParentActor()
 {
 	mParentActor = nullptr;
 }
-*/

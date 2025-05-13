@@ -3,11 +3,16 @@
 
 Animation::Animation(Skeleton* skeleton)
 	:mSkeleton(skeleton)
+	,isRootMotion(false)
+	, mRootMotionX(0.0f)
+	, mRootMotionY(0.0f)
+	, mRootMotionZ(0.0f)
 {
 }
 
 bool Animation::Load(const string& fileName)
 {
+	mFileName = fileName;
 	// ファイルの拡張子を取得
 	string extension = fileName.substr(fileName.find_last_of('.') + 1);
 
@@ -23,6 +28,27 @@ bool Animation::Load(const string& fileName)
 		return LoadFromJSON(fileName);
 	}
 
+	return false;
+}
+
+bool Animation::ReLoad()
+{
+	// ファイルの拡張子を取得
+	string extension = mFileName.substr(mFileName.find_last_of('.') + 1);
+
+	// **FBX の場合**
+	if (extension == "fbx")
+	{
+		return LoadFromFBX(mFileName);
+	}
+
+	// **JSON の場合（従来の処理）**
+	if (extension == "gpmesh")
+	{
+		return LoadFromJSON(mFileName);
+	}
+
+	return false;
 	return false;
 }
 
@@ -97,6 +123,15 @@ bool Animation::SaveToBinary(const std::string& filePath)
 	}
 
 	return true;
+}
+
+void Animation::Update()
+{
+	if (isReLoad)
+	{
+		ReLoad();
+		isReLoad = false;
+	}
 }
 
 bool Animation::LoadFromJSON(const string& fileName)
@@ -247,10 +282,12 @@ bool Animation::LoadFromFBX(const string& fileName)
 	mTracks.resize(mNumBones);
 
 	//アニメーションに含まれていないボーンのためにバインドポーズをそのまま利用
-	for (unsigned int i = 0; i < mNumBones; i++) {
+	for (unsigned int i = 0; i < mNumBones; i++) 
+	{
 		mTracks[i].resize(mNumFrames);
 		auto& localBindPose = mSkeleton->GetBone(i).mLocalBindPose;
-		for (size_t j = 0; j < mNumFrames; j++) {
+		for (size_t j = 0; j < mNumFrames; j++) 
+		{
 			mTracks[i][j] = localBindPose;
 		}
 	}
@@ -277,14 +314,34 @@ bool Animation::LoadFromFBX(const string& fileName)
 			// 位置キーの適用
 			aiVector3D pos;
 			CalcInterpolatedTranslation(pos, j, channel);
-			//位置の違うモデルのために変化量を計算して利用
-			//このままだと初期状態で移動している場合は適用されない！
-			//本来はボーンの元の状態から変化を計算する
-			//※現状はまだ未修整
+			//ルートモーションの無効(Y方向)
+			Vector3 finalPos = Vector3();
 			aiVector3D basePos = channel->mPositionKeys[0].mValue;
-			//aiVector3D basePos = aiVector3D(temp.mPosition.x, temp.mPosition.y, temp.mPosition.z);
-			Vector3 finalPos = Vector3(pos.x - basePos.x, pos.y - basePos.y, pos.z - basePos.z);
-			//finalPos.x = -finalPos.x;
+			//ルートモーションの座標を値で持っておいて後で適用、不適用にする
+			if (mSkeleton->GetBone(boneIndex).mParent < 0)
+			{
+				//位置の違うモデルのために変化量を計算して利用
+				//このままだと初期状態で移動している場合は適用されない！
+				//本来はボーンの元の状態から変化を計算する
+				//※現状はまだ未修整
+				finalPos = Vector3(pos.x - basePos.x, pos.y - basePos.y, pos.z - basePos.z);
+				mRootPositionOffset.push_back(finalPos);
+			}
+			//読み込み時から値を反映
+			/*
+			if (!isRootMotion&&mSkeleton->GetBone(boneIndex).mParent < 0)
+			{
+				finalPos = Vector3(mRootMotionX, mRootMotionY, mRootMotionZ);
+			}
+			else
+			{
+				//位置の違うモデルのために変化量を計算して利用
+				//このままだと初期状態で移動している場合は適用されない！
+				//本来はボーンの元の状態から変化を計算する
+				//※現状はまだ未修整
+				finalPos = Vector3(pos.x - basePos.x, pos.y - basePos.y, pos.z - basePos.z);
+			}
+			*/
 			temp.mPosition += finalPos;
 
 			// 回転キーの適用
@@ -346,8 +403,8 @@ void Animation::GetGlobalPoseAtTime(vector<Matrix4>& outPoses, const Skeleton* i
 	}
 
 	const vector<Skeleton::Bone>& bones = inSkeleton->GetBones();
-	// 残りのポーズを設定してください。
-	for (size_t bone = 1; bone < mNumBones; bone++)
+	// 残りのポーズを設定。
+	for (size_t bone = 0; bone < mNumBones; bone++)
 	{
 		Matrix4 localMat; // (Defaults to identity)
 		if (mTracks[bone].size() > 0)
@@ -355,15 +412,34 @@ void Animation::GetGlobalPoseAtTime(vector<Matrix4>& outPoses, const Skeleton* i
 			//nextFrameが最大数を超えていることがあるため対策
 			if (frame >= mTracks[bone].size() || nextFrame >= mTracks[bone].size())
 			{
-				localMat = mTracks[bone][mTracks[bone].size() - 1].ToMatrix();
+				BoneTransform currentBone = mTracks[bone][mTracks[bone].size() - 1];
+				if (bones[bone].mParent < 0)
+				{
+					if (!isRootMotion)
+					{
+						currentBone.mPosition -= mRootPositionOffset[mTracks[bone].size() - 1];
+					}
+				}
+				localMat = currentBone.ToMatrix();
 			}
 			else
 			{
-				BoneTransform interp = BoneTransform::Interpolate(mTracks[bone][frame],
-					mTracks[bone][nextFrame], pct);
+				BoneTransform currentBone = mTracks[bone][frame];
+				BoneTransform nextBone = mTracks[bone][nextFrame];
+				if (bones[bone].mParent < 0)
+				{
+					if (!isRootMotion)
+					{
+						currentBone.mPosition -= mRootPositionOffset[frame];
+						nextBone.mPosition -= mRootPositionOffset[nextFrame];
+					}
+				}
+				BoneTransform interp = BoneTransform::Interpolate(currentBone,
+					nextBone, pct);
 				localMat = interp.ToMatrix();
 			}
 		}
+
 		//親がいない場合の対処
 		if (bones[bone].mParent < 0)
 		{

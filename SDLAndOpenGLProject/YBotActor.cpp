@@ -24,10 +24,10 @@ YBotActor::YBotActor()
 	
 	//Skeletonデータをアニメーターに設定
 	animator->SetSkeleton(mSkeletonMesh->GetSkeleton());
-	animator->Load("Sword And Shield Idle.fbx",true);
-	animator->Load("Running.fbx",true);
-	animator->Load("Jumping.fbx");
-	animator->Load("Jump.fbx");
+	animator->Load("Sword And Shield Idle.fbx",true,true);
+	animator->Load("Running.fbx",true,true);
+	animator->Load("Jumping.fbx", false, false);
+	animator->Load("Jump.fbx",false, false);
 	animator->Load("Capoeira.fbx",true);
 	animator->Load("T-Pose.fbx",true);
 	animator->PlayAnimation(animator->GetAnimations()[State::TPose]);
@@ -62,54 +62,12 @@ void YBotActor::UpdateActor(float deltaTime)
 
 void YBotActor::ActorInput(const struct InputState& keys)
 {
-	/*
-	if (keys.Keyboard.GetKeyDown(KEY_1))
+	if (keys.Keyboard.GetKeyDown(SDL_SCANCODE_E))
 	{
-		animator->PlayBlendAnimation(animator->GetAnimations()[State::TPose]);
+		bool active = animator->GetAnimations()[State::RunJump]->IsRootMotion();
+		active = !active;
+		animator->GetAnimations()[State::RunJump]->SetRootMotion(active);
 	}
-	else if (keys.Keyboard.GetKeyDown(KEY_2))
-	{
-		animator->PlayBlendAnimation(animator->GetAnimations()[State::Idle]);
-	}
-	else if (keys.Keyboard.GetKeyDown(KEY_3))
-	{
-		animator->PlayBlendAnimation(animator->GetAnimations()[State::Run]);
-	}
-	else if (keys.Keyboard.GetKeyDown(KEY_4))
-	{
-		animator->PlayBlendAnimation(animator->GetAnimations()[State::Jump]);
-	}
-	else if (keys.Keyboard.GetKeyDown(KEY_5))
-	{
-		animator->PlayBlendAnimation(animator->GetAnimations()[State::Capoeira]);
-	}
-
-	Vector3 pos = mLocalPosition;
-	if (keys.Keyboard.GetKey(KEY_RIGHT))
-	{
-		pos.x += 0.01f;
-	}
-	if (keys.Keyboard.GetKey(KEY_LEFT))
-	{
-		pos.x -= 0.01f;
-	}
-	SetLocalPosition(pos);
-
-	Quaternion q = mLocalRotation;
-	if (keys.Keyboard.GetKey(KEY_X))
-	{
-		if (keys.Keyboard.GetKey(KEY_LSHIFT))
-		{
-			mRotationAmountY += 0.01f;
-		}
-		else
-		{
-			mRotationAmountY -= 0.01f;
-		}
-	}
-	q = Quaternion(Vector3::UnitY, mRotationAmountY);
-	SetLocalRotation(q);
-	*/
 
 	if (keys.Keyboard.GetKeyDown(SDL_SCANCODE_SPACE) && !mMovement->IsJumping())
 	{

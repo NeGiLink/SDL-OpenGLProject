@@ -10,15 +10,16 @@
 /// アニメーションのループ設定
 /// </param>
 /// <returns></returns>
-bool Animator::Load(const string& fileName,bool animLoop)
+bool Animator::Load(const string& fileName,bool animLoop, bool rootMotion)
 {
 	string path = Model::AnimationFilePath + fileName;
 	Animation* anim = new Animation(mSkeleton);
+	anim->SetLoop(animLoop);
+	anim->SetRootMotion(rootMotion);
 
 		/*
 	if (anim->LoadFromBinary(fileName))
 	{
-		anim->SetLoop(animLoop);
 		mAnimations.push_back(anim);
 		return true;
 	}
@@ -26,7 +27,6 @@ bool Animator::Load(const string& fileName,bool animLoop)
 		*/
 	if (anim->Load(path))
 	{
-		anim->SetLoop(animLoop);
 		mAnimations.push_back(anim);
 		return true;
 	}
@@ -123,11 +123,12 @@ void Animator::ComputeMatrixPalette()
 	// Setup the palette for each bone
 	for (size_t i = 0; i < mSkeleton->GetNumBones(); i++)
 	{
+		Matrix4 pose = currentPoses[i];
 		// Global inverse bind pose matrix times current pose matrix
-		mPalette.mEntry[i] = globalInvBindPoses[i] * currentPoses[i];
-		mSkeleton->GetBoneActor()[i]->SetLocalScale(currentPoses[i].GetScale());
-		mSkeleton->GetBoneActor()[i]->SetLocalRotation(currentPoses[i].GetRotation());
-		mSkeleton->GetBoneActor()[i]->SetLocalPosition(currentPoses[i].GetTranslation());
+		mPalette.mEntry[i] = globalInvBindPoses[i] * pose;
+		mSkeleton->GetBoneActor()[i]->SetLocalScale(pose.GetScale());
+		mSkeleton->GetBoneActor()[i]->SetLocalRotation(pose.GetRotation());
+		mSkeleton->GetBoneActor()[i]->SetLocalPosition(pose.GetTranslation());
 	}
 }
 
@@ -171,9 +172,10 @@ void Animator::BlendComputeMatrixPalette()
 
 	for (size_t i = 0; i < mSkeleton->GetNumBones(); i++)
 	{
-		mPalette.mEntry[i] = globalInvBindPoses[i] * goalPose[i];
-		mSkeleton->GetBoneActor()[i]->SetLocalScale(goalPose[i].GetScale());
-		mSkeleton->GetBoneActor()[i]->SetLocalRotation(goalPose[i].GetRotation());
-		mSkeleton->GetBoneActor()[i]->SetLocalPosition(goalPose[i].GetTranslation());
+		Matrix4 pose = goalPose[i];
+		mPalette.mEntry[i] = globalInvBindPoses[i] * pose;
+		mSkeleton->GetBoneActor()[i]->SetLocalScale(pose.GetScale());
+		mSkeleton->GetBoneActor()[i]->SetLocalRotation(pose.GetRotation());
+		mSkeleton->GetBoneActor()[i]->SetLocalPosition(pose.GetTranslation());
 	}
 }

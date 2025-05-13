@@ -85,7 +85,7 @@ void FollowObjectMovement::MoveInputUpdate(const InputState& keys)
 		{
 			if (mOwner->GetRigidbody())
 			{
-				mOwner->GetRigidbody()->AddForce(Vector3::UnitY * 500.0f);
+				mOwner->GetRigidbody()->AddForce(Vector3::UnitY * 1000.0f);
 			}
 		}
 	}
