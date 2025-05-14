@@ -7,15 +7,15 @@
 class DebugScene02 : public BaseScene
 {
 public:
-	DebugScene02(class GameWinMain* winMain);
+									DebugScene02(class GameWinMain* winMain);
 	
-	bool Initialize()override;
+	bool							Initialize()override;
 	
-	bool InputUpdate()override;
+	bool							InputUpdate()override;
 
-	bool Update()override;
+	bool							Update()override;
 	
-	void HandleKeyPress(int key)override;
+	void							HandleKeyPress(int key)override;
 private:
 	// Game-specific code
 

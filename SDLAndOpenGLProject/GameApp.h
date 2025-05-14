@@ -7,19 +7,19 @@
 class GameApp
 {
 public:
-	GameApp(class GameWinMain* main);
+								GameApp(class GameWinMain* main);
 	//初期化
-	bool Initialize();
+	bool						Initialize();
 	//入力処理
-	bool ProcessInput();
+	bool						ProcessInput();
 	//シーンのロード処理
-	bool LoadUpdate();
+	bool						LoadUpdate();
 	//更新処理
-	bool Update();
+	bool						Update();
 	//解放
-	bool Release();
+	bool						Release();
 	//現在有効なシーンをstaticで取得
-	static class BaseScene* GetActiveScene() { return mActiveScene; }
+	static class BaseScene*		GetActiveScene() { return mActiveScene; }
 private:
 	//現在の有効なシーン
 	static class BaseScene*		mActiveScene;

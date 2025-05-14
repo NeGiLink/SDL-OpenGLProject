@@ -11,11 +11,11 @@
 //マテリアル情報の構造体
 struct MaterialInfo
 {
-	Vector4 Color;
-	Vector3 Diffuse;
-	Vector3 Ambient;
-	Vector3 Specular;
-	float   Shininess;
+	Vector4		Color;
+	Vector3		Diffuse;
+	Vector3		Ambient;
+	Vector3		Specular;
+	float		Shininess;
 };
 
 struct MeshBinHeader {
@@ -26,38 +26,38 @@ struct MeshBinHeader {
 	Vector3		max;
 	float		colliderRadius;
 };
-
+//1つの3DMeshの管理クラス
 class Mesh
 {
 public:
-	Mesh();
-	~Mesh();
+								Mesh();
+								~Mesh();
 	// Load
-	bool Load(const string& fileName, class Renderer* renderer,int index);
+	bool						Load(const string& fileName, class Renderer* renderer,int index);
 	// バイナリファイルからの読み込み処理
-	bool LoadFromMeshBin(const string& fileName, Renderer* renderer, int index);
+	bool						LoadFromMeshBin(const string& fileName, Renderer* renderer, int index);
 	//Meshの数を取得
-	int CheckMeshIndex(const string& fileName, class Renderer* renderer);
+	int							CheckMeshIndex(const string& fileName, class Renderer* renderer);
 	// Unload mesh
-	void Unload();
+	void						Unload();
 	// Getter
 	// MeshのVertexArrayを配列で取得
-	vector<class VertexArray*> GetVertexArrays() {return mVertexArrays; }
+	vector<class VertexArray*>	GetVertexArrays() {return mVertexArrays; }
 	// テクスチャを配列で取得
-	class Texture* GetTexture(size_t index);
+	class Texture*				GetTexture(size_t index);
 	// シェーダー名を取得
-	const string& GetShaderName() const { return mShaderName; }
+	const string&				GetShaderName() const { return mShaderName; }
 	// 球の半径を取得
-	vector<float> GetRadiusArray() const { return mRadiusArray; }
+	vector<float>				GetRadiusArray() const { return mRadiusArray; }
 	// モデルのボックス型の座標を取得
-	const vector<AABB> GetBoxs() const { return mBoxs; }
+	const vector<AABB>			GetBoxs() const { return mBoxs; }
 	//マテリアル情報取得
-	const vector<MaterialInfo> GetMaterialInfo() const { return mMaterialInfo; }
+	const vector<MaterialInfo>	GetMaterialInfo() const { return mMaterialInfo; }
 private:
 	//JSONファイルの読み込み処理
-	bool LoadFromJSON(const string& fileName, class Renderer* renderer, int index);
+	bool						LoadFromJSON(const string& fileName, class Renderer* renderer, int index);
 	// FBXファイルからJSONに変換処理
-	bool LoadFromFBX(const string& fileName, class Renderer* renderer, int index);
+	bool						LoadFromFBX(const string& fileName, class Renderer* renderer, int index);
 	// AABBの当たり判定を配列で取得
 	vector<AABB>				mBoxs;
 	// Meshのテクスチャを取得

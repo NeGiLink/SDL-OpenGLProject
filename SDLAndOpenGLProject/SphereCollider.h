@@ -5,35 +5,35 @@
 class SphereCollider : public Collider
 {
 public:
-	SphereCollider(class ActorObject* owner, int updateOrder = 100);
-	~SphereCollider();
-	void OnUpdateWorldTransform() override;
+					SphereCollider(class ActorObject* owner, int updateOrder = 100);
+					~SphereCollider();
+	void			OnUpdateWorldTransform() override;
 
-	void SetObjectSphere(const Sphere& model) { mObjectSphere = model; }
+	void			SetObjectSphere(const Sphere& model) { mObjectSphere = model; }
 	
-	AABB GetWorldBox() const override 
+	AABB			GetWorldBox() const override 
 	{
 		Vector3 min = mWorldSphere.mCenter - mWorldSphere.mRadius;
 		Vector3 max = mWorldSphere.mCenter + mWorldSphere.mRadius;
 		return AABB(min, max);
 	}
-	const Sphere& GetWorldSphere() const override
+	const Sphere&	GetWorldSphere() const override
 	{
 		return mWorldSphere;
 	}
-	const Capsule& GetWorldCapsule() const override 
+	const Capsule&	GetWorldCapsule() const override 
 	{
 		return Capsule(Vector3::Zero, Vector3::Zero, 0.0f);
 	}
 
-	void SetShouldRotate(bool value) { mShouldRotate = value; }
+	void			SetShouldRotate(bool value) { mShouldRotate = value; }
 
-	ColliderType GetType() override { return ColliderType::SphereType; }
+	ColliderType	GetType() override { return ColliderType::SphereType; }
 private:
 
-	Sphere	mObjectSphere;
+	Sphere			mObjectSphere;
 	
-	Sphere	mWorldSphere;
+	Sphere			mWorldSphere;
 	
-	bool	mShouldRotate;
+	bool			mShouldRotate;
 };

@@ -3,6 +3,9 @@
 #include <SDL3/SDL_gamepad.h>
 #include <SDL3/SDL_mouse.h>
 
+//入力のenumをdefineでまとめたファイル
+//キーボード、マウス、コントローラーの入力をまとめている
+
 #define KEY_UNKNOWN					SDL_Scancode::SDL_SCANCODE_UNKNOWN
 
 #define KEY_A						SDL_Scancode::SDL_SCANCODE_A

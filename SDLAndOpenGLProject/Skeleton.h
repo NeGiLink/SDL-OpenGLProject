@@ -6,20 +6,21 @@
 #include <GL/glew.h>
 #include "Actor.h"
 
+//スケルトンのバイナリデータ構造体
 struct SkeletonBinBone
 {
 	// ボーン名（固定長）
-	char name[64];       
+	char		name[64];       
 	// 短縮版ボーン名
-	char shortName[64];
+	char		shortName[64];
 	// 親ボーンインデックス（-1 なら root）
-	int32_t parentIndex;      
+	int32_t		parentIndex;      
 	// バインドポーズの位置
-	Vector3 position;         
+	Vector3		position;         
 	// バインドポーズの回転
-	Quaternion rotation;      
+	Quaternion	rotation;      
 	// バインドポーズのスケール（オプション）
-	Vector3 scale;            
+	Vector3		scale;            
 };
 
 class Skeleton
@@ -34,72 +35,75 @@ public:
 	// 骨格の各骨の定義
 	struct Bone
 	{
-		BoneTransform mLocalBindPose;
-		string mName;
-		string mShortName;
-		int mParent;
+		BoneTransform	mLocalBindPose;
+		string			mName;
+		string			mShortName;
+		int				mParent;
 	};
+	//すべてのファイル形式から読み込み
+	bool									Load(const string& fileName);
+	//バイナリデータから読み込み
+	bool									LoadFromSkeletonBin(const string& fileName);
 
-	bool Load(const string& fileName);
+	// JSONファイルから読み込み
+	bool									LoadFromJSON(const string& fileName);
+	//FBXファイルから読み込み
+	bool									LoadFromFBX(const string& fileName);
+	//ボーンの親を設定
+	void									SetParentBones(aiNode* node, int parentIndex);
+	//ボーンの名前を短縮して出力
+	string									ConvertSimpleBoneName(string boneName);
 
-	bool LoadFromSkeletonBin(const string& fileName);
-
-	// ファイルから読み込み
-	bool LoadFromJSON(const string& fileName);
-
-	bool LoadFromFBX(const string& fileName);
-
-	void SetParentBones(aiNode* node, int parentIndex);
-
-	string ConvertSimpleBoneName(string boneName);
-
-	bool EndsWith(const string& str, const string& suffix);
-
-	aiVector3D GetTranslation(const aiMatrix4x4& matrix) {
-		return aiVector3D(matrix.a4, matrix.b4, matrix.c4);
+	bool EndsWith(const std::string& str, const std::string& suffix)
+	{
+		if (str.size() < suffix.size())
+		{
+			return false;
+		}
+		return str.substr(str.size() - suffix.size()) == suffix;
 	}
 
-	// Getter functions
-	size_t GetNumBones() const { return mBones.size(); }
-
-	const Bone& GetBone(size_t idx) const { return mBones[idx]; }
-	
-	const vector<Bone>& GetBones() const { return mBones; }
-
-	vector<BoneActor*> GetBoneActor() const { return mBoneActors; }
-	
-	const vector<Matrix4>& GetGlobalInvBindPoses() const { return mGlobalInvBindPoses; }
-
+	// ボーン数のGetter
+	size_t									GetNumBones() const { return mBones.size(); }
+	//ボーンのGetter Ver.1
+	const Bone&								GetBone(size_t idx) const { return mBones[idx]; }
+	//ボーンGetter Ver.2
+	const vector<Bone>&						GetBones() const { return mBones; }
+	//ボーンオブジェクトのGetter
+	vector<BoneActor*>						GetBoneActor() const { return mBoneActors; }
+	//ボーンのグローバルバインドポーズのGetter
+	const vector<Matrix4>&					GetGlobalInvBindPoses() const { return mGlobalInvBindPoses; }
 	//アニメーション適用後のボーンの行列変数のGetter
-	const vector<Matrix4>& GetGlobalCurrentPoses() const { return mGlobalCurrentPoses; }
+	const vector<Matrix4>&					GetGlobalCurrentPoses() const { return mGlobalCurrentPoses; }
 	//アニメーション適用語の各ボーンの行列をセットするSetter
-	void SetGlobalCurrentPoses(vector<Matrix4>& poses) { mGlobalCurrentPoses = poses; }
-	
-	const std::unordered_map<string, int>& GetBoneNameToIndex() const { return boneNameToIndex; }
-
-	Matrix4 GetBonePosition(string boneName);
+	void									SetGlobalCurrentPoses(vector<Matrix4>& poses) { mGlobalCurrentPoses = poses; }
+	//ボーンの連想配列のGetter
+	const std::unordered_map<string, int>&	GetBoneNameToIndex() const { return mBoneNameToIndex; }
+	//ボーン名からそのボーンのマトリックスの取得
+	Matrix4									GetBonePosition(string boneName);
 	//指定したボーンにオブジェクトを子オブジェクトとして設定
-	void AddBoneChildActor(string boneName,class ActorObject* actor);
-
-	void SetParentActor(ActorObject* parent);
+	void									AddBoneChildActor(string boneName,class ActorObject* actor);
+	//ActorObjectの親を設定
+	void									SetParentActor(ActorObject* parent);
 protected:
 	// スケルトンがロードされると自動的に呼び出され、
 	// 各ボーンのグローバルインバインドポーズを計算。
-	void ComputeGlobalInvBindPose();
+	void									ComputeGlobalInvBindPose();
 private:
 	// 骨格の骨
-	vector<Bone>						mBones;
-	vector<BoneActor*>					mBoneActors;
+	vector<Bone>							mBones;
+	vector<BoneActor*>						mBoneActors;
 	//計算用のオフセット変数
-	vector<aiMatrix4x4>				mOffsetMatrix;
+	vector<aiMatrix4x4>						mOffsetMatrix;
 	// 各Boneに対するグローバル逆束縛ポーズ
-	vector<Matrix4>					mGlobalInvBindPoses;
+	vector<Matrix4>							mGlobalInvBindPoses;
 	//スケルトンのボーンのアニメーション適用後の座標を持つマトリックス
-	vector<Matrix4>					mGlobalCurrentPoses;
-
-	std::unordered_map<string, int>	boneNameToIndex;
-
-	std::unordered_map<string,int>		mBoneTransform;
-
-	SkeletonType							mSkeletonType;
+	vector<Matrix4>							mGlobalCurrentPoses;
+	//文字列とint型の連想配列
+	std::unordered_map<string, int>			mBoneNameToIndex;
+	//文字列とint型の連想配列
+	std::unordered_map<string,int>			mBoneTransform;
+	// スケルトンのタイプ
+	// 現在は未使用
+	//SkeletonType							mSkeletonType;
 };

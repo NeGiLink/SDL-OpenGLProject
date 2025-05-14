@@ -10,8 +10,11 @@
 #include <vector>
 #include <Windows.h>
 
+//std::stringの文字列を様々な形に変換する処理をまとめたファイル
 namespace StringFormat
 {
+
+
     std::wstring multi_to_wide_capi(std::string const& src)
     {
         std::size_t converted{};

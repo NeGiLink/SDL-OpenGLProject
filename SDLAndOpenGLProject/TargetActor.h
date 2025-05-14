@@ -9,9 +9,9 @@
 class TargetActor : public ActorObject
 {
 public:
-	TargetActor();
+										TargetActor();
 private:
-	vector<class BoxCollider*>		mBoxs;
+	vector<class BoxCollider*>			mBoxs;
 
 	class MeshRenderer*					mMeshComp;
 };

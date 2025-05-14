@@ -8,7 +8,8 @@ CubeActor::CubeActor()
 	vector<class Mesh*> mesh = GetGame()->GetWinMain()->GetRenderer()->GetMeshs("Cube.fbx");
 	mc->SetMeshs(mesh);
 	// Add collision box
-	for (unsigned int i = 0; i < mc->GetMeshs().size(); i++) {
+	for (unsigned int i = 0; i < mc->GetMeshs().size(); i++) 
+	{
 		// ボックスの当たり判定機能追加
 		for (unsigned int j = 0; j < mc->GetMeshs()[i]->GetBoxs().size(); j++)
 		{

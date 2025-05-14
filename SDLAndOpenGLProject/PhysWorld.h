@@ -15,7 +15,7 @@ public:
 		Z
 	};
 
-	PhysWorld(class BaseScene* game);
+														PhysWorld(class BaseScene* game);
 
 	// 衝突結果に関する情報をまとめている
 	struct CollisionInfo
@@ -32,29 +32,29 @@ public:
 
 	// 線分をボックスに対して判定します。
 	// ボックスに衝突する場合は真を返します。
-	bool RayCast(const LineSegment& l, CollisionInfo& outColl);
+	bool												RayCast(const LineSegment& l, CollisionInfo& outColl);
 
 	//素朴なpairwise衝突判定
-	void TestPairwise(std::function<void(class ActorObject*, class ActorObject*)> f);
+	void												TestPairwise(std::function<void(class ActorObject*, class ActorObject*)> f);
 
 	//XYZのSweeppruneを使用した衝突判定
-	void SweepAndPruneXYZ();
+	void												SweepAndPruneXYZ();
 
-	void FixCollisions(class Collider* dynamicCollider, class Collider* staticCollider);
+	void												FixCollisions(class Collider* dynamicCollider, class Collider* staticCollider);
 
 	// 世界からボックスコンポーネントを追加/削除する
-	void AddCollider(class Collider* box);
-	void RemoveCollider(class Collider* box);
+	void												AddCollider(class Collider* box);
+	void												RemoveCollider(class Collider* box);
 private:
 	class BaseScene*									mGame;
 
-	vector<class Collider*>						mCollider;
+	vector<class Collider*>								mCollider;
 
-	vector<class Collider*>						mColliderXAxis;
+	vector<class Collider*>								mColliderXAxis;
 
-	vector<class Collider*>						mColliderYAxis;
+	vector<class Collider*>								mColliderYAxis;
 
-	vector<class Collider*>						mColliderZAxis;
+	vector<class Collider*>								mColliderZAxis;
 
 	std::set<std::pair<Collider*, Collider*>>			mHitColliderXAxis;
 

@@ -10,12 +10,12 @@
 class CubeActor : public ActorObject
 {
 public:
-	CubeActor();
+								CubeActor();
 
-	vector<class BoxCollider*> GetBoxs() { return mBoxs; }
+	vector<class BoxCollider*>	GetBoxs() { return mBoxs; }
 
 private:
 	//AABBのコライダー
-	vector<class BoxCollider*> mBoxs;
+	vector<class BoxCollider*>	mBoxs;
 };
 

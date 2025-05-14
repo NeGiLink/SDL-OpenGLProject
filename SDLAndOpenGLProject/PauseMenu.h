@@ -7,9 +7,9 @@
 class PauseMenu : public UIScreen
 {
 public:
-	PauseMenu();
-	~PauseMenu();
+			PauseMenu();
+			~PauseMenu();
 
-	void HandleKeyPress(int key) override;
+	void	HandleKeyPress(int key) override;
 };
 

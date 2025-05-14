@@ -50,7 +50,7 @@ bool BaseScene::InputUpdate()
 
 bool BaseScene::FixedUpdate()
 {
-	float deltaTime = Time::deltaTime;
+	float deltaTime = Time::gDeltaTime;
 	fixedTimeAccumulator += deltaTime;
 
 	// •¡”‰ñ FixedUpdate ‚ª•K—v‚Èê‡‚É”õ‚¦‚é
@@ -60,7 +60,7 @@ bool BaseScene::FixedUpdate()
 		
 		for (auto actor : mActors)
 		{
-			actor->FixedUpdate(Time::deltaTime);
+			actor->FixedUpdate(Time::gDeltaTime);
 		}
 
 		mPhysWorld->SweepAndPruneXYZ();
@@ -81,7 +81,7 @@ bool BaseScene::Update()
 		mUpdatingActors = true;
 		for (auto actor : mActors)
 		{
-			actor->Update(Time::deltaTime);
+			actor->Update(Time::gDeltaTime);
 		}
 		mUpdatingActors = false;
 
@@ -111,21 +111,21 @@ bool BaseScene::Update()
 	}
 
 	// Update audio system
-	mAudioSystem->Update(Time::deltaTime);
+	mAudioSystem->Update(Time::gDeltaTime);
 
 	// Update UI screens
 	for (auto ui : mUIStack)
 	{
 		if (ui->GetState() == UIScreen::EActive)
 		{
-			ui->Update(Time::deltaTime);
+			ui->Update(Time::gDeltaTime);
 		}
 	}
 	for (auto image : mImageStack)
 	{
 		if (image->GetState() == Image::EActive)
 		{
-			image->Update(Time::deltaTime);
+			image->Update(Time::gDeltaTime);
 		}
 	}
 	// Delete any UIScreens that are closed
@@ -272,21 +272,6 @@ const string& BaseScene::GetText(const string& key)
 	}
 }
 
-const string& BaseScene::GetFreeText(const string& key)
-{
-	static string errorMsg("**KEY NOT FOUND**");
-	// Find this text in the map, if it exists
-	auto iter = mText.find(key);
-	if (iter != mText.end())
-	{
-		return iter->second;
-	}
-	else
-	{
-		return errorMsg;
-	}
-}
-
 Skeleton* BaseScene::GetSkeleton(const string& fileName)
 {
 	string file = Model::ModelPath + fileName;
@@ -337,17 +322,6 @@ void BaseScene::PushUI(UIScreen* screen)
 void BaseScene::PushImage(Image* screen)
 {
 	mImageStack.emplace_back(screen);
-}
-
-void BaseScene::AddPlane(PlaneActor* plane)
-{
-	mPlanes.emplace_back(plane);
-}
-
-void BaseScene::RemovePlane(PlaneActor* plane)
-{
-	auto iter = std::find(mPlanes.begin(), mPlanes.end(), plane);
-	mPlanes.erase(iter);
 }
 /*
 void BaseScene::UpdateGame()

@@ -6,21 +6,21 @@
 class FollowCamera : public BaseCamera
 {
 public:
-	FollowCamera(class ActorObject* owner);
+				FollowCamera(class ActorObject* owner);
 
-	void Update(float deltaTime) override;
+	void		Update(float deltaTime) override;
 
-	void SnapToIdeal();
+	void		SnapToIdeal();
 
-	void SetHorzDist(float dist) { mHorzDist = dist; }
-	void SetVertDist(float dist) { mVertDist = dist; }
-	void SetTargetDist(float dist) { mTargetDist = dist; }
-	void SetSpringConstant(float spring) { mSpringConstant = spring; }
+	void		SetHorzDist(float dist) { mHorzDist = dist; }
+	void		SetVertDist(float dist) { mVertDist = dist; }
+	void		SetTargetDist(float dist) { mTargetDist = dist; }
+	void		SetSpringConstant(float spring) { mSpringConstant = spring; }
 private:
 	//ターゲットの真後ろ限定の処理
-	Vector3 ComputeCameraPos() const;
+	Vector3		ComputeCameraPos() const;
 	//マウスで操作カメラの向きを更新できる処理
-	Vector3 ComputeFreeCameraPos();
+	Vector3		ComputeFreeCameraPos();
 
 	// カメラの位置
 	Vector3		mActualPos;

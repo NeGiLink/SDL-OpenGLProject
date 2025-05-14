@@ -9,15 +9,15 @@
 class AudioComponent : public Component
 {
 public:
-	AudioComponent(class ActorObject* owner, int updateOrder = 200);
-	~AudioComponent();
+						AudioComponent(class ActorObject* owner, int updateOrder = 200);
+						~AudioComponent();
 
-	void Update(float deltaTime) override;
-	void OnUpdateWorldTransform() override;
+	void				Update(float deltaTime) override;
+	void				OnUpdateWorldTransform() override;
 
-	SoundEvent PlayEvent(const string& name);
-	void StopAllEvents();
+	SoundEvent			PlayEvent(const string& name);
+	void				StopAllEvents();
 private:
-	vector<SoundEvent> mEvents2D;
-	vector<SoundEvent> mEvents3D;
+	vector<SoundEvent>	mEvents2D;
+	vector<SoundEvent>	mEvents3D;
 };

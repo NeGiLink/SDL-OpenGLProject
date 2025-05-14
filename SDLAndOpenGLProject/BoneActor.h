@@ -6,17 +6,17 @@
 class BoneActor : public ActorObject
 {
 public:
-	void ComputeWorldTransform(const class Matrix4* parentMatrix)override;
+	void			ComputeWorldTransform(const class Matrix4* parentMatrix)override;
 
-	void SetBoneName(string name) { boneName = name; }
+	void			SetBoneName(string name) { boneName = name; }
 
-	void SetBoneIndex(int index) { boneIndex = index; }
+	void			SetBoneIndex(int index) { boneIndex = index; }
 
-	void SetBoneMatrix(Matrix4 mat) { mBoneMatrix = mat; }
+	void			SetBoneMatrix(Matrix4 mat) { mBoneMatrix = mat; }
 
-	void SetParentActor(ActorObject* actor) { parentActor = actor; }
+	void			SetParentActor(ActorObject* actor) { parentActor = actor; }
 private:
-	string		boneName;
+	string			boneName;
 
 	int				boneIndex;
 

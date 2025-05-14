@@ -17,21 +17,21 @@
 class FPSActor : public ActorObject
 {
 public:
-	FPSActor();
+							FPSActor();
 
-	void FixedUpdateActor(float deltaTime)override;
+	void					FixedUpdateActor(float deltaTime)override;
 
-	void UpdateActor(float deltaTime) override;
+	void					UpdateActor(float deltaTime) override;
 	
-	void ActorInput(const struct InputState& keys) override;
+	void					ActorInput(const struct InputState& keys) override;
 
-	void SetFootstepSurface(float value);
+	void					SetFootstepSurface(float value);
 
-	void SetVisible(bool visible);
+	void					SetVisible(bool visible);
 
-	void OnCollisionEnter(class ActorObject* target) override;
+	void					OnCollisionEnter(class ActorObject* target) override;
 
-	void OnCollisionExit(class ActorObject* target) override;
+	void					OnCollisionExit(class ActorObject* target) override;
 private:
 	BasicInputAction*		mBasicInput;
 	

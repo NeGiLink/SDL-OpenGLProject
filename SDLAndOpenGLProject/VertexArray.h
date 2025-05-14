@@ -11,24 +11,24 @@ public:
 		PosNormSkinTex
 	};
 
-	VertexArray(const void* verts, unsigned int numVerts, Layout layout,
-		const unsigned int* indices, unsigned int numIndices);
+					VertexArray(const void* verts, unsigned int numVerts, Layout layout,
+								const unsigned int* indices, unsigned int numIndices);
 
-	VertexArray(const float* verts, unsigned int numVerts);
-	~VertexArray();
+					VertexArray(const float* verts, unsigned int numVerts);
+					~VertexArray();
 
-	void SetActive();
-	unsigned int GetNumIndices() const { return mNumIndices; }
-	unsigned int GetNumVerts() const { return mNumVerts; }
+	void			SetActive();
+	unsigned int	GetNumIndices() const { return mNumIndices; }
+	unsigned int	GetNumVerts() const { return mNumVerts; }
 private:
 	//vertex bufferの頂点数
-	unsigned int mNumVerts;
+	unsigned int	mNumVerts;
 	// index bufferのインデックス数
-	unsigned int mNumIndices;
+	unsigned int	mNumIndices;
 	// 頂点バッファのOpenGL ID
-	unsigned int mVertexBuffer;
+	unsigned int	mVertexBuffer;
 	// インデックスバッファのOpenGL ID
-	unsigned int mIndexBuffer;
+	unsigned int	mIndexBuffer;
 	// 頂点配列オブジェクトのOpenGL ID
-	unsigned int mVertexArray;
+	unsigned int	mVertexArray;
 };

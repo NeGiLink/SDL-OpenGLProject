@@ -7,80 +7,80 @@
 
 struct LineSegment
 {
-	LineSegment(const Vector3& start, const Vector3& end);
+					LineSegment(const Vector3& start, const Vector3& end);
 	// 0 <= t <= 1 の間のセグメントに沿った点を取得する
-	Vector3 PointOnSegment(float t) const;
+	Vector3			PointOnSegment(float t) const;
 	// 点と線分の最小距離の二乗を取得する
-	float MinDistSq(const Vector3& point) const;
+	float			MinDistSq(const Vector3& point) const;
 	// 2つの線分間の最小距離の2乗を取得する
-	static float MinDistSq(const LineSegment& s1, const LineSegment& s2);
+	static float	MinDistSq(const LineSegment& s1, const LineSegment& s2);
 
-	Vector3 mStart;
-	Vector3 mEnd;
+	Vector3			mStart;
+	Vector3			mEnd;
 };
 
 struct Plane
 {
-	Plane(const Vector3& normal, float d);
+			Plane(const Vector3& normal, float d);
 	// 3つの点から平面を構築する
-	Plane(const Vector3& a, const Vector3& b, const Vector3& c);
+			Plane(const Vector3& a, const Vector3& b, const Vector3& c);
 	// 点と平面の間の符号付き距離を取得する
-	float SignedDist(const Vector3& point) const;
+	float	SignedDist(const Vector3& point) const;
 
 	Vector3 mNormal;
-	float mD;
+	float	mD;
 };
 
 struct Sphere
 {
-	Sphere(const Vector3& center, float radius);
-	bool Contains(const Vector3& point) const;
+				Sphere(const Vector3& center, float radius);
+	bool		Contains(const Vector3& point) const;
 
-	Vector3 mCenter;
-	float mRadius;
+	Vector3		mCenter;
+	float		mRadius;
 };
 
 struct AABB
 {
-	AABB(const Vector3& min, const Vector3& max);
+				AABB(const Vector3& min, const Vector3& max);
 	// このポイントを考慮して最小値と最大値を更新する
 	// (モデルを読み込むときに使用されます)
-	void UpdateMinMax(const Vector3& point);
+	void		UpdateMinMax(const Vector3& point);
 	// クォータニオンによって回転されました
-	void Rotate(const Quaternion& q);
-	bool Contains(const Vector3& point) const;
-	float MinDistSq(const Vector3& point) const;
-	Vector3 GetBoxCenter() const;
+	void		Rotate(const Quaternion& q);
+	bool		Contains(const Vector3& point) const;
+	float		MinDistSq(const Vector3& point) const;
+	Vector3		GetBoxCenter() const;
 
-	Vector3 mMin;
-	Vector3 mMax;
+	Vector3		mMin;
+	Vector3		mMax;
 };
 
 //一度これを使うのは保留
 struct OBB
 {
-	Vector3 mCenter;
-	Quaternion mRotation;
-	Vector3 mExtents;
+	Vector3		mCenter;
+	Quaternion	mRotation;
+	Vector3		mExtents;
 };
 
 struct Capsule
 {
-	Capsule(const Vector3& start, const Vector3& end, float radius);
+				Capsule(const Vector3& start, const Vector3& end, float radius);
 	// 0 <= t <= 1 の間のセグメントに沿った点を取得する
-	Vector3 PointOnSegment(float t) const;
-	bool Contains(const Vector3& point) const;
-	float SqrDistanceToSegment(const Vector3& point) const;
+	Vector3		PointOnSegment(float t) const;
+	bool		Contains(const Vector3& point) const;
+	float		SqrDistanceToSegment(const Vector3& point) const;
 
 	LineSegment mSegment;
-	float mRadius;
+	float		mRadius;
 };
 
 struct ConvexPolygon
 {
-	bool Contains(const Vector2& point) const;
+	bool				Contains(const Vector2& point) const;
 	// 頂点は時計回りに並べられています
-	vector<Vector2> mVertices;
+	vector<Vector2>		mVertices;
 };
 
 // 交差点機能
