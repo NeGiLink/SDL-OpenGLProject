@@ -9,11 +9,11 @@
 class SphereActor : public ActorObject
 {
 public:
-	SphereActor();
+							SphereActor();
 
-	class SphereCollider* GetSphere() { return mSphere; }
+	class SphereCollider*	GetSphere() { return mSphere; }
 private:
 	//球のコライダー
-	class SphereCollider* mSphere;
+	class SphereCollider*	mSphere;
 };
 

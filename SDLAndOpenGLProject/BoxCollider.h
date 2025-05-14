@@ -6,29 +6,29 @@
 class BoxCollider : public Collider
 {
 public:
-	BoxCollider(class ActorObject* owner, int updateOrder = 100);
-	~BoxCollider();
+					BoxCollider(class ActorObject* owner, int updateOrder = 100);
+					~BoxCollider();
 
-	void OnUpdateWorldTransform() override;
+	void			OnUpdateWorldTransform() override;
 
-	void SetObjectBox(const AABB& model) { mObjectBox = model; }
-	AABB GetWorldBox() const override { return mWorldBox; }
+	void			SetObjectBox(const AABB& model) { mObjectBox = model; }
+	AABB			GetWorldBox() const override { return mWorldBox; }
 
-	const Sphere& GetWorldSphere() const override
+	const Sphere&	GetWorldSphere() const override
 	{
 		return Sphere(Vector3::Zero, 0.0f);
 	}
 	
-	const Capsule& GetWorldCapsule() const override
+	const Capsule&	GetWorldCapsule() const override
 	{
 		return Capsule(Vector3::Zero, Vector3::Zero, 0.0f);
 	}
 	
-	void SetShouldRotate(bool value) { mShouldRotate = value; }
+	void			SetShouldRotate(bool value) { mShouldRotate = value; }
 
-	ColliderType GetType() override { return ColliderType::BoxType; }
+	ColliderType	GetType() override { return ColliderType::BoxType; }
 private:
-	AABB mObjectBox;
+	AABB			mObjectBox;
 	
-	bool mShouldRotate;
+	bool			mShouldRotate;
 };

@@ -60,7 +60,7 @@ void FollowObjectMovement::Update(float deltaTime)
 
 void FollowObjectMovement::MoveInputUpdate(const InputState& keys)
 {
-	mInputDirection = Vector3();
+	mInputDirection = Vector3::Zero;
 	// wasd movement
 	if (keys.Keyboard.GetKey(SDL_SCANCODE_W))
 	{

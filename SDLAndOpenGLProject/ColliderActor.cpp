@@ -1,4 +1,4 @@
-#include "CollisionActor.h"
+#include "ColliderActor.h"
 
 
 ColliderActor::ColliderActor()

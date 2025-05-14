@@ -48,7 +48,7 @@ bool DebugScene01::Initialize()
 	mSceneLoadButtonText->SetFontSize(48);
 
 	mFrameRateText = new Text(font, Vector2(500, 250));
-	float time = Time::deltaTime;
+	float time = Time::gDeltaTime;
 	mFrameRateText->SetText(std::to_string(time));
 	mFrameRateText->SetFontSize(40);
 	

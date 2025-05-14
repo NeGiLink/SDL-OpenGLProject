@@ -20,7 +20,8 @@ PointLightComponent::~PointLightComponent()
 
 void PointLightComponent::Draw(Shader* shader, Mesh* mesh)
 {
-	for (unsigned int i = 0; i < mesh->GetVertexArrays().size(); i++) {
+	for (unsigned int i = 0; i < mesh->GetVertexArrays().size(); i++) 
+	{
 		// この関数に入るにあたり、シェーダーがアクティブであり、
 		// 球メッシュもアクティブであると仮定します。
 		// ワールド変換は外半径にスケーリングされ

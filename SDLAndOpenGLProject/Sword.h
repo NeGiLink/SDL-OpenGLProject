@@ -8,8 +8,8 @@
 class Sword : public ActorObject
 {
 public:
-	Sword();
-	void ActorInput(const struct InputState& keys) override;
+						Sword();
+	void				ActorInput(const struct InputState& keys) override;
 private:
 
 	Vector3				mPos;

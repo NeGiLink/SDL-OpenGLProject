@@ -6,32 +6,32 @@
 class SoundEvent
 {
 public:
-	SoundEvent();
+						SoundEvent();
 	// 関連するFMODイベントがまだ存在する場合、trueを返します。
-	bool IsValid();
+	bool				IsValid();
 	// イベントを最初から再起動する。
-	void Restart();
+	void				Restart();
 	// このイベントを停止。
-	void Stop(bool allowFadeOut = true);
+	void				Stop(bool allowFadeOut = true);
 	// Setters
-	void SetPaused(bool pause);
-	void SetVolume(float value);
-	void SetPitch(float value);
-	void SetParameter(const string& name, float value);
+	void				SetPaused(bool pause);
+	void				SetVolume(float value);
+	void				SetPitch(float value);
+	void				SetParameter(const string& name, float value);
 	// Getters
-	bool GetPaused() const;
-	float GetVolume() const;
-	float GetPitch() const;
-	float GetParameter(const string& name);
+	bool				GetPaused() const;
+	float				GetVolume() const;
+	float				GetPitch() const;
+	float				GetParameter(const string& name);
 	// Positional
-	bool Is3D() const;
-	void Set3DAttributes(const Matrix4& worldTrans);
+	bool				Is3D() const;
+	void				Set3DAttributes(const Matrix4& worldTrans);
 protected:
 	// このコンストラクタをprotectedにし、AudioSystemを友達として設定して、
 	// AudioSystemのみがこのコンストラクタにアクセスできるようにします。
-	friend class AudioSystem;
-	SoundEvent(class AudioSystem* system, unsigned int id);
+	friend class		AudioSystem;
+						SoundEvent(class AudioSystem* system, unsigned int id);
 private:
-	class AudioSystem* mSystem;
-	unsigned int mID;
+	class AudioSystem*	mSystem;
+	unsigned int		mID;
 };

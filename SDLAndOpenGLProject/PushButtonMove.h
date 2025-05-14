@@ -7,19 +7,19 @@ class PushButtonMove : public Component
 {
 public:
 	// 更新の順序を下げて最初に更新
-	PushButtonMove(class ActorObject* owner, int updateOrder = 10);
-	void Update(float deltaTime) override;
+			PushButtonMove(class ActorObject* owner, int updateOrder = 10);
+	void	Update(float deltaTime) override;
 	//基本的な移動動作を行う関数
-	void MoveInputUpdate(const struct InputState& keys);
+	void	MoveInputUpdate(const struct InputState& keys);
 	//***Setter***
 
-	void SetSpeed(float speed) { mSpeed = speed; }
+	void	SetSpeed(float speed) { mSpeed = speed; }
 
-	void SetForwardSpeed(float speed) { mForwardSpeed = speed; }
+	void	SetForwardSpeed(float speed) { mForwardSpeed = speed; }
 
-	void SetStrafeSpeed(float speed) { mStrafeSpeed = speed; }
+	void	SetStrafeSpeed(float speed) { mStrafeSpeed = speed; }
 
-	void AddJumpPower(float speed) { mJumpPower = speed; }
+	void	AddJumpPower(float speed) { mJumpPower = speed; }
 
 	
 private:

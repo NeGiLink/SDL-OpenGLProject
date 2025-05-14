@@ -8,10 +8,10 @@
 class DebugStageActor : public ActorObject
 {
 public:
-	DebugStageActor();
-	vector<class BoxCollider*> GetBoxs() { return mBoxs; }
+									DebugStageActor();
+	vector<class BoxCollider*>		GetBoxs() { return mBoxs; }
 private:
-	vector<class BoxCollider*> mBoxs;
+	vector<class BoxCollider*>		mBoxs;
 
 	class MeshRenderer*				mMeshComp;
 };

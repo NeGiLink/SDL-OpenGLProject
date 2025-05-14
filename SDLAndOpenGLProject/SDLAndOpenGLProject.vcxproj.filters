@@ -135,9 +135,6 @@
     <ClCompile Include="Animation.cpp">
       <Filter>SourceFiles\E_Animations</Filter>
     </ClCompile>
-    <ClCompile Include="Math.cpp">
-      <Filter>SourceFiles\M_Utilitys</Filter>
-    </ClCompile>
     <ClCompile Include="Random.cpp">
       <Filter>SourceFiles\M_Utilitys</Filter>
     </ClCompile>
@@ -237,9 +234,6 @@
     <ClCompile Include="Text.cpp">
       <Filter>SourceFiles\G_UIs</Filter>
     </ClCompile>
-    <ClCompile Include="ConvertNumToString.cpp">
-      <Filter>SourceFiles\M_Utilitys</Filter>
-    </ClCompile>
     <ClCompile Include="PhysWorld.cpp">
       <Filter>SourceFiles\D_Collisions</Filter>
     </ClCompile>
@@ -306,7 +300,7 @@
     <ClCompile Include="WinMain.cpp">
       <Filter>SourceFiles\A_Mains</Filter>
     </ClCompile>
-    <ClCompile Include="CollisionActor.cpp">
+    <ClCompile Include="ColliderActor.cpp">
       <Filter>SourceFiles\N_Unused/未使用ファイル</Filter>
     </ClCompile>
     <ClCompile Include="BallMove.cpp">
@@ -342,6 +336,12 @@
     <ClCompile Include="Transform.cpp">
       <Filter>SourceFiles\B_GameObjects\Base</Filter>
     </ClCompile>
+    <ClCompile Include="ConvertNumToString.cpp">
+      <Filter>SourceFiles\M_Utilitys</Filter>
+    </ClCompile>
+    <ClCompile Include="Math.cpp">
+      <Filter>SourceFiles\M_Utilitys</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actor.h">
@@ -370,12 +370,6 @@
     </ClInclude>
     <ClInclude Include="Renderer.h">
       <Filter>SourceFiles\J_Renderers</Filter>
-    </ClInclude>
-    <ClInclude Include="Math.h">
-      <Filter>SourceFiles\M_Utilitys</Filter>
-    </ClInclude>
-    <ClInclude Include="MatrixPalette.h">
-      <Filter>SourceFiles\M_Utilitys</Filter>
     </ClInclude>
     <ClInclude Include="VertexArray.h">
       <Filter>SourceFiles\M_Utilitys</Filter>
@@ -500,9 +494,6 @@
     <ClInclude Include="Text.h">
       <Filter>SourceFiles\G_UIs</Filter>
     </ClInclude>
-    <ClInclude Include="ConvertNumToString.h">
-      <Filter>SourceFiles\M_Utilitys</Filter>
-    </ClInclude>
     <ClInclude Include="PhysWorld.h">
       <Filter>SourceFiles\D_Collisions</Filter>
     </ClInclude>
@@ -572,7 +563,7 @@
     <ClInclude Include="GameApp.h">
       <Filter>SourceFiles\A_Mains</Filter>
     </ClInclude>
-    <ClInclude Include="CollisionActor.h">
+    <ClInclude Include="ColliderActor.h">
       <Filter>SourceFiles\N_Unused/未使用ファイル</Filter>
     </ClInclude>
     <ClInclude Include="BallMove.h">
@@ -596,12 +587,6 @@
     <ClInclude Include="AudioComponent.h">
       <Filter>SourceFiles\C_Components</Filter>
     </ClInclude>
-    <ClInclude Include="Typedefs.h">
-      <Filter>SourceFiles\K_Defines</Filter>
-    </ClInclude>
-    <ClInclude Include="StringFormat.h">
-      <Filter>SourceFiles\M_Utilitys</Filter>
-    </ClInclude>
     <ClInclude Include="SDL_Scancode.h">
       <Filter>SourceFiles\K_Defines</Filter>
     </ClInclude>
@@ -616,6 +601,21 @@
     </ClInclude>
     <ClInclude Include="Transform.h">
       <Filter>SourceFiles\B_GameObjects\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="MatrixPalette.h">
+      <Filter>SourceFiles\K_Defines</Filter>
+    </ClInclude>
+    <ClInclude Include="Typedefs.h">
+      <Filter>SourceFiles\K_Defines</Filter>
+    </ClInclude>
+    <ClInclude Include="ConvertNumToString.h">
+      <Filter>SourceFiles\M_Utilitys</Filter>
+    </ClInclude>
+    <ClInclude Include="Math.h">
+      <Filter>SourceFiles\M_Utilitys</Filter>
+    </ClInclude>
+    <ClInclude Include="StringFormat.h">
+      <Filter>SourceFiles\M_Utilitys</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

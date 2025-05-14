@@ -88,10 +88,10 @@ Vector3 FollowCamera::ComputeFreeCameraPos()
 	const float maxAngularSpeed = Math::Pi * 8.0f;
 
 	// ヨー（左右回転）：Y軸を中心に回転
-	mYaw += (static_cast<float>(dx) / mHorizontalMouseSpeed) * maxAngularSpeed * Time::deltaTime;
+	mYaw += (static_cast<float>(dx) / mHorizontalMouseSpeed) * maxAngularSpeed * Time::gDeltaTime;
 
 	// ピッチ（上下回転）：X軸を中心に回転
-	mPitch += (static_cast<float>(dy) / mVertexMouseSpeed) * maxAngularSpeed * Time::deltaTime;
+	mPitch += (static_cast<float>(dy) / mVertexMouseSpeed) * maxAngularSpeed * Time::gDeltaTime;
 
 	// ピッチの範囲制限（真上・真下を防ぐ）
 	mPitch = Math::Clamp(mPitch, -Math::Pi / 2.0f + 0.1f, Math::Pi / 2.0f - 0.1f);

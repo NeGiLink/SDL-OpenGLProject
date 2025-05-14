@@ -11,32 +11,32 @@
 class Rigidbody : public Component
 {
 public:
-	Rigidbody(class ActorObject* owner, int updateOrder = 100);
+				Rigidbody(class ActorObject* owner, int updateOrder = 100);
 	//FixedUpdateで呼び出す
-	void	FixedUpdate(float deltaTime)override;
+	void		FixedUpdate(float deltaTime)override;
 
 	//Getter
 	//重力フラグの参照
-	bool	IsUseGravity() { return mUseGravity; }
+	bool		IsUseGravity() { return mUseGravity; }
 	//力を加える関数
-	void	AddForce(Vector3 velocity);
+	void		AddForce(Vector3 velocity);
 	//mVelocityのGetter
-	Vector3 GetVelocity() { return mVelocity; }
+	Vector3		GetVelocity() { return mVelocity; }
 	//Setter
 	//重力フラグの切り替え
-	void	SetUseGravity(bool active) { mUseGravity = active; }
+	void		SetUseGravity(bool active) { mUseGravity = active; }
 	//mVelocityのSetter
-	void	SetVelocity(Vector3 velocity) { mVelocity = velocity; }
+	void		SetVelocity(Vector3 velocity) { mVelocity = velocity; }
 private:
 	//重力フラグ
-	bool	mUseGravity;
+	bool		mUseGravity;
 	//重力スケーリング
-	float	mGravityScale;
+	float		mGravityScale;
 	//質量(1.0f = 1kg)
-	float	mMass;
+	float		mMass;
 	//移動量
-	Vector3 mVelocity;
+	Vector3		mVelocity;
 	//加える分の力の変数
-	Vector3 mForces = Vector3::Zero;
+	Vector3		mForces = Vector3::Zero;
 };
 

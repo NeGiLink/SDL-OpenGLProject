@@ -10,9 +10,9 @@
 class TestCharacter : public ActorObject
 {
 public:
-	TestCharacter();
+									TestCharacter();
 
-	void ActorInput(const struct InputState& keys) override;
+	void							ActorInput(const struct InputState& keys) override;
 private:
 	enum State
 	{

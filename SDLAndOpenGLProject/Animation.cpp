@@ -58,7 +58,8 @@ bool Animation::LoadFromBinary(const std::string& filePath)
 	file = StringConverter::RemoveString(file,Model::AssetPath);
 	file = StringConverter::removeExtension(file);
 	std::ifstream in(Model::BinaryFilePath + file + Model::BinaryAnimPath, std::ios::binary);
-	if (!in) {
+	if (!in) 
+	{
 		SDL_Log("Failed to open animation bin: %s", filePath.c_str());
 		return false;
 	}
@@ -66,7 +67,8 @@ bool Animation::LoadFromBinary(const std::string& filePath)
 	AnimationBinHeader header;
 	in.read((char*)&header, sizeof(header));
 
-	if (header.version != 1) {
+	if (header.version != 1) 
+	{
 		SDL_Log("Unsupported animation version: %d", header.version);
 		return false;
 	}
@@ -99,7 +101,8 @@ bool Animation::LoadFromBinary(const std::string& filePath)
 bool Animation::SaveToBinary(const std::string& filePath)
 {
 	std::ofstream out(filePath, std::ios::binary);
-	if (!out) {
+	if (!out) 
+	{
 		SDL_Log("Failed to open animation bin for writing: %s", filePath.c_str());
 		return false;
 	}
@@ -258,7 +261,8 @@ bool Animation::LoadFromFBX(const string& fileName)
 		aiProcess_FlipUVs |
 		aiProcess_FlipWindingOrder);
 
-	if (!scene || !scene->HasAnimations()) {
+	if (!scene || !scene->HasAnimations()) 
+	{
 		SDL_Log("No animations found in FBX: %s", fileName.c_str());
 		return false;
 	}
@@ -270,7 +274,8 @@ bool Animation::LoadFromFBX(const string& fileName)
 
 	//mNumFrames をキーの最大値に合わせる
 	mNumFrames = 0;
-	for (unsigned int i = 0; i < anim->mNumChannels; i++) {
+	for (unsigned int i = 0; i < anim->mNumChannels; i++) 
+	{
 		aiNodeAnim* channel = anim->mChannels[i];
 		mNumFrames = std::max((unsigned int)mNumFrames, channel->mNumPositionKeys);
 		mNumFrames = std::max((unsigned int)mNumFrames, channel->mNumRotationKeys);
@@ -293,12 +298,14 @@ bool Animation::LoadFromFBX(const string& fileName)
 	}
 
 	// 各ボーンのアニメーションを取得
-	for (unsigned int i = 0; i < anim->mNumChannels; i++) {
+	for (unsigned int i = 0; i < anim->mNumChannels; i++) 
+	{
 		aiNodeAnim* channel = anim->mChannels[i];
 		string boneName = channel->mNodeName.C_Str();
 
 		auto it = mSkeleton->GetBoneNameToIndex().find(boneName);
-		if (it == mSkeleton->GetBoneNameToIndex().end()) {
+		if (it == mSkeleton->GetBoneNameToIndex().end()) 
+		{
 			SDL_Log("Bone %s not found in skeleton.", boneName.c_str());
 			continue;
 		}
@@ -308,7 +315,8 @@ bool Animation::LoadFromFBX(const string& fileName)
 
 		//計算を全て補間を利用
 		// フレームごとに `BoneTransform` を作成
-		for (size_t j = 0; j < mNumFrames; j++) {
+		for (size_t j = 0; j < mNumFrames; j++) 
+		{
 			BoneTransform temp = mSkeleton->GetBone(boneIndex).mLocalBindPose;
 
 			// 位置キーの適用
@@ -327,21 +335,6 @@ bool Animation::LoadFromFBX(const string& fileName)
 				finalPos = Vector3(pos.x - basePos.x, pos.y - basePos.y, pos.z - basePos.z);
 				mRootPositionOffset.push_back(finalPos);
 			}
-			//読み込み時から値を反映
-			/*
-			if (!isRootMotion&&mSkeleton->GetBone(boneIndex).mParent < 0)
-			{
-				finalPos = Vector3(mRootMotionX, mRootMotionY, mRootMotionZ);
-			}
-			else
-			{
-				//位置の違うモデルのために変化量を計算して利用
-				//このままだと初期状態で移動している場合は適用されない！
-				//本来はボーンの元の状態から変化を計算する
-				//※現状はまだ未修整
-				finalPos = Vector3(pos.x - basePos.x, pos.y - basePos.y, pos.z - basePos.z);
-			}
-			*/
 			temp.mPosition += finalPos;
 
 			// 回転キーの適用
@@ -499,7 +492,8 @@ void Animation::CalcInterpolatedTranslation(aiVector3D& Out, float AnimationTime
 
 void Animation::CalcInterpolatedRotation(aiQuaternion& Out, float AnimationTime, const aiNodeAnim* pNodeAnim)
 {
-	if (pNodeAnim->mNumRotationKeys == 1) {
+	if (pNodeAnim->mNumRotationKeys == 1) 
+	{
 		Out = pNodeAnim->mRotationKeys[0].mValue;
 		return;
 	}
@@ -533,8 +527,10 @@ size_t Animation::FindRotation(float AnimationTime, const aiNodeAnim* pNodeAnim)
 {
 	assert(pNodeAnim->mNumRotationKeys > 0);
 
-	for (size_t i = 0; i < pNodeAnim->mNumRotationKeys - 1; i++) {
-		if (AnimationTime < (float)pNodeAnim->mRotationKeys[i + 1].mTime) {
+	for (size_t i = 0; i < pNodeAnim->mNumRotationKeys - 1; i++) 
+	{
+		if (AnimationTime < (float)pNodeAnim->mRotationKeys[i + 1].mTime) 
+		{
 			return i;
 		}
 	}
@@ -544,7 +540,8 @@ size_t Animation::FindRotation(float AnimationTime, const aiNodeAnim* pNodeAnim)
 
 void Animation::CalcInterpolatedScaling(aiVector3D& Out, float AnimationTime, const aiNodeAnim* pNodeAnim)
 {
-	if (pNodeAnim->mNumScalingKeys == 1) {
+	if (pNodeAnim->mNumScalingKeys == 1) 
+	{
 		Out = pNodeAnim->mScalingKeys[0].mValue;
 		return;
 	}

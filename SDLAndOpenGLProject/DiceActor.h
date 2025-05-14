@@ -8,11 +8,11 @@
 class DiceActor : public ActorObject
 {
 public:
-	DiceActor();
+									DiceActor();
 
-	vector<class BoxCollider*> GetBoxs() { return mBoxs; }
+	vector<class BoxCollider*>		GetBoxs() { return mBoxs; }
 private:
-	vector<class BoxCollider*> mBoxs;
+	vector<class BoxCollider*>		mBoxs;
 
 	Vector3							mPos;
 };

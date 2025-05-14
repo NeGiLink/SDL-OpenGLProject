@@ -9,11 +9,11 @@
 class OrbitActor : public ActorObject
 {
 public:
-	OrbitActor();
+							OrbitActor();
 
-	void ActorInput(const struct InputState& keys) override;
+	void					ActorInput(const struct InputState& keys) override;
 
-	void SetVisible(bool visible);
+	void					SetVisible(bool visible);
 private:
 	class OrbitCamera*		mCameraComp;
 

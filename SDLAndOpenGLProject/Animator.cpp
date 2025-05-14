@@ -30,10 +30,6 @@ bool Animator::Load(const string& fileName,bool animLoop, bool rootMotion)
 		mAnimations.push_back(anim);
 		return true;
 	}
-	/*
-	anim->SetLoop(animLoop);
-	mAnimations.push_back(anim);
-	*/
 	return false;
 }
 

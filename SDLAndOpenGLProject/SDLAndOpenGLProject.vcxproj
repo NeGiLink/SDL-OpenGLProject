@@ -159,7 +159,7 @@
     <ClCompile Include="CircleComponent.cpp" />
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="Collision.cpp" />
-    <ClCompile Include="CollisionActor.cpp" />
+    <ClCompile Include="ColliderActor.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="ConvertNumToString.cpp" />
     <ClCompile Include="CubeActor.cpp" />
@@ -244,7 +244,7 @@
     <ClInclude Include="CircleComponent.h" />
     <ClInclude Include="Collider.h" />
     <ClInclude Include="Collision.h" />
-    <ClInclude Include="CollisionActor.h" />
+    <ClInclude Include="ColliderActor.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="ConvertNumToString.h" />
     <ClInclude Include="CubeActor.h" />

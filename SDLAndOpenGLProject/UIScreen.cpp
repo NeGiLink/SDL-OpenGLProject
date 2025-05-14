@@ -23,23 +23,6 @@ UIScreen::UIScreen()
 
 UIScreen::~UIScreen()
 {
-	/*
-	if (mTitle)
-	{
-		mTitle->Unload();
-		delete mTitle;
-	}
-	//mFontは独自更新のためここでアンロード
-	if (mTitleFont) 
-	{
-		if (mTitleFont->GetTexture()) {
-			mTitleFont->GetTexture()->Unload();
-		}
-		delete mTitleFont;
-	}
-	*/
-	
-
 	for (auto b : mButtons)
 	{
 		delete b;
@@ -144,18 +127,9 @@ void UIScreen::SetTitle(const string& text,
 	int pointSize)
 {
 	// Clear out previous title texture if it exists
-	/*
-	if (mTitle)
-	{
-		mTitle->Unload();
-		delete mTitle;
-		mTitle = nullptr;
-	}
-	*/
 	mTitleFont->SetColor(color);
 	mTitleFont->SetFontSize(pointSize);
 	mTitleFont->SetText(text);
-	//mTitle = mFont->RenderText(text, color, pointSize);
 }
 
 void UIScreen::AddButton(const string& name, std::function<void()> onClick)

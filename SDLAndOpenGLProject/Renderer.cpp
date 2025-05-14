@@ -19,8 +19,7 @@
 
 
 Renderer::Renderer(GameWinMain* game)
-	:mGame(game)
-	, mNowScene(nullptr)
+	: mNowScene(nullptr)
 	, mSpriteShader(nullptr)
 	, mMeshShader(nullptr)
 	, mSkinnedShader(nullptr)

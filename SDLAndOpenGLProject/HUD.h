@@ -9,17 +9,17 @@ class HUD : public UIScreen
 {
 public:
 	// (‰º‚Éˆø‚­‡˜‚ÍŒã‚ë‚É‘Î‰‚µ‚Ü‚·)
-	HUD();
-	~HUD();
+											HUD();
+											~HUD();
 
-	void Update(float deltaTime) override;
-	void Draw(class Shader* shader) override;
+	void									Update(float deltaTime) override;
+	void									Draw(class Shader* shader) override;
 
-	void AddTargetComponent(class TargetComponent* tc);
-	void RemoveTargetComponent(class TargetComponent* tc);
+	void									AddTargetComponent(class TargetComponent* tc);
+	void									RemoveTargetComponent(class TargetComponent* tc);
 protected:
-	void UpdateCrosshair(float deltaTime);
-	void UpdateRadar(float deltaTime);
+	void									UpdateCrosshair(float deltaTime);
+	void									UpdateRadar(float deltaTime);
 
 	class Image*							mRadar;
 

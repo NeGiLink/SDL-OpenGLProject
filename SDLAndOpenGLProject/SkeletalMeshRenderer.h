@@ -7,25 +7,25 @@
 class SkeletalMeshRenderer : public MeshRenderer
 {
 public:
-	SkeletalMeshRenderer(class ActorObject* owner);
+									SkeletalMeshRenderer(class ActorObject* owner);
 	// スケルタルモデルの描画
-	void Draw(class Shader* shader) override;
+	void							Draw(class Shader* shader) override;
 
-	void Update(float deltaTime) override;
+	void							Update(float deltaTime) override;
 
-	void LoadSkeletonMesh(const string& fileName,class ActorObject* actor);
+	void							LoadSkeletonMesh(const string& fileName,class ActorObject* actor);
 	
 	// Setters
-	void SetSkeleton(class Skeleton* sk, class ActorObject* actor) 
+	void							SetSkeleton(class Skeleton* sk, class ActorObject* actor) 
 	{
 		mSkeleton = sk; 
 		mSkeleton->SetParentActor(actor);
 	}
 
 
-	void SetAnimator(class Animator* animator) { mAnimator = animator; }
+	void							SetAnimator(class Animator* animator) { mAnimator = animator; }
 
-	class Skeleton* GetSkeleton() { return mSkeleton; }
+	class Skeleton*					GetSkeleton() { return mSkeleton; }
 
 protected:
 

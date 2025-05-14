@@ -25,20 +25,20 @@ public:
 class GameWinMain
 {
 public:
-	GameWinMain();
+						GameWinMain();
 	//初期化
-	bool Initialize();
+	bool				Initialize();
 	//ゲーム処理
-	void RunLoop();
+	void				RunLoop();
 	//ゲーム終了処理
-	void Shutdown();
+	void				Shutdown();
 	//Rendererの取得
-	class Renderer* GetRenderer() { return mRenderer; }
+	class Renderer*		GetRenderer() { return mRenderer; }
 private:
 	//ゲーム内の全ての描画を行うクラス
-	void Render();
+	void				Render();
 	//シーン遷移時の解放処理
-	void UnloadData();
+	void				UnloadData();
 
 	class Renderer*		mRenderer;
 

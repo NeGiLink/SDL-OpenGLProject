@@ -5,38 +5,38 @@
 class CapsuleCollider : public Collider
 {
 public:
-	CapsuleCollider(class ActorObject* owner, int updateOrder = 100);
-	~CapsuleCollider();
+					CapsuleCollider(class ActorObject* owner, int updateOrder = 100);
+					~CapsuleCollider();
 
-	void OnUpdateWorldTransform() override;
+	void			OnUpdateWorldTransform() override;
 
-	void SetObjectCapsule(const Capsule& model) { mObjectCapsule = model; }
+	void			SetObjectCapsule(const Capsule& model) { mObjectCapsule = model; }
 	//ƒJƒvƒZƒ‹‚©‚çAABB‚ðŽæ“¾
-	AABB GetWorldBox() const override 
+	AABB			GetWorldBox() const override 
 	{
 		Vector3 min = Vector3::Min(mWorldCapsule.mSegment.mStart, mWorldCapsule.mSegment.mEnd) - Vector3(mWorldCapsule.mRadius, mWorldCapsule.mRadius, mWorldCapsule.mRadius);
 		Vector3 max = Vector3::Max(mWorldCapsule.mSegment.mStart, mWorldCapsule.mSegment.mEnd) + Vector3(mWorldCapsule.mRadius, mWorldCapsule.mRadius, mWorldCapsule.mRadius);
 		return AABB(min, max);
 	}
 
-	const Sphere& GetWorldSphere() const override
+	const Sphere&	GetWorldSphere() const override
 	{
 		return Sphere(Vector3::Zero,0.0f);
 	}
 
-	const Capsule& GetWorldCapsule() const override
+	const Capsule&	GetWorldCapsule() const override
 	{
 		return mWorldCapsule;
 	}
 
-	void SetShouldRotate(bool value) { mShouldRotate = value; }
+	void			SetShouldRotate(bool value) { mShouldRotate = value; }
 
-	ColliderType GetType() override { return ColliderType::CapsuleType; }
+	ColliderType	GetType() override { return ColliderType::CapsuleType; }
 private:
 
-	Capsule mObjectCapsule;
+	Capsule			mObjectCapsule;
 	
-	Capsule mWorldCapsule;
+	Capsule			mWorldCapsule;
 	
-	bool	mShouldRotate;
+	bool			mShouldRotate;
 };

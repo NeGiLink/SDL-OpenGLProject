@@ -53,7 +53,7 @@ bool Skeleton::LoadFromSkeletonBin(const string& fileName)
 		b.mLocalBindPose.mScale = bin.scale;
 
 		//boneNameToIndexにボーン名をキーにボーン番号を格納
-		boneNameToIndex[b.mName] = static_cast<int>(mBones.size());
+		mBoneNameToIndex[b.mName] = static_cast<int>(mBones.size());
 		//同じくmBoneTransformにボーンの番号を格納
 		mBoneTransform[b.mShortName] = static_cast<int>(mBones.size());
 
@@ -219,7 +219,7 @@ bool Skeleton::LoadFromFBX(const string& fileName)
 			//取得したボーン名から短縮した名前に変換したものを取得
 			string boneShortName = ConvertSimpleBoneName(bone->mName.C_Str());
 			//boneNameToIndexにすでに同じボーンがないかチェック
-			if (boneNameToIndex.find(boneName) != boneNameToIndex.end()) continue;
+			if (mBoneNameToIndex.find(boneName) != mBoneNameToIndex.end()) continue;
 			//ボーンの構造体
 			Bone boneStruct;
 			//ボーンのmOffsetMatrixをvectorに格納
@@ -247,7 +247,7 @@ bool Skeleton::LoadFromFBX(const string& fileName)
 			boneStruct.mLocalBindPose.mPosition = Vector3(pos.x, pos.y, pos.z);
 			boneStruct.mLocalBindPose.mScale = Vector3(scale.x, scale.y, scale.z);
 			//boneNameToIndexにボーン名をキーにボーン番号を格納
-			boneNameToIndex[boneName] = static_cast<int>(mBones.size());
+			mBoneNameToIndex[boneName] = static_cast<int>(mBones.size());
 			//同じくmBoneTransformにボーンの番号を格納
 			mBoneTransform[boneStruct.mShortName] = static_cast<int>(mBones.size());
 			//ボーンベクターに格納
@@ -302,9 +302,9 @@ void Skeleton::SetParentBones(aiNode* node, int parentIndex)
 	int nextIndex = parentIndex;
 
 	// このノードがボーンとして登録されているか確認
-	if (boneNameToIndex.find(nodeName) != boneNameToIndex.end()) 
+	if (mBoneNameToIndex.find(nodeName) != mBoneNameToIndex.end()) 
 	{
-		int boneIndex = boneNameToIndex[nodeName];
+		int boneIndex = mBoneNameToIndex[nodeName];
 		mBones[boneIndex].mParent = parentIndex;
 		nextIndex = boneIndex;
 
@@ -354,12 +354,6 @@ string Skeleton::ConvertSimpleBoneName(string boneName)
 		}
 	}
 	return bone;
-}
-
-bool Skeleton::EndsWith(const string& str, const string& suffix)
-{
-	if (str.size() < suffix.size()) return false;
-	return str.substr(str.size() - suffix.size()) == suffix;
 }
 
 Matrix4 Skeleton::GetBonePosition(string boneName)

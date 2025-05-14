@@ -8,21 +8,21 @@
 class Texture
 {
 public:
-	Texture();
-	~Texture();
+					Texture();
+					~Texture();
 
-	bool Load(const string& fileName);
-	bool LoadFromAssimp(const aiTexture* embeddedTex);
-	void Unload();
-	void CreateFromSurface(struct SDL_Surface* surface);
-	void CreateForRendering(int width, int height, unsigned int format);
+	bool			Load(const string& fileName);
+	bool			LoadFromAssimp(const aiTexture* embeddedTex);
+	void			Unload();
+	void			CreateFromSurface(struct SDL_Surface* surface);
+	void			CreateForRendering(int width, int height, unsigned int format);
 
-	void SetActive(int index = 0);
-	void SetNoActive(int index = 0);
+	void			SetActive(int index = 0);
+	void			SetNoActive(int index = 0);
 
-	int GetWidth() const { return mWidth; }
-	int GetHeight() const { return mHeight; }
-	unsigned int GetTextureID() const { return mTextureID; }
+	int				GetWidth() const { return mWidth; }
+	int				GetHeight() const { return mHeight; }
+	unsigned int	GetTextureID() const { return mTextureID; }
 private:
 	unsigned int	mTextureID;
 

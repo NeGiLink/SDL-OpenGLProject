@@ -8,18 +8,18 @@ class FollowObjectMovement : public Component
 {
 public:
 	// 更新の順序を下げて最初に更新
-	FollowObjectMovement(class ActorObject* owner, int updateOrder = 10);
-	void FixedUpdate(float deltaTime)override;
-	void Update(float deltaTime) override;
+			FollowObjectMovement(class ActorObject* owner, int updateOrder = 10);
+	void	FixedUpdate(float deltaTime)override;
+	void	Update(float deltaTime) override;
 	//基本的な移動動作を行う関数
-	void MoveInputUpdate(const struct InputState& keys);
+	void	MoveInputUpdate(const struct InputState& keys);
 	//***Getter***
-	bool IsJumping() { return mJumping; }
+	bool	IsJumping() { return mJumping; }
 	
 	Vector3 GetInputDirection() { return mInputDirection; }
 
 	//***Setter***
-	void SetJumping(bool active) { mJumping = active; }
+	void	SetJumping(bool active) { mJumping = active; }
 
 
 private:

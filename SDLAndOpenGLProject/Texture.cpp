@@ -61,7 +61,8 @@ bool Texture::Load(const string& fileName)
 
 bool Texture::LoadFromAssimp(const aiTexture* embeddedTex)
 {
-	if (!embeddedTex || embeddedTex->mHeight != 0) {
+	if (!embeddedTex || embeddedTex->mHeight != 0) 
+	{
 		SDL_Log("Invalid embedded texture.");
 		return false;
 	}

@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include "StandardLibrary.h"
 
+//Vector2、Vector3、Matrix関係の計算処理を行っているnamespace
 namespace Math
 {
 	const float Pi = 3.1415926535f;

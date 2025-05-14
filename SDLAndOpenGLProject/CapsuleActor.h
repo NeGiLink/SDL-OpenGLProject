@@ -9,10 +9,10 @@
 class CapsuleActor : public ActorObject
 {
 public:
-	CapsuleActor();
+							CapsuleActor();
 
-	class CapsuleCollider* GetCapsule() { return mCapsule; }
+	class CapsuleCollider*	GetCapsule() { return mCapsule; }
 private:
 	//カプセルコライダー
-	class CapsuleCollider* mCapsule;
+	class CapsuleCollider*	mCapsule;
 };

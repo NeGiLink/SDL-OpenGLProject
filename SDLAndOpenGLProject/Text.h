@@ -5,20 +5,20 @@
 class Text : public Image
 {
 public:
-	Text(class Font* font,const Vector2& pos,bool active = true);
-	~Text();
+					Text(class Font* font,const Vector2& pos,bool active = true);
+					~Text();
 
 	// Set the name of the button
-	void SetText(const string& name);
+	void			SetText(const string& name);
 
-	void SetFontSize(int size);
+	void			SetFontSize(int size);
 
-	void SetColor(Vector3 color);
+	void			SetColor(Vector3 color);
 
 
-	class Font* GetFont()const { return mFont; }
+	class Font*		GetFont()const { return mFont; }
 private:
-	string		mName;
+	string			mName;
 	
 	class Font*		mFont;
 	

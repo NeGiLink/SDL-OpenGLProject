@@ -5,16 +5,16 @@
 class DebugScene01 : public BaseScene
 {
 public:
-	DebugScene01(class GameWinMain* winMain);
+									DebugScene01(class GameWinMain* winMain);
 
-	bool Initialize()override;
+	bool							Initialize()override;
 
-	bool InputUpdate()override;
+	bool							InputUpdate()override;
 
-	bool Update()override;
+	bool							Update()override;
 
-	void HandleKeyPress(int key)override;
-	class FPSActor* GetFPSPlayer() { return mFPSActor; }
+	void							HandleKeyPress(int key)override;
+	class							FPSActor* GetFPSPlayer() { return mFPSActor; }
 private:
 	// Game-specific code
 	class FPSActor*					mFPSActor;
@@ -29,7 +29,7 @@ private:
 
 	class DebugStageActor*			mDebugStage;
 
-	vector<class PlaneActor*>	mPlanes;
+	vector<class PlaneActor*>		mPlanes;
 
 	class SpriteComponent*			mCrosshair;
 

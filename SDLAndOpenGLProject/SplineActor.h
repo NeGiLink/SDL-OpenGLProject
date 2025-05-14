@@ -8,12 +8,12 @@
 class SplineActor : public ActorObject
 {
 public:
-	SplineActor();
+							SplineActor();
 
-	void ActorInput(const struct InputState& keys) override;
+	void					ActorInput(const struct InputState& keys) override;
 
-	void RestartSpline();
+	void					RestartSpline();
 private:
-	class SplineCamera* mCameraComp;
+	class SplineCamera*		mCameraComp;
 };
 

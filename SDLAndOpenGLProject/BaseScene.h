@@ -8,106 +8,94 @@
 class BaseScene
 {
 public:
-	BaseScene(class GameWinMain* winMain);
+	//コンストラクタ
+													BaseScene(class GameWinMain* winMain);
+	//初期化
+	virtual bool									Initialize();
+	//入力更新
+	virtual bool									InputUpdate();
+	//固定更新
+	virtual bool									FixedUpdate();
+	//更新
+	virtual bool									Update();
 	
-
-	virtual bool Initialize();
-
-	virtual bool InputUpdate();
-
-	virtual bool FixedUpdate();
-
-	virtual bool Update();
-
-	virtual void HandleKeyPress(int key);
-
-	void UnloadData();
-	
-	void Shutdown();
-
-
-	void AddActor(class ActorObject* actor);
-	
-	void RemoveActor(class ActorObject* actor);
-
-	class GameWinMain* GetWinMain() { return mWinMain; }
-
-	class Font* GetFont(const string& fileName);
-
-	void LoadText(const string& fileName);
-	
-	const string& GetText(const string& key);
-	
-	const string& GetFreeText(const string& key);
-
-	class Skeleton* GetSkeleton(const string& fileName);
-
-	class Animator* GetAnimator(const string& fileName, class Animator* animator);
-
-	class AudioSystem* GetAudioSystem() { return mAudioSystem; }
-	
-	class PhysWorld* GetPhysWorld() { return mPhysWorld; }
-	
-	class HUD* GetHUD() { return mHUD; }
+	virtual void									HandleKeyPress(int key);
+	//解放
+	void											UnloadData();
+	//ゲーム終了時の解放
+	void											Shutdown();
+	//オブジェクト追加
+	void											AddActor(class ActorObject* actor);
+	//オブジェクト削除
+	void											RemoveActor(class ActorObject* actor);
+	//GameWinMainのGetter
+	class GameWinMain*								GetWinMain() { return mWinMain; }
+	//FontのGetter
+	class Font*										GetFont(const string& fileName);
+	//Textの読み込み
+	void											LoadText(const string& fileName);
+	//TextのGetter
+	const string&									GetText(const string& key);
+	//スケルトンのGetter
+	class Skeleton*									GetSkeleton(const string& fileName);
+	//アニメーターのGetter
+	class Animator*									GetAnimator(const string& fileName, class Animator* animator);
+	//AudioSystemのGetter
+	class AudioSystem*								GetAudioSystem() { return mAudioSystem; }
+	//PhysWorldのGetter
+	class PhysWorld*								GetPhysWorld() { return mPhysWorld; }
+	//HUDのGetter
+	class HUD*										GetHUD() { return mHUD; }
 	// Manage UI stack
-	const vector<class UIScreen*>& GetUIStack() { return mUIStack; }
-	
-	void PushUI(class UIScreen* screen);
-
-	const vector<class Image*>& GetImageStack() { return mImageStack; }
-	
-	void PushImage(class Image* screen);
-
+	const vector<class UIScreen*>&					GetUIStack() { return mUIStack; }
+	//UIScreenの設定
+	void											PushUI(class UIScreen* screen);
+	//Image配列のGetter
+	const vector<class Image*>&						GetImageStack() { return mImageStack; }
+	//Imageの追加
+	void											PushImage(class Image* screen);
 	// Game-specific
-	void AddPlane(class PlaneActor* plane);
-	
-	void RemovePlane(class PlaneActor* plane);
-	
-	vector<class PlaneActor*>& GetPlanes() { return mPlanes; }
-
-	class ActorObject* GetPlayer() { return mPlayer; }
-
-	class BaseCamera* GetCamera() { return mMainCamera; }
-
-	void SetMainCamera(class BaseCamera* camera) { mMainCamera = camera; }
+	//PlayerオブジェクトのGetter
+	class ActorObject*								GetPlayer() { return mPlayer; }
+	//CameraのGetter
+	class BaseCamera*								GetCamera() { return mMainCamera; }
+	//MainCameraの設定
+	void											SetMainCamera(class BaseCamera* camera) { mMainCamera = camera; }
 
 protected:
 
-	class GameWinMain*										mWinMain;
+	class GameWinMain*								mWinMain;
 
 	// Track if we're updating actors right now
-	bool												mUpdatingActors;
+	bool											mUpdatingActors;
 
 	// All the actors in the game
 	vector<class ActorObject*>						mActors;
-	vector<class UIScreen*>						mUIStack;
+	vector<class UIScreen*>							mUIStack;
 	vector<class Image*>							mImageStack;
 	// Map for fonts
-	std::unordered_map<string, class Font*>		mFonts;
+	std::unordered_map<string, class Font*>			mFonts;
 	// Map of loaded skeletons
-	std::unordered_map<string, class Skeleton*>	mSkeletons;
+	std::unordered_map<string, class Skeleton*>		mSkeletons;
 	// Map of loaded animations
 	std::unordered_map<string, class Animation*>	mAnims;
-	std::unordered_map<string, class Animator*>	mAnimators;
+	std::unordered_map<string, class Animator*>		mAnimators;
 	// Map for text localization
-	std::unordered_map<string, string>		mText;
+	std::unordered_map<string, string>				mText;
 	// Any pending actors
 	vector<class ActorObject*>						mPendingActors;
 
-	vector<class PlaneActor*>						mPlanes;
+	class AudioSystem*								mAudioSystem;
+	class PhysWorld*								mPhysWorld;
+	class HUD*										mHUD;
 
-	class AudioSystem*									mAudioSystem;
-	class PhysWorld*									mPhysWorld;
-	class HUD*											mHUD;
+	class ActorObject*								mPlayer;
 
-	class ActorObject*									mPlayer;
+	class BaseCamera*								mMainCamera;
 
-	class BaseCamera*									mMainCamera;
-
-	//SoundEvent											mMusicEvent;
-
+	//SoundEvent									mMusicEvent;
 	// 50Hz、Unityと同じ
-	const float mFixed_Delta_Time = 0.02f; 
+	const float										mFixed_Delta_Time = 0.02f; 
 
-	float fixedTimeAccumulator;
+	float											fixedTimeAccumulator;
 };

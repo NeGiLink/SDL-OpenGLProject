@@ -6,17 +6,17 @@
 class BoneTransform
 {
 public:
-	Matrix4 ToMatrix() const;
+	Matrix4					ToMatrix() const;
 
-	void FromMatrix(Matrix4& mat);
+	void					FromMatrix(Matrix4& mat);
 
-	static BoneTransform Interpolate(const BoneTransform& a, const BoneTransform& b, float f);
+	static BoneTransform	Interpolate(const BoneTransform& a, const BoneTransform& b, float f);
 
 	// 現状はデータを公開にしています。
 	//また後々整理はする予定です。
-	Vector3			mScale;
+	Vector3					mScale;
 
-	Quaternion		mRotation;
+	Quaternion				mRotation;
 	
-	Vector3			mPosition;
+	Vector3					mPosition;
 };

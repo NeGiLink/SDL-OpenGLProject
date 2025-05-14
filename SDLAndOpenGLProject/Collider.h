@@ -10,8 +10,8 @@
 class Collider : public Component
 {
 public:
-	Collider(class ActorObject* owner, int updateOrder = 100);
-	~Collider();
+							Collider(class ActorObject* owner, int updateOrder = 100);
+							~Collider();
 
 	enum ColliderType
 	{
@@ -19,27 +19,27 @@ public:
 		SphereType,
 		CapsuleType
 	};
-	virtual ColliderType GetType() = 0;
-	virtual AABB GetWorldBox() const = 0;
-	virtual const Sphere& GetWorldSphere() const = 0;
-	virtual const Capsule& GetWorldCapsule() const = 0;
+	virtual ColliderType	GetType() = 0;
+	virtual AABB			GetWorldBox() const = 0;
+	virtual const Sphere&	GetWorldSphere() const = 0;
+	virtual const Capsule&	GetWorldCapsule() const = 0;
 
-	bool IsCollider() { return mCollider; }
-	void SetCollider(bool active) { mCollider = active; }
+	bool					IsCollider() { return mCollider; }
+	void					SetCollider(bool active) { mCollider = active; }
 
-	bool IsStaticObject() { return mStaticObject; }
-	void SetStaticObject(bool active) { mStaticObject = active; }
+	bool					IsStaticObject() { return mStaticObject; }
+	void					SetStaticObject(bool active) { mStaticObject = active; }
 
-	float GetContactOffset() { return mContactOffset; }
+	float					GetContactOffset() { return mContactOffset; }
 protected:
-	AABB	mWorldBox;
+	AABB					mWorldBox;
 	//オブジェクト同士の当たり判定をするかしないか
 	//UnityのColliderかTriggerかを切り替えるフラグ
-	bool	mCollider = true;
+	bool					mCollider = true;
 	//オブジェクトを動かさないか動かすかを決める
 	//Rigidbodyのような機能がないため追加
-	bool	mStaticObject = true;
+	bool					mStaticObject = true;
 
-	float	mContactOffset;
+	float					mContactOffset;
 };
 
