@@ -26,12 +26,20 @@ FPSActor::FPSActor()
 	AddChildActor(mDice);
 	mDice->SetPosition(Vector3(1.5f, 0.0f, 2.0f));
 	*/
+	mEvent.Add
+	(
+		[this]() 
+		{
+			mFootstep.SetPaused(false); mFootstep.Restart(); 
+		}
+	);
 }
 
 void FPSActor::FixedUpdateActor(float deltaTime)
 {
 
 }
+
 
 void FPSActor::UpdateActor(float deltaTime)
 {
@@ -44,8 +52,7 @@ void FPSActor::UpdateActor(float deltaTime)
 			!Math::NearZero(mBasicInput->GetStrafeSpeed())) &&
 			mLastFootstep <= 0.0f)
 		{
-			mFootstep.SetPaused(false);
-			mFootstep.Restart();
+			mEvent.Invoke();
 			mLastFootstep = 0.5f;
 		}
 	}

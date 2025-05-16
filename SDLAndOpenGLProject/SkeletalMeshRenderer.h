@@ -23,7 +23,7 @@ public:
 	}
 
 
-	void							SetAnimator(class Animator* animator) { mAnimator = animator; }
+	void							SetAnimator(class Animator* animator);
 
 	class Skeleton*					GetSkeleton() { return mSkeleton; }
 

@@ -1,4 +1,5 @@
 #pragma once
+#include "ErrorManager.h"
 #include "SDL_Scancode.h"
 #include "Math.h"
 
