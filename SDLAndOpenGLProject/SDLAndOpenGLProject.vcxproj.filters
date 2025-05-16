@@ -342,6 +342,9 @@
     <ClCompile Include="Math.cpp">
       <Filter>SourceFiles\M_Utilitys</Filter>
     </ClCompile>
+    <ClCompile Include="CallBackManager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actor.h">
@@ -616,6 +619,12 @@
     </ClInclude>
     <ClInclude Include="StringFormat.h">
       <Filter>SourceFiles\M_Utilitys</Filter>
+    </ClInclude>
+    <ClInclude Include="ErrorManager.h">
+      <Filter>ソース ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="CallBackManager.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

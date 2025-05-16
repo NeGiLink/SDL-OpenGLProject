@@ -152,6 +152,7 @@
     <ClCompile Include="BoneActor.cpp" />
     <ClCompile Include="BoneTransform.cpp" />
     <ClCompile Include="BoxCollider.cpp" />
+    <ClCompile Include="CallBackManager.cpp" />
     <ClCompile Include="CameraActor.cpp" />
     <ClCompile Include="BaseCamera.cpp" />
     <ClCompile Include="CapsuleActor.cpp" />
@@ -237,6 +238,7 @@
     <ClInclude Include="BoneActor.h" />
     <ClInclude Include="BoneTransform.h" />
     <ClInclude Include="BoxCollider.h" />
+    <ClInclude Include="CallBackManager.h" />
     <ClInclude Include="CameraActor.h" />
     <ClInclude Include="BaseCamera.h" />
     <ClInclude Include="CapsuleActor.h" />
@@ -251,6 +253,7 @@
     <ClInclude Include="DebugStageActor.h" />
     <ClInclude Include="DialogBox.h" />
     <ClInclude Include="DiceActor.h" />
+    <ClInclude Include="ErrorManager.h" />
     <ClInclude Include="FollowCamera.h" />
     <ClInclude Include="FollowObjectMovement.h" />
     <ClInclude Include="Font.h" />

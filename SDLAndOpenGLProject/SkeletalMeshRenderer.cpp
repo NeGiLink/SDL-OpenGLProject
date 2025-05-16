@@ -59,3 +59,13 @@ void SkeletalMeshRenderer::LoadSkeletonMesh(const string& fileName, ActorObject*
 	mSkeleton = sk;
 	mSkeleton->SetParentActor(actor);
 }
+
+void SkeletalMeshRenderer::SetAnimator(Animator* animator)
+{
+	if (animator == nullptr)
+	{
+		ERROR::ErrorCallback("The project is ending because there are no Animator.");
+		return;
+	}
+	mAnimator = animator;
+}

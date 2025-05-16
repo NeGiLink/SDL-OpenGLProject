@@ -302,6 +302,12 @@ Skeleton* BaseScene::GetSkeleton(const string& fileName)
 
 Animator* BaseScene::GetAnimator(const string& fileName, Animator* animator)
 {
+	if (animator == nullptr)
+	{
+		ERROR::ErrorCallback("The project is ending because there are no animator.");
+		return nullptr;
+	}
+
 	auto iter = mAnimators.find(fileName);
 	if (iter != mAnimators.end())
 	{

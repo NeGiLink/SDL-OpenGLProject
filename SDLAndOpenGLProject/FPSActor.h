@@ -1,7 +1,6 @@
 #pragma once
 #include "Actor.h"
 #include "SoundEvent.h"
-
 #include "BasicInputAction.h"
 #include "AudioSystem.h"
 #include "AudioComponent.h"
@@ -32,6 +31,9 @@ public:
 	void					OnCollisionEnter(class ActorObject* target) override;
 
 	void					OnCollisionExit(class ActorObject* target) override;
+
+
+	void ClassTest(){}
 private:
 	BasicInputAction*		mBasicInput;
 	
@@ -48,4 +50,6 @@ private:
 	SoundEvent				mFootstep;
 	
 	float					mLastFootstep;
+
+	Event<void()>			mEvent;
 };
