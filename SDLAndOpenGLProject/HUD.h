@@ -15,6 +15,8 @@ public:
 	void									Update(float deltaTime) override;
 	void									Draw(class Shader* shader) override;
 
+	void									ProcessInput(const struct InputState& keys)override;
+
 	void									AddTargetComponent(class TargetComponent* tc);
 	void									RemoveTargetComponent(class TargetComponent* tc);
 protected:

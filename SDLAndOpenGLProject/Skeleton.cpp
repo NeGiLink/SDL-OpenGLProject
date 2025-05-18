@@ -11,9 +11,13 @@ bool Skeleton::Load(const string& fileName)
 	{
 		return LoadFromFBX(fileName);
 	}
-
 	// **JSON ‚Ìê‡i]—ˆ‚Ìˆ—j**
-	return LoadFromJSON(fileName);
+	else if(extension == "gpmesh")
+	{
+		return LoadFromJSON(fileName);
+	}
+
+	return false;
 }
 
 bool Skeleton::LoadFromSkeletonBin(const string& fileName)

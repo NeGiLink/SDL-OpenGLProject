@@ -251,43 +251,7 @@ bool Mesh::LoadFromMeshBin(const string& fileName, Renderer* renderer, int index
 		}
 	}
 
-	
-	
-
-	/*
-	MeshBinHeader header;
-	in.read((char*)&header, sizeof(header));
-
-	for (uint32_t i = 0; i < header.subMeshCount; ++i) {
-		SubMeshHeader sub;
-		in.read((char*)&sub, sizeof(sub));
-
-		//Textureのタイプを代入
-		VertexArray::Layout layout = (header.layoutType == 0) ?
-			VertexArray::PosNormTex : VertexArray::PosNormSkinTex;
-
-		// 要素数を計算（1頂点あたりのVertex数）
-		size_t stride = (layout == VertexArray::PosNormTex) ? 8 : 13;
-
-		std::vector<Vertex> vertices(sub.vertexCount * stride);
-		std::vector<uint32_t> indices(sub.indexCount);
-
-		in.read((char*)vertices.data(), sizeof(Vertex) * vertices.size());
-		in.read((char*)indices.data(), sizeof(uint32_t) * indices.size());
-
-
-		// AABBや半径復元も可
-		mRadiusArray.push_back(sub.colliderRadius);
-		AABB box = AABB(Vector3::Infinity, Vector3::NegInfinity);
-		box.UpdateMinMax(sub.vertexPosition);
-		mBoxs.push_back(box);
-
-		VertexArray* va = new VertexArray(vertices.data(), sub.vertexCount,
-			layout, indices.data(), sub.indexCount);
-		mVertexArrays.push_back(va);
-	}
-	*/
-
+	//読み込み成功
 	return true;
 }
 //独自フォーマット用読み込み関数
@@ -778,31 +742,6 @@ bool Mesh::LoadFromFBX(const string& fileName, Renderer* renderer, int index)
 
 
 	//バイナリに変換
-	/*
-	result = removeExtension(result);
-	string number = std::to_string(index);
-	std::ofstream out(result + number + Model::BinaryPath, std::ios::binary);
-
-	MeshBinHeader header{};
-	header.layoutType = (layout == VertexArray::PosNormTex) ? 0 : 1;
-	header.subMeshCount = scene->mNumMeshes;
-	out.write((char*)&header, sizeof(header));
-
-	for (unsigned int i = 0; i < scene->mNumMeshes; ++i) {
-		// 各メッシュごとに処理
-		SubMeshHeader sub{};
-		sub.vertexCount = vertexCount;
-		sub.indexCount = static_cast<uint32_t>(indices.size());
-		// そのメッシュのAABB
-		sub.vertexPosition = vertexPosition; 
-		sub.colliderRadius = radius;
-		out.write((char*)&sub, sizeof(sub));
-
-		// 頂点/インデックスデータ
-		out.write((char*)vertices.data(), sizeof(Vertex) * vertices.size());
-		out.write((char*)indices.data(), sizeof(uint32_t) * indices.size());
-	}
-	*/
 	MeshBinHeader header;
 	header.layoutType = (layout == VertexArray::PosNormTex) ? 0 : 1;
 	header.vertexCount = vertexCount;
@@ -821,7 +760,7 @@ bool Mesh::LoadFromFBX(const string& fileName, Renderer* renderer, int index)
 	out.write((char*)vertices.data(), sizeof(Vertex)* vertices.size());
 	out.write((char*)indices.data(), sizeof(uint32_t)* indices.size());
 
-	SDL_Log("FBX file exists: %s", fileName.c_str());
+	//読み込み成功
 	return true;
 }
 

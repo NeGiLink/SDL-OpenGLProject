@@ -30,7 +30,8 @@ void SkeletalMeshRenderer::Draw(Shader* shader)
 				{
 					t->SetActive();
 				}
-				else {
+				else 
+				{
 					shader->SetNoTexture();
 				}
 				MaterialInfo m = mMeshs[i]->GetMaterialInfo()[j];
@@ -57,14 +58,17 @@ void SkeletalMeshRenderer::LoadSkeletonMesh(const string& fileName, ActorObject*
 
 	Skeleton* sk = mGame->GetSkeleton(fileName);
 	mSkeleton = sk;
-	mSkeleton->SetParentActor(actor);
+	if (mSkeleton != nullptr)
+	{
+		mSkeleton->SetParentActor(actor);
+	}
 }
 
 void SkeletalMeshRenderer::SetAnimator(Animator* animator)
 {
 	if (animator == nullptr)
 	{
-		ERROR::ErrorCallback("The project is ending because there are no Animator.");
+		Debug::ErrorLog("The project is ending because there are no Animator.");
 		return;
 	}
 	mAnimator = animator;

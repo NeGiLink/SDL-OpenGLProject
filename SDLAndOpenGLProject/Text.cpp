@@ -27,6 +27,10 @@ void Text::SetText(const string& name)
 		mTexture = nullptr;
 	}
 	mTexture = mFont->RenderFreeText(mName,mColor,mFontSize);
+	mTextureRect.x = 0;
+	mTextureRect.y = 0;
+	mTextureRect.w = static_cast<float>(mTexture->GetWidth());
+	mTextureRect.h = static_cast<float>(mTexture->GetHeight());
 }
 
 void Text::SetFontSize(int size)

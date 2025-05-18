@@ -18,6 +18,7 @@ public:
 	void		SetMatrixUniforms(const char* name, Matrix4* matrices, unsigned count);
 	// Vector3のユニフォームを設定
 	void		SetVectorUniform(const char* name, const Vector3& vector);
+	void		SetVector4Uniform(const char* name, const Vector4& vector);
 	void		SetVector2Uniform(const char* name, const Vector2& vector);
 	// 浮動小数点数のユニフォームを設定
 	void		SetFloatUniform(const char* name, float value);

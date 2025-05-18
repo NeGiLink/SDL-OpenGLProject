@@ -78,6 +78,16 @@ void Animator::Update(float deltaTime)
 	}
 }
 
+void Animator::SetSkeleton(Skeleton* skeleton)
+{
+	if (skeleton == nullptr)
+	{
+		Debug::ErrorLog("The project is ending because there are no Skeleton.");
+		return;
+	}
+	mSkeleton = skeleton;
+}
+
 float Animator::PlayAnimation(Animation* anim, float playRate)
 {
 	if (mAnimation == anim) { return 0.0f; }

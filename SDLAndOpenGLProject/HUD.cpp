@@ -65,6 +65,31 @@ void HUD::Draw(Shader* shader)
 	mRadarArrow->Draw(shader);
 }
 
+void HUD::ProcessInput(const InputState& keys)
+{
+	//テスト用入力
+	if (keys.Keyboard.GetKey(KEY_LEFT))
+	{
+		float fill = mCrosshair->GetFillAmount();
+		fill -= 0.01f;
+		if (fill <= 0)
+		{
+			fill = 0;
+		}
+		mCrosshair->SetFillAmount(fill);
+	}
+	else if (keys.Keyboard.GetKey(KEY_RIGHT))
+	{
+		float fill = mCrosshair->GetFillAmount();
+		fill += 0.01f;
+		if (fill >= 1)
+		{
+			fill = 1;
+		}
+		mCrosshair->SetFillAmount(fill);
+	}
+}
+
 void HUD::AddTargetComponent(TargetComponent* tc)
 {
 	mTargetComps.emplace_back(tc);

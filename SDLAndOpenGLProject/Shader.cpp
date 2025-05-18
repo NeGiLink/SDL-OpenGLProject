@@ -79,6 +79,13 @@ void Shader::SetVectorUniform(const char* name, const Vector3& vector)
 	glUniform3fv(loc, 1, vector.GetAsFloatPtr());
 }
 
+void Shader::SetVector4Uniform(const char* name, const Vector4& vector)
+{
+	GLuint loc = glGetUniformLocation(mShaderProgram, name);
+	// ベクトルデータを送信
+	glUniform4fv(loc, 1, vector.GetAsFloatPtr());
+}
+
 void Shader::SetVector2Uniform(const char* name, const Vector2& vector)
 {
 	GLuint loc = glGetUniformLocation(mShaderProgram, name);
