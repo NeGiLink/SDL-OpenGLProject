@@ -28,7 +28,7 @@ bool GameWinMain::Initialize()
 	mRenderer = new Renderer(this);
 	if (!mRenderer->Initialize(mWindowWidth, mWindowHeight))
 	{
-		SDL_Log("Failed to initialize renderer");
+		Debug::ErrorLog("Failed to initialize Renderer");
 		delete mRenderer;
 		mRenderer = nullptr;
 		return false;
@@ -37,14 +37,18 @@ bool GameWinMain::Initialize()
 	// SDL_ttf‚Ì‰Šú‰»
 	if (TTF_Init() < 0)
 	{
-		SDL_Log("Failed to initialize SDL_ttf");
+		Debug::ErrorLog("Failed to initialize SDL_ttf");
 		return false;
 	}
 
 	Time::InitializeDeltaTime();
 
 	mGameApp = new GameApp(this);
-	mGameApp->Initialize();
+	if (!mGameApp->Initialize())
+	{
+		Debug::ErrorLog("Failed to initialize GameScenes");
+		return false;
+	}
 	return true;
 }
 

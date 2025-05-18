@@ -25,7 +25,10 @@ bool GameApp::Initialize()
 	//staticなシーンとして保存
 	//mActiveScene = mBaseScene;
 	//シーンの初期化
-	mActiveScene->Initialize();
+	if (!mActiveScene->Initialize())
+	{
+		return false;
+	}
 	//ゲームの状態を設定
 	GameStateClass::SetGameState(GameState::GamePlay);
 	//Rendererに現在のシーンを設定

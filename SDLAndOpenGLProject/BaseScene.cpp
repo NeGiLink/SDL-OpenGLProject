@@ -276,10 +276,12 @@ Skeleton* BaseScene::GetSkeleton(const string& fileName)
 {
 	string file = Model::ModelPath + fileName;
 	auto iter = mSkeletons.find(file);
+	//Ç∑Ç≈Ç…Ç†ÇÈÇ»ÇÁÇªÇÍÇégÇ§
 	if (iter != mSkeletons.end())
 	{
 		return iter->second;
 	}
+	//êVÇµÇ≠ì«Ç›çûÇ›
 	else
 	{
 		Skeleton* sk = new Skeleton();
@@ -298,13 +300,15 @@ Skeleton* BaseScene::GetSkeleton(const string& fileName)
 		}
 		return sk;
 	}
+	//ì«Ç›çûÇ›é∏îs
+	return nullptr;
 }
 
 Animator* BaseScene::GetAnimator(const string& fileName, Animator* animator)
 {
 	if (animator == nullptr)
 	{
-		ERROR::ErrorCallback("The project is ending because there are no animator.");
+		Debug::ErrorLog("The project is ending because there are no animator.");
 		return nullptr;
 	}
 

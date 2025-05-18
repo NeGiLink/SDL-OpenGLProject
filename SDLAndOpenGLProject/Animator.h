@@ -13,7 +13,7 @@ public:
 
 	void							Update(float deltaTime);
 
-	void							SetSkeleton(class Skeleton* skeleton) { mSkeleton = skeleton; }
+	void							SetSkeleton(class Skeleton* skeleton);
 
 	// アニメーションを再生します。
 	// アニメーションの長さを返します。

@@ -1,5 +1,5 @@
 
-
+// 画像描画に使うfragシェーダー
 // Request GLSL 3.3
 #version 330
 
