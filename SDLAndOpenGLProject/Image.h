@@ -37,6 +37,11 @@ public:
 	virtual void			Draw(class Shader* shader);
 	// テクスチャを描くための関数
 	void					DrawTexture(class Shader* shader);
+
+	Vector4					UVCalculation();
+
+	Matrix4					WorldMatrixCalculation();
+
 	virtual void			UnLoad();
 	// 状態を閉鎖に設定
 	void					Close();
@@ -60,11 +65,15 @@ public:
 	//画像のスケーリングを設定
 	virtual void			SetScale(Vector3 scale);
 	virtual void			SetSDL_Rect(SDL_Rect rect) { mTextureRect = rect; }
-	virtual void			SetFillAmount(float fill) { mFillAmount = fill; }
+	virtual void			SetFillAmount(float fill);
 	//画像の回転を行う
 	virtual void			SetAngleZ(float angle);
 
 	void					SetUpdateTogether(bool active) { updateTogether = active; }
+
+	virtual void SetFillType(FillType type) { mFillType = type; }
+
+	virtual void SetFillMethod(FillMethod method) { mFillMethod = method; }
 
 protected:
 	class BaseScene*		mGame;
@@ -85,5 +94,9 @@ protected:
 	UIState					mState;
 
 	bool					updateTogether = true;
+
+	FillType				mFillType;
+
+	FillMethod				mFillMethod;
 };
 

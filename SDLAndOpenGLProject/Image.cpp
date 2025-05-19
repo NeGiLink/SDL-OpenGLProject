@@ -46,6 +46,11 @@ void Image::SetScale(Vector3 scale)
 	mTexScale = scale;
 }
 
+void Image::SetFillAmount(float fill)
+{
+	mFillAmount = Math::Clamp(fill, 0.0f, 1.0f);
+}
+
 void Image::SetAngleZ(float angle)
 {
 	mAngleZ = angle;
@@ -94,32 +99,77 @@ void Image::DrawTexture(Shader* shader)
 	float u2 = (mTextureRect.x + mTextureRect.w) / texW;
 	float v2 = (mTextureRect.y + mTextureRect.h) / texH;
 
-	float filledU2 = u1 + (u2 - u1) * mFillAmount;
-	Vector4 uvTransform = Vector4(0, 0, 1, 1);
-	uvTransform.x = u1;
-	uvTransform.y = v1;
-	uvTransform.z = filledU2 - u1;
-	uvTransform.w = v2 - v1;
-	shader->SetVector4Uniform("uTexUV", uvTransform);
-
 	// 横幅をmFillAmountでスケール
-	float width = static_cast<float>(mTextureRect.w) * mFillAmount;
+	float width = static_cast<float>(mTextureRect.w);
 	float height = static_cast<float>(mTextureRect.h);
+
+	float offsetX = 0;
+	float offsetY = 0;
+
+	Vector4 uvTransform = Vector4(0, 0, 1, 1);
+	if (mFillMethod == FillMethod::Horizontal)
+	{
+		float filledU2 = u1 + (u2 - u1) * mFillAmount;
+		uvTransform.x = u1;
+		uvTransform.y = v1;
+		uvTransform.z = filledU2 - u1;
+		uvTransform.w = v2 - v1;
+
+		// 横幅をmFillAmountでスケール
+		width *= mFillAmount;
+
+		// 左端を固定して右に伸びるように位置補正（中心基準からオフセット）
+		offsetX = (1.0f - mFillAmount) * 0.5f * mTextureRect.w * mTexScale.x;
+	}
+	else if (mFillMethod == FillMethod::Vertical)
+	{
+		// UV（v1を上にずらす）
+		float filledV1 = v1 + (v2 - v1) * (1.0f - mFillAmount);
+		uvTransform.x = u1;
+		uvTransform.y = filledV1;
+		uvTransform.z = u2 - u1;
+		uvTransform.w = v2 - filledV1;
+
+
+		// スケーリング（高さをfillAmount倍）
+		height *= mFillAmount;
+
+		// Y方向の位置補正（下から上に伸びるので上にずらす）
+		offsetY = (1.0f - mFillAmount) * 0.5f * texH;
+	}
+	else if (mFillMethod == FillMethod::Radial360)
+	{
+
+	}
+
+	shader->SetVector4Uniform("uTexUV", uvTransform);
 
 	Matrix4 scaleMat = Matrix4::CreateScale(
 		width * mTexScale.x,
 		height * mTexScale.y,
 		mTexScale.z);
 
-	// 左端を固定して右に伸びるように位置補正（中心基準からオフセット）
-	float offsetX = (1.0f - mFillAmount) * 0.5f * mTextureRect.w * mTexScale.x;
+
 	Matrix4 transMat = Matrix4::CreateTranslation(
-		Vector3(mTexturePos.x - offsetX, mTexturePos.y, 0.0f));
+		Vector3(mTexturePos.x - offsetX, mTexturePos.y - offsetY, 0.0f));
 
 	Matrix4 rotationMat = Matrix4::CreateRotationZ(mAngleZ);
+
 	Matrix4 world = scaleMat * rotationMat * transMat;
+	
 	shader->SetMatrixUniform("uWorldTransform", world);
 
 	mTexture->SetActive();
+	
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+}
+
+Vector4 Image::UVCalculation()
+{
+	return Vector4();
+}
+
+Matrix4 Image::WorldMatrixCalculation()
+{
+	return Matrix4();
 }

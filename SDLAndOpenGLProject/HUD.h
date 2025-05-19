@@ -19,6 +19,9 @@ public:
 
 	void									AddTargetComponent(class TargetComponent* tc);
 	void									RemoveTargetComponent(class TargetComponent* tc);
+
+
+	Image*									GetHelthBar() { return mHelthBar; }
 protected:
 	void									UpdateCrosshair(float deltaTime);
 	void									UpdateRadar(float deltaTime);
@@ -31,6 +34,10 @@ protected:
 	class Image*							mBlipTex;
 	
 	class Image*							mRadarArrow;
+
+	class Image*							mHelthBarFrame;
+
+	class Image*							mHelthBar;
 
 	// ゲーム内のすべてのターゲットコンポーネント
 	vector<class TargetComponent*>			mTargetComps;

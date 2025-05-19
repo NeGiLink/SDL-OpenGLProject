@@ -90,7 +90,7 @@ bool DebugScene01::Initialize()
 
 	mDice = new DiceActor();
 	mDice->SetLocalPosition(Vector3(4.0f, 0.5f, 4.0f));
-	mCube->AddChildActor(mDice);
+	mDice->SetActorTag(ActorTag::Enemy);
 
 	// 的オブジェクト生成
 	q = Quaternion();

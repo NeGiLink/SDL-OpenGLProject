@@ -13,6 +13,7 @@ HUD::HUD()
 
 	mCrosshair = new Image(false);
 	mCrosshair->Load("Assets/Crosshair.png");
+	mCrosshair->SetFillMethod(Image::Vertical);
 
 	mCrosshairEnemy = new Image(false);
 	mCrosshairEnemy->Load("Assets/CrosshairRed.png");
@@ -22,6 +23,18 @@ HUD::HUD()
 
 	mRadarArrow = new Image(false);
 	mRadarArrow->Load("Assets/RadarArrow.png");
+
+
+	mHelthBarFrame = new Image(false);
+	mHelthBarFrame->Load("Assets/HelthBarFrame.png");
+
+	mHelthBar = new Image(false);
+	mHelthBar->Load("Assets/HelthBar.png");
+
+	mHelthBar->SetFillMethod(Image::Horizontal);
+
+	mHelthBarFrame->SetPosition(Vector2(-300,-300));
+	mHelthBar->SetPosition(Vector2(-300,-300));
 }
 
 HUD::~HUD()
@@ -63,12 +76,15 @@ void HUD::Draw(Shader* shader)
 	// Radar arrow
 	mRadarArrow->SetPosition(cRadarPos);
 	mRadarArrow->Draw(shader);
+
+	mHelthBar->Draw(shader);
+	mHelthBarFrame->Draw(shader);
 }
 
 void HUD::ProcessInput(const InputState& keys)
 {
 	//テスト用入力
-	if (keys.Keyboard.GetKey(KEY_LEFT))
+	if (keys.Keyboard.GetKey(KEY_DOWN))
 	{
 		float fill = mCrosshair->GetFillAmount();
 		fill -= 0.01f;
@@ -78,7 +94,7 @@ void HUD::ProcessInput(const InputState& keys)
 		}
 		mCrosshair->SetFillAmount(fill);
 	}
-	else if (keys.Keyboard.GetKey(KEY_RIGHT))
+	else if (keys.Keyboard.GetKey(KEY_UP))
 	{
 		float fill = mCrosshair->GetFillAmount();
 		fill += 0.01f;

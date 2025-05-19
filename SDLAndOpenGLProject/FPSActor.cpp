@@ -1,5 +1,5 @@
 #include "FPSActor.h"
-
+#include "HUD.h"
 
 FPSActor::FPSActor()
 	:ActorObject()
@@ -26,6 +26,10 @@ FPSActor::FPSActor()
 	AddChildActor(mDice);
 	mDice->SetPosition(Vector3(1.5f, 0.0f, 2.0f));
 	*/
+
+	mMaxHP = 100.0f;
+	mHP = mMaxHP;
+
 	mEvent.Add
 	(
 		[this]() 
@@ -91,14 +95,23 @@ void FPSActor::SetVisible(bool visible)
 }
 void FPSActor::OnCollisionEnter(ActorObject* target)
 {
-	if (target->GetActorTag() != ActorTag::Ground) { return; }
-	mBasicInput->SetJumping(false);
-	SDL_Log("Ground Hit");
+	if (target->GetActorTag() == ActorTag::Ground)
+	{
+		mBasicInput->SetJumping(false);
+		SDL_Log("Ground Hit");
+	}
+	else if (target->GetActorTag() == ActorTag::Enemy)
+	{
+		mHP -= 10.0f;
+		mGame->GetHUD()->GetHelthBar()->SetFillAmount(mHP / mMaxHP);
+	}
 }
 
 void FPSActor::OnCollisionExit(ActorObject* target)
 {
-	if (target->GetActorTag() != ActorTag::Ground) { return; }
-	mBasicInput->SetJumping(true);
-	SDL_Log("Jump");
+	if (target->GetActorTag() == ActorTag::Ground)
+	{
+		mBasicInput->SetJumping(true);
+		SDL_Log("Jump");
+	}
 }
