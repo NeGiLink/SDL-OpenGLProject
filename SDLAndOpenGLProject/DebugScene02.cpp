@@ -50,23 +50,23 @@ bool DebugScene02::Initialize()
 	mSceneLoadButtonText->SetText("LoadScene:K Key");
 	mSceneLoadButtonText->SetFontSize(40);
 
-	mTPoseButtonText = new Text(font, Vector2(-500, -300));
+	mTPoseButtonText = new Text(font, Vector2(-500, -350));
 	mTPoseButtonText->SetText("TPose:1");
 	mTPoseButtonText->SetFontSize(40);
 
-	mIdlePoseButtonText = new Text(font, Vector2(-300, -300));
+	mIdlePoseButtonText = new Text(font, Vector2(-300, -350));
 	mIdlePoseButtonText->SetText("IdlePose:2");
 	mIdlePoseButtonText->SetFontSize(40);
 
-	mRunPoseButtonText = new Text(font, Vector2(-100, -300));
+	mRunPoseButtonText = new Text(font, Vector2(-100, -350));
 	mRunPoseButtonText->SetText("RunPose:3");
 	mRunPoseButtonText->SetFontSize(40);
 
-	mJumpPoseButtonText = new Text(font, Vector2(100, -300));
+	mJumpPoseButtonText = new Text(font, Vector2(100, -350));
 	mJumpPoseButtonText->SetText("JumpPose:4");
 	mJumpPoseButtonText->SetFontSize(40);
 
-	mCapoeiraPoseButtonText = new Text(font, Vector2(300, -300));
+	mCapoeiraPoseButtonText = new Text(font, Vector2(300, -350));
 	mCapoeiraPoseButtonText->SetText("CapoeiraPose:5");
 	mCapoeiraPoseButtonText->SetFontSize(40);
 

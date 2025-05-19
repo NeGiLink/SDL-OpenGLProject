@@ -8,7 +8,8 @@ enum ActorTag
 {
 	None,
 	Player,
-	Ground
+	Ground,
+	Enemy
 };
 
 //全3Dモデルの基底クラス

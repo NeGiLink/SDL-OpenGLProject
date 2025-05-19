@@ -31,9 +31,6 @@ public:
 	void					OnCollisionEnter(class ActorObject* target) override;
 
 	void					OnCollisionExit(class ActorObject* target) override;
-
-
-	void ClassTest(){}
 private:
 	BasicInputAction*		mBasicInput;
 	
@@ -52,4 +49,8 @@ private:
 	float					mLastFootstep;
 
 	Event<void()>			mEvent;
+
+
+	float					mMaxHP;
+	float					mHP;
 };
