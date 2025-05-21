@@ -9,7 +9,8 @@ enum ActorTag
 	None,
 	Player,
 	Ground,
-	Enemy
+	Enemy,
+	Recovery
 };
 
 //全3Dモデルの基底クラス

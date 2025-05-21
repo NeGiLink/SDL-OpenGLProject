@@ -47,13 +47,14 @@ public:
 	//HUDのGetter
 	class HUD*										GetHUD() { return mHUD; }
 	// Manage UI stack
-	const vector<class UIScreen*>&					GetUIStack() { return mUIStack; }
+	const vector<class Canvas*>&					GetUIStack() { return mUIStack; }
 	//UIScreenの設定
-	void											PushUI(class UIScreen* screen);
+	void											PushUI(class Canvas* screen);
 	//Image配列のGetter
 	const vector<class Image*>&						GetImageStack() { return mImageStack; }
 	//Imageの追加
 	void											PushImage(class Image* screen);
+	void											RemoveImage(class Image* screen);
 	// Game-specific
 	//PlayerオブジェクトのGetter
 	class ActorObject*								GetPlayer() { return mPlayer; }
@@ -71,7 +72,7 @@ protected:
 
 	// All the actors in the game
 	vector<class ActorObject*>						mActors;
-	vector<class UIScreen*>							mUIStack;
+	vector<class Canvas*>							mUIStack;
 	vector<class Image*>							mImageStack;
 	// Map for fonts
 	std::unordered_map<string, class Font*>			mFonts;

@@ -3,6 +3,7 @@
 #include "SOIL.h"
 #include <GL/glew.h>
 #include "SDL3.h"
+#include "FilePath.h"
 
 //画像の読み込み、参照を行うことをカプセル化したクラス
 class Texture

@@ -32,25 +32,24 @@ public:
 
 	void					OnCollisionExit(class ActorObject* target) override;
 private:
-	BasicInputAction*		mBasicInput;
-	
+	//入力クラス
+	class BasicInputAction*	mBasicInput;
+	//プレイヤー用のサウンド
 	class AudioComponent*	mAudioComp;
-	
+	//Mesh
 	class MeshRenderer*		mMeshComp;
-	
+	//一人称カメラ
 	class FPSCamera*		mFPSCamera;
-	
-	class BoxCollider*		mBoxComp;
-
-	class DiceActor*		mDice;
-	
+	//コライダー
+	class BoxCollider*		mBoxCollider;
+	//足音SE
 	SoundEvent				mFootstep;
-	
+	//足音の間隔
 	float					mLastFootstep;
-
+	//足音のイベントを呼び出すコールバック変数
 	Event<void()>			mEvent;
-
-
+	//簡易的な最大HPの変数
 	float					mMaxHP;
+	//簡易的なHPの変数
 	float					mHP;
 };

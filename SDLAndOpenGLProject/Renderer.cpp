@@ -6,7 +6,7 @@
 #include "SpriteComponent.h"
 #include "LineRenderer.h"
 #include "MeshRenderer.h"
-#include "UIScreen.h"
+#include "Canvas.h"
 #include "Image.h"
 #include "WinMain.h"
 #include "BaseScene.h"
@@ -86,7 +86,7 @@ bool Renderer::Initialize(float screenWidth, float screenHeight)
 		return false;
 	}
 
-	// スプライトを描画するための四角形を作成する
+	// 画面全体の四角形を作成する
 	CreateSpriteVerts();
 
 	//線を描画するための二点を作成
@@ -207,6 +207,7 @@ void Renderer::Draw()
 
 	// シェーダー/VAOをアクティブに設定
 	mSpriteShader->SetActive();
+
 	mSpriteVerts->SetActive();
 
 	for (auto sprite : mSprites)
@@ -217,16 +218,30 @@ void Renderer::Draw()
 		}
 	}
 
-	// Draw any UI screens
-	//ゲーム中のUIをまとめて描画
-	for (auto ui : mNowScene->GetUIStack())
-	{
-		ui->Draw(mSpriteShader);
-	}
 
 	for (auto ui : mNowScene->GetImageStack())
 	{
 		if (ui->GetState() == Image::EActive) 
+		{
+			if (ui->GetFillMethod() == Image::Radial360)
+			{
+				int count = CreateFanSpriteVerts(ui->GetFillAmount(),30);
+				ui->SetVerticesCount(count);
+				mFanSpriteVerts->SetActive();
+			}
+			else
+			{
+				mSpriteVerts->SetActive();
+			}
+			ui->Draw(mSpriteShader);
+		}
+	}
+
+	// Draw any UI screens
+	//ゲーム中のUIをまとめて描画
+	for (auto ui : mNowScene->GetUIStack())
+	{
+		if (ui->GetState() == Canvas::EActive)
 		{
 			ui->Draw(mSpriteShader);
 		}
@@ -591,6 +606,15 @@ void Renderer::CreateSpriteVerts()
 	};
 
 	mSpriteVerts = new VertexArray(vertices, 4, VertexArray::PosNormTex, indices, 6);
+}
+int Renderer::CreateFanSpriteVerts(float fillRatio, int maxSegments)
+{
+	// 作成した頂点配列とインデックス配列でVertexArray作成
+
+	if (mFanSpriteVerts)
+		delete mFanSpriteVerts;
+	mFanSpriteVerts = new VertexArray(fillRatio, maxSegments);
+	return mFanSpriteVerts->GetNumVerts();
 }
 
 void Renderer::CreateLineSpriteVerts()

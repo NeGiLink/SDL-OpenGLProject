@@ -2,34 +2,35 @@
 
 
 HUD::HUD()
-	:UIScreen()
+	:Canvas()
 	, mRadarRange(2000.0f)
 	, mRadarRadius(92.0f)
 	, mTargetEnemy(false)
 {
 	Renderer* r = mGame->GetWinMain()->GetRenderer();
-	mRadar = new Image(false);
-	mRadar->Load("Assets/Radar.png");
+	mRadar = new Image();
+	mRadar->Load("Radar.png");
 
-	mCrosshair = new Image(false);
-	mCrosshair->Load("Assets/Crosshair.png");
-	mCrosshair->SetFillMethod(Image::Vertical);
+	mCrosshair = new Image();
+	mCrosshair->Load("Crosshair.png");
+	mCrosshair->SetFillMethod(Image::Radial360);
 
-	mCrosshairEnemy = new Image(false);
-	mCrosshairEnemy->Load("Assets/CrosshairRed.png");
+	mCrosshairEnemy = new Image();
+	mCrosshairEnemy->Load("CrosshairRed.png");
 	
-	mBlipTex = new Image(false);
-	mBlipTex->Load("Assets/Blip.png");
+	mBlipTex = new Image();
+	mBlipTex->Load("Blip.png");
 
-	mRadarArrow = new Image(false);
-	mRadarArrow->Load("Assets/RadarArrow.png");
+	mRadarArrow = new Image();
+	mRadarArrow->Load("RadarArrow.png");
 
 
-	mHelthBarFrame = new Image(false);
-	mHelthBarFrame->Load("Assets/HelthBarFrame.png");
+	mHelthBar = new Image();
+	mHelthBar->Load("HelthBar.png");
 
-	mHelthBar = new Image(false);
-	mHelthBar->Load("Assets/HelthBar.png");
+	mHelthBarFrame = new Image();
+	mHelthBarFrame->Load("HelthBarFrame.png");
+
 
 	mHelthBar->SetFillMethod(Image::Horizontal);
 
@@ -43,7 +44,7 @@ HUD::~HUD()
 
 void HUD::Update(float deltaTime)
 {
-	UIScreen::Update(deltaTime);
+	Canvas::Update(deltaTime);
 
 	UpdateCrosshair(deltaTime);
 	UpdateRadar(deltaTime);
@@ -53,32 +54,42 @@ void HUD::Draw(Shader* shader)
 {
 	// Crosshair
 	if (GameStateClass::mGameState == TimeStop) { return; }
-	Image* crosshair = mTargetEnemy ? mCrosshairEnemy : mCrosshair;
-	crosshair->SetPosition(Vector2::Zero);
+	if (mTargetEnemy)
+	{
+		mCrosshair->SetState(Image::EClosing);
+		mCrosshairEnemy->SetState(Image::EActive);
+		mCrosshairEnemy->SetPosition(Vector2::Zero);
+	}
+	else
+	{
+		mCrosshairEnemy->SetState(Image::EClosing);
+		mCrosshair->SetState(Image::EActive);
+		mCrosshair->SetPosition(Vector2::Zero);
+	}
+	//Image* crosshair = mTargetEnemy ? mCrosshairEnemy : mCrosshair;
 	//mCrosshairAngle++;
 	//crosshair->SetAngleZ(mCrosshairAngle);
 	//crosshair->SetScale(Vector3(1.5f, 0.5f,1.0f));
 	
-	crosshair->Draw(shader);
 
 	// Radar
 	const Vector2 cRadarPos(-390.0f, 275.0f);
 	mRadar->SetPosition(cRadarPos);
-	mRadar->Draw(shader);
+	//mRadar->Draw(shader);
 	// Blips
 	for (Vector2& blip : mBlips)
 	{
 		blip *= 100.0f;
 		mBlipTex->SetPosition(cRadarPos + blip);
-		mBlipTex->Draw(shader);
+		//mBlipTex->Draw(shader);
 	}
 
 	// Radar arrow
 	mRadarArrow->SetPosition(cRadarPos);
-	mRadarArrow->Draw(shader);
+	//mRadarArrow->Draw(shader);
 
-	mHelthBar->Draw(shader);
-	mHelthBarFrame->Draw(shader);
+	//mHelthBar->Draw(shader);
+	//mHelthBarFrame->Draw(shader);
 }
 
 void HUD::ProcessInput(const InputState& keys)

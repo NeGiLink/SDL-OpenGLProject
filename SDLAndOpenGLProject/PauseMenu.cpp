@@ -2,10 +2,13 @@
 
 
 PauseMenu::PauseMenu()
-	:UIScreen()
+	:Canvas()
 {
 	GameStateClass::SetGameState(GameState::TimeStop);
 	SetRelativeMouseMode(false);
+
+	mTitleFont = new Text(mGame->GetFont("Assets/Fonts/Carlito-Regular.ttf"), Vector2::Zero);
+	mTitleFont->SetPosition(mTitlePos);
 	SetTitle("PauseTitle");
 	AddButton("ResumeButton", [this]() {
 		Close();
@@ -16,6 +19,7 @@ PauseMenu::PauseMenu()
 				GameStateClass::SetGameState(GameState::GameEnd);
 			});
 		});
+
 }
 
 PauseMenu::~PauseMenu()
@@ -26,7 +30,7 @@ PauseMenu::~PauseMenu()
 
 void PauseMenu::HandleKeyPress(int key)
 {
-	UIScreen::HandleKeyPress(key);
+	Canvas::HandleKeyPress(key);
 
 	if (key == SDLK_ESCAPE)
 	{

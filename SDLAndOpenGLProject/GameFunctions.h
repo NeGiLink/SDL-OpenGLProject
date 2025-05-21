@@ -13,6 +13,8 @@
 #include "TargetActor.h"
 #include "BallActor.h"
 #include "DiceActor.h"
+#include "DamageTrap.h"
+#include "Health.h"
 #include "DebugStageActor.h"
 #include "TestCharacter.h"
 #include "YBotActor.h"
@@ -31,7 +33,7 @@
 #include "Text.h"
 //UI関係のインクルード
 #include "PauseMenu.h"
-#include "UIScreen.h"
+#include "Canvas.h"
 #include "HUD.h"
 //ライト関係のインクルード
 #include "PointLightComponent.h"

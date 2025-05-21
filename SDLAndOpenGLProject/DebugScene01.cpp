@@ -31,7 +31,6 @@ bool DebugScene01::Initialize()
 	// ゲーム内のUI生成
 	mHUD = new HUD();
 
-
 	Font* font = GetFont("Assets/Fonts/NotoSansJP-Bold.ttf");
 	//シーン名生成
 	mSceneNameText = new Text(font, Vector2(500, 350));
@@ -90,7 +89,14 @@ bool DebugScene01::Initialize()
 
 	mDice = new DiceActor();
 	mDice->SetLocalPosition(Vector3(4.0f, 0.5f, 4.0f));
-	mDice->SetActorTag(ActorTag::Enemy);
+
+	mDamageTrap = new DamageTrap();
+	mDamageTrap->SetLocalPosition(Vector3(0.0f, 0.7f, -4.0f));
+	mDamageTrap->SetActorTag(ActorTag::Enemy);
+
+	mHealthObject = new HealthObject();
+	mHealthObject->SetLocalPosition(Vector3(4.0f, 1.0f, -4.0f));
+	mHealthObject->SetActorTag(ActorTag::Recovery);
 
 	// 的オブジェクト生成
 	q = Quaternion();
@@ -187,8 +193,7 @@ void DebugScene01::HandleKeyPress(int key)
 	switch (key)
 	{
 	case SDLK_ESCAPE:
-		// Create pause menu
-		new PauseMenu();
+		mPauseMenu = new PauseMenu();
 		break;
 	case SDL_BUTTON_LEFT:
 	{

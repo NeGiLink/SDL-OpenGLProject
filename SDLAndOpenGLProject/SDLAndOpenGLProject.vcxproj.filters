@@ -49,42 +49,6 @@
     <Filter Include="SourceFiles\D_Collisions">
       <UniqueIdentifier>{6c153ca1-6e7f-4e22-9ecf-8dca3d0d9dd4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="SourceFiles\E_Animations">
-      <UniqueIdentifier>{951c41e7-f311-4c95-a568-c8286a7b9b6b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="SourceFiles\F_Cameras">
-      <UniqueIdentifier>{3831b082-f137-46a3-a7cf-8866cbfaf917}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="SourceFiles\F_Cameras\Base">
-      <UniqueIdentifier>{458257fe-9f4f-4cc1-9a97-0ec9e1d4404c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="SourceFiles\G_UIs">
-      <UniqueIdentifier>{7c07c064-fa35-4491-9b87-c66e6dcc30c4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="SourceFiles\H_Scenes">
-      <UniqueIdentifier>{d75df269-da34-4515-a3cf-1c3e3b66d3e3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="SourceFiles\H_Scenes\LoadManager">
-      <UniqueIdentifier>{73369c76-ae4b-4f86-8f14-bc5a60070ff7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="SourceFiles\I_Audios">
-      <UniqueIdentifier>{16a817e6-11b2-4826-92a5-16c023fb8537}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="SourceFiles\J_Renderers">
-      <UniqueIdentifier>{24f3e5a7-911e-444d-8669-52389bef20fb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="SourceFiles\K_Defines">
-      <UniqueIdentifier>{f9cd43ee-397a-40bb-b8d5-0bc167d5dcfa}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="SourceFiles\L_Libs">
-      <UniqueIdentifier>{63f3a5bc-17d7-469f-a700-9a784f864369}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="SourceFiles\N_Unused/未使用ファイル">
-      <UniqueIdentifier>{06ed5f55-ba5d-48a9-be9d-a925c0efb940}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="SourceFiles\M_Utilitys">
-      <UniqueIdentifier>{d595bc1c-3b9f-4f68-968d-793bcd77046b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="SourceFiles\A_Mains">
       <UniqueIdentifier>{cc57f91a-d7f4-4425-b1f1-fbeee5f70532}</UniqueIdentifier>
     </Filter>
@@ -94,16 +58,55 @@
     <Filter Include="SourceFiles\B_GameObjects\3Ds\CameraObjects">
       <UniqueIdentifier>{686865f2-7cd1-4ca5-9ddc-ab9dc5dd8618}</UniqueIdentifier>
     </Filter>
+    <Filter Include="SourceFiles\E_Cameras">
+      <UniqueIdentifier>{3831b082-f137-46a3-a7cf-8866cbfaf917}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceFiles\E_Cameras\Base">
+      <UniqueIdentifier>{458257fe-9f4f-4cc1-9a97-0ec9e1d4404c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceFiles\F_UIs">
+      <UniqueIdentifier>{7c07c064-fa35-4491-9b87-c66e6dcc30c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceFiles\G_Scenes">
+      <UniqueIdentifier>{d75df269-da34-4515-a3cf-1c3e3b66d3e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceFiles\G_Scenes\LoadManager">
+      <UniqueIdentifier>{73369c76-ae4b-4f86-8f14-bc5a60070ff7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceFiles\H_Audios">
+      <UniqueIdentifier>{16a817e6-11b2-4826-92a5-16c023fb8537}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceFiles\J_Unused/未使用ファイル">
+      <UniqueIdentifier>{06ed5f55-ba5d-48a9-be9d-a925c0efb940}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceFiles\I_Editor">
+      <UniqueIdentifier>{2694a7e8-b7f5-44ca-8f6a-cdebf823b78a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceFiles\I_Editor\Defines">
+      <UniqueIdentifier>{f9cd43ee-397a-40bb-b8d5-0bc167d5dcfa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceFiles\I_Editor\Libs">
+      <UniqueIdentifier>{63f3a5bc-17d7-469f-a700-9a784f864369}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceFiles\I_Editor\Utilitys">
+      <UniqueIdentifier>{d595bc1c-3b9f-4f68-968d-793bcd77046b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceFiles\I_Editor\Renderers">
+      <UniqueIdentifier>{24f3e5a7-911e-444d-8669-52389bef20fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceFiles\I_Editor\Animations">
+      <UniqueIdentifier>{951c41e7-f311-4c95-a568-c8286a7b9b6b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Actor.cpp">
       <Filter>SourceFiles\B_GameObjects\Base</Filter>
     </ClCompile>
     <ClCompile Include="AudioSystem.cpp">
-      <Filter>SourceFiles\I_Audios</Filter>
+      <Filter>SourceFiles\H_Audios</Filter>
     </ClCompile>
     <ClCompile Include="SoundEvent.cpp">
-      <Filter>SourceFiles\I_Audios</Filter>
+      <Filter>SourceFiles\H_Audios</Filter>
     </ClCompile>
     <ClCompile Include="Component.cpp">
       <Filter>SourceFiles\C_Components\Base</Filter>
@@ -121,70 +124,61 @@
       <Filter>SourceFiles\C_Components</Filter>
     </ClCompile>
     <ClCompile Include="FollowCamera.cpp">
-      <Filter>SourceFiles\F_Cameras</Filter>
+      <Filter>SourceFiles\E_Cameras</Filter>
     </ClCompile>
     <ClCompile Include="FPSCamera.cpp">
-      <Filter>SourceFiles\F_Cameras</Filter>
+      <Filter>SourceFiles\E_Cameras</Filter>
     </ClCompile>
     <ClCompile Include="OrbitCamera.cpp">
-      <Filter>SourceFiles\F_Cameras</Filter>
+      <Filter>SourceFiles\E_Cameras</Filter>
     </ClCompile>
     <ClCompile Include="SplineCamera.cpp">
-      <Filter>SourceFiles\F_Cameras</Filter>
+      <Filter>SourceFiles\E_Cameras</Filter>
     </ClCompile>
     <ClCompile Include="Animation.cpp">
-      <Filter>SourceFiles\E_Animations</Filter>
-    </ClCompile>
-    <ClCompile Include="Random.cpp">
-      <Filter>SourceFiles\M_Utilitys</Filter>
-    </ClCompile>
-    <ClCompile Include="VertexArray.cpp">
-      <Filter>SourceFiles\M_Utilitys</Filter>
+      <Filter>SourceFiles\I_Editor\Animations</Filter>
     </ClCompile>
     <ClCompile Include="GBuffer.cpp">
-      <Filter>SourceFiles\J_Renderers</Filter>
+      <Filter>SourceFiles\I_Editor\Renderers</Filter>
     </ClCompile>
     <ClCompile Include="Mesh.cpp">
-      <Filter>SourceFiles\J_Renderers</Filter>
+      <Filter>SourceFiles\I_Editor\Renderers</Filter>
     </ClCompile>
     <ClCompile Include="Renderer.cpp">
-      <Filter>SourceFiles\J_Renderers</Filter>
+      <Filter>SourceFiles\I_Editor\Renderers</Filter>
     </ClCompile>
     <ClCompile Include="Shader.cpp">
-      <Filter>SourceFiles\J_Renderers</Filter>
+      <Filter>SourceFiles\I_Editor\Renderers</Filter>
     </ClCompile>
     <ClCompile Include="Animator.cpp">
-      <Filter>SourceFiles\E_Animations</Filter>
-    </ClCompile>
-    <ClCompile Include="Time.cpp">
-      <Filter>SourceFiles\M_Utilitys</Filter>
+      <Filter>SourceFiles\I_Editor\Animations</Filter>
     </ClCompile>
     <ClCompile Include="DebugScene02.cpp">
-      <Filter>SourceFiles\H_Scenes</Filter>
+      <Filter>SourceFiles\G_Scenes</Filter>
     </ClCompile>
     <ClCompile Include="BaseScene.cpp">
-      <Filter>SourceFiles\H_Scenes</Filter>
+      <Filter>SourceFiles\G_Scenes</Filter>
     </ClCompile>
     <ClCompile Include="DialogBox.cpp">
-      <Filter>SourceFiles\G_UIs</Filter>
+      <Filter>SourceFiles\F_UIs</Filter>
     </ClCompile>
     <ClCompile Include="Font.cpp">
-      <Filter>SourceFiles\G_UIs</Filter>
+      <Filter>SourceFiles\F_UIs</Filter>
     </ClCompile>
     <ClCompile Include="HUD.cpp">
-      <Filter>SourceFiles\G_UIs</Filter>
+      <Filter>SourceFiles\F_UIs</Filter>
     </ClCompile>
     <ClCompile Include="Image.cpp">
-      <Filter>SourceFiles\G_UIs</Filter>
+      <Filter>SourceFiles\F_UIs</Filter>
     </ClCompile>
     <ClCompile Include="PauseMenu.cpp">
-      <Filter>SourceFiles\G_UIs</Filter>
+      <Filter>SourceFiles\F_UIs</Filter>
     </ClCompile>
-    <ClCompile Include="UIScreen.cpp">
-      <Filter>SourceFiles\G_UIs</Filter>
+    <ClCompile Include="Canvas.cpp">
+      <Filter>SourceFiles\F_UIs</Filter>
     </ClCompile>
     <ClCompile Include="Texture.cpp">
-      <Filter>SourceFiles\G_UIs</Filter>
+      <Filter>SourceFiles\F_UIs</Filter>
     </ClCompile>
     <ClCompile Include="DiceActor.cpp">
       <Filter>SourceFiles\B_GameObjects\3Ds</Filter>
@@ -229,13 +223,10 @@
       <Filter>SourceFiles\D_Collisions</Filter>
     </ClCompile>
     <ClCompile Include="BaseCamera.cpp">
-      <Filter>SourceFiles\F_Cameras\Base</Filter>
+      <Filter>SourceFiles\E_Cameras\Base</Filter>
     </ClCompile>
     <ClCompile Include="Text.cpp">
-      <Filter>SourceFiles\G_UIs</Filter>
-    </ClCompile>
-    <ClCompile Include="PhysWorld.cpp">
-      <Filter>SourceFiles\D_Collisions</Filter>
+      <Filter>SourceFiles\F_UIs</Filter>
     </ClCompile>
     <ClCompile Include="BoxCollider.cpp">
       <Filter>SourceFiles\D_Collisions</Filter>
@@ -262,10 +253,10 @@
       <Filter>SourceFiles\B_GameObjects\3Ds\Bones</Filter>
     </ClCompile>
     <ClCompile Include="DebugScene01.cpp">
-      <Filter>SourceFiles\H_Scenes</Filter>
+      <Filter>SourceFiles\G_Scenes</Filter>
     </ClCompile>
     <ClCompile Include="SceneManager.cpp">
-      <Filter>SourceFiles\H_Scenes\LoadManager</Filter>
+      <Filter>SourceFiles\G_Scenes\LoadManager</Filter>
     </ClCompile>
     <ClCompile Include="PlaneActor.cpp">
       <Filter>SourceFiles\B_GameObjects\3Ds\Defaults</Filter>
@@ -283,13 +274,13 @@
       <Filter>SourceFiles\B_GameObjects\3Ds</Filter>
     </ClCompile>
     <ClCompile Include="Skeleton.cpp">
-      <Filter>SourceFiles\J_Renderers</Filter>
+      <Filter>SourceFiles\I_Editor\Renderers</Filter>
     </ClCompile>
     <ClCompile Include="BoneTransform.cpp">
-      <Filter>SourceFiles\J_Renderers</Filter>
+      <Filter>SourceFiles\I_Editor\Renderers</Filter>
     </ClCompile>
     <ClCompile Include="LineRenderer.cpp">
-      <Filter>SourceFiles\N_Unused/未使用ファイル</Filter>
+      <Filter>SourceFiles\J_Unused/未使用ファイル</Filter>
     </ClCompile>
     <ClCompile Include="GameApp.cpp">
       <Filter>SourceFiles\A_Mains</Filter>
@@ -301,25 +292,25 @@
       <Filter>SourceFiles\A_Mains</Filter>
     </ClCompile>
     <ClCompile Include="ColliderActor.cpp">
-      <Filter>SourceFiles\N_Unused/未使用ファイル</Filter>
+      <Filter>SourceFiles\J_Unused/未使用ファイル</Filter>
     </ClCompile>
     <ClCompile Include="BallMove.cpp">
-      <Filter>SourceFiles\N_Unused/未使用ファイル</Filter>
+      <Filter>SourceFiles\J_Unused/未使用ファイル</Filter>
     </ClCompile>
     <ClCompile Include="BallActor.cpp">
-      <Filter>SourceFiles\N_Unused/未使用ファイル</Filter>
+      <Filter>SourceFiles\J_Unused/未使用ファイル</Filter>
     </ClCompile>
     <ClCompile Include="InputComponent.cpp">
-      <Filter>SourceFiles\N_Unused/未使用ファイル</Filter>
+      <Filter>SourceFiles\J_Unused/未使用ファイル</Filter>
     </ClCompile>
     <ClCompile Include="MoveComponent.cpp">
-      <Filter>SourceFiles\N_Unused/未使用ファイル</Filter>
+      <Filter>SourceFiles\J_Unused/未使用ファイル</Filter>
     </ClCompile>
     <ClCompile Include="SpriteComponent.cpp">
-      <Filter>SourceFiles\G_UIs</Filter>
+      <Filter>SourceFiles\F_UIs</Filter>
     </ClCompile>
     <ClCompile Include="CircleComponent.cpp">
-      <Filter>SourceFiles\N_Unused/未使用ファイル</Filter>
+      <Filter>SourceFiles\J_Unused/未使用ファイル</Filter>
     </ClCompile>
     <ClCompile Include="AudioComponent.cpp">
       <Filter>SourceFiles\C_Components</Filter>
@@ -337,13 +328,37 @@
       <Filter>SourceFiles\B_GameObjects\Base</Filter>
     </ClCompile>
     <ClCompile Include="ConvertNumToString.cpp">
-      <Filter>SourceFiles\M_Utilitys</Filter>
+      <Filter>SourceFiles\I_Editor\Utilitys</Filter>
     </ClCompile>
-    <ClCompile Include="Math.cpp">
-      <Filter>SourceFiles\M_Utilitys</Filter>
+    <ClCompile Include="PhysWorld.cpp">
+      <Filter>SourceFiles\B_GameObjects\3Ds</Filter>
+    </ClCompile>
+    <ClCompile Include="Health.cpp">
+      <Filter>SourceFiles\B_GameObjects\3Ds</Filter>
+    </ClCompile>
+    <ClCompile Include="DamageTrap.cpp">
+      <Filter>SourceFiles\B_GameObjects\3Ds</Filter>
     </ClCompile>
     <ClCompile Include="CallBackManager.cpp">
+      <Filter>SourceFiles\I_Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="Math.cpp">
+      <Filter>SourceFiles\I_Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="Random.cpp">
+      <Filter>SourceFiles\I_Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="VertexArray.cpp">
+      <Filter>SourceFiles\I_Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="Time.cpp">
+      <Filter>SourceFiles\I_Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseUI.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Button.cpp">
+      <Filter>SourceFiles\F_UIs</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -366,97 +381,88 @@
       <Filter>SourceFiles\C_Components</Filter>
     </ClInclude>
     <ClInclude Include="AudioSystem.h">
-      <Filter>SourceFiles\I_Audios</Filter>
+      <Filter>SourceFiles\H_Audios</Filter>
     </ClInclude>
     <ClInclude Include="SoundEvent.h">
-      <Filter>SourceFiles\I_Audios</Filter>
+      <Filter>SourceFiles\H_Audios</Filter>
     </ClInclude>
     <ClInclude Include="Renderer.h">
-      <Filter>SourceFiles\J_Renderers</Filter>
-    </ClInclude>
-    <ClInclude Include="VertexArray.h">
-      <Filter>SourceFiles\M_Utilitys</Filter>
+      <Filter>SourceFiles\I_Editor\Renderers</Filter>
     </ClInclude>
     <ClInclude Include="Shader.h">
-      <Filter>SourceFiles\J_Renderers</Filter>
-    </ClInclude>
-    <ClInclude Include="Random.h">
-      <Filter>SourceFiles\M_Utilitys</Filter>
+      <Filter>SourceFiles\I_Editor\Renderers</Filter>
     </ClInclude>
     <ClInclude Include="BaseCamera.h">
-      <Filter>SourceFiles\F_Cameras\Base</Filter>
+      <Filter>SourceFiles\E_Cameras\Base</Filter>
     </ClInclude>
     <ClInclude Include="FollowCamera.h">
-      <Filter>SourceFiles\F_Cameras</Filter>
+      <Filter>SourceFiles\E_Cameras</Filter>
     </ClInclude>
     <ClInclude Include="FPSCamera.h">
-      <Filter>SourceFiles\F_Cameras</Filter>
+      <Filter>SourceFiles\E_Cameras</Filter>
     </ClInclude>
     <ClInclude Include="OrbitCamera.h">
-      <Filter>SourceFiles\F_Cameras</Filter>
+      <Filter>SourceFiles\E_Cameras</Filter>
     </ClInclude>
     <ClInclude Include="SplineCamera.h">
-      <Filter>SourceFiles\F_Cameras</Filter>
+      <Filter>SourceFiles\E_Cameras</Filter>
     </ClInclude>
     <ClInclude Include="Animation.h">
-      <Filter>SourceFiles\E_Animations</Filter>
+      <Filter>SourceFiles\I_Editor\Animations</Filter>
     </ClInclude>
     <ClInclude Include="Collision.h">
       <Filter>SourceFiles\D_Collisions</Filter>
     </ClInclude>
     <ClInclude Include="GBuffer.h">
-      <Filter>SourceFiles\J_Renderers</Filter>
+      <Filter>SourceFiles\I_Editor\Renderers</Filter>
     </ClInclude>
     <ClInclude Include="Mesh.h">
-      <Filter>SourceFiles\J_Renderers</Filter>
+      <Filter>SourceFiles\I_Editor\Renderers</Filter>
     </ClInclude>
     <ClInclude Include="FilePath.h">
-      <Filter>SourceFiles\K_Defines</Filter>
+      <Filter>SourceFiles\I_Editor\Defines</Filter>
     </ClInclude>
     <ClInclude Include="Animator.h">
-      <Filter>SourceFiles\E_Animations</Filter>
+      <Filter>SourceFiles\I_Editor\Animations</Filter>
     </ClInclude>
     <ClInclude Include="StandardLibrary.h">
-      <Filter>SourceFiles\L_Libs</Filter>
+      <Filter>SourceFiles\I_Editor\Libs</Filter>
     </ClInclude>
     <ClInclude Include="SDL3.h">
-      <Filter>SourceFiles\L_Libs</Filter>
+      <Filter>SourceFiles\I_Editor\Libs</Filter>
     </ClInclude>
     <ClInclude Include="Assimp.h">
-      <Filter>SourceFiles\L_Libs</Filter>
-    </ClInclude>
-    <ClInclude Include="Time.h">
-      <Filter>SourceFiles\M_Utilitys</Filter>
+      <Filter>SourceFiles\I_Editor\Libs</Filter>
     </ClInclude>
     <ClInclude Include="DebugScene02.h">
-      <Filter>SourceFiles\H_Scenes</Filter>
+      <Filter>SourceFiles\G_Scenes</Filter>
     </ClInclude>
     <ClInclude Include="BaseScene.h">
-      <Filter>SourceFiles\H_Scenes</Filter>
+      <Filter>SourceFiles\G_Scenes</Filter>
     </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="DialogBox.h">
-      <Filter>SourceFiles\G_UIs</Filter>
+      <Filter>SourceFiles\F_UIs</Filter>
     </ClInclude>
     <ClInclude Include="Font.h">
-      <Filter>SourceFiles\G_UIs</Filter>
+      <Filter>SourceFiles\F_UIs</Filter>
     </ClInclude>
     <ClInclude Include="HUD.h">
-      <Filter>SourceFiles\G_UIs</Filter>
+      <Filter>SourceFiles\F_UIs</Filter>
     </ClInclude>
     <ClInclude Include="Image.h">
-      <Filter>SourceFiles\G_UIs</Filter>
+      <Filter>SourceFiles\F_UIs</Filter>
     </ClInclude>
     <ClInclude Include="PauseMenu.h">
-      <Filter>SourceFiles\G_UIs</Filter>
+      <Filter>SourceFiles\F_UIs</Filter>
     </ClInclude>
-    <ClInclude Include="UIScreen.h">
-      <Filter>SourceFiles\G_UIs</Filter>
+    <ClInclude Include="Canvas.h">
+      <Filter>SourceFiles\F_UIs</Filter>
     </ClInclude>
     <ClInclude Include="Texture.h">
-      <Filter>SourceFiles\G_UIs</Filter>
+      <Filter>SourceFiles\F_UIs</Filter>
     </ClInclude>
     <ClInclude Include="DiceActor.h">
       <Filter>SourceFiles\B_GameObjects\3Ds</Filter>
@@ -495,7 +501,7 @@
       <Filter>SourceFiles\B_GameObjects\2Ds%28未使用%29</Filter>
     </ClInclude>
     <ClInclude Include="Text.h">
-      <Filter>SourceFiles\G_UIs</Filter>
+      <Filter>SourceFiles\F_UIs</Filter>
     </ClInclude>
     <ClInclude Include="PhysWorld.h">
       <Filter>SourceFiles\D_Collisions</Filter>
@@ -528,13 +534,13 @@
       <Filter>SourceFiles\B_GameObjects\3Ds</Filter>
     </ClInclude>
     <ClInclude Include="DebugScene01.h">
-      <Filter>SourceFiles\H_Scenes</Filter>
+      <Filter>SourceFiles\G_Scenes</Filter>
     </ClInclude>
     <ClInclude Include="GameFunctions.h">
-      <Filter>SourceFiles\L_Libs</Filter>
+      <Filter>SourceFiles\I_Editor\Libs</Filter>
     </ClInclude>
     <ClInclude Include="SceneManager.h">
-      <Filter>SourceFiles\H_Scenes\LoadManager</Filter>
+      <Filter>SourceFiles\G_Scenes\LoadManager</Filter>
     </ClInclude>
     <ClInclude Include="PlaneActor.h">
       <Filter>SourceFiles\B_GameObjects\3Ds\Defaults</Filter>
@@ -552,13 +558,13 @@
       <Filter>SourceFiles\B_GameObjects\3Ds</Filter>
     </ClInclude>
     <ClInclude Include="Skeleton.h">
-      <Filter>SourceFiles\J_Renderers</Filter>
+      <Filter>SourceFiles\I_Editor\Renderers</Filter>
     </ClInclude>
     <ClInclude Include="BoneTransform.h">
-      <Filter>SourceFiles\J_Renderers</Filter>
+      <Filter>SourceFiles\I_Editor\Renderers</Filter>
     </ClInclude>
     <ClInclude Include="LineRenderer.h">
-      <Filter>SourceFiles\N_Unused/未使用ファイル</Filter>
+      <Filter>SourceFiles\J_Unused/未使用ファイル</Filter>
     </ClInclude>
     <ClInclude Include="WinMain.h">
       <Filter>SourceFiles\A_Mains</Filter>
@@ -567,31 +573,31 @@
       <Filter>SourceFiles\A_Mains</Filter>
     </ClInclude>
     <ClInclude Include="ColliderActor.h">
-      <Filter>SourceFiles\N_Unused/未使用ファイル</Filter>
+      <Filter>SourceFiles\J_Unused/未使用ファイル</Filter>
     </ClInclude>
     <ClInclude Include="BallMove.h">
-      <Filter>SourceFiles\N_Unused/未使用ファイル</Filter>
+      <Filter>SourceFiles\J_Unused/未使用ファイル</Filter>
     </ClInclude>
     <ClInclude Include="BallActor.h">
-      <Filter>SourceFiles\N_Unused/未使用ファイル</Filter>
+      <Filter>SourceFiles\J_Unused/未使用ファイル</Filter>
     </ClInclude>
     <ClInclude Include="InputComponent.h">
-      <Filter>SourceFiles\N_Unused/未使用ファイル</Filter>
+      <Filter>SourceFiles\J_Unused/未使用ファイル</Filter>
     </ClInclude>
     <ClInclude Include="MoveComponent.h">
-      <Filter>SourceFiles\N_Unused/未使用ファイル</Filter>
+      <Filter>SourceFiles\J_Unused/未使用ファイル</Filter>
     </ClInclude>
     <ClInclude Include="SpriteComponent.h">
-      <Filter>SourceFiles\G_UIs</Filter>
+      <Filter>SourceFiles\F_UIs</Filter>
     </ClInclude>
     <ClInclude Include="CircleComponent.h">
-      <Filter>SourceFiles\N_Unused/未使用ファイル</Filter>
+      <Filter>SourceFiles\J_Unused/未使用ファイル</Filter>
     </ClInclude>
     <ClInclude Include="AudioComponent.h">
       <Filter>SourceFiles\C_Components</Filter>
     </ClInclude>
     <ClInclude Include="SDL_Scancode.h">
-      <Filter>SourceFiles\K_Defines</Filter>
+      <Filter>SourceFiles\I_Editor\Defines</Filter>
     </ClInclude>
     <ClInclude Include="Rigidbody.h">
       <Filter>SourceFiles\D_Rigidbody</Filter>
@@ -606,25 +612,46 @@
       <Filter>SourceFiles\B_GameObjects\Base</Filter>
     </ClInclude>
     <ClInclude Include="MatrixPalette.h">
-      <Filter>SourceFiles\K_Defines</Filter>
+      <Filter>SourceFiles\I_Editor\Defines</Filter>
     </ClInclude>
     <ClInclude Include="Typedefs.h">
-      <Filter>SourceFiles\K_Defines</Filter>
+      <Filter>SourceFiles\I_Editor\Defines</Filter>
     </ClInclude>
     <ClInclude Include="ConvertNumToString.h">
-      <Filter>SourceFiles\M_Utilitys</Filter>
-    </ClInclude>
-    <ClInclude Include="Math.h">
-      <Filter>SourceFiles\M_Utilitys</Filter>
+      <Filter>SourceFiles\I_Editor\Utilitys</Filter>
     </ClInclude>
     <ClInclude Include="StringFormat.h">
-      <Filter>SourceFiles\M_Utilitys</Filter>
+      <Filter>SourceFiles\I_Editor\Utilitys</Filter>
     </ClInclude>
-    <ClInclude Include="ErrorManager.h">
-      <Filter>ソース ファイル</Filter>
+    <ClInclude Include="Health.h">
+      <Filter>SourceFiles\B_GameObjects\3Ds</Filter>
+    </ClInclude>
+    <ClInclude Include="DamageTrap.h">
+      <Filter>SourceFiles\B_GameObjects\3Ds</Filter>
     </ClInclude>
     <ClInclude Include="CallBackManager.h">
+      <Filter>SourceFiles\I_Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugManager.h">
+      <Filter>SourceFiles\I_Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="Math.h">
+      <Filter>SourceFiles\I_Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="Random.h">
+      <Filter>SourceFiles\I_Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexArray.h">
+      <Filter>SourceFiles\I_Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="Time.h">
+      <Filter>SourceFiles\I_Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseUI.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>SourceFiles\F_UIs</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

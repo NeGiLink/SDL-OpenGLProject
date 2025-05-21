@@ -4,6 +4,7 @@
 #include <iostream>
 #include <cstdlib>
 
+//エラー、警告、デバッグ用のログを出力する関数をまとめている
 namespace Debug
 {
     /// <summary> 
