@@ -25,6 +25,10 @@ private:
 
 	class DiceActor*				mDice;
 
+	class DamageTrap*				mDamageTrap;
+
+	class HealthObject*				mHealthObject;
+
 	class CapsuleActor*				mCapsule;
 
 	class DebugStageActor*			mDebugStage;
@@ -42,4 +46,6 @@ private:
 	class Text*						mSceneLoadButtonText;
 
 	class Text*						mFrameRateText;
+
+	class PauseMenu*				mPauseMenu;
 };

@@ -1,10 +1,10 @@
 #pragma once
-#include "UIScreen.h"
+#include "Canvas.h"
 #include "DialogBox.h"
 #include <SDL3/SDL.h>
 
 //ポーズUIのクラス
-class PauseMenu : public UIScreen
+class PauseMenu : public Canvas
 {
 public:
 			PauseMenu();

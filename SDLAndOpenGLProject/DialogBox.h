@@ -1,11 +1,11 @@
 #pragma once
-#include "UIScreen.h"
+#include "Canvas.h"
 #include "Image.h"
 
 //ダイアログボックスUIのクラス
 //ほぼ手を加えていないので
 //参考コードとほぼ同じ
-class GameDialogBox : public UIScreen
+class GameDialogBox : public Canvas
 {
 public:
 	// (下に引く順序は後ろに対応します)

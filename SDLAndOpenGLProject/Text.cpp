@@ -1,7 +1,7 @@
 #include "Text.h"
 
 Text::Text(Font* font, const Vector2& pos, bool active)
-: Image(active)
+: Image()
 , mFont(font)
 , mHighlighted(false)
 {

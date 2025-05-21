@@ -27,3 +27,8 @@ namespace Font
 {
 	const string FontFilePath = "Assets/Fonts/";
 }
+
+namespace TexFile
+{
+	const string TextureFilePath = "Assets/Texture/";
+}

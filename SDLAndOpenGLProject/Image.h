@@ -25,11 +25,12 @@ public:
 
 	enum FillMethod
 	{
+		None,
 		Horizontal,
 		Vertical,
 		Radial360
 	};
-							Image(bool active = true);
+							Image();
 	virtual					~Image();
 	//ì«Ç›çûÇ›èàóù
 	virtual void			Load(string file);
@@ -69,11 +70,16 @@ public:
 	//âÊëúÇÃâÒì]ÇçsÇ§
 	virtual void			SetAngleZ(float angle);
 
-	void					SetUpdateTogether(bool active) { updateTogether = active; }
+	virtual void			SetFillType(FillType type) { mFillType = type; }
 
-	virtual void SetFillType(FillType type) { mFillType = type; }
+	virtual void			SetFillMethod(FillMethod method) { mFillMethod = method; }
 
-	virtual void SetFillMethod(FillMethod method) { mFillMethod = method; }
+	virtual FillMethod		GetFillMethod() { return mFillMethod; }
+
+	virtual void SetVerticesCount(int count) { mVerticesCount = count; }
+	virtual int GetVerticesCount() { return mVerticesCount; }
+
+	virtual void 					SetState(UIState state)  { mState = state; }
 
 protected:
 	class BaseScene*		mGame;
@@ -93,10 +99,10 @@ protected:
 	// State
 	UIState					mState;
 
-	bool					updateTogether = true;
-
 	FillType				mFillType;
 
 	FillMethod				mFillMethod;
+
+	int						mVerticesCount;
 };
 

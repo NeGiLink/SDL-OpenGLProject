@@ -1,5 +1,7 @@
 #pragma once
 #include <GL/glew.h>
+#include "StandardLibrary.h"
+#include "Math.h"
 
 class VertexArray
 {
@@ -13,6 +15,7 @@ public:
 
 					VertexArray(const void* verts, unsigned int numVerts, Layout layout,
 								const unsigned int* indices, unsigned int numIndices);
+					VertexArray(float fillAmount, int maxSegments);
 
 					VertexArray(const float* verts, unsigned int numVerts);
 					~VertexArray();

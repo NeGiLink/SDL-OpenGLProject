@@ -1,11 +1,11 @@
 #pragma once
-#include "UIScreen.h"
+#include "Canvas.h"
 #include "PhysWorld.h"
 #include "TargetComponent.h"
 #include "Actor.h"
 
 //ƒQ[ƒ€ã‚ÌUI‚ğ‚Ü‚Æ‚ß‚Äˆ—‚·‚éƒNƒ‰ƒX
-class HUD : public UIScreen
+class HUD : public Canvas
 {
 public:
 	// (‰º‚Éˆø‚­‡˜‚ÍŒã‚ë‚É‘Î‰‚µ‚Ü‚·)

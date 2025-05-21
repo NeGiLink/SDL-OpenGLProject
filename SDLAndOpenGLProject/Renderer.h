@@ -92,6 +92,8 @@ private:
 	bool												LoadShaders();
 	//Spriteの頂点を作成
 	void												CreateSpriteVerts();
+
+	int 												CreateFanSpriteVerts(float fillRatio /*0.0～1.0: 扇の割合*/, int segments);
 	//LineSpriteの頂点を作成
 	//現在は未使用
 	void												CreateLineSpriteVerts();
@@ -115,6 +117,8 @@ private:
 	class Shader*										mSpriteShader;
 	// Sprite vertex array
 	class VertexArray*									mSpriteVerts;
+
+	class VertexArray*									mFanSpriteVerts;
 
 	// Mesh shader
 	class Shader*										mMeshShader;

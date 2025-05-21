@@ -116,7 +116,7 @@ bool BaseScene::Update()
 	// Update UI screens
 	for (auto ui : mUIStack)
 	{
-		if (ui->GetState() == UIScreen::EActive)
+		if (ui->GetState() == Canvas::EActive)
 		{
 			ui->Update(Time::gDeltaTime);
 		}
@@ -128,11 +128,12 @@ bool BaseScene::Update()
 			image->Update(Time::gDeltaTime);
 		}
 	}
+
 	// Delete any UIScreens that are closed
 	auto iter = mUIStack.begin();
 	while (iter != mUIStack.end())
 	{
-		if ((*iter)->GetState() == UIScreen::EClosing)
+		if ((*iter)->GetState() == Canvas::EDestroy)
 		{
 			delete* iter;
 			iter = mUIStack.erase(iter);
@@ -155,6 +156,7 @@ bool BaseScene::Update()
 			++image;
 		}
 	}
+
 	return true;
 }
 
@@ -324,7 +326,7 @@ Animator* BaseScene::GetAnimator(const string& fileName, Animator* animator)
 	}
 }
 
-void BaseScene::PushUI(UIScreen* screen)
+void BaseScene::PushUI(Canvas* screen)
 {
 	mUIStack.emplace_back(screen);
 }
@@ -332,6 +334,17 @@ void BaseScene::PushUI(UIScreen* screen)
 void BaseScene::PushImage(Image* screen)
 {
 	mImageStack.emplace_back(screen);
+}
+void BaseScene::RemoveImage(Image* screen)
+{
+	// Is it in actors?
+	auto iter = std::find(mImageStack.begin(), mImageStack.end(), screen);
+	if (iter != mImageStack.end())
+	{
+		// Swap to end of vector and pop off (avoid erase copies)
+		std::iter_swap(iter, mImageStack.end() - 1);
+		mImageStack.pop_back();
+	}
 }
 /*
 void BaseScene::UpdateGame()

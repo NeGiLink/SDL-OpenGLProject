@@ -1,7 +1,7 @@
-#include "UIScreen.h"
+#include "Canvas.h"
 
 
-UIScreen::UIScreen()
+Canvas::Canvas()
 	:mGame(GameApp::GetActiveScene())
 	, mTitle(nullptr)
 	, mBackground(nullptr)
@@ -12,48 +12,56 @@ UIScreen::UIScreen()
 {
 	// Add to UI Stack
 	mGame->PushUI(this);
-	mTitleFont = new Text(mGame->GetFont("Assets/Fonts/Carlito-Regular.ttf"),Vector2::Zero,false);
-	
-	mButtonOn = new Image(false);
-	mButtonOn->Load("Assets/ButtonYellow.png");
 
-	mButtonOff = new Image(false);
-	mButtonOff->Load("Assets/ButtonBlue.png");
+	mButtonOn = new Texture();
+	mButtonOn->Load(TexFile::TextureFilePath + "ButtonYellow.png");
+
+	mButtonOff = new Texture();
+	mButtonOff->Load(TexFile::TextureFilePath + "ButtonBlue.png");
 }
 
-UIScreen::~UIScreen()
+Canvas::~Canvas()
 {
 	for (auto b : mButtons)
 	{
 		delete b;
 	}
 	mButtons.clear();
+
+	mGame->RemoveImage(mTitleFont);
 }
 
-void UIScreen::Update(float deltaTime)
+void Canvas::Update(float deltaTime)
 {
 
 }
 
-void UIScreen::Draw(Shader* shader)
+void Canvas::Draw(Shader* shader)
 {
 	// Draw background (if exists)
 	if (mBackground)
 	{
 		mBackground->SetPosition(mBGPos);
-		mBackground->Draw(shader);
-		//DrawTexture(shader, mBackground, mBGPos);
 	}
 	// Draw title (if exists)
 	if (mTitleFont)
 	{
 		mTitleFont->SetPosition(mTitlePos);
-		mTitleFont->Draw(shader);
 	}
 	// Draw buttons
 	for (auto b : mButtons)
 	{
 		// Draw background of button
+		//ƒ{ƒ^ƒ“‚Ì˜g‚ð•`‰æ
+		if (b->GetHighlighted())
+		{
+			b->SetButtonText(mButtonOn);
+		}
+		else
+		{
+			b->SetButtonText(mButtonOff);
+		}
+		/*
 		Image* tex = b->GetHighlighted() ? mButtonOn : mButtonOff;
 		tex->SetPosition(b->GetPosition());
 		tex->Draw(shader);
@@ -62,12 +70,14 @@ void UIScreen::Draw(Shader* shader)
 		//tex->SetTexture(b->GetNameTex());
 		//tex->SetPosition(b->GetPosition());
 		//tex->Draw(shader);
-		DrawTexture(shader, b->GetNameTex(), b->GetPosition());
+		//ƒ{ƒ^ƒ“‚Ì•¶Žš‚ð•`‰æ
+		//DrawTexture(shader, b->GetNameTex(), b->GetPosition());
+		*/
 	}
 	// Override in subclasses to draw any textures
 }
 
-void UIScreen::ProcessInput(const struct InputState& keys)
+void Canvas::ProcessInput(const struct InputState& keys)
 {
 	// Do we have buttons?
 	if (!mButtons.empty())
@@ -95,7 +105,7 @@ void UIScreen::ProcessInput(const struct InputState& keys)
 	}
 }
 
-void UIScreen::HandleKeyPress(int key)
+void Canvas::HandleKeyPress(int key)
 {
 	switch (key)
 	{
@@ -117,12 +127,12 @@ void UIScreen::HandleKeyPress(int key)
 	}
 }
 
-void UIScreen::Close()
+void Canvas::Close()
 {
-	mState = EClosing;
+	mState = EDestroy;
 }
 
-void UIScreen::SetTitle(const string& text,
+void Canvas::SetTitle(const string& text,
 	const Vector3& color,
 	int pointSize)
 {
@@ -132,19 +142,19 @@ void UIScreen::SetTitle(const string& text,
 	mTitleFont->SetText(text);
 }
 
-void UIScreen::AddButton(const string& name, std::function<void()> onClick)
+void Canvas::AddButton(const string& name, std::function<void()> onClick)
 {
-	Vector2 dims(static_cast<float>(mButtonOn->GetTexture()->GetWidth()),
-		static_cast<float>(mButtonOn->GetTexture()->GetHeight()));
+	Vector2 dims(static_cast<float>(mButtonOn->GetWidth()),
+		static_cast<float>(mButtonOn->GetHeight()));
 	Button* b = new Button(name, mTitleFont->GetFont(), onClick, mNextButtonPos, dims);
 	mButtons.emplace_back(b);
 
 	// Update position of next button
 	// Move down by height of button plus padding
-	mNextButtonPos.y -= mButtonOff->GetTexture()->GetHeight() + 20.0f;
+	mNextButtonPos.y -= mButtonOff->GetHeight() + 20.0f;
 }
 
-void UIScreen::DrawTexture(class Shader* shader, class Texture* texture,
+void Canvas::DrawTexture(class Shader* shader, class Texture* texture,
 	const Vector2& offset, Vector3 scale, float angle)
 {
 	// Scale the quad by the width/height of texture
@@ -166,7 +176,7 @@ void UIScreen::DrawTexture(class Shader* shader, class Texture* texture,
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 }
 
-void UIScreen::SetRelativeMouseMode(bool relative)
+void Canvas::SetRelativeMouseMode(bool relative)
 {
 	if (relative)
 	{
@@ -180,55 +190,3 @@ void UIScreen::SetRelativeMouseMode(bool relative)
 	}
 }
 
-Button::Button(const string& name, Font* font,
-	std::function<void()> onClick,
-	const Vector2& pos, const Vector2& dims)
-	:mOnClick(onClick)
-	, mNameTex(nullptr)
-	, mFont(font)
-	, mPosition(pos)
-	, mDimensions(dims)
-	, mHighlighted(false)
-{
-	SetName(name);
-}
-
-Button::~Button()
-{
-	if (mNameTex)
-	{
-		mNameTex->Unload();
-		delete mNameTex;
-	}
-}
-
-void Button::SetName(const string& name)
-{
-	mName = name;
-
-	if (mNameTex)
-	{
-		mNameTex->Unload();
-		delete mNameTex;
-		mNameTex = nullptr;
-	}
-	mNameTex = mFont->RenderText(mName);
-}
-
-bool Button::ContainsPoint(const Vector2& pt) const
-{
-	bool no = pt.x < (mPosition.x - mDimensions.x / 2.0f) ||
-		pt.x >(mPosition.x + mDimensions.x / 2.0f) ||
-		pt.y < (mPosition.y - mDimensions.y / 2.0f) ||
-		pt.y >(mPosition.y + mDimensions.y / 2.0f);
-	return !no;
-}
-
-void Button::OnClick()
-{
-	// Call attached handler, if it exists
-	if (mOnClick)
-	{
-		mOnClick();
-	}
-}

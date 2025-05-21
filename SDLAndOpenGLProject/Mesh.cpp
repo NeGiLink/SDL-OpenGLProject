@@ -737,6 +737,8 @@ bool Mesh::LoadFromFBX(const string& fileName, Renderer* renderer, int index)
 	//’¸“_”z—ñ‚Ìì¬
 	mVertexArrays.push_back(va);
 
+
+
 	//fileName‚©‚çPath•”•ª‚¾‚¯æ‚èœ‚­
 	string result = StringConverter::RemoveString(fileName, Model::ModelPath);
 

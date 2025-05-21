@@ -1,21 +1,17 @@
 ﻿#include "Image.h"
 
 
-Image::Image(bool active)
+Image::Image()
 	:mGame(GameApp::GetActiveScene())
 	,mTexture(nullptr)
 	,mAngleZ(0)
 {
-	updateTogether = active;
 	mTexScale = Vector3(1.0f, 1.0f, 1.0f);
 	mFillAmount = 1.0f;
+	mFillMethod = FillMethod::None;
 
-
-	if (updateTogether) 
-	{
-		//BaseSceneに送る処理
-		mGame->PushImage(this);
-	}
+	//BaseSceneに送る処理
+	mGame->PushImage(this);
 }
 
 Image::~Image()
@@ -24,7 +20,8 @@ Image::~Image()
 
 void Image::Load(string file)
 {
-	mTexture = mGame->GetWinMain()->GetRenderer()->GetTexture(file);
+	string filePath = TexFile::TextureFilePath + file;
+	mTexture = mGame->GetWinMain()->GetRenderer()->GetTexture(filePath);
 	mTextureRect.x = 0;
 	mTextureRect.y = 0;
 	mTextureRect.w = static_cast<float>(mTexture->GetWidth());
@@ -107,6 +104,9 @@ void Image::DrawTexture(Shader* shader)
 	float offsetY = 0;
 
 	Vector4 uvTransform = Vector4(0, 0, 1, 1);
+	int verticesCount = 6;
+	// VAO/VBO/IBO生成
+	//GLuint vao, vbo, ibo;
 	if (mFillMethod == FillMethod::Horizontal)
 	{
 		float filledU2 = u1 + (u2 - u1) * mFillAmount;
@@ -139,7 +139,7 @@ void Image::DrawTexture(Shader* shader)
 	}
 	else if (mFillMethod == FillMethod::Radial360)
 	{
-
+		verticesCount = mVerticesCount;
 	}
 
 	shader->SetVector4Uniform("uTexUV", uvTransform);
@@ -161,7 +161,7 @@ void Image::DrawTexture(Shader* shader)
 
 	mTexture->SetActive();
 	
-	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+	glDrawElements(GL_TRIANGLES, verticesCount, GL_UNSIGNED_INT, nullptr);
 }
 
 Vector4 Image::UVCalculation()

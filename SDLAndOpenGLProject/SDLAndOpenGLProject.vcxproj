@@ -148,10 +148,12 @@
     <ClCompile Include="BallActor.cpp" />
     <ClCompile Include="BallMove.cpp" />
     <ClCompile Include="BaseScene.cpp" />
+    <ClCompile Include="BaseUI.cpp" />
     <ClCompile Include="BasicInputAction.cpp" />
     <ClCompile Include="BoneActor.cpp" />
     <ClCompile Include="BoneTransform.cpp" />
     <ClCompile Include="BoxCollider.cpp" />
+    <ClCompile Include="Button.cpp" />
     <ClCompile Include="CallBackManager.cpp" />
     <ClCompile Include="CameraActor.cpp" />
     <ClCompile Include="BaseCamera.cpp" />
@@ -164,6 +166,7 @@
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="ConvertNumToString.cpp" />
     <ClCompile Include="CubeActor.cpp" />
+    <ClCompile Include="DamageTrap.cpp" />
     <ClCompile Include="DebugStageActor.cpp" />
     <ClCompile Include="DialogBox.cpp" />
     <ClCompile Include="DiceActor.cpp" />
@@ -173,6 +176,7 @@
     <ClCompile Include="FPSActor.cpp" />
     <ClCompile Include="FPSCamera.cpp" />
     <ClCompile Include="GameApp.cpp" />
+    <ClCompile Include="Health.cpp" />
     <ClCompile Include="Image.cpp" />
     <ClCompile Include="InputSystem.cpp" />
     <ClCompile Include="LineRenderer.cpp" />
@@ -219,7 +223,7 @@
     <ClCompile Include="TargetComponent.cpp" />
     <ClCompile Include="TestCharacter.cpp" />
     <ClCompile Include="Texture.cpp" />
-    <ClCompile Include="UIScreen.cpp" />
+    <ClCompile Include="Canvas.cpp" />
     <ClCompile Include="VertexArray.cpp" />
     <ClCompile Include="YBotActor.cpp" />
   </ItemGroup>
@@ -234,10 +238,12 @@
     <ClInclude Include="BallActor.h" />
     <ClInclude Include="BallMove.h" />
     <ClInclude Include="BaseScene.h" />
+    <ClInclude Include="BaseUI.h" />
     <ClInclude Include="BasicInputAction.h" />
     <ClInclude Include="BoneActor.h" />
     <ClInclude Include="BoneTransform.h" />
     <ClInclude Include="BoxCollider.h" />
+    <ClInclude Include="Button.h" />
     <ClInclude Include="CallBackManager.h" />
     <ClInclude Include="CameraActor.h" />
     <ClInclude Include="BaseCamera.h" />
@@ -250,10 +256,11 @@
     <ClInclude Include="Component.h" />
     <ClInclude Include="ConvertNumToString.h" />
     <ClInclude Include="CubeActor.h" />
+    <ClInclude Include="DamageTrap.h" />
     <ClInclude Include="DebugStageActor.h" />
     <ClInclude Include="DialogBox.h" />
     <ClInclude Include="DiceActor.h" />
-    <ClInclude Include="ErrorManager.h" />
+    <ClInclude Include="DebugManager.h" />
     <ClInclude Include="FollowCamera.h" />
     <ClInclude Include="FollowObjectMovement.h" />
     <ClInclude Include="Font.h" />
@@ -261,6 +268,7 @@
     <ClInclude Include="FPSCamera.h" />
     <ClInclude Include="GameApp.h" />
     <ClInclude Include="GameFunctions.h" />
+    <ClInclude Include="Health.h" />
     <ClInclude Include="Image.h" />
     <ClInclude Include="InputSystem.h" />
     <ClInclude Include="LineRenderer.h" />
@@ -314,7 +322,7 @@
     <ClInclude Include="TargetComponent.h" />
     <ClInclude Include="TestCharacter.h" />
     <ClInclude Include="Texture.h" />
-    <ClInclude Include="UIScreen.h" />
+    <ClInclude Include="Canvas.h" />
     <ClInclude Include="VertexArray.h" />
     <ClInclude Include="YBotActor.h" />
   </ItemGroup>
