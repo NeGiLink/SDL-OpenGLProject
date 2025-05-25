@@ -8,11 +8,11 @@
 //Unityのようにデフォルトで作成可能オブジェクト
 class CapsuleActor : public ActorObject
 {
+private:
+	//カプセルコライダー
+	class CapsuleCollider*	mCapsule;
 public:
 							CapsuleActor();
 
 	class CapsuleCollider*	GetCapsule() { return mCapsule; }
-private:
-	//カプセルコライダー
-	class CapsuleCollider*	mCapsule;
 };

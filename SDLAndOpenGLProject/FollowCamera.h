@@ -5,17 +5,6 @@
 //三人称視点カメラのクラス
 class FollowCamera : public BaseCamera
 {
-public:
-				FollowCamera(class ActorObject* owner);
-
-	void		Update(float deltaTime) override;
-
-	void		SnapToIdeal();
-
-	void		SetHorzDist(float dist) { mHorzDist = dist; }
-	void		SetVertDist(float dist) { mVertDist = dist; }
-	void		SetTargetDist(float dist) { mTargetDist = dist; }
-	void		SetSpringConstant(float spring) { mSpringConstant = spring; }
 private:
 	//ターゲットの真後ろ限定の処理
 	Vector3		ComputeCameraPos() const;
@@ -46,5 +35,16 @@ private:
 	float		mVertexMouseSpeed;
 	//カメラを固定するかのフラグ
 	bool		mFixed;
+public:
+				FollowCamera(class ActorObject* owner);
+
+	void		Update(float deltaTime) override;
+
+	void		SnapToIdeal();
+
+	void		SetHorzDist(float dist) { mHorzDist = dist; }
+	void		SetVertDist(float dist) { mVertDist = dist; }
+	void		SetTargetDist(float dist) { mTargetDist = dist; }
+	void		SetSpringConstant(float spring) { mSpringConstant = spring; }
 };
 

@@ -4,6 +4,8 @@
 //ランダム出力を管理するクラス
 class Random
 {
+private:
+	static std::mt19937 sGenerator;
 public:
 	static void Init();
 
@@ -23,7 +25,5 @@ public:
 	// 最小/最大の範囲を考慮してランダムなベクトルを取得
 	static Vector2		GetVector(const Vector2& min, const Vector2& max);
 	static Vector3		GetVector(const Vector3& min, const Vector3& max);
-private:
-	static std::mt19937 sGenerator;
 
 };

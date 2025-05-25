@@ -33,11 +33,6 @@ Canvas::~Canvas()
 
 void Canvas::Update(float deltaTime)
 {
-
-}
-
-void Canvas::Draw(Shader* shader)
-{
 	// Draw background (if exists)
 	if (mBackground)
 	{
@@ -61,20 +56,13 @@ void Canvas::Draw(Shader* shader)
 		{
 			b->SetButtonText(mButtonOff);
 		}
-		/*
-		Image* tex = b->GetHighlighted() ? mButtonOn : mButtonOff;
-		tex->SetPosition(b->GetPosition());
-		tex->Draw(shader);
-		//DrawTexture(shader, tex, b->GetPosition());
-		// Draw text of button
-		//tex->SetTexture(b->GetNameTex());
-		//tex->SetPosition(b->GetPosition());
-		//tex->Draw(shader);
-		//ƒ{ƒ^ƒ“‚Ì•¶Žš‚ð•`‰æ
-		//DrawTexture(shader, b->GetNameTex(), b->GetPosition());
-		*/
 	}
 	// Override in subclasses to draw any textures
+}
+
+void Canvas::Draw(Shader* shader)
+{
+	
 }
 
 void Canvas::ProcessInput(const struct InputState& keys)
@@ -87,8 +75,8 @@ void Canvas::ProcessInput(const struct InputState& keys)
 		SDL_GetMouseState(&x, &y);
 		// Convert to (0,0) center coordinates
 		Vector2 mousePos(static_cast<float>(x), static_cast<float>(y));
-		mousePos.x -= mGame->GetWinMain()->GetRenderer()->GetScreenWidth() * 0.5f;
-		mousePos.y = mGame->GetWinMain()->GetRenderer()->GetScreenHeight() * 0.5f - mousePos.y;
+		mousePos.x -= Window::Width * 0.5f;
+		mousePos.y = Window::Height * 0.5f - mousePos.y;
 
 		// Highlight any buttons
 		for (auto b : mButtons)

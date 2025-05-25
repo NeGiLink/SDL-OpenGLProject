@@ -16,16 +16,6 @@ struct Spline
 
 class SplineCamera : public BaseCamera
 {
-public:
-			SplineCamera(class ActorObject* owner);
-
-	void	Update(float deltaTime) override;
-	// スプラインを再起動してください
-	void	Restart();
-
-	void	SetSpeed(float speed) { mSpeed = speed; }
-	void	SetSpline(const Spline& spline) { mPath = spline; }
-	void	SetPaused(bool pause) { mPaused = pause; }
 private:
 	// スプラインパスに沿ってカメラが移動します
 	Spline	mPath;
@@ -36,4 +26,14 @@ private:
 	float	mSpeed;
 	// カメラを経路に沿って移動させるかどうか
 	bool	mPaused;
+public:
+			SplineCamera(class ActorObject* owner);
+
+	void	Update(float deltaTime) override;
+	// スプラインを再起動してください
+	void	Restart();
+
+	void	SetSpeed(float speed) { mSpeed = speed; }
+	void	SetSpline(const Spline& spline) { mPath = spline; }
+	void	SetPaused(bool pause) { mPaused = pause; }
 };

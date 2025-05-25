@@ -4,10 +4,6 @@
 // ここで定義（初期値を指定してもOK）
 GameState GameStateClass::mGameState = GameState::GamePlay;
 
-//TODO : 画面比率の変更箇所
-float GameWinMain::mWindowWidth = 1280.0f;
-float GameWinMain::mWindowHeight = 768.0f;
-
 GameWinMain::GameWinMain()
 	:mGameApp(nullptr)
 {
@@ -26,7 +22,7 @@ bool GameWinMain::Initialize()
 
 	// Rendererの生成
 	mRenderer = new Renderer(this);
-	if (!mRenderer->Initialize(mWindowWidth, mWindowHeight))
+	if (!mRenderer->Initialize(Window::Width, Window::Height))
 	{
 		Debug::ErrorLog("Failed to initialize Renderer");
 		delete mRenderer;

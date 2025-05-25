@@ -4,17 +4,6 @@
 //通常のモデルなどを生成しているゲームシーン
 class DebugScene01 : public BaseScene
 {
-public:
-									DebugScene01(class GameWinMain* winMain);
-
-	bool							Initialize()override;
-
-	bool							InputUpdate()override;
-
-	bool							Update()override;
-
-	void							HandleKeyPress(int key)override;
-	class							FPSActor* GetFPSPlayer() { return mFPSActor; }
 private:
 	// Game-specific code
 	class FPSActor*					mFPSActor;
@@ -48,4 +37,15 @@ private:
 	class Text*						mFrameRateText;
 
 	class PauseMenu*				mPauseMenu;
+public:
+									DebugScene01(class GameWinMain* winMain);
+
+	bool							Initialize()override;
+
+	bool							InputUpdate()override;
+
+	bool							Update()override;
+
+	void							HandleKeyPress(int key)override;
+	class							FPSActor* GetFPSPlayer() { return mFPSActor; }
 };

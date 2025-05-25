@@ -13,7 +13,7 @@ GameDialogBox::GameDialogBox(const string& text,
 	mBackground = new Image();
 	mBackground->Load("DialogBG.png");
 
-	mTitleFont = new Text(mGame->GetFont("Assets/Fonts/Carlito-Regular.ttf"), Vector2::Zero);
+	mTitleFont = new Text(mGame->GetFont("Carlito-Regular.ttf"), Vector2::Zero);
 	mTitleFont->SetPosition(mTitlePos);
 	SetTitle(text, Vector3::Zero, 30);
 	AddButton("OKButton", [onOK]() {

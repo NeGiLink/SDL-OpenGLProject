@@ -9,13 +9,13 @@
 //Unityのようにデフォルトで作成可能オブジェクト
 class CubeActor : public ActorObject
 {
+private:
+	//AABBのコライダー
+	vector<class BoxCollider*>	mBoxs;
 public:
 								CubeActor();
 
 	vector<class BoxCollider*>	GetBoxs() { return mBoxs; }
 
-private:
-	//AABBのコライダー
-	vector<class BoxCollider*>	mBoxs;
 };
 

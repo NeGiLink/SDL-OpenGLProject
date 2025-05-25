@@ -7,12 +7,12 @@
 //デバッグステージを生成するクラス
 class DebugStageActor : public ActorObject
 {
-public:
-									DebugStageActor();
-	vector<class BoxCollider*>		GetBoxs() { return mBoxs; }
 private:
 	vector<class BoxCollider*>		mBoxs;
 
 	class MeshRenderer*				mMeshComp;
+public:
+									DebugStageActor();
+	vector<class BoxCollider*>		GetBoxs() { return mBoxs; }
 };
 

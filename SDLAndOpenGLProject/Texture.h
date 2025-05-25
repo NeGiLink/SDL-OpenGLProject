@@ -8,6 +8,12 @@
 //画像の読み込み、参照を行うことをカプセル化したクラス
 class Texture
 {
+private:
+	unsigned int	mTextureID;
+
+	int				mWidth;
+	
+	int				mHeight;
 public:
 					Texture();
 					~Texture();
@@ -24,10 +30,4 @@ public:
 	int				GetWidth() const { return mWidth; }
 	int				GetHeight() const { return mHeight; }
 	unsigned int	GetTextureID() const { return mTextureID; }
-private:
-	unsigned int	mTextureID;
-
-	int				mWidth;
-	
-	int				mHeight;
 };

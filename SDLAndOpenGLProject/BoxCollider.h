@@ -5,6 +5,10 @@
 //ボックスのColliderを追加するコンポーネント
 class BoxCollider : public Collider
 {
+private:
+	AABB			mObjectBox;
+	
+	bool			mShouldRotate;
 public:
 					BoxCollider(class ActorObject* owner, int updateOrder = 100);
 					~BoxCollider();
@@ -27,8 +31,4 @@ public:
 	void			SetShouldRotate(bool value) { mShouldRotate = value; }
 
 	ColliderType	GetType() override { return ColliderType::BoxType; }
-private:
-	AABB			mObjectBox;
-	
-	bool			mShouldRotate;
 };

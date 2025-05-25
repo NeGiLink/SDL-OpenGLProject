@@ -31,6 +31,18 @@ bool KeyboardState::GetKey(SDL_Scancode keyCode) const
 	return mCurrState[keyCode] != 0;
 }
 
+bool KeyboardState::GetAnyKeyDown() const
+{
+	for (int i = 0; i < SDL_SCANCODE_COUNT; ++i)
+	{
+		if (mCurrState[i] != 0)
+		{
+			return true; // 何かのキーが押されている
+		}
+	}
+	return false; // どのキーも押されていない
+}
+
 bool MouseState::GetButtonValue(int button) const
 {
 	return (SDL_BUTTON_MASK(button) & mCurrButtons);

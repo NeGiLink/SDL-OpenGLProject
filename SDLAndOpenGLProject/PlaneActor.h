@@ -8,12 +8,12 @@
 //Unityのようにデフォルトで作成可能オブジェクト
 class PlaneActor : public ActorObject
 {
-public:
-								PlaneActor();
-	vector<class BoxCollider*>	GetBoxs() { return mBoxs; }
 private:
 	//AABBのコライダー
 	vector<class BoxCollider*>	mBoxs;
 
 	class MeshRenderer*			mMeshComp;
+public:
+								PlaneActor();
+	vector<class BoxCollider*>	GetBoxs() { return mBoxs; }
 };

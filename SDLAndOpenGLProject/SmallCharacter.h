@@ -10,10 +10,6 @@
 
 class SmallCharacter : public ActorObject
 {
-public:
-										SmallCharacter();
-
-	void								ActorInput(const struct InputState& keys) override;
 private:
 	enum State
 	{
@@ -31,4 +27,8 @@ private:
 	class Sword*						mSword;
 
 	string								animatorName = "SmallCharacter";
+public:
+										SmallCharacter();
+
+	void								ActorInput(const struct InputState& keys) override;
 };

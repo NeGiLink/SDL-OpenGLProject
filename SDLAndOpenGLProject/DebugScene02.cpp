@@ -31,7 +31,7 @@ bool DebugScene02::Initialize()
 	mHUD = new HUD();
 
 
-	Font* font = GetFont("Assets/Fonts/Carlito-Regular.ttf");
+	Font* font = GetFont("Carlito-Regular.ttf");
 	//ƒV[ƒ“–¼¶¬
 	mSceneNameText = new Text(font, Vector2(500, 350));
 	mSceneNameText->SetText("DebugScene2");

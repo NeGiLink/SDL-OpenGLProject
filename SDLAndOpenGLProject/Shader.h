@@ -5,6 +5,22 @@
 //シェーダーの読み込みクラス
 class Shader
 {
+private:
+	// 指定されたシェーダーのコンパイルを試みます
+	bool		CompileShader(const string& fileName,
+		GLenum shaderType,
+		GLuint& outShader);
+
+	// シェーダーが正常にコンパイルされたかどうかをテスト
+	bool		IsCompiled(GLuint shader);
+	// 頂点/フラグメントプログラムがリンクされるかどうかをテスト
+	bool		IsValidProgram();
+
+	// シェーダーオブジェクトIDを保存する
+	GLuint		mVertexShader;
+	GLuint		mFragShader;
+	GLuint		mShaderProgram;
+	Vector4		mMaterialColor;
 public:
 				Shader();
 				~Shader();
@@ -32,20 +48,4 @@ public:
 	void		SetMaterialUniform(const char* name, const Vector3& color);
 
 	void		SetNoTexture();
-private:
-	// 指定されたシェーダーのコンパイルを試みます
-	bool		CompileShader(const string& fileName,
-		GLenum shaderType,
-		GLuint& outShader);
-
-	// シェーダーが正常にコンパイルされたかどうかをテスト
-	bool		IsCompiled(GLuint shader);
-	// 頂点/フラグメントプログラムがリンクされるかどうかをテスト
-	bool		IsValidProgram();
-private:
-	// シェーダーオブジェクトIDを保存する
-	GLuint		mVertexShader;
-	GLuint		mFragShader;
-	GLuint		mShaderProgram;
-	Vector4		mMaterialColor;
 };

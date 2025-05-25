@@ -13,13 +13,6 @@
 class Canvas
 {
 public:
-							Canvas();
-	virtual					~Canvas();
-	// UIScreenのサブクラスはこれらをオーバーライドできます
-	virtual void			Update(float deltaTime);
-	virtual void			Draw(class Shader* shader);
-	virtual void			ProcessInput(const struct InputState& keys);
-	virtual void			HandleKeyPress(int key);
 	// UIがアクティブを管理するタグ
 	enum UIState
 	{
@@ -27,6 +20,38 @@ public:
 		EClosing,
 		EDestroy
 	};
+protected:
+	// 画像を描画する関数
+	void					DrawTexture(class Shader* shader, class Texture* texture,
+		const Vector2& offset = Vector2::Zero,
+		Vector3 scale = Vector3(1.0f, 1.0f, 1.0f), float angle = 0);
+	class BaseScene* mGame;
+
+	class Text* mTitleFont;
+	class Image* mTitle;
+	class Image* mBackground;
+
+	class Texture* mButtonOn;
+	class Texture* mButtonOff;
+
+	// 位置を設定する
+	Vector2					mTitlePos;
+	Vector2					mNextButtonPos;
+	Vector2					mBGPos;
+
+	// 状態
+	UIState					mState;
+	// ボタンのリスト
+	vector<Button*>			mButtons;
+public:
+							Canvas();
+	virtual					~Canvas();
+	// UIScreenのサブクラスはこれらをオーバーライドできます
+	virtual void			Update(float deltaTime);
+	virtual void			Draw(class Shader* shader);
+	virtual void			ProcessInput(const struct InputState& keys);
+	virtual void			HandleKeyPress(int key);
+
 	// 状態を閉鎖に設定
 	void					Close();
 	// UI画面の状態を取得する
@@ -40,27 +65,4 @@ public:
 	void					AddButton(const string& name, std::function<void()> onClick);
 	// マウスモードを相対モードに設定するかどうか
 	void					SetRelativeMouseMode(bool relative);
-protected:
-	// 画像を描画する関数
-	void					DrawTexture(class Shader* shader, class Texture* texture,
-							const Vector2& offset = Vector2::Zero,
-							Vector3 scale = Vector3(1.0f, 1.0f, 1.0f), float angle = 0);
-	class BaseScene*		mGame;
-
-	class Text*				mTitleFont;
-	class Image*			mTitle;
-	class Image*			mBackground;
-
-	class Texture*			mButtonOn;
-	class Texture*			mButtonOff;
-
-	// 位置を設定する
-	Vector2					mTitlePos;
-	Vector2					mNextButtonPos;
-	Vector2					mBGPos;
-
-	// 状態
-	UIState					mState;
-	// ボタンのリスト
-	vector<Button*>			mButtons;
 };

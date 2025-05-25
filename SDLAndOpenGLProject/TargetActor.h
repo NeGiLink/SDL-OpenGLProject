@@ -8,10 +8,10 @@
 //的オブジェクトのクラス
 class TargetActor : public ActorObject
 {
-public:
-										TargetActor();
 private:
 	vector<class BoxCollider*>			mBoxs;
 
 	class MeshRenderer*					mMeshComp;
+public:
+										TargetActor();
 };

@@ -7,6 +7,40 @@
 //UnityのTransformに近いクラス
 class Transform
 {
+protected:
+	// World Transform
+	Matrix4								mWorldTransform;
+	//Model Transform
+	Matrix4								mModelTransform;
+
+	//ワールド座標、回転、スケーリング
+	Vector3								mPosition;
+
+	Quaternion							mRotation;
+
+	Vector3								mScale;
+
+	//ローカル座標、回転、スケーリング
+	Vector3								mLocalPosition;
+
+	Vector3								mPositionOffset;
+
+	Quaternion							mLocalRotation;
+
+	//X、Y、Z軸の回転量
+	float								mRotationAmountX;
+	float								mRotationAmountY;
+	float								mRotationAmountZ;
+
+	Vector3								mLocalScale;
+
+	bool								mRecomputeWorldTransform;
+
+	vector<class Component*>			mComponents;
+	//親オブジェクト
+	class Transform* mParentActor;
+	//子オブジェクトの配列
+	vector<class Transform*>			mChildActor;
 public:
 										Transform();
 
@@ -120,39 +154,5 @@ public:
 
 	//子オブジェクトの座標更新
 	virtual void						SetActive() { mRecomputeWorldTransform = true; }
-protected:
-	// World Transform
-	Matrix4								mWorldTransform;
-	//Model Transform
-	Matrix4								mModelTransform;
-
-	//ワールド座標、回転、スケーリング
-	Vector3								mPosition;
-
-	Quaternion							mRotation;
-
-	Vector3								mScale;
-
-	//ローカル座標、回転、スケーリング
-	Vector3								mLocalPosition;
-
-	Vector3								mPositionOffset;
-
-	Quaternion							mLocalRotation;
-
-	//X、Y、Z軸の回転量
-	float								mRotationAmountX;
-	float								mRotationAmountY;
-	float								mRotationAmountZ;
-
-	Vector3								mLocalScale;
-
-	bool								mRecomputeWorldTransform;
-
-	vector<class Component*>			mComponents;
-	//親オブジェクト
-	class Transform*					mParentActor;
-	//子オブジェクトの配列
-	vector<class Transform*>			mChildActor;
 };
 

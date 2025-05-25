@@ -6,16 +6,6 @@
 //スケルタルメッシュなどの人型のキャラクターを生成しているシーン
 class DebugScene02 : public BaseScene
 {
-public:
-									DebugScene02(class GameWinMain* winMain);
-	
-	bool							Initialize()override;
-	
-	bool							InputUpdate()override;
-
-	bool							Update()override;
-	
-	void							HandleKeyPress(int key)override;
 private:
 	// Game-specific code
 
@@ -24,9 +14,9 @@ private:
 	class YBotActor*				mYBotActor;
 
 	class SmallCharacter*			mSmallCharacter;
-	
+
 	class SpriteComponent*			mCrosshair;
-	
+
 	SoundEvent						mMusicEvent;
 
 	//フレームレート表示テキスト
@@ -42,11 +32,21 @@ private:
 	class Text*						mTPoseButtonText;
 
 	class Text*						mIdlePoseButtonText;
-	
+
 	class Text*						mRunPoseButtonText;
-	
+
 	class Text*						mJumpPoseButtonText;
-	
+
 	class Text*						mCapoeiraPoseButtonText;
+public:
+									DebugScene02(class GameWinMain* winMain);
+	
+	bool							Initialize()override;
+	
+	bool							InputUpdate()override;
+
+	bool							Update()override;
+	
+	void							HandleKeyPress(int key)override;
 
 };

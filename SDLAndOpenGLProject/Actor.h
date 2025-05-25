@@ -23,6 +23,19 @@ public:
 		EPaused,
 		EDead
 	};
+protected:
+	// Actor's state
+	State						mState;
+
+	//オブジェクトのタグ
+	ActorTag					mActorTag = ActorTag::None;
+
+	BaseScene*					mGame;
+
+	class Rigidbody*			mRigidbody;
+
+	Collider*					mCollider;
+public:
 	//コンストラクタ
 								ActorObject();
 	//デストラクタ
@@ -66,16 +79,4 @@ public:
 	virtual void				OnCollisionStay(ActorObject* target){}
 	//当たり終わった時に呼び出される関数
 	virtual void				OnCollisionExit(ActorObject* target){}
-protected:
-	// Actor's state
-	State						mState;
-
-	//オブジェクトのタグ
-	ActorTag					mActorTag = ActorTag::None;
-
-	BaseScene*					mGame;
-
-	Rigidbody*					mRigidbody;
-
-	Collider*					mCollider;
 };

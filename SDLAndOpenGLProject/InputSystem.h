@@ -22,6 +22,9 @@ enum ButtonState
 // キーボード入力のヘルパークラス
 class KeyboardState
 {
+private:
+	const bool*		mCurrState;
+	Uint8			mPrevState[SDL_SCANCODE_COUNT];
 public:
 	// InputSystemの更新
 	friend class InputSystem;
@@ -31,14 +34,24 @@ public:
 	bool			GetKeyDown(SDL_Scancode keyCode) const;
 	bool			GetKeyUp(SDL_Scancode keyCode) const;
 	bool			GetKey(SDL_Scancode keyCode) const;
-private:
-	const bool*		mCurrState;
-	Uint8			mPrevState[SDL_SCANCODE_COUNT];
+
+	bool			GetAnyKeyDown() const;
+
 };
 
 // マウス入力のヘルパークラス
 class MouseState
 {
+private:
+	// 現在のマウスの位置を保存
+	Vector2			mMousePos;
+	// スクロールホイールの移動
+	Vector2			mScrollWheel;
+	// ボタンデータを保存
+	Uint32			mCurrButtons;
+	Uint32			mPrevButtons;
+	// 相対マウスモードフラグ
+	bool			mIsRelative;
 public:
 	friend class InputSystem;
 
@@ -53,21 +66,24 @@ public:
 	bool			GetButtonDown(int button) const;
 	bool			GetButtonUp(int button) const;
 	bool			GetButton(int button) const;
-private:
-	// 現在のマウスの位置を保存
-	Vector2			mMousePos;
-	// スクロールホイールの移動
-	Vector2			mScrollWheel;
-	// ボタンデータを保存
-	Uint32			mCurrButtons;
-	Uint32			mPrevButtons;
-	// 相対マウスモードフラグ
-	bool			mIsRelative;
 };
 
 // コントローラー入力のヘルパークラス
 class ControllerState
 {
+private:
+
+	// 現在/前のボタン情報
+	Uint8			mCurrButtons[SDL_GAMEPAD_BUTTON_COUNT];
+	Uint8			mPrevButtons[SDL_GAMEPAD_BUTTON_COUNT];
+	// 左/右スティック
+	Vector2			mLeftStick;
+	Vector2			mRightStick;
+	// 左/右トリガー
+	float			mLeftTrigger;
+	float			mRightTrigger;
+	// コントローラー接続フラグ
+	bool			mIsConnected;
 public:
 	friend class InputSystem;
 
@@ -85,19 +101,6 @@ public:
 	float			GetRightTrigger() const { return mRightTrigger; }
 
 	bool			GetIsConnected() const { return mIsConnected; }
-private:
-
-	// 現在/前のボタン情報
-	Uint8			mCurrButtons[SDL_GAMEPAD_BUTTON_COUNT];
-	Uint8			mPrevButtons[SDL_GAMEPAD_BUTTON_COUNT];
-	// 左/右スティック
-	Vector2			mLeftStick;
-	Vector2			mRightStick;
-	// 左/右トリガー
-	float			mLeftTrigger;
-	float			mRightTrigger;
-	// コントローラー接続フラグ
-	bool			mIsConnected;
 };
 
 // 入力の現在の状態を含むラッパー
@@ -110,6 +113,16 @@ struct InputState
 
 class InputSystem
 {
+private:
+	static float				Filter1D(int input);
+	
+	static Vector2				Filter2D(int inputX, int inputY);
+	
+	static InputState			mState;
+
+	static SDL_Gamepad*			mController;
+
+	static SDL_Window*			mWindow;
 public:
 	static bool					Initialize();
 	static void					Shutdown();
@@ -128,14 +141,4 @@ public:
 	static void					SetRelativeMouseMode(bool value);
 
 	static void					SetSDL_Window(SDL_Window* window) { mWindow = window; }
-private:
-	static float				Filter1D(int input);
-	
-	static Vector2				Filter2D(int inputX, int inputY);
-	
-	static InputState			mState;
-
-	static SDL_Gamepad*			mController;
-
-	static SDL_Window*			mWindow;
 };

@@ -31,7 +31,7 @@ bool DebugScene01::Initialize()
 	// ゲーム内のUI生成
 	mHUD = new HUD();
 
-	Font* font = GetFont("Assets/Fonts/NotoSansJP-Bold.ttf");
+	Font* font = GetFont("NotoSansJP-Bold.ttf");
 	//シーン名生成
 	mSceneNameText = new Text(font, Vector2(500, 350));
 	mSceneNameText->SetText(u8"デバッグシーン1");
@@ -125,10 +125,12 @@ bool DebugScene01::InputUpdate()
 	{
 		switch (event.type)
 		{
+			//実行が終了するとtrue
 		case SDL_EVENT_QUIT:
 			GameStateClass::SetGameState(GameState::GameEnd);
 			break;
 			// This fires when a key's initially pressed
+			//キーボードのボタンをどれかを押すとtrue
 		case SDL_EVENT_KEY_DOWN:
 			if (!event.key.repeat)
 			{
@@ -143,12 +145,9 @@ bool DebugScene01::InputUpdate()
 				}
 			}
 			break;
+			//マウスボタンのどれかを押すとtrue
 		case SDL_EVENT_MOUSE_BUTTON_DOWN:
-			if (GameStateClass::mGameState == GameState::GamePlay)
-			{
-				HandleKeyPress(event.button.button);
-			}
-			else if (!mUIStack.empty())
+			if (!mUIStack.empty())
 			{
 				mUIStack.back()->
 					HandleKeyPress(event.button.button);
@@ -158,6 +157,7 @@ bool DebugScene01::InputUpdate()
 		}
 	}
 	const InputState& state = InputSystem::GetState();
+
 	if (GameStateClass::mGameState == GameState::GamePlay)
 	{
 		for (auto actor : mActors)
@@ -195,10 +195,6 @@ void DebugScene01::HandleKeyPress(int key)
 	case SDLK_ESCAPE:
 		mPauseMenu = new PauseMenu();
 		break;
-	case SDL_BUTTON_LEFT:
-	{
-		break;
-	}
 	default:
 		break;
 	}
