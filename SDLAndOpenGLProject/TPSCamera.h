@@ -4,10 +4,10 @@
 
 class TPSCamera : public ActorObject
 {
+private:
+	class FollowCamera* mFollowCamera;
 public:
 	TPSCamera();
 	class FollowCamera* GetFollowCamera() { return mFollowCamera; }
-private:
-	class FollowCamera* mFollowCamera;
 };
 

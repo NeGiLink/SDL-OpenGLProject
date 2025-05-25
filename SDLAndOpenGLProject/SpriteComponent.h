@@ -9,6 +9,12 @@
 //画像描画に使用するクラス
 class SpriteComponent : public Component
 {
+protected:
+	class Texture*	mTexture;
+	int				mDrawOrder;
+	float			mTexWidth;
+	float			mTexHeight;
+	bool			mVisible;
 public:
 	// (下に引く順序は後ろに対応します)
 					SpriteComponent(class ActorObject* owner, int drawOrder = 100);
@@ -23,10 +29,4 @@ public:
 
 	void			SetVisible(bool visible) { mVisible = visible; }
 	bool			GetVisible() const { return mVisible; }
-protected:
-	class Texture*	mTexture;
-	int				mDrawOrder;
-	float			mTexWidth;
-	float			mTexHeight;
-	bool			mVisible;
 };

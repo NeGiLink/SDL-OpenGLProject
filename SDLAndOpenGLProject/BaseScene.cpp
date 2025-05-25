@@ -200,7 +200,8 @@ void BaseScene::RemoveActor(ActorObject* actor)
 
 Font* BaseScene::GetFont(const string& fileName)
 {
-	auto iter = mFonts.find(fileName);
+	string filePath = FontFile::FontFilePath + fileName;
+	auto iter = mFonts.find(filePath);
 	if (iter != mFonts.end())
 	{
 		return iter->second;
@@ -208,9 +209,9 @@ Font* BaseScene::GetFont(const string& fileName)
 	else
 	{
 		Font* font = new Font();
-		if (font->Load(fileName))
+		if (font->Load(filePath))
 		{
-			mFonts.emplace(fileName, font);
+			mFonts.emplace(filePath, font);
 		}
 		else
 		{
@@ -346,95 +347,6 @@ void BaseScene::RemoveImage(Image* screen)
 		mImageStack.pop_back();
 	}
 }
-/*
-void BaseScene::UpdateGame()
-{
-	//特定のシーンに読み込まれたオブジェクトやコンポーネントを
-	// まとめて処理する部分
-	if (GameStateClass::mGameState == EGameplay) 
-	{
-		// Update all actors
-		mUpdatingActors = true;
-		for (auto actor : mActors)
-		{
-			actor->Update(Time::deltaTime);
-		}
-		mUpdatingActors = false;
-
-		// Move any pending actors to mActors
-		for (auto pending : mPendingActors)
-		{
-			pending->ComputeWorldTransform(NULL);
-			mActors.emplace_back(pending);
-		}
-		mPendingActors.clear();
-
-		// Add any dead actors to a temp vector
-		vector<ActorObject*> deadActors;
-		for (auto actor : mActors)
-		{
-			if (actor->GetState() == ActorObject::EDead)
-			{
-				deadActors.emplace_back(actor);
-			}
-		}
-
-		// Delete dead actors (which removes them from mActors)
-		for (auto actor : deadActors)
-		{
-			delete actor;
-		}
-	}
-
-	mPhysWorld->SweepAndPruneXYZ();
-
-	// Update audio system
-	mAudioSystem->Update(Time::deltaTime);
-
-	// Update UI screens
-	for (auto ui : mUIStack)
-	{
-		if (ui->GetState() == UIScreen::EActive)
-		{
-			ui->Update(Time::deltaTime);
-		}
-	}
-	for (auto image : mImageStack) 
-	{
-		if (image->GetState() == Image::EActive)
-		{
-			image->Update(Time::deltaTime);
-		}
-	}
-	// Delete any UIScreens that are closed
-	auto iter = mUIStack.begin();
-	while (iter != mUIStack.end())
-	{
-		if ((*iter)->GetState() == UIScreen::EClosing)
-		{
-			delete* iter;
-			iter = mUIStack.erase(iter);
-		}
-		else
-		{
-			++iter;
-		}
-	}
-	auto image = mImageStack.begin();
-	while (image != mImageStack.end())
-	{
-		if ((*image)->GetState() == Image::EDestroy)
-		{
-			delete* image;
-			image = mImageStack.erase(image);
-		}
-		else
-		{
-			++image;
-		}
-	}
-}
-*/
 
 void BaseScene::UnloadData()
 {

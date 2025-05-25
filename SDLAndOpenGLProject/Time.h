@@ -6,6 +6,8 @@
 //Žå‚Éstatic‚ÅŽg—p‚·‚é
 class Time
 {
+private:
+	static float	mFrameRate;
 public:
 	static void		InitializeDeltaTime();
 	static void		UpdateDeltaTime();
@@ -21,6 +23,4 @@ public:
 	static float	gDeltaTime;
 	
 	static Uint64	gTicksCount;
-private:
-	static float	mFrameRate;
 };

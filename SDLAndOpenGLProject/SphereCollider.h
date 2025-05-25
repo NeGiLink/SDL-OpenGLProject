@@ -4,6 +4,13 @@
 //球のColliderを追加するコンポーネント
 class SphereCollider : public Collider
 {
+private:
+
+	Sphere			mObjectSphere;
+	
+	Sphere			mWorldSphere;
+	
+	bool			mShouldRotate;
 public:
 					SphereCollider(class ActorObject* owner, int updateOrder = 100);
 					~SphereCollider();
@@ -29,11 +36,4 @@ public:
 	void			SetShouldRotate(bool value) { mShouldRotate = value; }
 
 	ColliderType	GetType() override { return ColliderType::SphereType; }
-private:
-
-	Sphere			mObjectSphere;
-	
-	Sphere			mWorldSphere;
-	
-	bool			mShouldRotate;
 };

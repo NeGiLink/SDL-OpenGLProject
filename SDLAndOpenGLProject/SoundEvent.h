@@ -5,6 +5,14 @@
 //SE,BGMを取得・再生するクラス
 class SoundEvent
 {
+protected:
+	// このコンストラクタをprotectedにし、AudioSystemを友達として設定して、
+	// AudioSystemのみがこのコンストラクタにアクセスできるようにします。
+	friend class		AudioSystem;
+						SoundEvent(class AudioSystem* system, unsigned int id);
+private:
+	class AudioSystem*	mSystem;
+	unsigned int		mID;
 public:
 						SoundEvent();
 	// 関連するFMODイベントがまだ存在する場合、trueを返します。
@@ -26,12 +34,4 @@ public:
 	// Positional
 	bool				Is3D() const;
 	void				Set3DAttributes(const Matrix4& worldTrans);
-protected:
-	// このコンストラクタをprotectedにし、AudioSystemを友達として設定して、
-	// AudioSystemのみがこのコンストラクタにアクセスできるようにします。
-	friend class		AudioSystem;
-						SoundEvent(class AudioSystem* system, unsigned int id);
-private:
-	class AudioSystem*	mSystem;
-	unsigned int		mID;
 };

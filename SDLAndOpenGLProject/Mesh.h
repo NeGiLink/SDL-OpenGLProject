@@ -29,6 +29,23 @@ struct MeshBinHeader {
 //1つの3DMeshの管理クラス
 class Mesh
 {
+private:
+	//JSONファイルの読み込み処理
+	bool						LoadFromJSON(const string& fileName, class Renderer* renderer, int index);
+	// FBXファイルからJSONに変換処理
+	bool						LoadFromFBX(const string& fileName, class Renderer* renderer, int index);
+	// AABBの当たり判定を配列で取得
+	vector<AABB>				mBoxs;
+	// Meshのテクスチャを取得
+	vector<class Texture*>		mTextures;
+	// MeshのVertexArrayの配列
+	vector<class VertexArray*>  mVertexArrays;
+	// シェーダー名
+	string						mShaderName;
+	// 球の半径
+	vector<float>				mRadiusArray;
+	// マテリアル情報
+	vector<MaterialInfo>		mMaterialInfo;
 public:
 								Mesh();
 								~Mesh();
@@ -53,21 +70,4 @@ public:
 	const vector<AABB>			GetBoxs() const { return mBoxs; }
 	//マテリアル情報取得
 	const vector<MaterialInfo>	GetMaterialInfo() const { return mMaterialInfo; }
-private:
-	//JSONファイルの読み込み処理
-	bool						LoadFromJSON(const string& fileName, class Renderer* renderer, int index);
-	// FBXファイルからJSONに変換処理
-	bool						LoadFromFBX(const string& fileName, class Renderer* renderer, int index);
-	// AABBの当たり判定を配列で取得
-	vector<AABB>				mBoxs;
-	// Meshのテクスチャを取得
-	vector<class Texture*>		mTextures;
-	// MeshのVertexArrayの配列
-	vector<class VertexArray*>  mVertexArrays;
-	// シェーダー名
-	string						mShaderName;
-	// 球の半径
-	vector<float>				mRadiusArray;
-	// マテリアル情報
-	vector<MaterialInfo>		mMaterialInfo;
 };

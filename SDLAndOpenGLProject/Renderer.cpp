@@ -36,8 +36,6 @@ Renderer::~Renderer()
 
 bool Renderer::Initialize(float screenWidth, float screenHeight)
 {
-	mScreenWidth = screenWidth;
-	mScreenHeight = screenHeight;
 
 	// OpenGLの属性を設定する
 	// コアOpenGLプロファイルを使用
@@ -56,7 +54,7 @@ bool Renderer::Initialize(float screenWidth, float screenHeight)
 	// OpenGLにハードウェアアクセラレーションを使用
 	SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
 
-	mWindow = SDL_CreateWindow("SDL&OpenGLProject",static_cast<int>(mScreenWidth), static_cast<int>(mScreenHeight), SDL_WINDOW_OPENGL);
+	mWindow = SDL_CreateWindow("SDL&OpenGLProject",static_cast<int>(Window::Width), static_cast<int>(Window::Height), SDL_WINDOW_OPENGL);
 
 	if (!mWindow)
 	{
@@ -94,8 +92,8 @@ bool Renderer::Initialize(float screenWidth, float screenHeight)
 
 	// Gバッファを作成する
 	mGBuffer = new GBuffer();
-	int width = static_cast<int>(mScreenWidth);
-	int height = static_cast<int>(mScreenHeight);
+	int width = static_cast<int>(Window::Width);
+	int height = static_cast<int>(Window::Height);
 	if (!mGBuffer->Create(width, height))
 	{
 		SDL_Log("Failed to create G-buffer.");
@@ -116,7 +114,7 @@ bool Renderer::LoadShaders()
 
 	mSpriteShader->SetActive();
 	// ビュー投影行列を設定する
-	Matrix4 spriteViewProj = Matrix4::CreateSimpleViewProj(mScreenWidth, mScreenHeight);
+	Matrix4 spriteViewProj = Matrix4::CreateSimpleViewProj(Window::Width, Window::Height);
 	mSpriteShader->SetMatrixUniform("uViewProj", spriteViewProj);
 	/*
 	//Lineの描画用のシェーダーを作成する
@@ -128,8 +126,8 @@ bool Renderer::LoadShaders()
 	mLineShader->SetMatrixUniform("uViewProj", spriteViewProj);
 	*/
 	// ビュー投影行列を設定する
-	mView = Matrix4::CreateLookAt(Vector3::Zero, Vector3::UnitX, Vector3::UnitZ);
-	mProjection = Matrix4::CreatePerspectiveFOV(Math::ToRadians(70.0f),mScreenWidth, mScreenHeight, 0.1f, 10000.0f);
+	mView = Matrix4::CreateLookAt(Window::ViewEye, Window::ViewTarget, Window::ViewUp);
+	mProjection = Matrix4::CreatePerspectiveFOV(Math::ToRadians(Window::FieldOfView),Window::Width, Window::Height, Window::CameraNear, Window::CameraFar);
 
 	// 基本的なメッシュシェーダーを作成する
 	mMeshShader = new Shader();
@@ -166,7 +164,7 @@ bool Renderer::LoadShaders()
 	// ビュー投影はただのスプライトのものです
 	mGGlobalShader->SetMatrixUniform("uViewProj", spriteViewProj);
 	// 世界の変形スケールが画面に適用され、yが反転します
-	Matrix4 gbufferWorld = Matrix4::CreateScale(mScreenWidth, -mScreenHeight,
+	Matrix4 gbufferWorld = Matrix4::CreateScale(Window::Width, -Window::Height,
 		1.0f);
 	mGGlobalShader->SetMatrixUniform("uWorldTransform", gbufferWorld);
 
@@ -181,7 +179,7 @@ bool Renderer::LoadShaders()
 	mGPointLightShader->SetIntUniform("uGDiffuse", 0);
 	mGPointLightShader->SetIntUniform("uGNormal", 1);
 	mGPointLightShader->SetIntUniform("uGWorldPos", 2);
-	mGPointLightShader->SetVector2Uniform("uScreenDimensions",Vector2(mScreenWidth, mScreenHeight));
+	mGPointLightShader->SetVector2Uniform("uScreenDimensions",Vector2(Window::Width, Window::Height));
 
 	return true;
 }
@@ -236,7 +234,7 @@ void Renderer::Draw()
 			ui->Draw(mSpriteShader);
 		}
 	}
-
+	/*
 	// Draw any UI screens
 	//ゲーム中のUIをまとめて描画
 	for (auto ui : mNowScene->GetUIStack())
@@ -246,6 +244,7 @@ void Renderer::Draw()
 			ui->Draw(mSpriteShader);
 		}
 	}
+	*/
 
 	// バッファを入れ替える
 	SDL_GL_SwapWindow(mWindow);
@@ -258,7 +257,7 @@ void Renderer::Draw3DScene(unsigned int framebuffer, const Matrix4& view, const 
 	glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
 
 	// スケールに基づいてビューポートサイズを設定します
-	glViewport(0, 0,static_cast<int>(mScreenWidth * viewPortScale),static_cast<int>(mScreenHeight * viewPortScale));
+	glViewport(0, 0,static_cast<int>(Window::Width * viewPortScale),static_cast<int>(Window::Height * viewPortScale));
 
 	// カラー バッファ/深度バッファをクリア
 	glClearColor(Color::mClearColor.x, Color::mClearColor.y, Color::mClearColor.z, Color::mClearColor.w);
@@ -322,8 +321,8 @@ void Renderer::DrawFromGBuffer()
 
 	// Gバッファからデフォルトフレームバッファに深度バッファをコピーする
 	glBindFramebuffer(GL_READ_FRAMEBUFFER, mGBuffer->GetBufferID());
-	int width = static_cast<int>(mScreenWidth);
-	int height = static_cast<int>(mScreenHeight);
+	int width = static_cast<int>(Window::Width);
+	int height = static_cast<int>(Window::Height);
 	glBlitFramebuffer(0, 0, width, height,0, 0, width, height,GL_DEPTH_BUFFER_BIT, GL_NEAREST);
 
 	// 深度テストを有効にしますが、深度バッファへの書き込みを無効にします。
@@ -648,8 +647,8 @@ Vector3 Renderer::Unproject(const Vector3& screenPoint) const
 {
 	// screenPointをデバイス座標（-1から+1の間）に変換する
 	Vector3 deviceCoord = screenPoint;
-	deviceCoord.x /= (mScreenWidth) * 0.5f;
-	deviceCoord.y /= (mScreenHeight) * 0.5f;
+	deviceCoord.x /= (Window::Width) * 0.5f;
+	deviceCoord.y /= (Window::Height) * 0.5f;
 
 	// 反投影行列でベクトルを変換する
 	Matrix4 unprojection = mView * mProjection;

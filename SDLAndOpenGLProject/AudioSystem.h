@@ -19,6 +19,26 @@ namespace FMOD
 
 class AudioSystem
 {
+protected:
+	friend class SoundEvent;
+	FMOD::Studio::EventInstance*										GetEventInstance(unsigned int id);
+private:
+	// イベントインスタンスに使用する次のIDを追跡
+	static unsigned int													sNextID;
+
+	class BaseScene*													mGame;
+	// Map of loaded banks
+	std::unordered_map<string, FMOD::Studio::Bank*>						mBanks;
+	// イベント名とイベント説明のマップ
+	std::unordered_map<string, FMOD::Studio::EventDescription*>			mEvents;
+	// イベントIDからイベントインスタンスへのマップ
+	std::unordered_map<unsigned int, FMOD::Studio::EventInstance*>		mEventInstances;
+	// Map of buses
+	std::unordered_map<string, FMOD::Studio::Bus*>						mBuses;
+	// FMOD studio system
+	FMOD::Studio::System*												mSystem;
+	// FMOD Low-level system (in case needed)
+	FMOD::System*														mLowLevelSystem;
 public:
 																		AudioSystem(class BaseScene* game);
 																		~AudioSystem();
@@ -42,24 +62,4 @@ public:
 	bool																GetBusPaused(const string& name) const;
 	void																SetBusVolume(const string& name, float volume);
 	void																SetBusPaused(const string& name, bool pause);
-protected:
-	friend class SoundEvent;
-	FMOD::Studio::EventInstance*										GetEventInstance(unsigned int id);
-private:
-	// イベントインスタンスに使用する次のIDを追跡
-	static unsigned int													sNextID;
-
-	class BaseScene*													mGame;
-	// Map of loaded banks
-	std::unordered_map<string, FMOD::Studio::Bank*>						mBanks;
-	// イベント名とイベント説明のマップ
-	std::unordered_map<string, FMOD::Studio::EventDescription*>			mEvents;
-	// イベントIDからイベントインスタンスへのマップ
-	std::unordered_map<unsigned int, FMOD::Studio::EventInstance*>		mEventInstances;
-	// Map of buses
-	std::unordered_map<string, FMOD::Studio::Bus*>						mBuses;
-	// FMOD studio system
-	FMOD::Studio::System*												mSystem;
-	// FMOD Low-level system (in case needed)
-	FMOD::System*														mLowLevelSystem;
 };

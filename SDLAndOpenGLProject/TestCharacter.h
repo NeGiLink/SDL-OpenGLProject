@@ -9,10 +9,6 @@
 //テスト用に生成してる3Dキャラクターのうち一体のクラス
 class TestCharacter : public ActorObject
 {
-public:
-									TestCharacter();
-
-	void							ActorInput(const struct InputState& keys) override;
 private:
 	enum State
 	{
@@ -32,4 +28,8 @@ private:
 	class Sword*					mSword;
 
 	string							animatorName = "TestCharacter";
+public:
+									TestCharacter();
+
+	void							ActorInput(const struct InputState& keys) override;
 };

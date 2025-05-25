@@ -330,9 +330,6 @@
     <ClCompile Include="ConvertNumToString.cpp">
       <Filter>SourceFiles\I_Editor\Utilitys</Filter>
     </ClCompile>
-    <ClCompile Include="PhysWorld.cpp">
-      <Filter>SourceFiles\B_GameObjects\3Ds</Filter>
-    </ClCompile>
     <ClCompile Include="Health.cpp">
       <Filter>SourceFiles\B_GameObjects\3Ds</Filter>
     </ClCompile>
@@ -354,11 +351,11 @@
     <ClCompile Include="Time.cpp">
       <Filter>SourceFiles\I_Editor</Filter>
     </ClCompile>
-    <ClCompile Include="BaseUI.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Button.cpp">
       <Filter>SourceFiles\F_UIs</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysWorld.cpp">
+      <Filter>SourceFiles\D_Collisions</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -647,11 +644,11 @@
     <ClInclude Include="Time.h">
       <Filter>SourceFiles\I_Editor</Filter>
     </ClInclude>
-    <ClInclude Include="BaseUI.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Button.h">
       <Filter>SourceFiles\F_UIs</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowSetting.h">
+      <Filter>SourceFiles\A_Mains</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

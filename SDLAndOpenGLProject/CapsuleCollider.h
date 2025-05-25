@@ -4,6 +4,13 @@
 //カプセル型のコライダークラス
 class CapsuleCollider : public Collider
 {
+private:
+
+	Capsule			mObjectCapsule;
+	
+	Capsule			mWorldCapsule;
+	
+	bool			mShouldRotate;
 public:
 					CapsuleCollider(class ActorObject* owner, int updateOrder = 100);
 					~CapsuleCollider();
@@ -32,11 +39,4 @@ public:
 	void			SetShouldRotate(bool value) { mShouldRotate = value; }
 
 	ColliderType	GetType() override { return ColliderType::CapsuleType; }
-private:
-
-	Capsule			mObjectCapsule;
-	
-	Capsule			mWorldCapsule;
-	
-	bool			mShouldRotate;
 };

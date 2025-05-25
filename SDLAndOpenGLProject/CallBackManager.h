@@ -8,9 +8,13 @@ template<typename Signature>
 class Event;
 
 template<typename Ret, typename... Args>
-class Event<Ret(Args...)> {
+class Event<Ret(Args...)> 
+{
 public:
     using Handler = std::function<Ret(Args...)>;
+private:
+    std::vector<Handler> handlers;
+public:
 
     void Add(const Handler& handler) {
         handlers.push_back(handler);
@@ -22,6 +26,4 @@ public:
         }
     }
 
-private:
-    std::vector<Handler> handlers;
 };

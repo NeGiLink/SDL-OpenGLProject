@@ -12,6 +12,12 @@ public:
 		EWorldPos,
 		NUM_GBUFFER_TEXTURES
 	};
+private:
+	// Textures associated with G-buffer
+	vector<class Texture*>		mTextures;
+	// Frame buffer object ID
+	unsigned int				mBufferID;
+public:
 
 								GBuffer();
 								~GBuffer();
@@ -26,9 +32,4 @@ public:
 	unsigned int				GetBufferID() const { return mBufferID; }
 	// Setup all the G-buffer textures for sampling
 	void						SetTexturesActive();
-private:
-	// Textures associated with G-buffer
-	vector<class Texture*>		mTextures;
-	// Frame buffer object ID
-	unsigned int				mBufferID;
 };

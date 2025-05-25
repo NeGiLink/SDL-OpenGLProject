@@ -30,6 +30,37 @@ public:
 		Vertical,
 		Radial360
 	};
+protected:
+	class BaseScene*		mGame;
+	//画像
+	class Texture*			mTexture;
+	// Configure positions
+	Vector2					mTexturePos;
+
+	float					mOffsetX;
+	float					mOffsetY;
+
+	//スケーリング
+	Vector3					mTexScale;
+
+	float					mRectScaleWidth;
+	float					mRectScaleHeight;
+
+	float					mAngleZ;
+
+	SDL_Rect				mTextureRect;
+
+	float					mFillAmount;
+
+	// State
+	UIState					mState;
+
+	FillType				mFillType;
+
+	FillMethod				mFillMethod;
+
+	int						mVerticesCount;
+public:
 							Image();
 	virtual					~Image();
 	//読み込み処理
@@ -39,9 +70,9 @@ public:
 	// テクスチャを描くための関数
 	void					DrawTexture(class Shader* shader);
 
-	Vector4					UVCalculation();
+	void					FillMethodCalculation(Vector4& uv,int& verticesCount);
 
-	Matrix4					WorldMatrixCalculation();
+	void					WorldMatrixCalculation(Matrix4& trans,Matrix4& rotate,Matrix4& scale);
 
 	virtual void			UnLoad();
 	// 状態を閉鎖に設定
@@ -76,33 +107,8 @@ public:
 
 	virtual FillMethod		GetFillMethod() { return mFillMethod; }
 
-	virtual void SetVerticesCount(int count) { mVerticesCount = count; }
-	virtual int GetVerticesCount() { return mVerticesCount; }
+	virtual void			SetVerticesCount(int count) { mVerticesCount = count; }
+	virtual int				GetVerticesCount() { return mVerticesCount; }
 
-	virtual void 					SetState(UIState state)  { mState = state; }
-
-protected:
-	class BaseScene*		mGame;
-	//画像
-	class Texture*			mTexture;
-	// Configure positions
-	Vector2					mTexturePos;
-	//スケーリング
-	Vector3					mTexScale;
-
-	float					mAngleZ;
-
-	SDL_Rect				mTextureRect;
-
-	float					mFillAmount;
-
-	// State
-	UIState					mState;
-
-	FillType				mFillType;
-
-	FillMethod				mFillMethod;
-
-	int						mVerticesCount;
+	virtual void 			SetState(UIState state)  { mState = state; }
 };
-

@@ -7,37 +7,22 @@
 //ゲーム上のUIをまとめて処理するクラス
 class HUD : public Canvas
 {
-public:
-	// (下に引く順序は後ろに対応します)
-											HUD();
-											~HUD();
-
-	void									Update(float deltaTime) override;
-	void									Draw(class Shader* shader) override;
-
-	void									ProcessInput(const struct InputState& keys)override;
-
-	void									AddTargetComponent(class TargetComponent* tc);
-	void									RemoveTargetComponent(class TargetComponent* tc);
-
-
-	Image*									GetHelthBar() { return mHelthBar; }
 protected:
 	void									UpdateCrosshair(float deltaTime);
 	void									UpdateRadar(float deltaTime);
 
-	class Image*							mRadar;
+	class Image* mRadar;
 
-	class Image*							mCrosshair;
-	class Image*							mCrosshairEnemy;
-	
-	class Image*							mBlipTex;
-	
-	class Image*							mRadarArrow;
+	class Image* mCrosshair;
+	class Image* mCrosshairEnemy;
 
-	class Image*							mHelthBarFrame;
+	class Image* mBlipTex;
 
-	class Image*							mHelthBar;
+	class Image* mRadarArrow;
+
+	class Image* mHelthBarFrame;
+
+	class Image* mHelthBar;
 
 	// ゲーム内のすべてのターゲットコンポーネント
 	vector<class TargetComponent*>			mTargetComps;
@@ -48,7 +33,21 @@ protected:
 	float									mRadarRadius;
 	// クロスヘアが敵を狙っているかどうか
 	bool									mTargetEnemy;
-	
+
 	float									mCrosshairAngle;
+public:
+	// (下に引く順序は後ろに対応します)
+											HUD();
+											~HUD();
+
+	void									Update(float deltaTime) override;
+
+	void									ProcessInput(const struct InputState& keys)override;
+
+	void									AddTargetComponent(class TargetComponent* tc);
+	void									RemoveTargetComponent(class TargetComponent* tc);
+
+
+	Image*									GetHelthBar() { return mHelthBar; }
 };
 

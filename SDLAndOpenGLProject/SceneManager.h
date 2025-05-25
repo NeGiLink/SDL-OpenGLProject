@@ -4,6 +4,13 @@
 //シーンの管理、ロード処理を行うクラス
 class SceneManager
 {
+private:
+	//ロード対象のシーンリスト
+	static std::unordered_map<int, class BaseScene*>	mScenes;
+	//現在のシーン
+	static class BaseScene*								mNowScene;
+	//ロードフラグ
+	static bool											loading;
 public:
 	//シーンのロード処理
 	static void											LoadScene(int index);
@@ -15,12 +22,5 @@ public:
 	static bool											IsLoading() { return loading; }
 	//ロードフラグを解除
 	static void											DisabledLoading() { loading = false; }
-private:
-	//ロード対象のシーンリスト
-	static std::unordered_map<int, class BaseScene*>	mScenes;
-	//現在のシーン
-	static class BaseScene*								mNowScene;
-	//ロードフラグ
-	static bool											loading;
 };
 

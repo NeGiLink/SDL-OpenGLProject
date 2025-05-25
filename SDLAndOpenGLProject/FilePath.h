@@ -23,7 +23,7 @@ namespace Model
 	const string FBXPath = ".fbx";
 }
 
-namespace Font
+namespace FontFile
 {
 	const string FontFilePath = "Assets/Fonts/";
 }

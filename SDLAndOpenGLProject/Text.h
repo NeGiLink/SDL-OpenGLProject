@@ -4,6 +4,18 @@
 
 class Text : public Image
 {
+private:
+	string			mName;
+	
+	class Font*		mFont;
+	
+	Vector2			mDimensions;
+
+	bool			mHighlighted;
+
+	int				mFontSize;
+
+	Vector3			mColor;
 public:
 					Text(class Font* font,const Vector2& pos,bool active = true);
 					~Text();
@@ -17,16 +29,4 @@ public:
 
 
 	class Font*		GetFont()const { return mFont; }
-private:
-	string			mName;
-	
-	class Font*		mFont;
-	
-	Vector2			mDimensions;
-
-	bool			mHighlighted;
-
-	int				mFontSize;
-
-	Vector3			mColor;
 };

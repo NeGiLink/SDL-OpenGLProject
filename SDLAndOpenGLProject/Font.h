@@ -7,6 +7,10 @@
 //文字のフォントを読み込み、参照するクラス
 class Font
 {
+private:
+	// ポイントサイズとフォントデータのマップ
+	std::unordered_map<int, TTF_Font*>	mFontData;
+	class BaseScene* mGame;
 public:
 										Font();
 										~Font();
@@ -24,8 +28,4 @@ public:
 	class								Texture* RenderFreeText(const string& textKey,
 										const Vector3& color = Color::White,
 										int pointSize = 30);
-private:
-	// ポイントサイズとフォントデータのマップ
-	std::unordered_map<int, TTF_Font*>	mFontData;
-	class BaseScene*					mGame;
 };

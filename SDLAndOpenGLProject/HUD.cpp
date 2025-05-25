@@ -48,10 +48,9 @@ void HUD::Update(float deltaTime)
 
 	UpdateCrosshair(deltaTime);
 	UpdateRadar(deltaTime);
-}
 
-void HUD::Draw(Shader* shader)
-{
+	//各画像の座標更新
+
 	// Crosshair
 	if (GameStateClass::mGameState == TimeStop) { return; }
 	if (mTargetEnemy)
@@ -70,7 +69,7 @@ void HUD::Draw(Shader* shader)
 	//mCrosshairAngle++;
 	//crosshair->SetAngleZ(mCrosshairAngle);
 	//crosshair->SetScale(Vector3(1.5f, 0.5f,1.0f));
-	
+
 
 	// Radar
 	const Vector2 cRadarPos(-390.0f, 275.0f);
@@ -81,15 +80,10 @@ void HUD::Draw(Shader* shader)
 	{
 		blip *= 100.0f;
 		mBlipTex->SetPosition(cRadarPos + blip);
-		//mBlipTex->Draw(shader);
 	}
 
 	// Radar arrow
 	mRadarArrow->SetPosition(cRadarPos);
-	//mRadarArrow->Draw(shader);
-
-	//mHelthBar->Draw(shader);
-	//mHelthBarFrame->Draw(shader);
 }
 
 void HUD::ProcessInput(const InputState& keys)

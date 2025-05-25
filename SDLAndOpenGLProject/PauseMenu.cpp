@@ -7,7 +7,7 @@ PauseMenu::PauseMenu()
 	GameStateClass::SetGameState(GameState::TimeStop);
 	SetRelativeMouseMode(false);
 
-	mTitleFont = new Text(mGame->GetFont("Assets/Fonts/Carlito-Regular.ttf"), Vector2::Zero);
+	mTitleFont = new Text(mGame->GetFont("Carlito-Regular.ttf"), Vector2::Zero);
 	mTitleFont->SetPosition(mTitlePos);
 	SetTitle("PauseTitle");
 	AddButton("ResumeButton", [this]() {

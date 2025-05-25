@@ -8,13 +8,13 @@
 //プレイヤーのHPを回復させるためのオブジェクト
 class HealthObject : public ActorObject
 {
+private:
+	vector<class BoxCollider*>		mBoxs;
 public:
 									HealthObject();
 
 	void							UpdateActor(float deltaTime)override;
 
 	vector<class BoxCollider*>		GetBoxs() { return mBoxs; }
-private:
-	vector<class BoxCollider*>		mBoxs;
 };
 

@@ -7,6 +7,7 @@
 #include "SceneManager.h"
 #include "InputSystem.h"
 #include "CallBackManager.h"
+#include "WindowSetting.h"
 
 enum GameState
 {
@@ -25,16 +26,6 @@ public:
 //主にRenderernなどの画面の構成を管理しているクラス
 class GameWinMain
 {
-public:
-						GameWinMain();
-	//初期化
-	bool				Initialize();
-	//ゲーム処理
-	void				RunLoop();
-	//ゲーム終了処理
-	void				Shutdown();
-	//Rendererの取得
-	class Renderer*		GetRenderer() { return mRenderer; }
 private:
 	//ゲーム内の全ての描画を行うクラス
 	void				Render();
@@ -45,8 +36,14 @@ private:
 
 	//ゲーム内処理
 	GameApp*			mGameApp;
-	//画面サイズ
-	static float		mWindowWidth;
-
-	static float		mWindowHeight;
+public:
+						GameWinMain();
+	//初期化
+	bool				Initialize();
+	//ゲーム処理
+	void				RunLoop();
+	//ゲーム終了処理
+	void				Shutdown();
+	//Rendererの取得
+	class Renderer*		GetRenderer() { return mRenderer; }
 };

@@ -7,6 +7,42 @@
 //オブジェクトの更新などをまとめて行う部分になります。
 class BaseScene
 {
+protected:
+
+	class GameWinMain* mWinMain;
+
+	// Track if we're updating actors right now
+	bool											mUpdatingActors;
+
+	// All the actors in the game
+	vector<class ActorObject*>						mActors;
+	vector<class Canvas*>							mUIStack;
+	vector<class Image*>							mImageStack;
+	// Map for fonts
+	std::unordered_map<string, class Font*>			mFonts;
+	// Map of loaded skeletons
+	std::unordered_map<string, class Skeleton*>		mSkeletons;
+	// Map of loaded animations
+	std::unordered_map<string, class Animation*>	mAnims;
+	std::unordered_map<string, class Animator*>		mAnimators;
+	// Map for text localization
+	std::unordered_map<string, string>				mText;
+	// Any pending actors
+	vector<class ActorObject*>						mPendingActors;
+
+	class AudioSystem* mAudioSystem;
+	class PhysWorld* mPhysWorld;
+	class HUD* mHUD;
+
+	class ActorObject* mPlayer;
+
+	class BaseCamera* mMainCamera;
+
+	//SoundEvent									mMusicEvent;
+	// 50Hz、Unityと同じ
+	const float										mFixed_Delta_Time = 0.02f;
+
+	float											fixedTimeAccumulator;
 public:
 	//コンストラクタ
 													BaseScene(class GameWinMain* winMain);
@@ -62,41 +98,4 @@ public:
 	class BaseCamera*								GetCamera() { return mMainCamera; }
 	//MainCameraの設定
 	void											SetMainCamera(class BaseCamera* camera) { mMainCamera = camera; }
-
-protected:
-
-	class GameWinMain*								mWinMain;
-
-	// Track if we're updating actors right now
-	bool											mUpdatingActors;
-
-	// All the actors in the game
-	vector<class ActorObject*>						mActors;
-	vector<class Canvas*>							mUIStack;
-	vector<class Image*>							mImageStack;
-	// Map for fonts
-	std::unordered_map<string, class Font*>			mFonts;
-	// Map of loaded skeletons
-	std::unordered_map<string, class Skeleton*>		mSkeletons;
-	// Map of loaded animations
-	std::unordered_map<string, class Animation*>	mAnims;
-	std::unordered_map<string, class Animator*>		mAnimators;
-	// Map for text localization
-	std::unordered_map<string, string>				mText;
-	// Any pending actors
-	vector<class ActorObject*>						mPendingActors;
-
-	class AudioSystem*								mAudioSystem;
-	class PhysWorld*								mPhysWorld;
-	class HUD*										mHUD;
-
-	class ActorObject*								mPlayer;
-
-	class BaseCamera*								mMainCamera;
-
-	//SoundEvent									mMusicEvent;
-	// 50Hz、Unityと同じ
-	const float										mFixed_Delta_Time = 0.02f; 
-
-	float											fixedTimeAccumulator;
 };

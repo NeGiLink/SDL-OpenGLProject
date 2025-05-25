@@ -12,16 +12,6 @@
 //名前はどのモデル化分かりやすくするためにこの名前にしました。
 class YBotActor : public ActorObject
 {
-public:
-									YBotActor();
-
-	void							UpdateActor(float deltaTime)override;
-
-	void							ActorInput(const struct InputState& keys) override;
-
-	void							OnCollisionEnter(class ActorObject* target) override;
-
-	void							OnCollisionExit(class ActorObject* target) override;
 private:
 	enum State
 	{
@@ -33,18 +23,29 @@ private:
 		TPose
 	};
 
-	class SkeletalMeshRenderer*		mSkeletonMesh;
+	class SkeletalMeshRenderer* mSkeletonMesh;
 
-	class Animator*					animator;
+	class Animator* animator;
 
-	class Sword*					mSword;
+	class Sword* mSword;
 
 	string							animatorName = "YBot";
 
-	class FollowCamera*				mFollowCamera;
+	class FollowCamera* mFollowCamera;
 
-	class FollowObjectMovement*		mMovement;
+	class FollowObjectMovement* mMovement;
 
-	class BoxCollider*				mBoxComp;
+	class BoxCollider* mBoxComp;
+
+public:
+									YBotActor();
+
+	void							UpdateActor(float deltaTime)override;
+
+	void							ActorInput(const struct InputState& keys) override;
+
+	void							OnCollisionEnter(class ActorObject* target) override;
+
+	void							OnCollisionExit(class ActorObject* target) override;
 	
 };

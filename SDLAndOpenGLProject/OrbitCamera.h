@@ -5,6 +5,15 @@
 //軌道カメラのクラス
 class OrbitCamera : public BaseCamera
 {
+private:
+	// ターゲットのオフセット。
+	Vector3		mOffset;
+	// カメラの上方向ベクトル。
+	Vector3		mUp;
+	// ピッチの回転/秒速度。
+	float		mPitchSpeed;
+	// ヨーの回転/秒速度。
+	float		mYawSpeed;
 public:
 	OrbitCamera(class ActorObject* owner);
 
@@ -15,14 +24,5 @@ public:
 
 	void SetPitchSpeed(float speed) { mPitchSpeed = speed; }
 	void SetYawSpeed(float speed) { mYawSpeed = speed; }
-private:
-	// ターゲットのオフセット。
-	Vector3		mOffset;
-	// カメラの上方向ベクトル。
-	Vector3		mUp;
-	// ピッチの回転/秒速度。
-	float		mPitchSpeed;
-	// ヨーの回転/秒速度。
-	float		mYawSpeed;
 };
 

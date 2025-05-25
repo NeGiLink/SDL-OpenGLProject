@@ -27,7 +27,7 @@ class Skeleton
 {
 public:
 	//スケルトンのタイプのタグ
-	enum SkeletonType 
+	enum SkeletonType
 	{
 		Humanoid,
 		Generic
@@ -40,6 +40,28 @@ public:
 		string			mShortName;
 		int				mParent;
 	};
+protected:
+	// スケルトンがロードされると自動的に呼び出され、
+	// 各ボーンのグローバルインバインドポーズを計算。
+	void									ComputeGlobalInvBindPose();
+private:
+	// 骨格の骨
+	vector<Bone>							mBones;
+	vector<BoneActor*>						mBoneActors;
+	//計算用のオフセット変数
+	vector<aiMatrix4x4>						mOffsetMatrix;
+	// 各Boneに対するグローバル逆束縛ポーズ
+	vector<Matrix4>							mGlobalInvBindPoses;
+	//スケルトンのボーンのアニメーション適用後の座標を持つマトリックス
+	vector<Matrix4>							mGlobalCurrentPoses;
+	//文字列とint型の連想配列
+	std::unordered_map<string, int>			mBoneNameToIndex;
+	//文字列とint型の連想配列
+	std::unordered_map<string, int>			mBoneTransform;
+	// スケルトンのタイプ
+	// 現在は未使用
+	//SkeletonType							mSkeletonType;
+public:
 	//すべてのファイル形式から読み込み
 	bool									Load(const string& fileName);
 	//バイナリデータから読み込み
@@ -85,25 +107,4 @@ public:
 	void									AddBoneChildActor(string boneName,class ActorObject* actor);
 	//ActorObjectの親を設定
 	void									SetParentActor(ActorObject* parent);
-protected:
-	// スケルトンがロードされると自動的に呼び出され、
-	// 各ボーンのグローバルインバインドポーズを計算。
-	void									ComputeGlobalInvBindPose();
-private:
-	// 骨格の骨
-	vector<Bone>							mBones;
-	vector<BoneActor*>						mBoneActors;
-	//計算用のオフセット変数
-	vector<aiMatrix4x4>						mOffsetMatrix;
-	// 各Boneに対するグローバル逆束縛ポーズ
-	vector<Matrix4>							mGlobalInvBindPoses;
-	//スケルトンのボーンのアニメーション適用後の座標を持つマトリックス
-	vector<Matrix4>							mGlobalCurrentPoses;
-	//文字列とint型の連想配列
-	std::unordered_map<string, int>			mBoneNameToIndex;
-	//文字列とint型の連想配列
-	std::unordered_map<string,int>			mBoneTransform;
-	// スケルトンのタイプ
-	// 現在は未使用
-	//SkeletonType							mSkeletonType;
 };

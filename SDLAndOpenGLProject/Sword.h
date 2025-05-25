@@ -7,9 +7,6 @@
 //剣オブジェクトのクラス
 class Sword : public ActorObject
 {
-public:
-						Sword();
-	void				ActorInput(const struct InputState& keys) override;
 private:
 
 	Vector3				mPos;
@@ -17,5 +14,8 @@ private:
 	float				mAngleY;
 	float				mAngleX;
 	float				mAngleZ;
+public:
+						Sword();
+	void				ActorInput(const struct InputState& keys) override;
 };
 

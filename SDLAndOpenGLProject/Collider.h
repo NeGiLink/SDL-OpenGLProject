@@ -9,6 +9,16 @@
 //コライダーに必要な情報を持っています。
 class Collider : public Component
 {
+protected:
+	AABB					mWorldBox;
+	//オブジェクト同士の当たり判定をするかしないか
+	//UnityのColliderかTriggerかを切り替えるフラグ
+	bool					mCollider = true;
+	//オブジェクトを動かさないか動かすかを決める
+	//Rigidbodyのような機能がないため追加
+	bool					mStaticObject = true;
+
+	float					mContactOffset;
 public:
 							Collider(class ActorObject* owner, int updateOrder = 100);
 							~Collider();
@@ -31,15 +41,5 @@ public:
 	void					SetStaticObject(bool active) { mStaticObject = active; }
 
 	float					GetContactOffset() { return mContactOffset; }
-protected:
-	AABB					mWorldBox;
-	//オブジェクト同士の当たり判定をするかしないか
-	//UnityのColliderかTriggerかを切り替えるフラグ
-	bool					mCollider = true;
-	//オブジェクトを動かさないか動かすかを決める
-	//Rigidbodyのような機能がないため追加
-	bool					mStaticObject = true;
-
-	float					mContactOffset;
 };
 

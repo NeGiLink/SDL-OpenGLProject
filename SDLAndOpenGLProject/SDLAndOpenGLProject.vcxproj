@@ -148,7 +148,6 @@
     <ClCompile Include="BallActor.cpp" />
     <ClCompile Include="BallMove.cpp" />
     <ClCompile Include="BaseScene.cpp" />
-    <ClCompile Include="BaseUI.cpp" />
     <ClCompile Include="BasicInputAction.cpp" />
     <ClCompile Include="BoneActor.cpp" />
     <ClCompile Include="BoneTransform.cpp" />
@@ -238,7 +237,6 @@
     <ClInclude Include="BallActor.h" />
     <ClInclude Include="BallMove.h" />
     <ClInclude Include="BaseScene.h" />
-    <ClInclude Include="BaseUI.h" />
     <ClInclude Include="BasicInputAction.h" />
     <ClInclude Include="BoneActor.h" />
     <ClInclude Include="BoneTransform.h" />
@@ -291,6 +289,7 @@
     <ClInclude Include="TPSCamera.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="Typedefs.h" />
+    <ClInclude Include="WindowSetting.h" />
     <ClInclude Include="WinMain.h" />
     <ClInclude Include="DebugScene02.h" />
     <ClInclude Include="GBuffer.h" />

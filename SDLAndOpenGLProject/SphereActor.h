@@ -8,12 +8,12 @@
 //Unityのようにデフォルトで作成可能オブジェクト
 class SphereActor : public ActorObject
 {
+private:
+	//球のコライダー
+	class SphereCollider*	mSphere;
 public:
 							SphereActor();
 
 	class SphereCollider*	GetSphere() { return mSphere; }
-private:
-	//球のコライダー
-	class SphereCollider*	mSphere;
 };
 
