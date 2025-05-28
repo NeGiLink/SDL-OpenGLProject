@@ -59,9 +59,9 @@ void AudioComponent::OnUpdateWorldTransform()
 	}
 }
 
-SoundEvent AudioComponent::PlayEvent(const string& name)
+SoundEventClip AudioComponent::LoadAudio(const string& name)
 {
-	SoundEvent e = mOwner->GetGame()->GetAudioSystem()->PlayEvent(name);
+	SoundEventClip e = mOwner->GetGame()->GetAudioSystem()->PlayEvent(name);
 	// 2D or 3D?
 	if (e.Is3D())
 	{

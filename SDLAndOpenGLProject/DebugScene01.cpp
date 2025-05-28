@@ -52,7 +52,7 @@ bool DebugScene01::Initialize()
 	mFrameRateText->SetFontSize(40);
 	
 	// Start music
-	mMusicEvent = mAudioSystem->PlayEvent("event:/Music");
+	mMusicEvent = mAudioSystem->PlayEvent("event:/Music3");
 
 	// マウスカーソル位置を固定
 	SDL_SetWindowRelativeMouseMode(mWinMain->GetRenderer()->GetWindow(), true);
@@ -168,6 +168,16 @@ bool DebugScene01::InputUpdate()
 			}
 		}
 	}
+
+	if (state.Keyboard.GetKeyDown(KEY_O))
+	{
+		mMusicEvent.Pause();
+	}
+	else if (state.Keyboard.GetKeyDown(KEY_P))
+	{
+		mMusicEvent.Restart();
+	}
+
 	if (state.Keyboard.GetKeyDown(SDL_SCANCODE_L))
 	{
 		SceneManager::LoadScene(1);

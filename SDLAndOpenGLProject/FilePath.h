@@ -32,3 +32,8 @@ namespace TexFile
 {
 	const string TextureFilePath = "Assets/Texture/";
 }
+
+namespace AudioFile
+{
+	const string AudioFilePath = "Assets/Audios/";
+}

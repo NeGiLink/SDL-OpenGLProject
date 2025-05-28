@@ -22,7 +22,7 @@ bool GameWinMain::Initialize()
 
 	// Renderer‚Ì¶¬
 	mRenderer = new Renderer(this);
-	if (!mRenderer->Initialize(Window::Width, Window::Height))
+	if (!mRenderer->Initialize(WindowRenderProperty::GetWidth(), WindowRenderProperty::GetHeight()))
 	{
 		Debug::ErrorLog("Failed to initialize Renderer");
 		delete mRenderer;

@@ -143,6 +143,7 @@
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Animator.cpp" />
     <ClCompile Include="Asteroid.cpp" />
+    <ClCompile Include="AudioBankProperty.cpp" />
     <ClCompile Include="AudioComponent.cpp" />
     <ClCompile Include="AudioSystem.cpp" />
     <ClCompile Include="BallActor.cpp" />
@@ -191,6 +192,7 @@
     <ClCompile Include="DebugScene01.cpp" />
     <ClCompile Include="TPSCamera.cpp" />
     <ClCompile Include="Transform.cpp" />
+    <ClCompile Include="WindowRenderProperty.cpp" />
     <ClCompile Include="WinMain.cpp" />
     <ClCompile Include="DebugScene02.cpp" />
     <ClCompile Include="GBuffer.cpp" />
@@ -214,7 +216,7 @@
     <ClCompile Include="Ship.cpp" />
     <ClCompile Include="SkeletalMeshRenderer.cpp" />
     <ClCompile Include="Skeleton.cpp" />
-    <ClCompile Include="SoundEvent.cpp" />
+    <ClCompile Include="SoundEventClip.cpp" />
     <ClCompile Include="SplineActor.cpp" />
     <ClCompile Include="SplineCamera.cpp" />
     <ClCompile Include="SpriteComponent.cpp" />
@@ -232,6 +234,7 @@
     <ClInclude Include="Animator.h" />
     <ClInclude Include="Assimp.h" />
     <ClInclude Include="Asteroid.h" />
+    <ClInclude Include="AudioBankProperty.h" />
     <ClInclude Include="AudioComponent.h" />
     <ClInclude Include="AudioSystem.h" />
     <ClInclude Include="BallActor.h" />
@@ -277,6 +280,7 @@
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="SDL3.h" />
     <ClInclude Include="SDL_Scancode.h" />
+    <ClInclude Include="SDOpenLib.h" />
     <ClInclude Include="SmallCharacter.h" />
     <ClInclude Include="SphereActor.h" />
     <ClInclude Include="SphereCollider.h" />
@@ -289,7 +293,7 @@
     <ClInclude Include="TPSCamera.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="Typedefs.h" />
-    <ClInclude Include="WindowSetting.h" />
+    <ClInclude Include="WindowRenderProperty.h" />
     <ClInclude Include="WinMain.h" />
     <ClInclude Include="DebugScene02.h" />
     <ClInclude Include="GBuffer.h" />
@@ -313,7 +317,7 @@
     <ClInclude Include="Ship.h" />
     <ClInclude Include="SkeletalMeshRenderer.h" />
     <ClInclude Include="Skeleton.h" />
-    <ClInclude Include="SoundEvent.h" />
+    <ClInclude Include="SoundEventClip.h" />
     <ClInclude Include="SplineActor.h" />
     <ClInclude Include="SplineCamera.h" />
     <ClInclude Include="SpriteComponent.h" />

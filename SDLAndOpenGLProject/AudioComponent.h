@@ -1,6 +1,6 @@
 #pragma once
 #include "Component.h"
-#include "SoundEvent.h"
+#include "SoundEventClip.h"
 #include <vector>
 #include <string>
 
@@ -15,9 +15,9 @@ public:
 	void				Update(float deltaTime) override;
 	void				OnUpdateWorldTransform() override;
 
-	SoundEvent			PlayEvent(const string& name);
+	SoundEventClip			LoadAudio(const string& name);
 	void				StopAllEvents();
 private:
-	vector<SoundEvent>	mEvents2D;
-	vector<SoundEvent>	mEvents3D;
+	vector<SoundEventClip>	mEvents2D;
+	vector<SoundEventClip>	mEvents3D;
 };

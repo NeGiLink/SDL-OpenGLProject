@@ -1,6 +1,6 @@
 #pragma once
 #include "Actor.h"
-#include "SoundEvent.h"
+#include "SoundEventClip.h"
 //åªç›ñ¢é¿ëï
 /*
 class CameraActor : public Actor

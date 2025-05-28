@@ -38,5 +38,5 @@ void BallActor::SetPlayer(ActorObject* player)
 
 void BallActor::HitTarget()
 {
-	mAudioComp->PlayEvent("event:/Ding");
+	mAudioComp->LoadAudio("event:/Ding");
 }

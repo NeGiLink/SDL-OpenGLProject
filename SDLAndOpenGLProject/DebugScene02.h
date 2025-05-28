@@ -1,7 +1,6 @@
 #pragma once
 #include "BaseScene.h"
-#include "Math.h"
-#include "SoundEvent.h"
+#include "SoundEventClip.h"
 
 //スケルタルメッシュなどの人型のキャラクターを生成しているシーン
 class DebugScene02 : public BaseScene
@@ -17,7 +16,7 @@ private:
 
 	class SpriteComponent*			mCrosshair;
 
-	SoundEvent						mMusicEvent;
+	SoundEventClip						mMusicEvent;
 
 	//フレームレート表示テキスト
 	class Text*						mFrameRateText;

@@ -105,7 +105,7 @@
     <ClCompile Include="AudioSystem.cpp">
       <Filter>SourceFiles\H_Audios</Filter>
     </ClCompile>
-    <ClCompile Include="SoundEvent.cpp">
+    <ClCompile Include="SoundEventClip.cpp">
       <Filter>SourceFiles\H_Audios</Filter>
     </ClCompile>
     <ClCompile Include="Component.cpp">
@@ -312,9 +312,6 @@
     <ClCompile Include="CircleComponent.cpp">
       <Filter>SourceFiles\J_Unused/未使用ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="AudioComponent.cpp">
-      <Filter>SourceFiles\C_Components</Filter>
-    </ClCompile>
     <ClCompile Include="Rigidbody.cpp">
       <Filter>SourceFiles\D_Rigidbody</Filter>
     </ClCompile>
@@ -357,6 +354,15 @@
     <ClCompile Include="PhysWorld.cpp">
       <Filter>SourceFiles\D_Collisions</Filter>
     </ClCompile>
+    <ClCompile Include="WindowRenderProperty.cpp">
+      <Filter>SourceFiles\A_Mains</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioBankProperty.cpp">
+      <Filter>SourceFiles\A_Mains</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioComponent.cpp">
+      <Filter>SourceFiles\H_Audios</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actor.h">
@@ -380,7 +386,7 @@
     <ClInclude Include="AudioSystem.h">
       <Filter>SourceFiles\H_Audios</Filter>
     </ClInclude>
-    <ClInclude Include="SoundEvent.h">
+    <ClInclude Include="SoundEventClip.h">
       <Filter>SourceFiles\H_Audios</Filter>
     </ClInclude>
     <ClInclude Include="Renderer.h">
@@ -590,9 +596,6 @@
     <ClInclude Include="CircleComponent.h">
       <Filter>SourceFiles\J_Unused/未使用ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="AudioComponent.h">
-      <Filter>SourceFiles\C_Components</Filter>
-    </ClInclude>
     <ClInclude Include="SDL_Scancode.h">
       <Filter>SourceFiles\I_Editor\Defines</Filter>
     </ClInclude>
@@ -647,8 +650,17 @@
     <ClInclude Include="Button.h">
       <Filter>SourceFiles\F_UIs</Filter>
     </ClInclude>
-    <ClInclude Include="WindowSetting.h">
+    <ClInclude Include="SDOpenLib.h">
+      <Filter>SourceFiles\I_Editor\Libs</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowRenderProperty.h">
       <Filter>SourceFiles\A_Mains</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioBankProperty.h">
+      <Filter>SourceFiles\A_Mains</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioComponent.h">
+      <Filter>SourceFiles\H_Audios</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

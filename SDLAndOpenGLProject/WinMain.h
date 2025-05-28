@@ -1,13 +1,5 @@
 #pragma once
-#include "FilePath.h"
-#include "GameApp.h"
-#include "PhysWorld.h"
-#include "AudioSystem.h"
-#include "SoundEvent.h"
-#include "SceneManager.h"
-#include "InputSystem.h"
-#include "CallBackManager.h"
-#include "WindowSetting.h"
+#include "SDOpenLib.h"
 
 enum GameState
 {
