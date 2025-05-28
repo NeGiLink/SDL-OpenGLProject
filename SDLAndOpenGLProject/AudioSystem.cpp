@@ -50,8 +50,8 @@ bool AudioSystem::Initialize()
 	mSystem->getLowLevelSystem(&mLowLevelSystem);
 
 	// マスターバンクをロードします（最初に文字列を）
-	LoadBank("Assets/Master Bank.strings.bank");
-	LoadBank("Assets/Master Bank.bank");
+	LoadBank(AudioBankProperty::GetMasterBankString());
+	LoadBank(AudioBankProperty::GetMasterBank());
 
 	return true;
 }
@@ -69,8 +69,9 @@ void AudioSystem::Shutdown()
 
 void AudioSystem::LoadBank(const string& name)
 {
+	string path = AudioFile::AudioFilePath + name;
 	// 二重ロードを防ぐ
-	if (mBanks.find(name) != mBanks.end())
+	if (mBanks.find(path) != mBanks.end())
 	{
 		return;
 	}
@@ -78,7 +79,7 @@ void AudioSystem::LoadBank(const string& name)
 	// バンクを読み込もうとしてください
 	FMOD::Studio::Bank* bank = nullptr;
 	FMOD_RESULT result = mSystem->loadBankFile(
-		name.c_str(), // バンクのファイル名
+		path.c_str(), // バンクのファイル名
 		FMOD_STUDIO_LOAD_BANK_NORMAL, // 通常の読み込み
 		&bank // バンクへのポインタを保存する
 	);
@@ -87,7 +88,7 @@ void AudioSystem::LoadBank(const string& name)
 	if (result == FMOD_OK)
 	{
 		// mapにバンクを追加する
-		mBanks.emplace(name, bank);
+		mBanks.emplace(path, bank);
 		// すべての非ストリーミングサンプルデータをロードする
 		bank->loadSampleData();
 		// このバンクのイベント数を取得する
@@ -132,8 +133,9 @@ void AudioSystem::LoadBank(const string& name)
 
 void AudioSystem::UnloadBank(const string& name)
 {
+	string path = AudioFile::AudioFilePath + name;
 	// Ignore if not loaded
-	auto iter = mBanks.find(name);
+	auto iter = mBanks.find(path);
 	if (iter == mBanks.end())
 	{
 		return;
@@ -206,7 +208,7 @@ void AudioSystem::UnloadAllBanks()
 	mEvents.clear();
 }
 
-SoundEvent AudioSystem::PlayEvent(const string& name)
+SoundEventClip AudioSystem::PlayEvent(const string& name)
 {
 	unsigned int retID = 0;
 	auto iter = mEvents.find(name);
@@ -217,7 +219,7 @@ SoundEvent AudioSystem::PlayEvent(const string& name)
 		iter->second->createInstance(&event);
 		if (event)
 		{
-			// Start the event instance
+			// BGM、SEを再生
 			event->start();
 			// Get the next id, and add to map
 			sNextID++;
@@ -225,7 +227,7 @@ SoundEvent AudioSystem::PlayEvent(const string& name)
 			mEventInstances.emplace(retID, event);
 		}
 	}
-	return SoundEvent(this, retID);
+	return SoundEventClip(this, retID);
 }
 
 void AudioSystem::Update(float deltaTime)

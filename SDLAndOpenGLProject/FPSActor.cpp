@@ -10,7 +10,7 @@ FPSActor::FPSActor()
 
 	mAudioComp = new AudioComponent(this);
 	mLastFootstep = 0.0f;
-	mFootstep = mAudioComp->PlayEvent("event:/Footstep");
+	mFootstep = mAudioComp->LoadAudio("event:/Footstep");
 	mFootstep.SetPaused(true);
 
 	mFPSCamera = new FPSCamera(this);
@@ -29,7 +29,7 @@ FPSActor::FPSActor()
 	(
 		[this]() 
 		{
-			mFootstep.SetPaused(false); mFootstep.Restart(); 
+			mFootstep.SetPaused(false); mFootstep.ResetStart(); 
 		}
 	);
 }

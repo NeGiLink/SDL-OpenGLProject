@@ -1,6 +1,6 @@
 #pragma once
 #include "Actor.h"
-#include "SoundEvent.h"
+#include "SoundEventClip.h"
 #include "BasicInputAction.h"
 #include "AudioSystem.h"
 #include "AudioComponent.h"
@@ -27,7 +27,7 @@ private:
 	//コライダー
 	class BoxCollider*		mBoxCollider;
 	//足音SE
-	SoundEvent				mFootstep;
+	SoundEventClip				mFootstep;
 	//足音の間隔
 	float					mLastFootstep;
 	//足音のイベントを呼び出すコールバック変数

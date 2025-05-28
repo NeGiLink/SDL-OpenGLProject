@@ -1,5 +1,5 @@
 #pragma once
-#include "SoundEvent.h"
+#include "SoundEventClip.h"
 #include "Math.h"
 #include "Typedefs.h"
 
@@ -16,11 +16,11 @@ namespace FMOD
 		class Bus;
 	};
 };
-
+//ゲームで使用するSE、BGMをバンクとして読み込み管理するクラス
 class AudioSystem
 {
 protected:
-	friend class SoundEvent;
+	friend class SoundEventClip;
 	FMOD::Studio::EventInstance*										GetEventInstance(unsigned int id);
 private:
 	// イベントインスタンスに使用する次のIDを追跡
@@ -50,8 +50,8 @@ public:
 	void																LoadBank(const string& name);
 	void																UnloadBank(const string& name);
 	void																UnloadAllBanks();
-
-	SoundEvent															PlayEvent(const string& name);
+	//stringで取得出来たオーディオを再生する関数
+	SoundEventClip															PlayEvent(const string& name);
 
 	void																Update(float deltaTime);
 

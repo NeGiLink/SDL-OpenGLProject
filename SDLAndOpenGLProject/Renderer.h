@@ -45,19 +45,19 @@ private:
 	vector<class MeshRenderer*>							mMeshComps;
 	vector<class SkeletalMeshRenderer*>					mSkeletalMeshes;
 	// BaseScene
-	class BaseScene* mNowScene;
+	class BaseScene*									mNowScene;
 	//***Shader***
 	// Sprite shader
-	class Shader* mSpriteShader;
+	class Shader*										mSpriteShader;
 	// Sprite vertex array
-	class VertexArray* mSpriteVerts;
+	class VertexArray*									mSpriteVerts;
 
-	class VertexArray* mFanSpriteVerts;
+	class VertexArray*									mFanSpriteVerts;
 
 	// Mesh shader
-	class Shader* mMeshShader;
+	class Shader*										mMeshShader;
 	// Skinned shader
-	class Shader* mSkinnedShader;
+	class Shader*										mSkinnedShader;
 
 	// View/projection for 3D shaders
 	Matrix4												mView;
@@ -73,18 +73,12 @@ private:
 	SDL_GLContext										mContext;
 
 
-	class GBuffer* mGBuffer;
+	class GBuffer*										mGBuffer;
 	// GBuffer shader
-	class Shader* mGGlobalShader;
-	class Shader* mGPointLightShader;
+	class Shader*										mGGlobalShader;
+	class Shader*										mGPointLightShader;
 	vector<class PointLightComponent*>					mPointLights;
-	class Mesh* mPointLightMesh;
-	/*
-	//Line Shader
-	class Shader*										mLineShader;
-	// Sprite vertex array
-	class VertexArray*									mLineSpriteVerts;
-	*/
+	class Mesh*											mPointLightMesh;
 
 public:
 														Renderer(class GameWinMain* game);

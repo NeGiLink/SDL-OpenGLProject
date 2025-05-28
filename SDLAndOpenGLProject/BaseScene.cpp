@@ -23,7 +23,7 @@ bool BaseScene::Initialize()
 		return false;
 	}
 
-	// Create the audio system
+	// Audio System‚ğì¬
 	mAudioSystem = new AudioSystem(this);
 	if (!mAudioSystem->Initialize())
 	{
@@ -34,7 +34,7 @@ bool BaseScene::Initialize()
 		return false;
 	}
 
-	// Create the physics world
+	// Physics World‚ğì¬
 	mPhysWorld = new PhysWorld(this);
 	return true;
 }

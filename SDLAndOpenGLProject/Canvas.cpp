@@ -75,8 +75,8 @@ void Canvas::ProcessInput(const struct InputState& keys)
 		SDL_GetMouseState(&x, &y);
 		// Convert to (0,0) center coordinates
 		Vector2 mousePos(static_cast<float>(x), static_cast<float>(y));
-		mousePos.x -= Window::Width * 0.5f;
-		mousePos.y = Window::Height * 0.5f - mousePos.y;
+		mousePos.x -= WindowRenderProperty::GetWidth() * 0.5f;
+		mousePos.y = WindowRenderProperty::GetHeight() * 0.5f - mousePos.y;
 
 		// Highlight any buttons
 		for (auto b : mButtons)
