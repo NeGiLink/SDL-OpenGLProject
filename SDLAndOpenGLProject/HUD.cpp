@@ -6,6 +6,7 @@ HUD::HUD()
 	, mRadarRange(2000.0f)
 	, mRadarRadius(92.0f)
 	, mTargetEnemy(false)
+	, mCrosshairAngle(0)
 {
 	Renderer* r = mGame->GetWinMain()->GetRenderer();
 	mRadar = new Image();
@@ -86,6 +87,11 @@ void HUD::Update(float deltaTime)
 	mRadarArrow->SetPosition(cRadarPos);
 }
 
+void HUD::FixedUpdate(float deltaTime)
+{
+
+}
+
 void HUD::ProcessInput(const InputState& keys)
 {
 	//テスト用入力
@@ -128,8 +134,9 @@ void HUD::UpdateCrosshair(float deltaTime)
 	// Reset to regular cursor
 	mTargetEnemy = false;
 	// Make a line segment
-	const float cAimDist = 5000.0f;
-	Vector3 start, dir;
+	const float cAimDist = 100.0f;
+	Vector3 start = Vector3::Zero;
+	Vector3 dir = Vector3::Zero;
 	mGame->GetWinMain()->GetRenderer()->GetScreenDirection(start, dir);
 	LineSegment l(start, start + dir * cAimDist);
 	// Segment cast
@@ -139,7 +146,7 @@ void HUD::UpdateCrosshair(float deltaTime)
 		// Is this a target?
 		for (auto tc : mTargetComps)
 		{
-			if (tc->GetOwner() == info.mActor)
+			if (tc->GetOwner()->GetActorTag() == info.mActor->GetActorTag())
 			{
 				mTargetEnemy = true;
 				break;

@@ -342,6 +342,7 @@ bool OnCollision(const Capsule& a, const Capsule& b)
 	float sumRadii = a.mRadius + b.mRadius;
 	return distSq <= (sumRadii * sumRadii);
 }
+//カプセルとボックスの当たり判定
 bool OnCollision(const Capsule& a, const AABB& b)
 {
 	// 1. カプセルの線分を取得
@@ -357,7 +358,7 @@ bool OnCollision(const Capsule& a, const AABB& b)
 	// 4. 半径の二乗と比較
 	return sqDist <= a.mRadius * a.mRadius;
 }
-
+//ボックスとカプセルの当たり判定
 bool OnCollision(const AABB& a, const Capsule& b)
 {
 	// 1. カプセルの線分を取得
@@ -373,7 +374,7 @@ bool OnCollision(const AABB& a, const Capsule& b)
 	// 4. 半径の二乗と比較
 	return sqDist <= b.mRadius * b.mRadius;
 }
-
+//カプセルと球の当たり判定
 bool OnCollision(const Capsule& a, const Sphere& b)
 {
 	// カプセルの線分
@@ -400,24 +401,24 @@ bool OnCollision(const Capsule& a, const Sphere& b)
 	float radiusSum = a.mRadius + b.mRadius;
 	return sqDist <= radiusSum * radiusSum;
 }
-
+//球とカプセルの当たり判定
 bool OnCollision(const Sphere& a, const Capsule& b)
 {
 	return false;
 }
-
 //球とボックスの当たり判定
 bool OnCollision(const Sphere& s, const AABB& box)
 {
 	float distSq = box.MinDistSq(s.mCenter);
 	return distSq <= (s.mRadius * s.mRadius);
 }
+//ボックスと球の当たり判定
 bool OnCollision(const AABB& box, const Sphere& s)
 {
 	float distSq = box.MinDistSq(s.mCenter);
 	return distSq <= (s.mRadius * s.mRadius);
 }
-//線と球の当たり判定
+//線分と球の当たり判定
 bool OnCollision(const LineSegment& l, const Sphere& s, float& outT)
 {
 	// Compute X, Y, a, b, c as per equations
@@ -455,7 +456,7 @@ bool OnCollision(const LineSegment& l, const Sphere& s, float& outT)
 		}
 	}
 }
-//線と平面の当たり判定
+//線分と平面の当たり判定
 bool OnCollision(const LineSegment& l, const Plane& p, float& outT)
 {
 	// First test if there's a solution for t
@@ -491,32 +492,7 @@ bool OnCollision(const LineSegment& l, const Plane& p, float& outT)
 		}
 	}
 }
-
-bool TestSidePlane(float start, float end, float negd, const Vector3& norm,
-	vector<std::pair<float, Vector3>>& out)
-{
-	float denom = end - start;
-	if (Math::NearZero(denom))
-	{
-		return false;
-	}
-	else
-	{
-		float numer = -start + negd;
-		float t = numer / denom;
-		// Test that t is within bounds
-		if (t >= 0.0f && t <= 1.0f)
-		{
-			out.emplace_back(t, norm);
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
-}
-//線とボックスの当たり判定
+//線分とボックスの当たり判定
 bool OnCollision(const LineSegment& l, const AABB& b, float& outT,
 	Vector3& outNorm)
 {
@@ -559,6 +535,31 @@ bool OnCollision(const LineSegment& l, const AABB& b, float& outT,
 
 	//None of the intersections are within bounds of box
 	return false;
+}
+//線分とボックスの当たり判定で使う関数
+bool TestSidePlane(float start, float end, float negd, const Vector3& norm,
+	vector<std::pair<float, Vector3>>& out)
+{
+	float denom = end - start;
+	if (Math::NearZero(denom))
+	{
+		return false;
+	}
+	else
+	{
+		float numer = -start + negd;
+		float t = numer / denom;
+		// Test that t is within bounds
+		if (t >= 0.0f && t <= 1.0f)
+		{
+			out.emplace_back(t, norm);
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
 }
 
 bool SweptSphere(const Sphere& P0, const Sphere& P1,

@@ -3,7 +3,7 @@
 CubeActor::CubeActor()
 	:ActorObject()
 {
-	mActorTag = ActorTag::Ground;
+	mActorTag = ActorTag::Enemy;
 	MeshRenderer* mc = new MeshRenderer(this);
 	vector<class Mesh*> mesh = GetGame()->GetWinMain()->GetRenderer()->GetMeshs("Cube.fbx");
 	mc->SetMeshs(mesh);

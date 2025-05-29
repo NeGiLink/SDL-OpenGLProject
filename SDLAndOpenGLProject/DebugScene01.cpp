@@ -51,8 +51,10 @@ bool DebugScene01::Initialize()
 	mFrameRateText->SetText(std::to_string(time));
 	mFrameRateText->SetFontSize(40);
 	
-	// Start music
+	// BGMスタート
 	mMusicEvent = mAudioSystem->PlayEvent("event:/Music3");
+	// BGM一時停止
+	mMusicEvent.Pause();
 
 	// マウスカーソル位置を固定
 	SDL_SetWindowRelativeMouseMode(mWinMain->GetRenderer()->GetWindow(), true);

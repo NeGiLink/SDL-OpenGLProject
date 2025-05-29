@@ -7,6 +7,10 @@ BaseScene::BaseScene(GameWinMain* winMain)
 	, mPhysWorld(nullptr)
 	, mUpdatingActors(false)
 	, mFixed_Delta_Time(0.02f)
+	, mPlayer(nullptr)
+	, mMainCamera(nullptr)
+	, mHUD(nullptr)
+	, mFixedTimeAccumulator(0.0f)
 {
 }
 
@@ -51,10 +55,10 @@ bool BaseScene::InputUpdate()
 bool BaseScene::FixedUpdate()
 {
 	float deltaTime = Time::gDeltaTime;
-	fixedTimeAccumulator += deltaTime;
+	mFixedTimeAccumulator += deltaTime;
 
 	// •¡”‰ñ FixedUpdate ‚ª•K—v‚Èê‡‚É”õ‚¦‚é
-	while (fixedTimeAccumulator >= mFixed_Delta_Time)
+	while (mFixedTimeAccumulator >= mFixed_Delta_Time)
 	{
 		//Rigidbody ‚È‚Ç‚Ì•¨—ˆ—‚ð‚±‚±‚ÅŒÄ‚Ô
 		
@@ -63,9 +67,18 @@ bool BaseScene::FixedUpdate()
 			actor->FixedUpdate(Time::gDeltaTime);
 		}
 
+		// Update UI screens
+		for (auto ui : mUIStack)
+		{
+			if (ui->GetState() == Canvas::EActive)
+			{
+				ui->FixedUpdate(Time::gDeltaTime);
+			}
+		}
+
 		mPhysWorld->SweepAndPruneXYZ();
 
-		fixedTimeAccumulator -= mFixed_Delta_Time;
+		mFixedTimeAccumulator -= mFixed_Delta_Time;
 	}
 
 	return true;

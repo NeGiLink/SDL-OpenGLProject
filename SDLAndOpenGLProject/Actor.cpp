@@ -5,6 +5,8 @@ ActorObject::ActorObject()
 	, mState(EActive)
 	, mActorTag(ActorTag::None)
 	, mGame(GameApp::GetActiveScene())
+	, mCollider(nullptr)
+	, mRigidbody(nullptr)
 {
 	mGame->AddActor(this);
 }

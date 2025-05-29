@@ -26,7 +26,7 @@ private:
 
 	class SpriteComponent*			mCrosshair;
 
-	class SoundEventClip				mMusicEvent;
+	class SoundEventClip			mMusicEvent;
 
 	class Text*						mSceneNameText;
 

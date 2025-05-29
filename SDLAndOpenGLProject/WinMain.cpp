@@ -6,6 +6,7 @@ GameState GameStateClass::mGameState = GameState::GamePlay;
 
 GameWinMain::GameWinMain()
 	:mGameApp(nullptr)
+	, mRenderer(nullptr)
 {
 
 }
