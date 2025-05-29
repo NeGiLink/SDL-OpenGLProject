@@ -27,6 +27,7 @@ public:
 		// コンポーネントの所有Actor
 		class ActorObject* mActor;
 	};
+
 private:
 	class BaseScene*									mGame;
 

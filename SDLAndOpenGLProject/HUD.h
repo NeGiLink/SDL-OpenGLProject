@@ -41,6 +41,7 @@ public:
 											~HUD();
 
 	void									Update(float deltaTime) override;
+	void									FixedUpdate(float deltaTime) override;
 
 	void									ProcessInput(const struct InputState& keys)override;
 

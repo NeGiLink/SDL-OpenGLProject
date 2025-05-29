@@ -17,11 +17,11 @@ bool PhysWorld::RayCast(const LineSegment& l, CollisionInfo& outColl)
 	// closestTを無限大に初期化して、
 	// 最初の交差点が常にclosestTを更新するようにします。
 	float closestT = Math::Infinity;
-	Vector3 norm;
+	Vector3 norm = Vector3::Zero;
 	// すべてのボックスに対する判定
 	for (auto collider : mCollider)
 	{
-		float t;
+		float t = 0;
 		// その線分はボックスと交差しているか判定
 		if (OnCollision(l, collider->GetWorldBox(), t, norm))
 		{

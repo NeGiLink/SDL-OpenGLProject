@@ -60,6 +60,10 @@ void Canvas::Update(float deltaTime)
 	// Override in subclasses to draw any textures
 }
 
+void Canvas::FixedUpdate(float deltaTime)
+{
+}
+
 void Canvas::Draw(Shader* shader)
 {
 	

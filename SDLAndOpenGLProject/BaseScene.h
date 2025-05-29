@@ -41,7 +41,7 @@ protected:
 	// 50Hz、Unityと同じ
 	const float										mFixed_Delta_Time = 0.02f;
 
-	float											fixedTimeAccumulator;
+	float											mFixedTimeAccumulator;
 public:
 	//コンストラクタ
 													BaseScene(class GameWinMain* winMain);

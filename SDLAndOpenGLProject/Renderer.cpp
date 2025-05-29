@@ -26,6 +26,11 @@ Renderer::Renderer(GameWinMain* game)
 	, mGBuffer(nullptr)
 	, mGGlobalShader(nullptr)
 	, mGPointLightShader(nullptr)
+	, mContext(nullptr)
+	, mFanSpriteVerts(nullptr)
+	, mPointLightMesh(nullptr)
+	, mSpriteVerts(nullptr)
+	, mWindow(nullptr)
 {
 }
 
