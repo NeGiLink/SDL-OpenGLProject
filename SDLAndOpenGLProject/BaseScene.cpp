@@ -67,15 +67,6 @@ bool BaseScene::FixedUpdate()
 			actor->FixedUpdate(Time::gDeltaTime);
 		}
 
-		// Update UI screens
-		for (auto ui : mUIStack)
-		{
-			if (ui->GetState() == Canvas::EActive)
-			{
-				ui->FixedUpdate(Time::gDeltaTime);
-			}
-		}
-
 		mPhysWorld->SweepAndPruneXYZ();
 
 		mFixedTimeAccumulator -= mFixed_Delta_Time;

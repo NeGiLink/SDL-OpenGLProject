@@ -492,50 +492,6 @@ bool OnCollision(const LineSegment& l, const Plane& p, float& outT)
 		}
 	}
 }
-//線分とボックスの当たり判定
-bool OnCollision(const LineSegment& l, const AABB& b, float& outT,
-	Vector3& outNorm)
-{
-	// Vector to save all possible t values, and normals for those sides
-	vector<std::pair<float, Vector3>> tValues;
-	// Test the x planes
-	TestSidePlane(l.mStart.x, l.mEnd.x, b.mMin.x, Vector3::NegUnitX,
-		tValues);
-	TestSidePlane(l.mStart.x, l.mEnd.x, b.mMax.x, Vector3::UnitX,
-		tValues);
-	// Test the y planes
-	TestSidePlane(l.mStart.y, l.mEnd.y, b.mMin.y, Vector3::NegUnitY,
-		tValues);
-	TestSidePlane(l.mStart.y, l.mEnd.y, b.mMax.y, Vector3::UnitY,
-		tValues);
-	// Test the z planes
-	TestSidePlane(l.mStart.z, l.mEnd.z, b.mMin.z, Vector3::NegUnitZ,
-		tValues);
-	TestSidePlane(l.mStart.z, l.mEnd.z, b.mMax.z, Vector3::UnitZ,
-		tValues);
-
-	// Sort the t values in ascending order
-	std::sort(tValues.begin(), tValues.end(), [](
-		const std::pair<float, Vector3>& a,
-		const std::pair<float, Vector3>& b) {
-			return a.first < b.first;
-		});
-	// Test if the box contains any of these points of intersection
-	Vector3 point;
-	for (auto& t : tValues)
-	{
-		point = l.PointOnSegment(t.first);
-		if (b.Contains(point))
-		{
-			outT = t.first;
-			outNorm = t.second;
-			return true;
-		}
-	}
-
-	//None of the intersections are within bounds of box
-	return false;
-}
 //線分とボックスの当たり判定で使う関数
 bool TestSidePlane(float start, float end, float negd, const Vector3& norm,
 	vector<std::pair<float, Vector3>>& out)
@@ -560,6 +516,44 @@ bool TestSidePlane(float start, float end, float negd, const Vector3& norm,
 			return false;
 		}
 	}
+}
+//線分とボックスの当たり判定
+bool OnCollision(const LineSegment& l, const AABB& b, float& outT,
+	Vector3& outNorm)
+{
+	// Vector to save all possible t values, and normals for those sides
+	vector<std::pair<float, Vector3>> tValues;
+	// Test the x planes
+	TestSidePlane(l.mStart.x, l.mEnd.x, b.mMin.x, Vector3::NegUnitX,tValues);
+	//TestSidePlane(l.mStart.x, l.mEnd.x, b.mMax.x, Vector3::UnitX,tValues);
+	// Test the y planes
+	TestSidePlane(l.mStart.y, l.mEnd.y, b.mMin.y, Vector3::NegUnitY,tValues);
+	//TestSidePlane(l.mStart.y, l.mEnd.y, b.mMax.y, Vector3::UnitY,tValues);
+	// Test the z planes
+	TestSidePlane(l.mStart.z, l.mEnd.z, b.mMin.z, Vector3::NegUnitZ,tValues);
+	//TestSidePlane(l.mStart.z, l.mEnd.z, b.mMax.z, Vector3::UnitZ,tValues);
+
+	// Sort the t values in ascending order
+	std::sort(tValues.begin(), tValues.end(), [](
+		const std::pair<float, Vector3>& a,
+		const std::pair<float, Vector3>& b) {
+			return a.first < b.first;
+		});
+	// Test if the box contains any of these points of intersection
+	Vector3 point;
+	for (auto& t : tValues)
+	{
+		point = l.PointOnSegment(t.first);
+		if (b.Contains(point))
+		{
+			outT = t.first;
+			outNorm = t.second;
+			return true;
+		}
+	}
+
+	//None of the intersections are within bounds of box
+	return false;
 }
 
 bool SweptSphere(const Sphere& P0, const Sphere& P1,
