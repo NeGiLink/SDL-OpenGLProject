@@ -87,11 +87,6 @@ void HUD::Update(float deltaTime)
 	mRadarArrow->SetPosition(cRadarPos);
 }
 
-void HUD::FixedUpdate(float deltaTime)
-{
-
-}
-
 void HUD::ProcessInput(const InputState& keys)
 {
 	//テスト用入力
@@ -134,7 +129,7 @@ void HUD::UpdateCrosshair(float deltaTime)
 	// Reset to regular cursor
 	mTargetEnemy = false;
 	// Make a line segment
-	const float cAimDist = 100.0f;
+	const float cAimDist = 500.0f;
 	Vector3 start = Vector3::Zero;
 	Vector3 dir = Vector3::Zero;
 	mGame->GetWinMain()->GetRenderer()->GetScreenDirection(start, dir);

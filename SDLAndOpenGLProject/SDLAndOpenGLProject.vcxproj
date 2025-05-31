@@ -181,6 +181,7 @@
     <ClCompile Include="InputSystem.cpp" />
     <ClCompile Include="LineRenderer.cpp" />
     <ClCompile Include="PushButtonMove.cpp" />
+    <ClCompile Include="Raycast.cpp" />
     <ClCompile Include="Rigidbody.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="SmallCharacter.cpp" />
@@ -275,6 +276,7 @@
     <ClInclude Include="LineRenderer.h" />
     <ClInclude Include="FilePath.h" />
     <ClInclude Include="PushButtonMove.h" />
+    <ClInclude Include="Raycast.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Rigidbody.h" />
     <ClInclude Include="SceneManager.h" />

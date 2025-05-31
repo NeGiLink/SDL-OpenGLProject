@@ -48,7 +48,6 @@ public:
 	virtual					~Canvas();
 	// UIScreenのサブクラスはこれらをオーバーライドできます
 	virtual void			Update(float deltaTime);
-	virtual void			FixedUpdate(float deltaTime);
 	virtual void			Draw(class Shader* shader);
 	virtual void			ProcessInput(const struct InputState& keys);
 	virtual void			HandleKeyPress(int key);

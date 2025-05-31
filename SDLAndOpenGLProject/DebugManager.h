@@ -53,11 +53,13 @@ namespace Debug
     inline void Log(const char* format)
     {
         fprintf(stderr, "%s", format);
+        fprintf(stderr, "\n");
     }
 
     template <typename... Args>
     inline void Log(const char* format, Args... args)
     {
         fprintf(stderr, format, args...);
+        fprintf(stderr, "\n");
     }
 };

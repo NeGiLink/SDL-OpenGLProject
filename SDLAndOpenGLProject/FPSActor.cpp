@@ -7,6 +7,8 @@ FPSActor::FPSActor()
 	mBasicInput = new BasicInputAction(this);
 
 	mRigidbody = new Rigidbody(this);
+	mRigidbody->SetSolverIterationCount(6);
+	mRigidbody->SetBounciness(1.0f);
 
 	mAudioComp = new AudioComponent(this);
 	mLastFootstep = 0.0f;
@@ -40,6 +42,11 @@ void FPSActor::FixedUpdateActor(float deltaTime){}
 void FPSActor::UpdateActor(float deltaTime)
 {
 	ActorObject::UpdateActor(deltaTime);
+
+	//Debug::Log("x %2f", mPosition.x);
+	//Debug::Log("y %2f", mPosition.y);
+	//Debug::Log("z %2f", mPosition.z);
+
 	if (!mBasicInput->GetJumping()) 
 	{
 		// ‘«‰¹‚ÌSE‚ðÄ¶‚·‚éˆ—
@@ -52,6 +59,33 @@ void FPSActor::UpdateActor(float deltaTime)
 			mLastFootstep = 0.5f;
 		}
 	}
+	mBasicInput->SetJumping(true);
+	// Make a line segment
+	const float cAimDist = 1.5f;
+	Vector3 start = mPosition;
+	start.y += 0.5f;
+	Vector3 dir = GetUp();
+	dir *= -1;
+	LineSegment l(start, start + dir * cAimDist);
+	// Segment cast
+	PhysWorld::CollisionInfo info;
+	if (mGame->GetPhysWorld()->RayCast(l, info))
+	{
+		if (info.mActor->GetActorTag() == ActorTag::Ground) 
+		{
+			mBasicInput->SetJumping(false);
+			Debug::Log("In Ground");
+		}
+		else
+		{
+			Debug::Log("Out Ground");
+		}
+	}
+	else
+	{
+		Debug::Log("Out Ground");
+	}
+
 }
 
 void FPSActor::ActorInput(const struct InputState& keys)
@@ -74,12 +108,7 @@ void FPSActor::SetVisible(bool visible)
 }
 void FPSActor::OnCollisionEnter(ActorObject* target)
 {
-	if (target->GetActorTag() == ActorTag::Ground)
-	{
-		mBasicInput->SetJumping(false);
-		SDL_Log("Ground Hit");
-	}
-	else if (target->GetActorTag() == ActorTag::Enemy)
+	if (target->GetActorTag() == ActorTag::Enemy)
 	{
 		mHP -= 10.0f;
 		if (mHP < 0)
@@ -101,9 +130,5 @@ void FPSActor::OnCollisionEnter(ActorObject* target)
 
 void FPSActor::OnCollisionExit(ActorObject* target)
 {
-	if (target->GetActorTag() == ActorTag::Ground)
-	{
-		mBasicInput->SetJumping(true);
-		SDL_Log("Jump");
-	}
+
 }

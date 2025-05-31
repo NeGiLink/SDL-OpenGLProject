@@ -51,10 +51,9 @@ void BasicInputAction::MoveInputUpdate(const InputState& keys)
 	{
 		if (keys.Keyboard.GetKeyDown(SDL_SCANCODE_SPACE) && !mJumping)
 		{
-			//upSpeed += 250.0f;
 			if (mOwner->GetRigidbody())
 			{
-				mOwner->GetRigidbody()->AddForce(Vector3::UnitY * 2000.0f);
+				mOwner->GetRigidbody()->AddForce(Vector3::UnitY * 1000.0f);
 			}
 		}
 	}
