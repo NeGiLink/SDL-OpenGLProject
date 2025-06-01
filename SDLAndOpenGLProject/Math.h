@@ -459,6 +459,15 @@ public:
 		return Vector3(a + f * (b - a));
 	}
 
+	static Vector3 LerpXYZ(const Vector3& a, const Vector3& b, float f)
+	{
+		return Vector3(
+			Math::Lerp(a.x, b.x, f),
+			Math::Lerp(a.y, b.y, f),
+			Math::Lerp(a.z, b.z, f)
+		);
+	}
+
 	// N（正規化された）について反射する
 	static Vector3 Reflect(const Vector3& v, const Vector3& n)
 	{

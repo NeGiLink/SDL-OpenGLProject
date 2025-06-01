@@ -22,10 +22,11 @@ public:
 		Vector3				mPoint;
 		// 衝突時の座標
 		Vector3				mNormal;
+		float				mT;
 		// 衝突クラス
-		class Collider* mCollider;
+		class Collider*		mCollider;
 		// コンポーネントの所有Actor
-		class ActorObject* mActor;
+		class ActorObject*	mActor;
 	};
 
 private:
@@ -57,6 +58,7 @@ public:
 	// 線分をボックスに対して判定します。
 	// ボックスに衝突する場合は真を返します。
 	bool												RayCast(const LineSegment& l, CollisionInfo& outColl);
+	vector<CollisionInfo>								RayCastAll(const LineSegment& l);
 
 	//素朴なpairwise衝突判定
 	void												TestPairwise(std::function<void(class ActorObject*, class ActorObject*)> f);
@@ -65,6 +67,8 @@ public:
 	void												SweepAndPruneXYZ();
 
 	void												FixCollisions(class Collider* dynamicCollider, class Collider* staticCollider);
+
+	bool												GetContactInfo(const AABB& a, const AABB& b, Vector3& outNormal, float& outDepth);
 
 	// 世界からボックスコンポーネントを追加/削除する
 	void												AddCollider(class Collider* box);

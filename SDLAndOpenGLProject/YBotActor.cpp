@@ -8,6 +8,7 @@ YBotActor::YBotActor()
 	mMovement = new FollowObjectMovement(this);
 
 	mRigidbody = new Rigidbody(this);
+	mRigidbody->SetSolverIterationCount(6);
 
 	animator = new Animator();
 	
