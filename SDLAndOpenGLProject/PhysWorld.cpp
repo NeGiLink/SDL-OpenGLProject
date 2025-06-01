@@ -1,4 +1,4 @@
-#include "PhysWorld.h"
+ï»¿#include "PhysWorld.h"
 #include "BoxCollider.h"
 #include "SphereCollider.h"
 #include "CapsuleCollider.h"
@@ -14,18 +14,18 @@ PhysWorld::PhysWorld(BaseScene* game)
 bool PhysWorld::RayCast(const LineSegment& l, CollisionInfo& outColl)
 {
 	bool collided = false;
-	// closestT‚ğ–³ŒÀ‘å‚É‰Šú‰»‚µ‚ÄA
-	// Å‰‚ÌŒğ·“_‚ªí‚ÉclosestT‚ğXV‚·‚é‚æ‚¤‚É‚µ‚Ü‚·B
+	// closestTã‚’ç„¡é™å¤§ã«åˆæœŸåŒ–ã—ã¦ã€
+	// æœ€åˆã®äº¤å·®ç‚¹ãŒå¸¸ã«closestTã‚’æ›´æ–°ã™ã‚‹ã‚ˆã†ã«ã—ã¾ã™ã€‚
 	float closestT = Math::Infinity;
 	Vector3 norm = Vector3::Zero;
-	// ‚·‚×‚Ä‚Ìƒ{ƒbƒNƒX‚É‘Î‚·‚é”»’è
+	// ã™ã¹ã¦ã®ãƒœãƒƒã‚¯ã‚¹ã«å¯¾ã™ã‚‹åˆ¤å®š
 	for (auto collider : mCollider)
 	{
 		float t = 0;
-		// ‚»‚Ìü•ª‚Íƒ{ƒbƒNƒX‚ÆŒğ·‚µ‚Ä‚¢‚é‚©”»’è
+		// ãã®ç·šåˆ†ã¯ãƒœãƒƒã‚¯ã‚¹ã¨äº¤å·®ã—ã¦ã„ã‚‹ã‹åˆ¤å®š
 		if (OnCollision(l, collider->GetWorldBox(), t, norm))
 		{
-			// ‚±‚ê‚ÍˆÈ‘O‚ÌŒğ·“_‚æ‚è‹ß‚¢‚©
+			// ã“ã‚Œã¯ä»¥å‰ã®äº¤å·®ç‚¹ã‚ˆã‚Šè¿‘ã„ã‹
 			if (t >= 0.0f && t < closestT)
 			{
 				closestT = t;
@@ -40,19 +40,52 @@ bool PhysWorld::RayCast(const LineSegment& l, CollisionInfo& outColl)
 	return collided;
 }
 
+vector<PhysWorld::CollisionInfo> PhysWorld::RayCastAll(const LineSegment& l)
+{
+	std::vector<CollisionInfo> results;
+
+	for (auto collider : mCollider)
+	{
+		float t = 0.0f;
+		Vector3 norm;
+		if (OnCollision(l, collider->GetWorldBox(), t, norm))
+		{
+			if (t >= 0.0f && t <= 1.0f)
+			{
+				CollisionInfo info;
+				info.mT = t;
+				info.mPoint = l.PointOnSegment(t);
+				info.mNormal = norm;
+				info.mCollider = collider;
+				info.mActor = collider->GetOwner();
+				results.push_back(info);
+			}
+		}
+	}
+
+	// tå€¤ï¼ˆæ‰‹å‰é †ï¼‰ã§ã‚½ãƒ¼ãƒˆã™ã‚‹
+	std::sort(results.begin(), results.end(),
+		[](const CollisionInfo& a, const CollisionInfo& b)
+		{
+			return a.mT < b.mT;
+		});
+
+	return results;
+}
+
 void PhysWorld::TestPairwise(std::function<void(ActorObject*, ActorObject*)> f)
 {
-	// ’Pƒ‚ÈÀ‘• O(n^2)
+	// å˜ç´”ãªå®Ÿè£… O(n^2)
 	for (size_t i = 0; i < mCollider.size(); i++)
 	{
-		// ©•ª©g‚âˆÈ‘O‚Ìi’l‚É‘Î‚µ‚ÄƒeƒXƒg‚·‚é•K—v‚Í‚È‚µ
+		// è‡ªåˆ†è‡ªèº«ã‚„ä»¥å‰ã®iå€¤ã«å¯¾ã—ã¦ãƒ†ã‚¹ãƒˆã™ã‚‹å¿…è¦ã¯ãªã—
 		for (size_t j = i + 1; j < mCollider.size(); j++)
 		{
 			Collider* a = mCollider[i];
 			Collider* b = mCollider[j];
 			if (OnCollision(a->GetWorldBox(), b->GetWorldBox()))
 			{
-				// Œğ·“_‚ğˆ—‚·‚é‚½‚ß‚É’ñ‹Ÿ‚³‚ê‚½ŠÖ”‚ğŒÄ‚Ño‚·
+				// äº¤å·®ç‚¹ã‚’å‡¦ç†ã™ã‚‹ãŸã‚ã«æä¾›ã•ã‚ŒãŸé–¢æ•°ã‚’å‘¼ã³å‡ºã™
 				f(a->GetOwner(), b->GetOwner());
 			}
 		}
@@ -61,7 +94,7 @@ void PhysWorld::TestPairwise(std::function<void(ActorObject*, ActorObject*)> f)
 
 void PhysWorld::SweepAndPruneXYZ()
 {
-	// ‚Ü‚¸X²‚Åƒ\[ƒg
+	// ã¾ãšXè»¸ã§ã‚½ãƒ¼ãƒˆ
 	std::sort(mColliderXAxis.begin(), mColliderXAxis.end(),
 		[](Collider* a, Collider* b) {
 			return a->GetWorldBox().mMin.x < b->GetWorldBox().mMin.x;
@@ -69,7 +102,7 @@ void PhysWorld::SweepAndPruneXYZ()
 
 	mCurrentHitPairs.clear();
 
-	// X²ƒXƒC[ƒvŠJn
+	// Xè»¸ã‚¹ã‚¤ãƒ¼ãƒ—é–‹å§‹
 	for (size_t i = 0; i < mColliderXAxis.size(); ++i)
 	{
 		Collider* colliderA = mColliderXAxis[i];
@@ -85,14 +118,14 @@ void PhysWorld::SweepAndPruneXYZ()
 			const float contactOffsetA = colliderA->GetContactOffset();
 			const float contactOffsetB = colliderB->GetContactOffset();
 
-			// X²‚ÌÅ‘å‚ÆÅ¬‚ªŒğ·‚µ‚Ä‚È‚©‚Á‚½‚çbreaki‚‘¬‰»j
-			// ¦ contactOffset ‚ğ‰Á–¡‚µ‚Ä”äŠr
+			// Xè»¸ã®æœ€å¤§ã¨æœ€å°ãŒäº¤å·®ã—ã¦ãªã‹ã£ãŸã‚‰breakï¼ˆé«˜é€ŸåŒ–ï¼‰
+			// â€» contactOffset ã‚’åŠ å‘³ã—ã¦æ¯”è¼ƒ
 			if (aabbB.mMin.x - contactOffsetB > aabbA.mMax.x + contactOffsetA)
 			{
 				break;
 			}
 
-			// Y²‚ÆZ²‚ÌŒğ·”»’è‚É‚à contactOffset ‚ğl—¶
+			// Yè»¸ã¨Zè»¸ã®äº¤å·®åˆ¤å®šã«ã‚‚ contactOffset ã‚’è€ƒæ…®
 			if (aabbA.mMax.y + contactOffsetA < aabbB.mMin.y - contactOffsetB ||
 				aabbA.mMin.y - contactOffsetA > aabbB.mMax.y + contactOffsetB)
 			{
@@ -105,7 +138,7 @@ void PhysWorld::SweepAndPruneXYZ()
 				continue;
 			}
 
-			// ‚±‚±‚Ü‚Å—ˆ‚½‚çA‚ÆB‚Í“–‚½‚Á‚Ä‚¢‚é
+			// ã“ã“ã¾ã§æ¥ãŸã‚‰Aã¨Bã¯å½“ãŸã£ã¦ã„ã‚‹
 			auto actorA = colliderA->GetOwner();
 			auto actorB = colliderB->GetOwner();
 
@@ -114,12 +147,12 @@ void PhysWorld::SweepAndPruneXYZ()
 
 			mCurrentHitPairs.emplace(sortedPair);
 
-			// Enter or Stay”»’è
+			// Enter or Stayåˆ¤å®š
 			if (mPrevHitPairs.count(sortedPair))
 			{
 				actorA->OnCollisionStay(actorB);
 				actorB->OnCollisionStay(actorA);
-				//“–‚½‚è‘±‚¯‚Ä‚¢‚é‚à”»’è
+				//å½“ãŸã‚Šç¶šã‘ã¦ã„ã‚‹æ™‚ã‚‚åˆ¤å®š
 				if (!colliderA->IsStaticObject() && colliderB->IsStaticObject())
 				{
 					FixCollisions(colliderA, colliderB);
@@ -135,7 +168,7 @@ void PhysWorld::SweepAndPruneXYZ()
 				actorA->OnCollisionEnter(actorB);
 				actorB->OnCollisionEnter(actorA);
 
-				//“–‚½‚è‰‚ß‚É”»’è
+				//å½“ãŸã‚Šåˆã‚ã«åˆ¤å®š
 				if (!colliderA->IsStaticObject() && colliderB->IsStaticObject())
 				{
 					FixCollisions(colliderA, colliderB);
@@ -149,7 +182,7 @@ void PhysWorld::SweepAndPruneXYZ()
 		}
 	}
 
-	// Exitƒ`ƒFƒbƒN
+	// Exitãƒã‚§ãƒƒã‚¯
 	for (const auto& pair : mPrevHitPairs)
 	{
 		if (mCurrentHitPairs.count(pair) == 0)
@@ -161,73 +194,110 @@ void PhysWorld::SweepAndPruneXYZ()
 		}
 	}
 
-	// ó‘ÔXV
+	// çŠ¶æ…‹æ›´æ–°
 	mPrevHitPairs = mCurrentHitPairs;
 }
 
 void PhysWorld::FixCollisions(class Collider* dynamicCollider, class Collider* staticCollider)
 {
 	const float contactOffset = dynamicCollider->GetContactOffset();
-
-	dynamicCollider->GetOwner()->ComputeWorldTransform(NULL);
 	ActorObject* dynamicActor = dynamicCollider->GetOwner();
 
-	int solverIterationCount = dynamicActor->GetRigidbody()->GetSolverIterationCount();
-	Axis resolvedAxis = Axis::X; // ‚Ç‚Ì²‚ÅÕ“Ë‚µ‚½‚©•Û‘¶‚·‚é
+	int solverIterationCount = 1;
+	if (dynamicActor->GetRigidbody())
+	{
+		solverIterationCount = dynamicActor->GetRigidbody()->GetSolverIterationCount();
+	}
+	Axis resolvedAxis = Axis::X;
 	bool resolved = false;
 
 	for (int i = 0; i < solverIterationCount; ++i)
 	{
+		//æ¥è§¦ç‚¹ã®æ³•ç·šï¼ˆnormalï¼‰ã‚’ä½¿ã£ãŸæŠ¼ã—å‡ºã—
+
+		//ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®åº§æ¨™å–å¾—
 		Vector3 pos = dynamicActor->GetPosition();
+		//æ³•ç·š
+		Vector3 normal;
+		float penetrationDepth = 0.0f;
 
-		// Õ“Ë—Ê‚ÌŒvZ
-		float dx1 = staticCollider->GetWorldBox().mMax.x - dynamicCollider->GetWorldBox().mMin.x;
-		float dx2 = staticCollider->GetWorldBox().mMin.x - dynamicCollider->GetWorldBox().mMax.x;
-		float dy1 = staticCollider->GetWorldBox().mMax.y - dynamicCollider->GetWorldBox().mMin.y;
-		float dy2 = staticCollider->GetWorldBox().mMin.y - dynamicCollider->GetWorldBox().mMax.y;
-		float dz1 = staticCollider->GetWorldBox().mMax.z - dynamicCollider->GetWorldBox().mMin.z;
-		float dz2 = staticCollider->GetWorldBox().mMin.z - dynamicCollider->GetWorldBox().mMax.z;
+		// è¡çªåˆ¤å®šé–¢æ•°ã§æ³•ç·šã¨æ·±ã•ã‚’å¾—ã‚‹ï¼ˆå¿…è¦ã«å¿œã˜ã¦OnCollisionä¿®æ­£ï¼‰
+		if (!GetContactInfo(dynamicCollider->GetWorldBox(), staticCollider->GetWorldBox(), normal, penetrationDepth))
+		{
+			return;
+		}
 
-		float dx = Math::Abs(dx1) < Math::Abs(dx2) ? dx1 : dx2;
-		float dy = Math::Abs(dy1) < Math::Abs(dy2) ? dy1 : dy2;
-		float dz = Math::Abs(dz1) < Math::Abs(dz2) ? dz1 : dz2;
+		// æŠ¼ã—å‡ºã—ãƒ™ã‚¯ãƒˆãƒ«ã‚’æ³•ç·šã«æ²¿ã£ã¦è¨ˆç®—
+		Vector3 push = normal * (penetrationDepth + contactOffset);
 
+		// ã‚¹ãƒ ãƒ¼ã‚ºãªè£œæ­£
+		const float pushLerpFactor = 0.2f;
+		Vector3 target = pos + push;
+		pos = Vector3::Lerp(pos, target, pushLerpFactor);
+
+		// ä½ç½®æ›´æ–°
+		dynamicActor->SetLocalPosition(pos);
+		dynamicCollider->OnUpdateWorldTransform();
+
+		// é€Ÿåº¦è£œæ­£ã®ãŸã‚ã®ä¸»è»¸æ¨å®šï¼ˆæœ€å¤§æˆåˆ†ã§æ±ºå®šï¼‰
 		Axis collisionAxis;
-		if (Math::Abs(dx) < Math::Abs(dy) && Math::Abs(dx) < Math::Abs(dz))
-		{
-			pos.x += dx + Math::Sign(dx) * contactOffset;
+		if (Math::Abs(normal.x) > Math::Abs(normal.y) && Math::Abs(normal.x) > Math::Abs(normal.z))
 			collisionAxis = X;
-		}
-		else if (Math::Abs(dy) < Math::Abs(dx) && Math::Abs(dy) < Math::Abs(dz))
-		{
-			pos.y += dy + Math::Sign(dy) * contactOffset;
+		else if (Math::Abs(normal.y) > Math::Abs(normal.x) && Math::Abs(normal.y) > Math::Abs(normal.z))
 			collisionAxis = Y;
-		}
 		else
-		{
-			pos.z += dz + Math::Sign(dz) * contactOffset;
 			collisionAxis = Z;
-		}
 
-		// ÅŒã‚É•â³‚µ‚½²‚ğŠo‚¦‚Ä‚¨‚­i‚ ‚Æ‚Åg‚¤j
 		resolvedAxis = collisionAxis;
 		resolved = true;
 
 		dynamicActor->SetLocalPosition(pos);
 		dynamicCollider->OnUpdateWorldTransform();
 
-		// Õ“Ë‚ª‰ğÁ‚³‚ê‚½‚çI—¹
+		// è§£æ¶ˆåˆ¤å®šã¯ãã®ã¾ã¾ã§ã‚‚è‰¯ã„ãŒã€å®Œå…¨ã«æŠ¼ã—å‡ºã—ãã‚Œãªã„å¯èƒ½æ€§ãŒã‚ã‚‹
 		if (!OnCollision(dynamicCollider->GetWorldBox(), staticCollider->GetWorldBox()))
 			break;
 	}
 
-	// === Õ“Ë•â³‚ªs‚í‚ê‚½ê‡‚Ì‚İA‘¬“x•â³‚ğ1‰ñ‚¾‚¯Às ===
 	if (resolved && dynamicActor->GetRigidbody())
 	{
 		Vector3 velocity = dynamicActor->GetRigidbody()->GetVelocity();
 		velocity = dynamicActor->GetRigidbody()->ResolveCollision(velocity, resolvedAxis);
 		dynamicActor->GetRigidbody()->SetVelocity(velocity);
 	}
+}
+
+bool PhysWorld::GetContactInfo(const AABB& a, const AABB& b, Vector3& outNormal, float& outDepth)
+{
+	float dx1 = b.mMax.x - a.mMin.x;
+	float dx2 = b.mMin.x - a.mMax.x;
+	float dy1 = b.mMax.y - a.mMin.y;
+	float dy2 = b.mMin.y - a.mMax.y;
+	float dz1 = b.mMax.z - a.mMin.z;
+	float dz2 = b.mMin.z - a.mMax.z;
+
+	float dx = (Math::Abs(dx1) < Math::Abs(dx2)) ? dx1 : dx2;
+	float dy = (Math::Abs(dy1) < Math::Abs(dy2)) ? dy1 : dy2;
+	float dz = (Math::Abs(dz1) < Math::Abs(dz2)) ? dz1 : dz2;
+
+	// æœ€å°ã®äº¤å·®è»¸ã‚’é¸ã¶
+	if (Math::Abs(dx) < Math::Abs(dy) && Math::Abs(dx) < Math::Abs(dz))
+	{
+		outNormal = Vector3(Math::Sign(dx), 0, 0);
+		outDepth = Math::Abs(dx);
+	}
+	else if (Math::Abs(dy) < Math::Abs(dx) && Math::Abs(dy) < Math::Abs(dz))
+	{
+		outNormal = Vector3(0, Math::Sign(dy), 0);
+		outDepth = Math::Abs(dy);
+	}
+	else
+	{
+		outNormal = Vector3(0, 0, Math::Sign(dz));
+		outDepth = Math::Abs(dz);
+	}
+
+	return true;
 }
 
 void PhysWorld::AddCollider(Collider* box)
@@ -243,8 +313,8 @@ void PhysWorld::RemoveCollider(Collider* box)
 	auto iter = std::find(mCollider.begin(), mCollider.end(), box);
 	if (iter != mCollider.end())
 	{
-		// ƒxƒNƒgƒ‹‚Ì––”ö‚ÉƒXƒƒbƒv‚µA
-		// ƒ|ƒbƒvƒIƒt‚µ‚Ü‚·iƒRƒs[‚ÌÁ‹‚ğ”ğ‚¯‚é‚½‚ßj
+		// ãƒ™ã‚¯ãƒˆãƒ«ã®æœ«å°¾ã«ã‚¹ãƒ¯ãƒƒãƒ—ã—ã€
+		// ãƒãƒƒãƒ—ã‚ªãƒ•ã—ã¾ã™ï¼ˆã‚³ãƒ”ãƒ¼ã®æ¶ˆå»ã‚’é¿ã‘ã‚‹ãŸã‚ï¼‰
 		std::iter_swap(iter, mCollider.end() - 1);
 		mCollider.pop_back();
 	}
@@ -252,8 +322,8 @@ void PhysWorld::RemoveCollider(Collider* box)
 	iter = std::find(mColliderXAxis.begin(), mColliderXAxis.end(), box);
 	if (iter != mColliderXAxis.end())
 	{
-		// ƒxƒNƒgƒ‹‚Ì––”ö‚ÉƒXƒƒbƒv‚µA
-		// ƒ|ƒbƒvƒIƒt‚µ‚Ü‚·iƒRƒs[‚ÌÁ‹‚ğ”ğ‚¯‚é‚½‚ßj
+		// ãƒ™ã‚¯ãƒˆãƒ«ã®æœ«å°¾ã«ã‚¹ãƒ¯ãƒƒãƒ—ã—ã€
+		// ãƒãƒƒãƒ—ã‚ªãƒ•ã—ã¾ã™ï¼ˆã‚³ãƒ”ãƒ¼ã®æ¶ˆå»ã‚’é¿ã‘ã‚‹ãŸã‚ï¼‰
 		std::iter_swap(iter, mColliderXAxis.end() - 1);
 		mColliderXAxis.pop_back();
 	}
@@ -261,8 +331,8 @@ void PhysWorld::RemoveCollider(Collider* box)
 	iter = std::find(mColliderYAxis.begin(), mColliderYAxis.end(), box);
 	if (iter != mColliderYAxis.end())
 	{
-		// ƒxƒNƒgƒ‹‚Ì––”ö‚ÉƒXƒƒbƒv‚µA
-		// ƒ|ƒbƒvƒIƒt‚µ‚Ü‚·iƒRƒs[‚ÌÁ‹‚ğ”ğ‚¯‚é‚½‚ßj
+		// ãƒ™ã‚¯ãƒˆãƒ«ã®æœ«å°¾ã«ã‚¹ãƒ¯ãƒƒãƒ—ã—ã€
+		// ãƒãƒƒãƒ—ã‚ªãƒ•ã—ã¾ã™ï¼ˆã‚³ãƒ”ãƒ¼ã®æ¶ˆå»ã‚’é¿ã‘ã‚‹ãŸã‚ï¼‰
 		std::iter_swap(iter, mColliderYAxis.end() - 1);
 		mColliderYAxis.pop_back();
 	}
@@ -270,8 +340,8 @@ void PhysWorld::RemoveCollider(Collider* box)
 	iter = std::find(mColliderZAxis.begin(), mColliderZAxis.end(), box);
 	if (iter != mColliderZAxis.end())
 	{
-		// ƒxƒNƒgƒ‹‚Ì––”ö‚ÉƒXƒƒbƒv‚µA
-		// ƒ|ƒbƒvƒIƒt‚µ‚Ü‚·iƒRƒs[‚ÌÁ‹‚ğ”ğ‚¯‚é‚½‚ßj
+		// ãƒ™ã‚¯ãƒˆãƒ«ã®æœ«å°¾ã«ã‚¹ãƒ¯ãƒƒãƒ—ã—ã€
+		// ãƒãƒƒãƒ—ã‚ªãƒ•ã—ã¾ã™ï¼ˆã‚³ãƒ”ãƒ¼ã®æ¶ˆå»ã‚’é¿ã‘ã‚‹ãŸã‚ï¼‰
 		std::iter_swap(iter, mColliderZAxis.end() - 1);
 		mColliderZAxis.pop_back();
 	}

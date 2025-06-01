@@ -59,6 +59,7 @@ void FPSActor::UpdateActor(float deltaTime)
 			mLastFootstep = 0.5f;
 		}
 	}
+
 	mBasicInput->SetJumping(true);
 	// Make a line segment
 	const float cAimDist = 1.5f;
@@ -85,7 +86,6 @@ void FPSActor::UpdateActor(float deltaTime)
 	{
 		Debug::Log("Out Ground");
 	}
-
 }
 
 void FPSActor::ActorInput(const struct InputState& keys)
