@@ -200,7 +200,7 @@ void PhysWorld::SweepAndPruneXYZ()
 
 void PhysWorld::FixCollisions(class Collider* dynamicCollider, class Collider* staticCollider)
 {
-	const float contactOffset = dynamicCollider->GetContactOffset();
+const float contactOffset = dynamicCollider->GetContactOffset();
 	ActorObject* dynamicActor = dynamicCollider->GetOwner();
 
 	int solverIterationCount = 1;
@@ -208,57 +208,60 @@ void PhysWorld::FixCollisions(class Collider* dynamicCollider, class Collider* s
 	{
 		solverIterationCount = dynamicActor->GetRigidbody()->GetSolverIterationCount();
 	}
-	Axis resolvedAxis = Axis::X;
+
+	const float pushLerpFactor = 0.2f;
 	bool resolved = false;
+	Axis resolvedAxis = Axis::X;
 
 	for (int i = 0; i < solverIterationCount; ++i)
 	{
-		//接触点の法線（normal）を使った押し出し
-
-		//オブジェクトの座標取得
 		Vector3 pos = dynamicActor->GetPosition();
-		//法線
-		Vector3 normal;
-		float penetrationDepth = 0.0f;
 
-		// 衝突判定関数で法線と深さを得る（必要に応じてOnCollision修正）
-		if (!GetContactInfo(dynamicCollider->GetWorldBox(), staticCollider->GetWorldBox(), normal, penetrationDepth))
+		// === 接触点収集 ===
+		std::vector<ContactPoint> contactPoints;
+		CollectContactPoints(dynamicCollider->GetWorldBox(), staticCollider->GetWorldBox(), contactPoints, contactOffset);
+
+		if (contactPoints.empty())
+			break;
+
+		// === 複合押し出しベクトル計算 ===
+		Vector3 totalPush = Vector3::Zero;
+		float totalWeight = 0.0f;
+
+		for (const auto& cp : contactPoints)
 		{
-			return;
+			totalPush += cp.normal * (cp.penetration + contactOffset);
+			totalWeight += cp.penetration;
 		}
 
-		// 押し出しベクトルを法線に沿って計算
-		Vector3 push = normal * (penetrationDepth + contactOffset);
+		Vector3 push = (totalWeight > 0.0f) ? totalPush / static_cast<float>(contactPoints.size()) : Vector3::Zero;
 
-		// スムーズな補正
-		const float pushLerpFactor = 0.2f;
+		// === 位置補正（Lerp）===
 		Vector3 target = pos + push;
 		pos = Vector3::Lerp(pos, target, pushLerpFactor);
 
-		// 位置更新
 		dynamicActor->SetLocalPosition(pos);
 		dynamicCollider->OnUpdateWorldTransform();
 
-		// 速度補正のための主軸推定（最大成分で決定）
-		Axis collisionAxis;
-		if (Math::Abs(normal.x) > Math::Abs(normal.y) && Math::Abs(normal.x) > Math::Abs(normal.z))
-			collisionAxis = X;
-		else if (Math::Abs(normal.y) > Math::Abs(normal.x) && Math::Abs(normal.y) > Math::Abs(normal.z))
-			collisionAxis = Y;
-		else
-			collisionAxis = Z;
+		// === 主軸推定（速度補正用）===
+		if (push.LengthSq() > 0.0f)
+		{
+			if (std::abs(push.x) > std::abs(push.y) && std::abs(push.x) > std::abs(push.z))
+				resolvedAxis = X;
+			else if (std::abs(push.y) > std::abs(push.x) && std::abs(push.y) > std::abs(push.z))
+				resolvedAxis = Y;
+			else
+				resolvedAxis = Z;
+		}
 
-		resolvedAxis = collisionAxis;
 		resolved = true;
 
-		dynamicActor->SetLocalPosition(pos);
-		dynamicCollider->OnUpdateWorldTransform();
-
-		// 解消判定はそのままでも良いが、完全に押し出しきれない可能性がある
+		// 解消されたら早期終了
 		if (!OnCollision(dynamicCollider->GetWorldBox(), staticCollider->GetWorldBox()))
 			break;
 	}
 
+	// === 速度補正 ===
 	if (resolved && dynamicActor->GetRigidbody())
 	{
 		Vector3 velocity = dynamicActor->GetRigidbody()->GetVelocity();
@@ -298,6 +301,60 @@ bool PhysWorld::GetContactInfo(const AABB& a, const AABB& b, Vector3& outNormal,
 	}
 
 	return true;
+}
+
+void PhysWorld::CollectContactPoints(const AABB& a, const AABB& b, std::vector<ContactPoint>& outContacts, float contactOffset)
+{
+	float dx1 = b.mMax.x - a.mMin.x;
+	float dx2 = b.mMin.x - a.mMax.x;
+	float dy1 = b.mMax.y - a.mMin.y;
+	float dy2 = b.mMin.y - a.mMax.y;
+	float dz1 = b.mMax.z - a.mMin.z;
+	float dz2 = b.mMin.z - a.mMax.z;
+
+	float dx = (std::abs(dx1) < std::abs(dx2)) ? dx1 : dx2;
+	float dy = (std::abs(dy1) < std::abs(dy2)) ? dy1 : dy2;
+	float dz = (std::abs(dz1) < std::abs(dz2)) ? dz1 : dz2;
+
+	float absDx = std::abs(dx);
+	float absDy = std::abs(dy);
+	float absDz = std::abs(dz);
+
+	// 最小の交差量を取得（基準）
+	float minDepth = std::min({ absDx, absDy, absDz });
+
+	// 基準に近い（または同じ）方向だけを接触点とみなす
+	const float tolerance = 0.001f; // 小さな誤差を許容
+
+	if (absDx - minDepth <= tolerance)
+	{
+		outContacts.push_back({ Vector3(Math::Sign(dx), 0, 0), absDx });
+	}
+	if (absDy - minDepth <= tolerance)
+	{
+		outContacts.push_back({ Vector3(0, Math::Sign(dy), 0), absDy });
+	}
+	if (absDz - minDepth <= tolerance)
+	{
+		outContacts.push_back({ Vector3(0, 0, Math::Sign(dz)), absDz });
+	}
+}
+
+Vector3 PhysWorld::CalculatePushVector(const std::vector<ContactPoint>& contacts, float contactOffset)
+{
+	Vector3 totalPush = Vector3::Zero;
+	float totalWeight = 0.0f;
+
+	for (const auto& cp : contacts)
+	{
+		totalPush += cp.normal * (cp.penetration + contactOffset);
+		totalWeight += cp.penetration;
+	}
+
+	if (totalWeight > 0.0f)
+		return totalPush / static_cast<float>(contacts.size());
+	else
+		return Vector3::Zero;
 }
 
 void PhysWorld::AddCollider(Collider* box)

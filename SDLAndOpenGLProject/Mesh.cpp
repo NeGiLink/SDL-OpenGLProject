@@ -98,7 +98,17 @@ bool Mesh::LoadFromMeshBin(const string& fileName, Renderer* renderer, int index
 	AABB box = AABB(Vector3::Infinity, Vector3::NegInfinity);
 	box.mMin = header.min;
 	box.mMax = header.max;
+
+	// AABBの中心とサイズからOBBを作る（回転なし）
+	Vector3 center = (box.mMin + box.mMax) * 0.5f;
+	Vector3 extents = (box.mMax - box.mMin) * 0.5f;
+	Quaternion rotation = Quaternion::Identity; // 方向なし
+	OBB obbBox = OBB(Vector3::Zero, Quaternion::Identity, Vector3::Zero);
+	obbBox = OBB(center, rotation, extents);
+
+
 	mBoxs.push_back(box); // AABB中心などに使える
+	mOBBBoxs.push_back(obbBox);
 	mRadiusArray.push_back(header.colliderRadius);
 
 	VertexArray* va = new VertexArray(vertices.data(), header.vertexCount,
@@ -487,6 +497,7 @@ bool Mesh::LoadFromFBX(const string& fileName, Renderer* renderer, int index)
 	vector<unsigned int> indices;
 	float radius = 0.0f;
 	AABB box = AABB(Vector3::Infinity, Vector3::NegInfinity);
+	OBB obbBox = OBB(Vector3::Zero,Quaternion::Identity,Vector3::Zero);
 
 	mesh = scene->mMeshes[index];
 
@@ -502,7 +513,12 @@ bool Mesh::LoadFromFBX(const string& fileName, Renderer* renderer, int index)
 		Vector3 vertexPos(pos.x, pos.y, pos.z);
 		radius = Math::Max(radius, vertexPos.LengthSq());
 		box.UpdateMinMax(vertexPos);
+		// AABBの中心とサイズからOBBを作る（回転なし）
+		Vector3 center = (box.mMin + box.mMax) * 0.5f;
+		Vector3 extents = (box.mMax - box.mMin) * 0.5f;
+		Quaternion rotation = Quaternion::Identity; // 方向なし
 
+		obbBox = OBB(center, rotation, extents);
 
 		Vertex v;
 		v.f = pos.x; vertices.push_back(v);
@@ -732,6 +748,7 @@ bool Mesh::LoadFromFBX(const string& fileName, Renderer* renderer, int index)
 
 	mRadiusArray.push_back(radius);
 	mBoxs.push_back(box);
+	mOBBBoxs.push_back(obbBox);
 
 	VertexArray* va = new VertexArray(vertices.data(), vertexCount, layout, indices.data(), static_cast<unsigned>(indices.size()));
 	//頂点配列の作成

@@ -50,6 +50,7 @@ struct AABB
 	void		Rotate(const Quaternion& q);
 	bool		Contains(const Vector3& point) const;
 	float		MinDistSq(const Vector3& point) const;
+
 	Vector3		GetBoxCenter() const;
 
 	Vector3		mMin;
@@ -59,6 +60,9 @@ struct AABB
 //ˆê“x‚±‚ê‚ðŽg‚¤‚Ì‚Í•Û—¯
 struct OBB
 {
+	OBB(const Vector3& center, const Quaternion& rotation, const Vector3& extents);
+
+
 	Vector3		mCenter;
 	Quaternion	mRotation;
 	Vector3		mExtents;

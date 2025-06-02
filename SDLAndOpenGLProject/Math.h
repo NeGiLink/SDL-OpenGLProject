@@ -389,6 +389,11 @@ public:
 		return *this;
 	}
 
+	static Vector3 Abs(Vector3 value)
+	{
+		return Vector3(fabs(value.x), fabs(value.y), fabs(value.z));
+	}
+
 	// ベクトルの長さの二乗
 	float LengthSq() const
 	{

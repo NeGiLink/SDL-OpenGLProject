@@ -23,3 +23,8 @@ void SphereCollider::OnUpdateWorldTransform()
 
 	mWorldSphere.mCenter = mObjectSphere.mCenter * maxScale + mOwner->GetPosition();
 }
+
+OBB SphereCollider::GetWorldOBB() const
+{
+	return mWorldOBB;
+}

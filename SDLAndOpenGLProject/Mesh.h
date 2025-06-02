@@ -36,6 +36,7 @@ private:
 	bool						LoadFromFBX(const string& fileName, class Renderer* renderer, int index);
 	// AABBの当たり判定を配列で取得
 	vector<AABB>				mBoxs;
+	vector<OBB>					mOBBBoxs;
 	// Meshのテクスチャを取得
 	vector<class Texture*>		mTextures;
 	// MeshのVertexArrayの配列
@@ -68,6 +69,7 @@ public:
 	vector<float>				GetRadiusArray() const { return mRadiusArray; }
 	// モデルのボックス型の座標を取得
 	const vector<AABB>			GetBoxs() const { return mBoxs; }
+	const vector<OBB>			GetOBBBoxs() const { return mOBBBoxs; }
 	//マテリアル情報取得
 	const vector<MaterialInfo>	GetMaterialInfo() const { return mMaterialInfo; }
 };

@@ -18,6 +18,8 @@ public:
 
 	void			SetObjectSphere(const Sphere& model) { mObjectSphere = model; }
 	
+	OBB				GetWorldOBB() const override;
+
 	AABB			GetWorldBox() const override 
 	{
 		Vector3 min = mWorldSphere.mCenter - mWorldSphere.mRadius;
