@@ -29,6 +29,12 @@ public:
 		class ActorObject*	mActor;
 	};
 
+	struct ContactPoint
+	{
+		Vector3 normal;        // 接触法線
+		float penetration;     // めり込み深さ
+	};
+
 private:
 	class BaseScene*									mGame;
 
@@ -67,9 +73,23 @@ public:
 	void												SweepAndPruneXYZ();
 
 	void												FixCollisions(class Collider* dynamicCollider, class Collider* staticCollider);
-
+	//AABBでの押し出しに使用する関数
 	bool												GetContactInfo(const AABB& a, const AABB& b, Vector3& outNormal, float& outDepth);
 
+	void												CollectContactPoints(const AABB& a, const AABB& b, std::vector<ContactPoint>& outContacts, float contactOffset);
+	Vector3												CalculatePushVector(const std::vector<ContactPoint>& contacts, float contactOffset);
+	//OBBでの押し出しに使用する関数
+	/*
+	void												CollectContactPoints(const OBB& a, const OBB& b, std::vector<ContactPoint>& outContacts, float contactOffset);
+	
+	bool												GetContactInfo_OBB(const OBB& a, const OBB& b, Vector3& outNormal, float& outDepth);
+
+	bool												OnCollision_OBB(const OBB& a, const OBB& b);
+
+	bool												TestAxis(const Vector3& axis, const OBB& a, const OBB& b);
+
+	void												ProjectOBB(const OBB& obb, const Vector3& axis, float& outMin, float& outMax);
+	*/
 	// 世界からボックスコンポーネントを追加/削除する
 	void												AddCollider(class Collider* box);
 	void												RemoveCollider(class Collider* box);

@@ -36,3 +36,8 @@ void CapsuleCollider::OnUpdateWorldTransform()
     mWorldCapsule.mRadius = mWorldCapsule.mRadius * uniformScale;
 
 }
+
+OBB CapsuleCollider::GetWorldOBB() const
+{
+    return mWorldOBB;
+}

@@ -18,6 +18,8 @@ public:
 	void			OnUpdateWorldTransform() override;
 
 	void			SetObjectCapsule(const Capsule& model) { mObjectCapsule = model; }
+
+	OBB				GetWorldOBB() const override;
 	//ƒJƒvƒZƒ‹‚©‚çAABB‚ðŽæ“¾
 	AABB			GetWorldBox() const override 
 	{

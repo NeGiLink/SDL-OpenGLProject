@@ -10,6 +10,9 @@
 class Collider : public Component
 {
 protected:
+	// ワールド空間OBB
+	OBB						mWorldOBB;	
+
 	AABB					mWorldBox;
 	//オブジェクト同士の当たり判定をするかしないか
 	//UnityのColliderかTriggerかを切り替えるフラグ
@@ -33,6 +36,9 @@ public:
 	virtual AABB			GetWorldBox() const = 0;
 	virtual const Sphere&	GetWorldSphere() const = 0;
 	virtual const Capsule&	GetWorldCapsule() const = 0;
+	virtual AABB			GetWorldAABBFromOBB() const { return mWorldBox; }
+
+	virtual OBB				GetWorldOBB() const = 0;
 
 	bool					IsCollider() { return mCollider; }
 	void					SetCollider(bool active) { mCollider = active; }
@@ -41,5 +47,6 @@ public:
 	void					SetStaticObject(bool active) { mStaticObject = active; }
 
 	float					GetContactOffset() { return mContactOffset; }
+
 };
 

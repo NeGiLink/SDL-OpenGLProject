@@ -588,3 +588,10 @@ bool SweptSphere(const Sphere& P0, const Sphere& P1,
 		}
 	}
 }
+
+OBB::OBB(const Vector3& center, const Quaternion& rotation, const Vector3& extents)
+	: mCenter(center)
+	, mRotation(rotation)
+	, mExtents(extents)
+{
+}
