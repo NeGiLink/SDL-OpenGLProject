@@ -4,6 +4,7 @@
 #include "Texture.h"
 #include "BaseScene.h"
 
+//書籍元を一部改造したファイル
 //文字のフォントを読み込み、参照するクラス
 class Font
 {

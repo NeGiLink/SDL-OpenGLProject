@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include "StandardLibrary.h"
 
+//書籍元のコードを改造したファイル
 //Vector2、Vector3、Matrix関係の計算処理を行っているnamespace
 namespace Math
 {

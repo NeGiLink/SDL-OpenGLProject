@@ -4,6 +4,7 @@
 #include "OrbitCamera.h"
 #include "MoveComponent.h"
 
+//書籍部分
 //軌道カメラに使うオブジェクトのクラス
 //今後使うため残しています。
 class OrbitActor : public ActorObject

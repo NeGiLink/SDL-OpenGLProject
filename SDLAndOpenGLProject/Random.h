@@ -1,6 +1,7 @@
 #pragma once
 #include "Math.h"
 
+//書籍元のファイル
 //ランダム出力を管理するクラス
 class Random
 {

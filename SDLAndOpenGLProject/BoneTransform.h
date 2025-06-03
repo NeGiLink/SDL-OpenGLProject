@@ -2,6 +2,7 @@
 #include "Math.h"
 #include "Actor.h"
 
+//書籍元を改造したファイル
 //スケルタルモデルのボーンのトランスフォームクラス
 class BoneTransform
 {

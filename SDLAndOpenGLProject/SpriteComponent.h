@@ -6,6 +6,7 @@
 #include "Renderer.h"
 #include <SDL3/SDL.h>
 
+//書籍元のたファイル
 //画像描画に使用するクラス
 class SpriteComponent : public Component
 {

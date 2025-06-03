@@ -3,6 +3,8 @@
 //***ゲームシーンで必要なオブジェクトや画像の情報をまとめているファイル
 //Actor
 #include "Actor.h"
+#include "MeshActor.h"
+#include "SkeletonMeshActor.h"
 //プロジェクトにデフォルトで入っているオブジェクトクラスのインクルード
 #include "PlaneActor.h"
 #include "CubeActor.h"
@@ -10,15 +12,8 @@
 #include "CapsuleActor.h"
 //Actorを継承したオブジェクトクラスのインクルード
 #include "FPSActor.h"
-#include "TargetActor.h"
+#include "TPSPlayer.h"
 #include "BallActor.h"
-#include "DiceActor.h"
-#include "DamageTrap.h"
-#include "Health.h"
-#include "DebugStageActor.h"
-#include "TestCharacter.h"
-#include "YBotActor.h"
-#include "SmallCharacter.h"
 //カメラの基底クラスのインクルード
 #include "BaseCamera.h"
 //スケルタルメッシュ関係のインクルード

@@ -2,6 +2,7 @@
 #include "BaseCamera.h"
 #include "Actor.h"
 
+//書籍部分のファイル
 struct Spline
 {
 	// スプラインの制御点（

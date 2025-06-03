@@ -2,7 +2,6 @@
 #include "Actor.h"
 #include "BaseScene.h"
 #include "PhysWorld.h"
-#include "TargetActor.h"
 #include "BallActor.h"
 
 BallMove::BallMove(ActorObject* owner)
@@ -18,6 +17,7 @@ void BallMove::Update(float deltaTime)
 	Vector3 dir = mOwner->GetForward();
 	Vector3 end = start + dir * segmentLength;
 
+	/*
 	// 線分を作成する
 	LineSegment l(start, end);
 	//TODO : 線分とボックス当たり判定
@@ -37,6 +37,7 @@ void BallMove::Update(float deltaTime)
 			static_cast<BallActor*>(mOwner)->HitTarget();
 		}
 	}
+	*/
 
 	// 基底クラスのアップデートは前方の速度に基づいて移動します
 	MoveComponent::Update(deltaTime);

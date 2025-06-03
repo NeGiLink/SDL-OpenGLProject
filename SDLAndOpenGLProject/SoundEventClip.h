@@ -1,6 +1,7 @@
 #pragma once
 #include "SDOpenLib.h"
 
+//書籍元を改造したファイル
 //SE,BGMを再生するクラス
 //AudioSystem内にあるAudioBankから
 //BGM、SEを取得再生する

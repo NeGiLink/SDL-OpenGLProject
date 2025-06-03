@@ -3,6 +3,8 @@
 #include "MeshRenderer.h"
 #include "SplineCamera.h"
 #include "MoveComponent.h"
+
+//書籍部分
 //スプラインカメラに使うオブジェクトクラス
 //現在は未使用ですが今後使えるようにするためにおいています。
 class SplineActor : public ActorObject

@@ -3,6 +3,7 @@
 #include "StandardLibrary.h"
 #include "Math.h"
 
+//‘ĞŒ³‚ğ‰ü‘¢‚µ‚½ƒtƒ@ƒCƒ‹
 class VertexArray
 {
 private:

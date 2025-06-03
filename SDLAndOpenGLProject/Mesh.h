@@ -7,7 +7,7 @@
 #include "VertexArray.h"
 #include "FilePath.h"
 
-
+//書籍元を改造したファイル
 //マテリアル情報の構造体
 struct MaterialInfo
 {

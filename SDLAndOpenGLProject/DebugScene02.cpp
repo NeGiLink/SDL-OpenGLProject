@@ -79,45 +79,52 @@ bool DebugScene02::Initialize()
 	SDL_GetRelativeMouseState(nullptr, nullptr);
 
 	// デバッグ用のステージ追加
-	a = new DebugStageActor();
+	mDebugStage1 = new MeshActor();
+	mDebugStage1->Load("DebugStage.fbx");
 	Vector3 pos = Vector3(0.0f, 0.0f, 0.0f);
-	a->SetLocalPosition(pos);
-	a = new DebugStageActor();
-	pos = Vector3(0.0f, 10.0f, 10.0f);
-	a->SetLocalPosition(pos);
-	q = Quaternion(Vector3::UnitX, -Math::PiOver2);
-	a->SetLocalRotation(q);
+	mDebugStage1->SetLocalPosition(pos);
+	mDebugStage1->SetActorTag(ActorTag::Ground);
 
-	mTestCharacter = new TestCharacter();
+	mDebugStage2 = new MeshActor();
+	mDebugStage2->Load("DebugStage.fbx");
+	pos = Vector3(0.0f, 10.0f, 10.0f);
+	mDebugStage2->SetLocalPosition(pos);
+	q = Quaternion(Vector3::UnitX, -Math::PiOver2);
+	mDebugStage2->SetLocalRotation(q);
+
+	mTestCharacter = new SkeletonMeshActor();
+	mTestCharacter->Load("Paladin J Nordstrom.fbx");
 	mTestCharacter->SetLocalPosition(Vector3(2.0f, 0.0f, 4.0f));
+
+	mTestCharacter->SetAnimatorName("TestCharacter");
+	mTestCharacter->GetAnimator()->Load("Idle.fbx", true);
+	mTestCharacter->GetAnimator()->Load("Running.fbx", true);
+	mTestCharacter->GetAnimator()->Load("Jumping.fbx");
+	mTestCharacter->GetAnimator()->Load("Capoeira.fbx", true);
+	mTestCharacter->GetAnimator()->Load("T-Pose.fbx", true);
+	mTestCharacter->GetAnimator()->PlayAnimation(mTestCharacter->GetAnimator()->GetAnimations()[4]);
 
 
 	q = Quaternion(Vector3::UnitY, Math::Pi);
 
-	mYBotActor = new YBotActor();
-	mYBotActor->SetLocalPosition(Vector3(0.0f,0.0f,0.0f));
+	mTPSPlayer = new TPSPlayer();
+	mTPSPlayer->SetLocalPosition(Vector3(0.0f,0.0f,0.0f));
 	
-	mSmallCharacter = new SmallCharacter();
+	mSmallCharacter = new SkeletonMeshActor();
+	mSmallCharacter->Load("goblin_d_shareyko.fbx");
 	mSmallCharacter->SetLocalPosition(Vector3(-4.0f, 0.0f, 4.0f));
 	mSmallCharacter->SetLocalRotation(Quaternion());
 
-	// プレイヤー生成
-	mPlayer = mYBotActor;
+	mSmallCharacter->SetAnimatorName("SmallCharacter");
+	mSmallCharacter->GetAnimator()->Load("Idle.fbx", true);
+	mSmallCharacter->GetAnimator()->Load("Running.fbx", true);
+	mSmallCharacter->GetAnimator()->Load("Jumping.fbx");
+	mSmallCharacter->GetAnimator()->Load("Capoeira.fbx", true);
+	mSmallCharacter->GetAnimator()->Load("T-Pose.fbx", true);
+	mSmallCharacter->GetAnimator()->PlayAnimation(mSmallCharacter->GetAnimator()->GetAnimations()[4]);
 
-	// 的オブジェクト生成
-	q = Quaternion();
-	a = new TargetActor();
-	a->SetLocalPosition(Vector3(0.0f, 1.0f, 10.0f));
-	a->SetLocalRotation(q);
-	a = new TargetActor();
-	a->SetLocalPosition(Vector3(0.0f, 4.0f, 10.0f));
-	a->SetLocalRotation(q);
-	a = new TargetActor();
-	a->SetLocalPosition(Vector3(-5.0f, 2.0f, 10.0f));
-	a->SetLocalRotation(q);
-	a = new TargetActor();
-	a->SetLocalPosition(Vector3(5.0f, 2.0f, 10.0f));
-	a->SetLocalRotation(q);
+	// プレイヤー生成
+	mPlayer = mTPSPlayer;
 
 	return true;
 }
@@ -182,6 +189,33 @@ bool DebugScene02::InputUpdate()
 	{
 		mUIStack.back()->ProcessInput(state);
 	}
+	//テスト用：アニメーション切り替え
+	if (state.Keyboard.GetKeyDown(KEY_1))
+	{
+		mTestCharacter->GetAnimator()->PlayBlendAnimation(mTestCharacter->GetAnimator()->GetAnimations()[4]);
+		mSmallCharacter->GetAnimator()->PlayBlendAnimation(mSmallCharacter->GetAnimator()->GetAnimations()[4]);
+	}
+	else if (state.Keyboard.GetKeyDown(KEY_2))
+	{
+		mTestCharacter->GetAnimator()->PlayBlendAnimation(mTestCharacter->GetAnimator()->GetAnimations()[0]);
+		mSmallCharacter->GetAnimator()->PlayBlendAnimation(mSmallCharacter->GetAnimator()->GetAnimations()[0]);
+	}
+	else if (state.Keyboard.GetKeyDown(KEY_3))
+	{
+		mTestCharacter->GetAnimator()->PlayBlendAnimation(mTestCharacter->GetAnimator()->GetAnimations()[1]);
+		mSmallCharacter->GetAnimator()->PlayBlendAnimation(mSmallCharacter->GetAnimator()->GetAnimations()[1]);
+	}
+	else if (state.Keyboard.GetKeyDown(KEY_4))
+	{
+		mTestCharacter->GetAnimator()->PlayBlendAnimation(mTestCharacter->GetAnimator()->GetAnimations()[2]);
+		mSmallCharacter->GetAnimator()->PlayBlendAnimation(mSmallCharacter->GetAnimator()->GetAnimations()[2]);
+	}
+	else if (state.Keyboard.GetKeyDown(KEY_5))
+	{
+		mTestCharacter->GetAnimator()->PlayBlendAnimation(mTestCharacter->GetAnimator()->GetAnimations()[3]);
+		mSmallCharacter->GetAnimator()->PlayBlendAnimation(mSmallCharacter->GetAnimator()->GetAnimations()[3]);
+	}
+
 	BaseScene::InputUpdate();
 	return true;
 }
