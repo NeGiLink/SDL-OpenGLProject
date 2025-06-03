@@ -11,18 +11,18 @@ protected:
 	void									UpdateCrosshair(float deltaTime);
 	void									UpdateRadar(float deltaTime);
 
-	class Image* mRadar;
+	class Image*							mRadar;
 
-	class Image* mCrosshair;
-	class Image* mCrosshairEnemy;
+	class Image*							mCrosshair;
+	class Image*							mCrosshairEnemy;
 
-	class Image* mBlipTex;
+	class Image*							mBlipTex;
 
-	class Image* mRadarArrow;
+	class Image*							mRadarArrow;
 
-	class Image* mHelthBarFrame;
+	class Image*							mHelthBarFrame;
 
-	class Image* mHelthBar;
+	class Image*							mHelthBar;
 
 	// ゲーム内のすべてのターゲットコンポーネント
 	vector<class TargetComponent*>			mTargetComps;

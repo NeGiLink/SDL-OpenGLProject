@@ -2,6 +2,7 @@
 #include "Math.h"
 #include "Component.h"
 
+//書籍部分
 //ポイントライトの処理を行うクラス
 class PointLightComponent : public Component
 {

@@ -6,6 +6,8 @@
 #include <GL/glew.h>
 #include "Actor.h"
 
+//書籍元を改造したファイル
+
 //スケルトンのバイナリデータ構造体
 struct SkeletonBinBone
 {

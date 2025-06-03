@@ -3,6 +3,7 @@
 #include "Assimp.h"
 #include "SDL3.h"
 
+//‘ĞŒ³‚ğ‰ü‘¢‚µ‚½ƒtƒ@ƒCƒ‹
 struct AnimationBinHeader 
 {
 	uint32_t	version = 1;

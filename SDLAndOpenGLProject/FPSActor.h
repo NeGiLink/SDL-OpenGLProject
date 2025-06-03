@@ -9,7 +9,6 @@
 #include "BallActor.h"
 #include "BoxCollider.h"
 #include "PlaneActor.h"
-#include "DiceActor.h"
 
 //一人称視点のプレイヤー操作クラス
 //現在ゲーム内の移動に使用しています。
@@ -27,7 +26,7 @@ private:
 	//コライダー
 	class BoxCollider*		mBoxCollider;
 	//足音SE
-	SoundEventClip				mFootstep;
+	SoundEventClip			mFootstep;
 	//足音の間隔
 	float					mLastFootstep;
 	//足音のイベントを呼び出すコールバック変数

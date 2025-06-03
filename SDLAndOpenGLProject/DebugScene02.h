@@ -8,15 +8,19 @@ class DebugScene02 : public BaseScene
 private:
 	// Game-specific code
 
-	class TestCharacter*			mTestCharacter;
+	class SkeletonMeshActor*		mTestCharacter;
 
-	class YBotActor*				mYBotActor;
+	class TPSPlayer*				mTPSPlayer;
 
-	class SmallCharacter*			mSmallCharacter;
+	class SkeletonMeshActor*		mSmallCharacter;
+
+	class MeshActor*				mDebugStage1;
+
+	class MeshActor*				mDebugStage2;
 
 	class SpriteComponent*			mCrosshair;
 
-	SoundEventClip						mMusicEvent;
+	SoundEventClip					mMusicEvent;
 
 	//フレームレート表示テキスト
 	class Text*						mFrameRateText;

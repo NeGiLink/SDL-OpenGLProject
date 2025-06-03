@@ -8,19 +8,25 @@ private:
 	// Game-specific code
 	class FPSActor*					mFPSActor;
 
-	class SphereActor*				mSphere;
+	class MeshActor*				mSphere;
 
-	class CubeActor*				mCube;
+	class MeshActor*				mCube;
 
-	class DiceActor*				mDice;
+	class MeshActor*				mDice;
 
-	class DamageTrap*				mDamageTrap;
+	class MeshActor*				mDamageTrap;
 
-	class HealthObject*				mHealthObject;
+	class MeshActor*				mHealthObject;
 
-	class CapsuleActor*				mCapsule;
+	class MeshActor*				mCapsule;
 
-	class DebugStageActor*			mDebugStage;
+	class MeshActor*				mDebugStage;
+
+	class MeshActor*				mDebugStage2;
+
+	class MeshActor*				mTarget1;
+	class MeshActor*				mTarget2;
+	class MeshActor*				mTarget3;
 
 	vector<class PlaneActor*>		mPlanes;
 

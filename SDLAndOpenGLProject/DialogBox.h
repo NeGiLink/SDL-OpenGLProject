@@ -4,7 +4,7 @@
 
 //ダイアログボックスUIのクラス
 //ほぼ手を加えていないので
-//参考コードとほぼ同じ
+////書籍元のファイル
 class GameDialogBox : public Canvas
 {
 public:

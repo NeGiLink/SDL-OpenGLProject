@@ -1,6 +1,7 @@
 #pragma once
 #include "Texture.h"
 
+//‘ĞŒ³‚Ìƒtƒ@ƒCƒ‹
 class GBuffer
 {
 public:

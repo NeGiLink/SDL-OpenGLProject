@@ -5,6 +5,7 @@
 #include "SDL3.h"
 #include "FilePath.h"
 
+//書籍元を改造したファイル
 //画像の読み込み、参照を行うことをカプセル化したクラス
 class Texture
 {

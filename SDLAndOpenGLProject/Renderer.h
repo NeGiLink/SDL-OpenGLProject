@@ -3,6 +3,7 @@
 #include "SDL3.h"
 #include "Typedefs.h"
 
+//書籍元を改造したファイル
 //環境光の構造体
 struct DirectionalLight
 {

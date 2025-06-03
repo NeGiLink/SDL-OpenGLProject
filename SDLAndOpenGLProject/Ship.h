@@ -1,5 +1,6 @@
 #pragma once
 #include "Actor.h"
+//‘Ğ•”•ª
 //Œ»İ–¢À‘•
 /*
 class Ship : public Actor

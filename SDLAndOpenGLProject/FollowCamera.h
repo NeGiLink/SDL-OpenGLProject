@@ -2,6 +2,7 @@
 #include "BaseCamera.h"
 #include "Actor.h"
 
+//書籍部分を改造したファイル
 //三人称視点カメラのクラス
 class FollowCamera : public BaseCamera
 {

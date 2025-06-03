@@ -3,6 +3,7 @@
 #include "Math.h"
 #include "Collision.h"
 
+//書籍部分を改造したファイル
 //すべてのオブジェクトの衝突判定を管理しているクラス
 //Unityの当たり判定の衝突判定部分みたいな機能
 class PhysWorld

@@ -13,8 +13,6 @@ bool DebugScene01::Initialize()
 	// Load English text
 	LoadText("Assets/English.gptext");
 
-	// Create actors
-	ActorObject* a = nullptr;
 	Quaternion q;
 
 
@@ -62,14 +60,18 @@ bool DebugScene01::Initialize()
 	SDL_GetRelativeMouseState(nullptr, nullptr);
 
 	// デバッグ用のステージ追加
-	a = new DebugStageActor();
+	mDebugStage = new MeshActor();
+	mDebugStage->Load("DebugStage.fbx");
 	Vector3 pos = Vector3(0.0f, 0.0f, 0.0f);
-	a->SetLocalPosition(pos);
-	a = new DebugStageActor();
+	mDebugStage->SetLocalPosition(pos);
+	mDebugStage->SetActorTag(ActorTag::Ground);
+
+	mDebugStage2 = new MeshActor();
+	mDebugStage2->Load("DebugStage.fbx");
 	pos = Vector3(0.0f, 10.0f, 10.0f);
-	a->SetLocalPosition(pos);
+	mDebugStage2->SetLocalPosition(pos);
 	q = Quaternion(Vector3::UnitX, -Math::PiOver2);
-	a->SetLocalRotation(q);
+	mDebugStage2->SetLocalRotation(q);
 
 	// プレイヤー生成
 	mFPSActor = new FPSActor();
@@ -77,43 +79,55 @@ bool DebugScene01::Initialize()
 
 	mPlayer = mFPSActor;
 	
-	mCube = new CubeActor();
+	mCube = new MeshActor();
+	mCube->Load("Cube.fbx");
 	mCube->SetLocalPosition(Vector3(0.0f, 0.5f, 4.0f));
 	
-	mCapsule = new CapsuleActor();
+	mCapsule = new MeshActor();
+	mCapsule->Load("Capsule.fbx");
 	mCapsule->SetLocalPosition(Vector3(2.0f, 2.0f, 4.0f));
 	mCube->AddChildActor(mCapsule);
 
 
-	mSphere = new SphereActor();
+	mSphere = new MeshActor();
+	mSphere->Load("Sphere.fbx");
 	mSphere->SetLocalPosition(Vector3(-2.0f, 0.5f, 4.0f));
 	mCube->AddChildActor(mSphere);
 
-	mDice = new DiceActor();
+	mDice = new MeshActor();
+	mDice->Load("TestCube.fbx");
 	mDice->SetLocalPosition(Vector3(4.0f, 0.5f, 4.0f));
 
-	mDamageTrap = new DamageTrap();
+	mDamageTrap = new MeshActor();
+	mDamageTrap->Load("DamageTrap.fbx");
 	mDamageTrap->SetLocalPosition(Vector3(0.0f, 0.7f, -4.0f));
 	mDamageTrap->SetActorTag(ActorTag::Enemy);
+	mDamageTrap->SetTrigger(false);
 
-	mHealthObject = new HealthObject();
+	mHealthObject = new MeshActor();
+	mHealthObject->Load("Health.fbx");
+	mHealthObject->SetLocalScale(0.5f);
 	mHealthObject->SetLocalPosition(Vector3(4.0f, 1.0f, -4.0f));
 	mHealthObject->SetActorTag(ActorTag::Recovery);
+	mHealthObject->SetTrigger(false);
 
 	// 的オブジェクト生成
 	q = Quaternion();
-	a = new TargetActor();
-	a->SetLocalPosition(Vector3(0.0f, 1.0f, 10.0f));
-	a->SetLocalRotation(q);
-	a = new TargetActor();
-	a->SetLocalPosition(Vector3(0.0f, 4.0f, 10.0f));
-	a->SetLocalRotation(q);
-	a = new TargetActor();
-	a->SetLocalPosition(Vector3(-5.0f, 2.0f, 10.0f));
-	a->SetLocalRotation(q);
-	a = new TargetActor();
-	a->SetLocalPosition(Vector3(5.0f, 2.0f, 10.0f));
-	a->SetLocalRotation(q);
+	mTarget1 = new MeshActor();
+	mTarget1->Load("Target.fbx");
+	mTarget1->SetLocalPosition(Vector3(0.0f, 2.0f, 10.0f));
+	mTarget1->SetLocalRotation(q);
+	new TargetComponent(mTarget1);
+	mTarget2 = new MeshActor();
+	mTarget2->Load("Target.fbx");
+	mTarget2->SetLocalPosition(Vector3(-5.0f, 2.0f, 10.0f));
+	mTarget2->SetLocalRotation(q);
+	new TargetComponent(mTarget2);
+	mTarget3 = new MeshActor();
+	mTarget3->Load("Target.fbx");
+	mTarget3->SetLocalPosition(Vector3(5.0f, 2.0f, 10.0f));
+	mTarget3->SetLocalRotation(q);
+	new TargetComponent(mTarget3);
 
 
 	return true;
@@ -196,6 +210,22 @@ bool DebugScene01::Update()
 {
 	float time = Time::GetFrameRate();
 	mFrameRateText->SetText("FPS : " + FloatToString::ToStringWithoutDecimal(time));
+
+
+	//簡易的なY軸回転処理
+	float rotationAmountY = mHealthObject->GetRotationAmountY();
+	rotationAmountY += 5 * Time::gDeltaTime;
+	mHealthObject->SetRotationAmountY(rotationAmountY);
+	Quaternion r = Quaternion(Vector3::UnitY, rotationAmountY);
+	mHealthObject->SetLocalRotation(r);
+
+	//簡易的なY軸回転処理
+	rotationAmountY = mDamageTrap->GetRotationAmountY();
+	rotationAmountY += 5 * Time::gDeltaTime;
+	mDamageTrap->SetRotationAmountY(rotationAmountY);
+	r = Quaternion(Vector3::UnitY, rotationAmountY);
+	mDamageTrap->SetLocalRotation(r);
+
 	BaseScene::Update();
 	return true;
 }

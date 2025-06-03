@@ -180,28 +180,10 @@
     <ClCompile Include="Texture.cpp">
       <Filter>SourceFiles\F_UIs</Filter>
     </ClCompile>
-    <ClCompile Include="DiceActor.cpp">
-      <Filter>SourceFiles\B_GameObjects\3Ds</Filter>
-    </ClCompile>
     <ClCompile Include="FPSActor.cpp">
       <Filter>SourceFiles\B_GameObjects\3Ds</Filter>
     </ClCompile>
     <ClCompile Include="OrbitActor.cpp">
-      <Filter>SourceFiles\B_GameObjects\3Ds</Filter>
-    </ClCompile>
-    <ClCompile Include="SmallCharacter.cpp">
-      <Filter>SourceFiles\B_GameObjects\3Ds</Filter>
-    </ClCompile>
-    <ClCompile Include="Sword.cpp">
-      <Filter>SourceFiles\B_GameObjects\3Ds</Filter>
-    </ClCompile>
-    <ClCompile Include="TargetActor.cpp">
-      <Filter>SourceFiles\B_GameObjects\3Ds</Filter>
-    </ClCompile>
-    <ClCompile Include="TestCharacter.cpp">
-      <Filter>SourceFiles\B_GameObjects\3Ds</Filter>
-    </ClCompile>
-    <ClCompile Include="YBotActor.cpp">
       <Filter>SourceFiles\B_GameObjects\3Ds</Filter>
     </ClCompile>
     <ClCompile Include="SplineActor.cpp">
@@ -270,9 +252,6 @@
     <ClCompile Include="PushButtonMove.cpp">
       <Filter>SourceFiles\C_Components</Filter>
     </ClCompile>
-    <ClCompile Include="DebugStageActor.cpp">
-      <Filter>SourceFiles\B_GameObjects\3Ds</Filter>
-    </ClCompile>
     <ClCompile Include="Skeleton.cpp">
       <Filter>SourceFiles\I_Editor\Renderers</Filter>
     </ClCompile>
@@ -327,12 +306,6 @@
     <ClCompile Include="ConvertNumToString.cpp">
       <Filter>SourceFiles\I_Editor\Utilitys</Filter>
     </ClCompile>
-    <ClCompile Include="Health.cpp">
-      <Filter>SourceFiles\B_GameObjects\3Ds</Filter>
-    </ClCompile>
-    <ClCompile Include="DamageTrap.cpp">
-      <Filter>SourceFiles\B_GameObjects\3Ds</Filter>
-    </ClCompile>
     <ClCompile Include="CallBackManager.cpp">
       <Filter>SourceFiles\I_Editor</Filter>
     </ClCompile>
@@ -363,8 +336,14 @@
     <ClCompile Include="AudioComponent.cpp">
       <Filter>SourceFiles\H_Audios</Filter>
     </ClCompile>
-    <ClCompile Include="Raycast.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="SkeletonMeshActor.cpp">
+      <Filter>SourceFiles\B_GameObjects\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshActor.cpp">
+      <Filter>SourceFiles\B_GameObjects\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="TPSPlayer.cpp">
+      <Filter>SourceFiles\B_GameObjects\3Ds</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -470,25 +449,10 @@
     <ClInclude Include="Texture.h">
       <Filter>SourceFiles\F_UIs</Filter>
     </ClInclude>
-    <ClInclude Include="DiceActor.h">
-      <Filter>SourceFiles\B_GameObjects\3Ds</Filter>
-    </ClInclude>
     <ClInclude Include="FPSActor.h">
       <Filter>SourceFiles\B_GameObjects\3Ds</Filter>
     </ClInclude>
     <ClInclude Include="OrbitActor.h">
-      <Filter>SourceFiles\B_GameObjects\3Ds</Filter>
-    </ClInclude>
-    <ClInclude Include="SmallCharacter.h">
-      <Filter>SourceFiles\B_GameObjects\3Ds</Filter>
-    </ClInclude>
-    <ClInclude Include="Sword.h">
-      <Filter>SourceFiles\B_GameObjects\3Ds</Filter>
-    </ClInclude>
-    <ClInclude Include="TargetActor.h">
-      <Filter>SourceFiles\B_GameObjects\3Ds</Filter>
-    </ClInclude>
-    <ClInclude Include="TestCharacter.h">
       <Filter>SourceFiles\B_GameObjects\3Ds</Filter>
     </ClInclude>
     <ClInclude Include="SplineActor.h">
@@ -536,9 +500,6 @@
     <ClInclude Include="BoneActor.h">
       <Filter>SourceFiles\B_GameObjects\3Ds\Bones</Filter>
     </ClInclude>
-    <ClInclude Include="YBotActor.h">
-      <Filter>SourceFiles\B_GameObjects\3Ds</Filter>
-    </ClInclude>
     <ClInclude Include="DebugScene01.h">
       <Filter>SourceFiles\G_Scenes</Filter>
     </ClInclude>
@@ -559,9 +520,6 @@
     </ClInclude>
     <ClInclude Include="PushButtonMove.h">
       <Filter>SourceFiles\C_Components</Filter>
-    </ClInclude>
-    <ClInclude Include="DebugStageActor.h">
-      <Filter>SourceFiles\B_GameObjects\3Ds</Filter>
     </ClInclude>
     <ClInclude Include="Skeleton.h">
       <Filter>SourceFiles\I_Editor\Renderers</Filter>
@@ -626,12 +584,6 @@
     <ClInclude Include="StringFormat.h">
       <Filter>SourceFiles\I_Editor\Utilitys</Filter>
     </ClInclude>
-    <ClInclude Include="Health.h">
-      <Filter>SourceFiles\B_GameObjects\3Ds</Filter>
-    </ClInclude>
-    <ClInclude Include="DamageTrap.h">
-      <Filter>SourceFiles\B_GameObjects\3Ds</Filter>
-    </ClInclude>
     <ClInclude Include="CallBackManager.h">
       <Filter>SourceFiles\I_Editor</Filter>
     </ClInclude>
@@ -665,8 +617,14 @@
     <ClInclude Include="AudioComponent.h">
       <Filter>SourceFiles\H_Audios</Filter>
     </ClInclude>
-    <ClInclude Include="Raycast.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="SkeletonMeshActor.h">
+      <Filter>SourceFiles\B_GameObjects\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshActor.h">
+      <Filter>SourceFiles\B_GameObjects\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="TPSPlayer.h">
+      <Filter>SourceFiles\B_GameObjects\3Ds</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

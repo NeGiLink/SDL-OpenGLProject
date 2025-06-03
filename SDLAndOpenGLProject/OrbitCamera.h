@@ -2,6 +2,7 @@
 #include "BaseCamera.h"
 #include "Actor.h"
 
+//書籍部分のファイル
 //軌道カメラのクラス
 class OrbitCamera : public BaseCamera
 {

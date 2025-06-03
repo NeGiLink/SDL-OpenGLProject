@@ -7,6 +7,7 @@
 #include "Image.h"
 #include "Text.h"
 
+//書籍元を改造したファイル
 //ボタンUIのクラス
 class Button : Image
 {
