@@ -23,7 +23,7 @@ bool Skeleton::Load(const string& fileName)
 bool Skeleton::LoadFromSkeletonBin(const string& fileName)
 {
 	string name = StringConverter::RemoveString(fileName, Model::ModelPath);
-	name = StringConverter::removeExtension(name);
+	name = StringConverter::RemoveExtension(name);
 	std::ifstream in(Model::BinaryFilePath + name + Model::BinarySkelPath, std::ios::binary);
 	if (!in)
 	{
@@ -272,7 +272,7 @@ bool Skeleton::LoadFromFBX(const string& fileName)
 
 	//fileNameÇ©ÇÁPathïîï™ÇæÇØéÊÇËèúÇ≠
 	string result = StringConverter::RemoveString(fileName, Model::ModelPath);
-	result = StringConverter::removeExtension(result);
+	result = StringConverter::RemoveExtension(result);
 	std::ofstream out(Model::BinaryFilePath + result + Model::BinarySkelPath, std::ios::binary);
 	if (!out)
 	{

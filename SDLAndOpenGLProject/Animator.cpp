@@ -185,3 +185,8 @@ void Animator::BlendComputeMatrixPalette()
 		mSkeleton->GetBoneActor()[i]->SetLocalPosition(pose.GetTranslation());
 	}
 }
+
+float Animator::GetNormalizedTime()
+{
+	return mAnimTime / mAnimation->GetDuration();
+}

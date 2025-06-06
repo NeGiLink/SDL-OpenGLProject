@@ -51,16 +51,10 @@ AABB BoxCollider::GetWorldAABBFromOBB() const
 {
 	const OBB& obb = mWorldOBB;
 
-	Vector3 axes[3] = {
-		Vector3::Transform(Vector3::UnitX, obb.mRotation),
-		Vector3::Transform(Vector3::UnitY, obb.mRotation),
-		Vector3::Transform(Vector3::UnitZ, obb.mRotation)
-	};
+	Vector3 x = Vector3::Transform(Vector3::UnitX, obb.mRotation) * obb.mExtents.x;
+	Vector3 y = Vector3::Transform(Vector3::UnitY, obb.mRotation) * obb.mExtents.y;
+	Vector3 z = Vector3::Transform(Vector3::UnitZ, obb.mRotation) * obb.mExtents.z;
 
-	Vector3 r =
-		Vector3::Abs(axes[0]) * obb.mExtents.x +
-		Vector3::Abs(axes[1]) * obb.mExtents.y +
-		Vector3::Abs(axes[2]) * obb.mExtents.z;
-
+	Vector3 r = Vector3::Abs(x) + Vector3::Abs(y) + Vector3::Abs(z);
 	return AABB(obb.mCenter - r, obb.mCenter + r);
 }

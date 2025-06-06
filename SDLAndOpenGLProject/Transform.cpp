@@ -137,14 +137,12 @@ void Transform::AddChildActor(Transform* actor)
 	{
 		if (a == actor) { return; }
 	}
-	// 親になるアクターの行列を再計算、
-	// 自身の親からしか計算していないので親の更新を考慮していないため不十分
+	// 親になるアクターの行列を再計算
 	ComputeWorldTransform(mParentActor != nullptr ? &mParentActor->GetWorldTransform() : nullptr);
 	Matrix4 parentInvert = mWorldTransform;
 	parentInvert.Invert();
 
-	// 子になるアクターの行列を再計算、
-	// 自身の親からしか計算していないので親の更新を考慮していないため不十分
+	// 子になるアクターの行列を再計算
 	auto parentActor = actor->GetParentActor();
 	actor->ComputeWorldTransform(parentActor != nullptr ? &parentActor->GetWorldTransform() : nullptr);
 	Matrix4 child = actor->GetWorldTransform();

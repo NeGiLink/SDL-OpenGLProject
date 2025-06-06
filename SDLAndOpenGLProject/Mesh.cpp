@@ -63,7 +63,7 @@ int Mesh::CheckMeshIndex(const string& fileName, Renderer* renderer)
 
 bool Mesh::LoadFromMeshBin(const string& fileName, Renderer* renderer, int index)
 {
-	string name = StringConverter::removeExtension(fileName);
+	string name = StringConverter::RemoveExtension(fileName);
 
 	//1:バイナリ情報に変換した頂点、インデックスデータをbinファイルから取得
 	string number = std::to_string(index);
@@ -772,7 +772,7 @@ bool Mesh::LoadFromFBX(const string& fileName, Renderer* renderer, int index)
 	header.colliderRadius = radius;          // 半径計算済みと仮定
 	
 
-	result = StringConverter::removeExtension(result);
+	result = StringConverter::RemoveExtension(result);
 	string number = std::to_string(index);
 	std::ofstream out(Model::BinaryFilePath + result + number + Model::BinaryPath, std::ios::binary);
 	out.write((char*)&header, sizeof(header));

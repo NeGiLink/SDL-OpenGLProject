@@ -15,14 +15,15 @@ namespace FloatToString
 
 namespace StringConverter
 {
-	inline string removeExtension(const std::string& filename) {
+	//拡張子だけを取り除く関数
+	inline string RemoveExtension(const std::string& filename) {
 		size_t dotPos = filename.rfind('.');
 		if (dotPos != std::string::npos) {
 			return filename.substr(0, dotPos);  // 拡張子の直前まで切り出す
 		}
 		return filename;  // ドットがなければそのまま返す
 	}
-
+	//指定した文字列を排除する関数
 	inline string RemoveString(const std::string& string, const std::string& removeString)
 	{
 		std::string s;
