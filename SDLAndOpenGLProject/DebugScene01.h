@@ -24,6 +24,10 @@ private:
 
 	class MeshActor*				mDebugStage2;
 
+	class MeshActor*				mDebugStage3;
+	
+	class MeshActor*				mDebugStage4;
+
 	class MeshActor*				mTarget1;
 	class MeshActor*				mTarget2;
 	class MeshActor*				mTarget3;

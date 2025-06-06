@@ -73,6 +73,21 @@ bool DebugScene01::Initialize()
 	q = Quaternion(Vector3::UnitX, -Math::PiOver2);
 	mDebugStage2->SetLocalRotation(q);
 
+	mDebugStage3 = new MeshActor();
+	mDebugStage3->Load("DebugStage.fbx");
+	pos = Vector3(0.0f, 10.0f, -10.0f);
+	mDebugStage3->SetLocalPosition(pos);
+	q = Quaternion(Vector3::UnitX, Math::PiOver2);
+	mDebugStage3->SetLocalRotation(q);
+
+	mDebugStage4 = new MeshActor();
+	mDebugStage4->Load("DebugStage.fbx");
+	pos = Vector3(10.0f, 10.0f, 0.0f);
+	mDebugStage4->SetLocalPosition(pos);
+	q = Quaternion(Vector3::UnitX, -Math::PiOver2);
+	q = Quaternion::Concatenate(q, Quaternion(Vector3::UnitY, -Math::PiOver2));
+	mDebugStage4->SetLocalRotation(q);
+
 	// ƒvƒŒƒCƒ„[¶¬
 	mFPSActor = new FPSActor();
 	mFPSActor->SetLocalPosition(Vector3(0.0f,1.0f,0.0f));

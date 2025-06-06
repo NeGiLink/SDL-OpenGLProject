@@ -43,11 +43,11 @@ public:
 	float							GetBlendAnimTime() { return mBlendAnimTime; }
 	// 現在のブレンド経過時間
 	float							GetBlendElapsed() { return mBlendElapsed; }
-
+	//現在のアニメーションの時間を正規化した値を出力する関数
+	float							GetNormalizedTime();
 	//Setter
 	//アニメーションのブレンドを行うためのフラグ
 	bool							IsBlending() { return mBlending; }
-
 private:
 
 	MatrixPalette					mPalette;

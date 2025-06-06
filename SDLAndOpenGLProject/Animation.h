@@ -98,7 +98,6 @@ public:
 	// 指定されたアニメーションの時間における各ボーンのグローバル（現在の）ポーズ行列を提供されたベクターに充填。
 	// 時間は0.0f以上でmDuration以下であること。
 	void									GetGlobalPoseAtTime(vector<Matrix4>& outPoses, const class Skeleton* inSkeleton, float inTime) const;
-
 private:
 	bool									LoadFromJSON(const string& fileName);
 
@@ -148,6 +147,8 @@ private:
 	bool									isReLoad;
 
 	string									mFileName;
+
+	string									mAnimationName;
 
 	vector<Vector3>							mRootPositionOffset;
 };
