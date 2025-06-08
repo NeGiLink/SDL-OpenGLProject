@@ -63,11 +63,17 @@ void BasicInputAction::MoveInputUpdate(const InputState& keys)
 		{
 			if (keys.Keyboard.GetKey(SDL_SCANCODE_LSHIFT))
 			{
-				upSpeed -= 4.0f;
+				if (mOwner->GetRigidbody())
+				{
+					mOwner->GetRigidbody()->AddForce(-1 * Vector3::UnitY * 4.0f);
+				}
 			}
 			else
 			{
-				upSpeed += 4.0f;
+				if (mOwner->GetRigidbody())
+				{
+					mOwner->GetRigidbody()->AddForce(Vector3::UnitY * 4.0f);
+				}
 			}
 		}
 	}

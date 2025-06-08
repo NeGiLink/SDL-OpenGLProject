@@ -53,7 +53,7 @@ void TPSPlayer::UpdateActor(float deltaTime)
 
 	mMovement->SetJumping(true);
 	// Make a line segment
-	const float cAimDist = 1.5f;
+	const float cAimDist = 3.0f;
 	Vector3 start = mPosition;
 	start.y += 0.5f;
 	Vector3 dir = GetUp();
@@ -61,7 +61,8 @@ void TPSPlayer::UpdateActor(float deltaTime)
 	LineSegment l(start, start + dir * cAimDist);
 	// Segment cast
 	PhysWorld::CollisionInfo info;
-	if (mGame->GetPhysWorld()->RayCast(l, info))
+	ActorTag tag = ActorTag::Ground;
+	if (mGame->GetPhysWorld()->RayCast(l, info, tag))
 	{
 		if (info.mActor->GetActorTag() == ActorTag::Ground)
 		{

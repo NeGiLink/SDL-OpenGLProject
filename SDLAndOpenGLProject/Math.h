@@ -881,6 +881,7 @@ public:
 		z *= -1.0f;
 	}
 
+
 	float LengthSq() const
 	{
 		return (x * x + y * y + z * z + w * w);

@@ -45,6 +45,8 @@ void BoxCollider::OnUpdateWorldTransform()
 	// Translate
 	mWorldBox.mMin += mOwner->GetPosition();
 	mWorldBox.mMax += mOwner->GetPosition();
+	/*
+	*/
 }
 
 AABB BoxCollider::GetWorldAABBFromOBB() const

@@ -556,6 +556,28 @@ bool OnCollision(const LineSegment& l, const AABB& b, float& outT,
 	return false;
 }
 
+bool OnCollision(const LineSegment& rayWorld, OBB& obb, float& outT, Vector3& outNorm)
+{
+	obb.mRotation.Conjugate(); // 逆回転でローカル変換
+	Quaternion invRot = obb.mRotation;
+	Vector3 localStart = Vector3::Transform(rayWorld.mStart - obb.mCenter, invRot);
+	Vector3 localEnd = Vector3::Transform(rayWorld.mEnd - obb.mCenter, invRot);
+	LineSegment localRay(localStart, localEnd);
+
+	AABB localBox(-1.0f * obb.mExtents, obb.mExtents);
+
+	float localT;
+	Vector3 localNormal;
+
+	if (OnCollision(localRay, localBox, localT, localNormal))
+	{
+		outT = localT;
+		outNorm = Vector3::Transform(localNormal, obb.mRotation);
+		return true;
+	}
+	return false;
+}
+
 bool SweptSphere(const Sphere& P0, const Sphere& P1,
 	const Sphere& Q0, const Sphere& Q1, float& outT)
 {

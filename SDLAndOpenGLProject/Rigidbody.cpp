@@ -16,7 +16,7 @@ void Rigidbody::FixedUpdate(float deltaTime)
 {
     Vector3 gravityForce;
     //重力フラグが有効なら
-    if (mUseGravity)
+    if (mUseGravity && !mIsGrounded)
     {
         // 重力を力として加える
         gravityForce = Vector3::UnitY * (-9.8f) * mMass * mGravityScale;
@@ -37,32 +37,41 @@ void Rigidbody::FixedUpdate(float deltaTime)
     // 力のリセット
     //（次フレームでまたAddForceするため）
     mForces = Vector3::Zero;
+
+    // 状態リセット（次回のResolveCollisionで再セットされる）
+    mIsGrounded = false;
 }
 
-Vector3 Rigidbody::ResolveCollision(const Vector3& velocity, PhysWorld::Axis normalAxis) const
+void Rigidbody::ResolveCollision(const Vector3& push)
 {
-    Vector3 newVelocity = velocity;
+    Vector3 pushNormal = push.Normalized();
+    float normalSpeed = Vector3::Dot(mVelocity, pushNormal);
 
-    switch (normalAxis)
+    if (normalSpeed < 0.0f)
     {
-    case PhysWorld::Axis::X:
-        newVelocity.x *= -mBounciness;
-        if (std::abs(newVelocity.x) < 0.01f) newVelocity.x = 0.0f;
-        newVelocity.x *= (1.0f - mFriction);
-        break;
-    case PhysWorld::Axis::Y:
-        newVelocity.y *= -mBounciness;
-        if (std::abs(newVelocity.y) < 0.01f) newVelocity.y = 0.0f;
-        newVelocity.y *= (1.0f - mFriction);
-        break;
-    case PhysWorld::Axis::Z:
-        newVelocity.z *= -mBounciness;
-        if (std::abs(newVelocity.z) < 0.01f) newVelocity.z = 0.0f;
-        newVelocity.z *= (1.0f - mFriction);
-        break;
-    }
+        // 接地状態を検出（法線が上向きに近い＝床）
+        if (pushNormal.y > 0.7f)
+        {
+            mIsGrounded = true;
+        }
 
-    return newVelocity;
+        // ▼ バウンド（反発係数）
+        Vector3 bounce = (-1.0f * pushNormal) * normalSpeed * mBounciness;
+
+        // ▼ 摩擦：接触面と並行な速度
+        Vector3 tangent = mVelocity - (pushNormal * normalSpeed);
+        tangent *= (1.0f - mFriction);
+
+        // ▼ 最終的な速度 = 反発＋摩擦
+        mVelocity = bounce + tangent;
+
+        // 小さな反発を無効に（静止判定）
+        if (std::abs(Vector3::Dot(mVelocity, pushNormal)) < 0.01f)
+        {
+            //mVelocity -= pushNormal * Vector3::Dot(mVelocity, pushNormal);
+            mVelocity = Vector3::Zero;
+        }
+    }
 }
 
 void Rigidbody::AddForce(Vector3 force)

@@ -28,6 +28,8 @@ public:
 	bool	GetJumping() { return mJumping; }
 
 	void	SetJumping(bool active) { mJumping = active; }
+
+	void    SetGravity(bool active) { mGravity = active; }
 private:
 
 	float	mForwardSpeed;
