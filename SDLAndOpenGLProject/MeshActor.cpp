@@ -14,6 +14,7 @@ void MeshActor::Load(string filePath)
 		{
 			BoxCollider* box = new BoxCollider(this);
 			box->SetObjectBox(mMeshRenderer->GetMeshs()[i]->GetBoxs()[j]);
+			box->SetObjectOBB(mMeshRenderer->GetMeshs()[i]->GetOBBBoxs()[j]);
 			mBoxs.push_back(box);
 		}
 	}

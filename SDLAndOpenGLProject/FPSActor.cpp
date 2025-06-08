@@ -8,7 +8,7 @@ FPSActor::FPSActor()
 
 	mRigidbody = new Rigidbody(this);
 	mRigidbody->SetSolverIterationCount(6);
-	mRigidbody->SetBounciness(1.0f);
+	mRigidbody->SetBounciness(0.5f);
 
 	mAudioComp = new AudioComponent(this);
 	mLastFootstep = 0.0f;
@@ -19,8 +19,10 @@ FPSActor::FPSActor()
 
 	// ボックスの当たり判定の機能を追加
 	mBoxCollider = new BoxCollider(this);
+	OBB myOBB(mPosition, mRotation, Vector3(1.0f,1.5f,1.0f));
 	AABB myBox(Vector3(-0.5f, -1.0f, -0.5f),Vector3(0.5f, 0.5f, 0.5f));
 	mBoxCollider->SetObjectBox(myBox);
+	mBoxCollider->SetObjectOBB(myOBB);
 	mBoxCollider->SetShouldRotate(false);
 	mBoxCollider->SetStaticObject(false);
 
@@ -62,17 +64,18 @@ void FPSActor::UpdateActor(float deltaTime)
 
 	mBasicInput->SetJumping(true);
 	// Make a line segment
-	const float cAimDist = 1.5f;
+	const float cAimDist = 3.0f;
 	Vector3 start = mPosition;
-	start.y += 0.5f;
+	//start.y += 0.5f;
 	Vector3 dir = GetUp();
 	dir *= -1;
 	LineSegment l(start, start + dir * cAimDist);
 	// Segment cast
 	PhysWorld::CollisionInfo info;
-	if (mGame->GetPhysWorld()->RayCast(l, info))
+	ActorTag tag = ActorTag::Ground;
+	if (mGame->GetPhysWorld()->RayCast(l, info,tag))
 	{
-		if (info.mActor->GetActorTag() == ActorTag::Ground) 
+		if (info.mActor->GetActorTag() == ActorTag::Ground)
 		{
 			mBasicInput->SetJumping(false);
 			Debug::Log("In Ground");

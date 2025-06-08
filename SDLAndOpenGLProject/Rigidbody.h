@@ -29,15 +29,15 @@ private:
 	float		mBounciness;   
 
 	int			mSolverIterationCount;
+	// Rigidbody.h
+	bool		mIsGrounded = false;
 public:
 				Rigidbody(class ActorObject* owner, int updateOrder = 100);
 	//FixedUpdateで呼び出す
 	void		FixedUpdate(float deltaTime)override;
 
-	// velocity: 現在の速度
-	// normalAxis: 衝突した軸（X/Y/Zのいずれか）
-	// 戻り値: 補正後の速度
-	Vector3 ResolveCollision(const Vector3& velocity, PhysWorld::Axis normalAxis) const;
+
+	void		ResolveCollision(const Vector3& push);
 
 	//Getter
 	//重力フラグの参照
@@ -60,4 +60,7 @@ public:
 
 	int			GetSolverIterationCount() const { return mSolverIterationCount; }
 	void		SetSolverIterationCount(int count) { mSolverIterationCount = count; }
+
+	void		SetGrounded(bool grounded) { mIsGrounded = grounded; }
+	bool		IsGrounded() const { return mIsGrounded; }
 };

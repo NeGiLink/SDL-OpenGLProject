@@ -18,5 +18,7 @@ public:
 	void Load(string filePath);
 
 	void SetTrigger(bool active);
+
+	vector<class BoxCollider*>	GetBoxs() { return mBoxs; }
 };
 

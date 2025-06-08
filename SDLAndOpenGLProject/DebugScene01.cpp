@@ -62,27 +62,30 @@ bool DebugScene01::Initialize()
 	// デバッグ用のステージ追加
 	mDebugStage = new MeshActor();
 	mDebugStage->Load("DebugStage.fbx");
-	Vector3 pos = Vector3(0.0f, 0.0f, 0.0f);
+
+	Vector3 pos = Vector3(0.0f, -1.0f, 0.0f);
 	mDebugStage->SetLocalPosition(pos);
 	mDebugStage->SetActorTag(ActorTag::Ground);
-
 	mDebugStage2 = new MeshActor();
 	mDebugStage2->Load("DebugStage.fbx");
-	pos = Vector3(0.0f, 10.0f, 10.0f);
+
+	pos = Vector3(0.0f, 9.5f, 10.5f);
 	mDebugStage2->SetLocalPosition(pos);
 	q = Quaternion(Vector3::UnitX, -Math::PiOver2);
 	mDebugStage2->SetLocalRotation(q);
 
 	mDebugStage3 = new MeshActor();
 	mDebugStage3->Load("DebugStage.fbx");
-	pos = Vector3(0.0f, 10.0f, -10.0f);
+
+	pos = Vector3(0.0f, 9.5f, -10.5f);
 	mDebugStage3->SetLocalPosition(pos);
 	q = Quaternion(Vector3::UnitX, Math::PiOver2);
 	mDebugStage3->SetLocalRotation(q);
 
 	mDebugStage4 = new MeshActor();
 	mDebugStage4->Load("DebugStage.fbx");
-	pos = Vector3(10.0f, 10.0f, 0.0f);
+
+	pos = Vector3(10.5f, 9.5f, 0.0f);
 	mDebugStage4->SetLocalPosition(pos);
 	q = Quaternion(Vector3::UnitX, -Math::PiOver2);
 	q = Quaternion::Concatenate(q, Quaternion(Vector3::UnitY, -Math::PiOver2));
@@ -93,10 +96,11 @@ bool DebugScene01::Initialize()
 	mFPSActor->SetLocalPosition(Vector3(0.0f,1.0f,0.0f));
 
 	mPlayer = mFPSActor;
-	
+
 	mCube = new MeshActor();
 	mCube->Load("Cube.fbx");
 	mCube->SetLocalPosition(Vector3(0.0f, 0.5f, 4.0f));
+	/*
 	
 	mCapsule = new MeshActor();
 	mCapsule->Load("Capsule.fbx");
@@ -143,6 +147,7 @@ bool DebugScene01::Initialize()
 	mTarget3->SetLocalPosition(Vector3(5.0f, 2.0f, 10.0f));
 	mTarget3->SetLocalRotation(q);
 	new TargetComponent(mTarget3);
+	*/
 
 
 	return true;
@@ -226,7 +231,7 @@ bool DebugScene01::Update()
 	float time = Time::GetFrameRate();
 	mFrameRateText->SetText("FPS : " + FloatToString::ToStringWithoutDecimal(time));
 
-
+	/*
 	//簡易的なY軸回転処理
 	float rotationAmountY = mHealthObject->GetRotationAmountY();
 	rotationAmountY += 5 * Time::gDeltaTime;
@@ -240,6 +245,7 @@ bool DebugScene01::Update()
 	mDamageTrap->SetRotationAmountY(rotationAmountY);
 	r = Quaternion(Vector3::UnitY, rotationAmountY);
 	mDamageTrap->SetLocalRotation(r);
+	*/
 
 	BaseScene::Update();
 	return true;

@@ -26,6 +26,8 @@ public:
 	AABB			GetWorldBox() const override { return mWorldBox; }
 	//OBB‚ÌGetter
 	OBB				GetWorldOBB() const override { return mWorldOBB; }
+
+	OBB				GetObjectOBB() const { return mObjectOBB; }
 	//OBB‚©‚çAABB‚Ö•ÏŠ·
 	AABB			GetWorldAABBFromOBB() const override;
 	//Null
