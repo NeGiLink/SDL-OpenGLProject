@@ -52,9 +52,9 @@ bool Skeleton::LoadFromSkeletonBin(const string& fileName)
 		b.mName = bin.name;
 		b.mShortName = bin.shortName;
 		b.mParent = bin.parentIndex;
-		b.mLocalBindPose.mPosition = bin.position;
-		b.mLocalBindPose.mRotation = bin.rotation;
-		b.mLocalBindPose.mScale = bin.scale;
+		b.mLocalBindPose.SetPosition(bin.position);
+		b.mLocalBindPose.SetRotation(bin.rotation);
+		b.mLocalBindPose.SetScale(bin.scale);
 
 		//boneNameToIndexにボーン名をキーにボーン番号を格納
 		mBoneNameToIndex[b.mName] = static_cast<int>(mBones.size());
@@ -172,14 +172,24 @@ bool Skeleton::LoadFromJSON(const string& fileName)
 			return false;
 		}
 
+		Quaternion rotation(rot[0].GetDouble(), rot[1].GetDouble(), rot[2].GetDouble(), rot[3].GetDouble());
+
+		temp.mLocalBindPose.SetRotation(rotation);
+		/*
 		temp.mLocalBindPose.mRotation.x = rot[0].GetDouble();
 		temp.mLocalBindPose.mRotation.y = rot[1].GetDouble();
 		temp.mLocalBindPose.mRotation.z = rot[2].GetDouble();
 		temp.mLocalBindPose.mRotation.w = rot[3].GetDouble();
+		*/
 
+		Vector3 position(trans[0].GetDouble(), trans[1].GetDouble(), trans[2].GetDouble());
+
+		temp.mLocalBindPose.SetPosition(position);
+		/*
 		temp.mLocalBindPose.mPosition.x = trans[0].GetDouble();
 		temp.mLocalBindPose.mPosition.y = trans[1].GetDouble();
 		temp.mLocalBindPose.mPosition.z = trans[2].GetDouble();
+		*/
 
 		mBones.emplace_back(temp);
 	}
@@ -247,9 +257,9 @@ bool Skeleton::LoadFromFBX(const string& fileName)
 			//rot.x = -rot.x;
 			//pos.x = -pos.x;
 			//ローカルのバインドポーズに回転、平行移動、スケーリングを格納
-			boneStruct.mLocalBindPose.mRotation = Quaternion(rot.x, rot.y, rot.z, rot.w);
-			boneStruct.mLocalBindPose.mPosition = Vector3(pos.x, pos.y, pos.z);
-			boneStruct.mLocalBindPose.mScale = Vector3(scale.x, scale.y, scale.z);
+			boneStruct.mLocalBindPose.SetRotation(Quaternion(rot.x, rot.y, rot.z, rot.w));
+			boneStruct.mLocalBindPose.SetPosition(Vector3(pos.x, pos.y, pos.z));
+			boneStruct.mLocalBindPose.SetScale(Vector3(scale.x, scale.y, scale.z));
 			//boneNameToIndexにボーン名をキーにボーン番号を格納
 			mBoneNameToIndex[boneName] = static_cast<int>(mBones.size());
 			//同じくmBoneTransformにボーンの番号を格納
@@ -283,15 +293,15 @@ bool Skeleton::LoadFromFBX(const string& fileName)
 	uint32_t boneCount = static_cast<uint32_t>(mBones.size());
 	out.write((char*)&boneCount, sizeof(uint32_t));
 
-	for (const Bone& b : mBones)
+	for (Bone& b : mBones)
 	{
 		SkeletonBinBone bin{};
 		strncpy_s(bin.name, b.mName.c_str(), 64);
 		strncpy_s(bin.shortName, b.mShortName.c_str(), 64);
 		bin.parentIndex = b.mParent;
-		bin.position = b.mLocalBindPose.mPosition;
-		bin.rotation = b.mLocalBindPose.mRotation;
-		bin.scale = b.mLocalBindPose.mScale;
+		bin.position = b.mLocalBindPose.GetPosition();
+		bin.rotation = b.mLocalBindPose.GetRotation();
+		bin.scale = b.mLocalBindPose.GetScale();
 
 		out.write((char*)&bin, sizeof(SkeletonBinBone));
 	}
@@ -327,9 +337,9 @@ void Skeleton::SetParentBones(aiNode* node, int parentIndex)
 		aiVector3D scale;
 		localMatrix.Decompose(scale, rot, pos);
 
-		mBones[boneIndex].mLocalBindPose.mRotation = Quaternion(rot.x, rot.y, rot.z, rot.w);
-		mBones[boneIndex].mLocalBindPose.mPosition = Vector3(pos.x, pos.y, pos.z);
-		mBones[boneIndex].mLocalBindPose.mScale = Vector3(scale.x, scale.y, scale.z);
+		mBones[boneIndex].mLocalBindPose.SetRotation(Quaternion(rot.x, rot.y, rot.z, rot.w));
+		mBones[boneIndex].mLocalBindPose.SetPosition(Vector3(pos.x, pos.y, pos.z));
+		mBones[boneIndex].mLocalBindPose.SetScale(Vector3(scale.x, scale.y, scale.z));
 	}
 
 	// 子ノードを再帰的に処理

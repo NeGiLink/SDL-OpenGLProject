@@ -39,6 +39,8 @@ public:
 
 	void		ResolveCollision(const Vector3& push);
 
+	void		ApplyPushCorrection(const Vector3& correction, float dt);
+
 	//Getter
 	//重力フラグの参照
 	bool		IsUseGravity() { return mUseGravity; }

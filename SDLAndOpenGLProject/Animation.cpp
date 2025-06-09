@@ -88,9 +88,9 @@ bool Animation::LoadFromBinary(const std::string& filePath)
 			in.read((char*)&transform, sizeof(transform));
 
 			BoneTransform bt;
-			bt.mPosition = transform.position;
-			bt.mRotation = transform.rotation;
-			bt.mScale = transform.scale;
+			bt.SetPosition(transform.position);
+			bt.SetRotation(transform.rotation);
+			bt.SetScale(transform.scale);
 			mTracks[bone][frame] = bt;
 		}
 	}
@@ -118,9 +118,9 @@ bool Animation::SaveToBinary(const std::string& filePath)
 		for (size_t frame = 0; frame < mNumFrames; ++frame)
 		{
 			AnimationBinTransform transform;
-			transform.position = mTracks[bone][frame].mPosition;
-			transform.rotation = mTracks[bone][frame].mRotation;
-			transform.scale = mTracks[bone][frame].mScale;
+			transform.position = mTracks[bone][frame].GetPosition();
+			transform.rotation = mTracks[bone][frame].GetRotation();
+			transform.scale = mTracks[bone][frame].GetScale();
 			out.write((char*)&transform, sizeof(transform));
 		}
 	}
@@ -236,14 +236,24 @@ bool Animation::LoadFromJSON(const string& fileName)
 				return false;
 			}
 
+			Quaternion rotation(rot[0].GetDouble(), rot[1].GetDouble(), rot[2].GetDouble(), rot[3].GetDouble());
+
+			temp.SetRotation(rotation);
+			/*
 			temp.mRotation.x = rot[0].GetDouble();
 			temp.mRotation.y = rot[1].GetDouble();
 			temp.mRotation.z = rot[2].GetDouble();
 			temp.mRotation.w = rot[3].GetDouble();
+			*/
 
+			Vector3 position(trans[0].GetDouble(), trans[1].GetDouble(), trans[2].GetDouble());
+
+			temp.SetPosition(position);
+			/*
 			temp.mPosition.x = trans[0].GetDouble();
 			temp.mPosition.y = trans[1].GetDouble();
 			temp.mPosition.z = trans[2].GetDouble();
+			*/
 
 			mTracks[boneIndex].emplace_back(temp);
 		}
@@ -335,18 +345,21 @@ bool Animation::LoadFromFBX(const string& fileName)
 				finalPos = Vector3(pos.x - basePos.x, pos.y - basePos.y, pos.z - basePos.z);
 				mRootPositionOffset.push_back(finalPos);
 			}
-			temp.mPosition += finalPos;
+			temp.SetPosition(temp.GetPosition() += finalPos);
+			//temp.mPosition += finalPos;
 
 			// 回転キーの適用
 			aiQuaternion rot;
 			CalcInterpolatedRotation(rot, j, channel);
-			//rot.x = -rot.x;
-			temp.mRotation = Quaternion(rot.x, rot.y, rot.z, rot.w);
+
+			temp.SetRotation(Quaternion(rot.x, rot.y, rot.z, rot.w));
+			//temp.mRotation = Quaternion(rot.x, rot.y, rot.z, rot.w);
 
 			// スケールキーの適用
 			aiVector3D scale;
 			CalcInterpolatedScaling(scale, j, channel);
-			temp.mScale = Vector3(scale.x, scale.y, scale.z);
+			temp.SetScale(Vector3(scale.x, scale.y, scale.z));
+			//temp.mScale = Vector3(scale.x, scale.y, scale.z);
 
 			// `emplace_back()` ではなく、インデックス代入
 			mTracks[boneIndex][j] = temp;
@@ -412,7 +425,9 @@ void Animation::GetGlobalPoseAtTime(vector<Matrix4>& outPoses, const Skeleton* i
 				{
 					if (!isRootMotion)
 					{
-						currentBone.mPosition -= mRootPositionOffset[mTracks[bone].size() - 1];
+						//currentBone.mPosition -= mRootPositionOffset[mTracks[bone].size() - 1];
+						//currentBone.GetPosition() -= mRootPositionOffset[mTracks[bone].size() - 1];
+						currentBone.SetPosition(currentBone.GetPosition() -= mRootPositionOffset[mTracks[bone].size() - 1]);
 					}
 				}
 				localMat = currentBone.ToMatrix();
@@ -425,8 +440,10 @@ void Animation::GetGlobalPoseAtTime(vector<Matrix4>& outPoses, const Skeleton* i
 				{
 					if (!isRootMotion)
 					{
-						currentBone.mPosition -= mRootPositionOffset[frame];
-						nextBone.mPosition -= mRootPositionOffset[nextFrame];
+						//currentBone.mPosition -= mRootPositionOffset[frame];
+						currentBone.SetPosition(currentBone.GetPosition() -= mRootPositionOffset[frame]);
+						//nextBone.mPosition -= mRootPositionOffset[nextFrame];
+						nextBone.SetPosition(nextBone.GetPosition() -= mRootPositionOffset[nextFrame]);
 					}
 				}
 				BoneTransform interp = BoneTransform::Interpolate(currentBone,
