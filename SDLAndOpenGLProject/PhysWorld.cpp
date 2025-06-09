@@ -231,7 +231,6 @@ void PhysWorld::FixCollisions(class Collider* dynamicCollider, class Collider* s
 
 	// 総押し出しベクトル（複数法線合成）
 	Vector3 totalPush = Vector3::Zero;
-
 	for (auto& contact : contactPoints)
 	{
 		Vector3 push = contact.normal * (contact.penetration + contactOffset);
@@ -250,6 +249,7 @@ void PhysWorld::FixCollisions(class Collider* dynamicCollider, class Collider* s
 		auto actor = dynamicCollider->GetOwner();
 		auto rb = actor->GetRigidbody();
 		actor->SetLocalPosition(actor->GetPosition() + totalPush);
+		actor->ComputeWorldTransform(actor->GetParentActor() == nullptr ? NULL : &actor->GetParentActor()->GetWorldTransform());
 
 		// Rigidbodyに押し出し方向を通知（滑り/跳ね返り等に使用）
 		if (rb)
@@ -546,7 +546,8 @@ bool PhysWorld::GetContactInfo_OBB(const OBB& a, const OBB& b, Vector3& outNorma
 
 	// より信頼できる方向を使う（localからtransformされた差ベクトル）
 	Vector3 dir = a.mCenter - b.mCenter;
-	if (Vector3::Dot(dir, bestAxis) < 0.0f)
+	float fDir = Vector3::Dot(dir, bestAxis);
+	if (fDir < 0.0f)
 	{
 		bestAxis *= -1.0f;
 	}

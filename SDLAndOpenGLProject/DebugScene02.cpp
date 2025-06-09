@@ -108,7 +108,7 @@ bool DebugScene02::Initialize()
 	q = Quaternion(Vector3::UnitY, Math::Pi);
 
 	mTPSPlayer = new TPSPlayer();
-	mTPSPlayer->SetLocalPosition(Vector3(0.0f,0.0f,0.0f));
+	mTPSPlayer->SetLocalPosition(Vector3(0.0f,2.0f,0.0f));
 	
 	mSmallCharacter = new SkeletonMeshActor();
 	mSmallCharacter->Load("goblin_d_shareyko.fbx");

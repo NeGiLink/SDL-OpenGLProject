@@ -74,6 +74,22 @@ void Rigidbody::ResolveCollision(const Vector3& push)
     }
 }
 
+void Rigidbody::ApplyPushCorrection(const Vector3& correction, float dt)
+{
+    // correctionを速度に変換して加算（次のFixedUpdateで統合される）
+    Vector3 correctionVelocity = correction / dt;
+
+    // 法線方向の速度がめり込み方向なら置き換え or 調整
+    float projected = Vector3::Dot(mVelocity, correctionVelocity.Normalized());
+    if (projected < 0.0f)
+    {
+        mVelocity -= correctionVelocity.Normalized() * projected;
+    }
+
+    // さらに correctionVelocity を反映
+    mVelocity += correctionVelocity;
+}
+
 void Rigidbody::AddForce(Vector3 force)
 {
     mForces += force;

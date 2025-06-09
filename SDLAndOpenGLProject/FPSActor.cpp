@@ -78,16 +78,16 @@ void FPSActor::UpdateActor(float deltaTime)
 		if (info.mActor->GetActorTag() == ActorTag::Ground)
 		{
 			mBasicInput->SetJumping(false);
-			Debug::Log("In Ground");
+			//Debug::Log("In Ground");
 		}
 		else
 		{
-			Debug::Log("Out Ground");
+			//Debug::Log("Out Ground");
 		}
 	}
 	else
 	{
-		Debug::Log("Out Ground");
+		//Debug::Log("Out Ground");
 	}
 }
 
