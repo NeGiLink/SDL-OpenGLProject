@@ -6,23 +6,23 @@ VertexArray::VertexArray(const void* verts, unsigned int numVerts, Layout layout
 	, mNumIndices(numIndices)
 {
 	// 頂点配列を作成する
-	glGenVertexArrays(1, &mVertexArray);
+	glGenVertexArrays(VertexLayout::NUM_VERTEX_ARRAYS, &mVertexArray);
 	glBindVertexArray(mVertexArray);
 
-	unsigned vertexSize = 8 * sizeof(float);
+	unsigned vertexSize = VertexLayout::NORMTEX_SIZE;
 	if (layout == PosNormSkinTex)
 	{
 		//ウェイトをGL_FLOATにしたためサイズ変更
-		vertexSize = 12 * sizeof(float) + 4 * sizeof(char);
+		vertexSize = VertexLayout::NORMSKINTEX_SIZE;
 	}
 
 	// 頂点バッファを作成する
-	glGenBuffers(1, &mVertexBuffer);
+	glGenBuffers(VertexLayout::NUM_VERTEX_BUFFERS, &mVertexBuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, mVertexBuffer);
 	glBufferData(GL_ARRAY_BUFFER, numVerts * vertexSize, verts, GL_STATIC_DRAW);
 
 	// インデックスバッファを作成する
-	glGenBuffers(1, &mIndexBuffer);
+	glGenBuffers(VertexLayout::NUM_INDEX_BUFFERS, &mIndexBuffer);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mIndexBuffer);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, numIndices * sizeof(unsigned int), indices, GL_STATIC_DRAW);
 
@@ -30,38 +30,52 @@ VertexArray::VertexArray(const void* verts, unsigned int numVerts, Layout layout
 	if (layout == PosNormTex)
 	{
 		// Positionは3つの浮動小数点
-		glEnableVertexAttribArray(0);
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, vertexSize, 0);
+		glEnableVertexAttribArray(VertexLayout::POSITION_INDEX);
+		glVertexAttribPointer(VertexLayout::POSITION_INDEX, VertexLayout::POSITION_COMPONENTS,
+							  GL_FLOAT, GL_FALSE, vertexSize, VertexLayout::POSITION_OFFSET);
+
 		// Normalは3つの浮動小数点
-		glEnableVertexAttribArray(1);
-		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, vertexSize,
-			reinterpret_cast<void*>(sizeof(float) * 3));
+		glEnableVertexAttribArray(VertexLayout::NORMAL_INDEX);
+		glVertexAttribPointer(VertexLayout::NORMAL_INDEX, VertexLayout::NORMAL_COMPONENTS,
+			GL_FLOAT, GL_FALSE, vertexSize,
+			reinterpret_cast<void*>(sizeof(float) * VertexLayout::NORMAL_OFFSET));
+
 		// テクスチャ座標は2つの浮動小数点数
-		glEnableVertexAttribArray(2);
-		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, vertexSize,
-			reinterpret_cast<void*>(sizeof(float) * 6));
+		glEnableVertexAttribArray(VertexLayout::MESH_TEXUV_INDEX);
+		glVertexAttribPointer(VertexLayout::MESH_TEXUV_INDEX, VertexLayout::TEXCOORD_COMPONENTS,
+			GL_FLOAT, GL_FALSE, vertexSize,
+			reinterpret_cast<void*>(sizeof(float) * VertexLayout::TEXTURE_OFFSET));
 	}
 	else if (layout == PosNormSkinTex)
 	{
 		// Positionは3つの浮動小数点
-		glEnableVertexAttribArray(0);
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, vertexSize, 0);
+		glEnableVertexAttribArray(VertexLayout::POSITION_INDEX);
+		glVertexAttribPointer(VertexLayout::POSITION_INDEX, VertexLayout::POSITION_COMPONENTS,
+			GL_FLOAT, GL_FALSE, vertexSize, VertexLayout::POSITION_OFFSET);
+		
 		// Normalは3つの浮動小数点
-		glEnableVertexAttribArray(1);
-		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, vertexSize,
-			reinterpret_cast<void*>(sizeof(float) * 3));
+		glEnableVertexAttribArray(VertexLayout::NORMAL_INDEX);
+		glVertexAttribPointer(VertexLayout::NORMAL_INDEX, VertexLayout::NORMAL_COMPONENTS,
+			GL_FLOAT, GL_FALSE, vertexSize,
+			reinterpret_cast<void*>(sizeof(float) * VertexLayout::NORMAL_OFFSET));
+		
 		// スキニングインデックス（整数として保持）
-		glEnableVertexAttribArray(2);
-		glVertexAttribIPointer(2, 4, GL_UNSIGNED_BYTE, vertexSize,
-			reinterpret_cast<void*>(sizeof(float) * 6));
+		glEnableVertexAttribArray(VertexLayout::MESH_TEXUV_INDEX);
+		glVertexAttribIPointer(VertexLayout::MESH_TEXUV_INDEX, VertexLayout::BONE_INDEX_COUNT,
+			GL_UNSIGNED_BYTE, vertexSize,
+			reinterpret_cast<void*>(sizeof(float) * VertexLayout::SKINNING_OFFSET));
+		
 		// スキンウェイト（浮動小数点に変換）
-		glEnableVertexAttribArray(3);
-		glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, vertexSize,
-			reinterpret_cast<void*>(sizeof(float) * 6 + sizeof(char) * 4));
+		glEnableVertexAttribArray(VertexLayout::BONEWEIGHT_INDEX);
+		glVertexAttribPointer(VertexLayout::BONEWEIGHT_INDEX, VertexLayout::WEIGHT_COMPONENTS,
+			GL_FLOAT, GL_FALSE, vertexSize,
+			reinterpret_cast<void*>(sizeof(float) * VertexLayout::SKINWEIGHT_OFFSET + sizeof(char) * VertexLayout::BONE_INDEX_COUNT));
+		
 		// テクスチャ座標
-		glEnableVertexAttribArray(4);
-		glVertexAttribPointer(4, 2, GL_FLOAT, GL_FALSE, vertexSize,
-			reinterpret_cast<void*>(sizeof(float) * 10 + sizeof(char) * 4));
+		glEnableVertexAttribArray(VertexLayout::SKINMESH_TEXUV_INDEX);
+		glVertexAttribPointer(VertexLayout::SKINMESH_TEXUV_INDEX, VertexLayout::TEXCOORD_COMPONENTS,
+			GL_FLOAT, GL_FALSE, vertexSize,
+			reinterpret_cast<void*>(sizeof(float) * VertexLayout::SKINTEXTURE_OFFSET + sizeof(char) * VertexLayout::BONE_INDEX_COUNT));
 	}
 }
 
@@ -69,8 +83,8 @@ VertexArray::VertexArray(float fillAmount, int maxSegments)
 {
 	struct Vertex
 	{
-		float position[3];
-		float texCoord[2];
+		float position[VertexLayout::POSITION_COMPONENTS];
+		float texCoord[VertexLayout::TEXCOORD_COMPONENTS];
 	};
 
 	int segments = std::max(1, static_cast<int>(maxSegments * fillAmount));
@@ -109,9 +123,9 @@ VertexArray::VertexArray(float fillAmount, int maxSegments)
 	mNumVerts = static_cast<unsigned int>(indices.size());
 
 	// OpenGLバッファ生成と設定
-	glGenVertexArrays(1, &mVertexArray);
-	glGenBuffers(1, &mVertexBuffer);
-	glGenBuffers(1, &mIndexBuffer);
+	glGenVertexArrays(VertexLayout::NUM_VERTEX_ARRAYS, &mVertexArray);
+	glGenBuffers(VertexLayout::NUM_VERTEX_BUFFERS, &mVertexBuffer);
+	glGenBuffers(VertexLayout::NUM_INDEX_BUFFERS, &mIndexBuffer);
 
 	glBindVertexArray(mVertexArray);
 
@@ -122,36 +136,36 @@ VertexArray::VertexArray(float fillAmount, int maxSegments)
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), indices.data(), GL_STATIC_DRAW);
 
 	// 頂点属性（位置：location=0、UV：location=2）
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, position));
+	glEnableVertexAttribArray(VertexLayout::POSITION_INDEX);
+	glVertexAttribPointer(VertexLayout::POSITION_INDEX, VertexLayout::POSITION_COMPONENTS, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, position));
 
-	glEnableVertexAttribArray(2);
-	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, texCoord));
+	glEnableVertexAttribArray(VertexLayout::MESH_TEXUV_INDEX);
+	glVertexAttribPointer(VertexLayout::MESH_TEXUV_INDEX, VertexLayout::TEXCOORD_COMPONENTS, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, texCoord));
 }
 
 VertexArray::VertexArray(const float* verts, unsigned int numVerts)
 	: mNumVerts(numVerts)
 	, mNumIndices(0)
 {
-	glGenVertexArrays(1, &mVertexArray);
-	glGenBuffers(1, &mVertexBuffer);
+	glGenVertexArrays(VertexLayout::NUM_VERTEX_ARRAYS, &mVertexArray);
+	glGenBuffers(VertexLayout::NUM_VERTEX_BUFFERS, &mVertexBuffer);
 
 	glBindVertexArray(mVertexArray);
 	glBindBuffer(GL_ARRAY_BUFFER, mVertexBuffer);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 3 * numVerts, verts, GL_STATIC_DRAW);
 
 	// 位置属性だけ（vec3）
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(VertexLayout::POSITION_INDEX);
+	glVertexAttribPointer(VertexLayout::POSITION_INDEX, VertexLayout::POSITION_COMPONENTS, GL_FLOAT, GL_FALSE, VertexLayout::POSITION_COMPONENTS * sizeof(float), (void*)0);
 
 	glBindVertexArray(0);
 }
 
 VertexArray::~VertexArray()
 {
-	glDeleteBuffers(1, &mVertexBuffer);
-	glDeleteBuffers(1, &mIndexBuffer);
-	glDeleteVertexArrays(1, &mVertexArray);
+	glDeleteBuffers(VertexLayout::NUM_VERTEX_BUFFERS, &mVertexBuffer);
+	glDeleteBuffers(VertexLayout::NUM_INDEX_BUFFERS, &mIndexBuffer);
+	glDeleteVertexArrays(VertexLayout::NUM_VERTEX_ARRAYS, &mVertexArray);
 }
 
 void VertexArray::SetActive()

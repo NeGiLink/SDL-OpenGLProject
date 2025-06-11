@@ -3,6 +3,63 @@
 #include "StandardLibrary.h"
 #include "Math.h"
 
+namespace VertexLayout
+{
+	//各型のバイト数
+	constexpr size_t FLOAT_SIZE = sizeof(float);
+	constexpr size_t UBYTE_SIZE = sizeof(unsigned char);
+
+	constexpr GLsizei NUM_VERTEX_ARRAYS = 1;
+
+	constexpr GLsizei NUM_VERTEX_BUFFERS = 1;
+
+	constexpr GLsizei NUM_INDEX_BUFFERS = 1;
+
+	//***glEnableVertexAttribArrayのアクセスインデックス***
+	//位置の頂点属性のインデックス
+	constexpr size_t  POSITION_INDEX = 0;
+	//法線の頂点属性のインデックス
+	constexpr size_t  NORMAL_INDEX = 1;
+	//テクスチャ座標(UV)の頂点属性のインデックス
+	constexpr size_t  MESH_TEXUV_INDEX = 2;
+	//ウェイトの頂点属性のインデックス
+	constexpr size_t  BONEWEIGHT_INDEX = 3;
+	//ボーンインデックス・ボーンのウェイト・テクスチャ情報の頂点属性のインデックス
+	constexpr size_t  SKINMESH_TEXUV_INDEX = 4;
+
+
+	// 属性の構成（floatサイズ前提）
+	constexpr size_t POSITION_COMPONENTS = 3;
+	constexpr size_t NORMAL_COMPONENTS = 3;
+	constexpr size_t TEXCOORD_COMPONENTS = 2;
+	constexpr size_t WEIGHT_COMPONENTS = 4;
+	constexpr size_t BONE_INDEX_COUNT = 4;
+
+	//Positionオフセット値
+	constexpr size_t POSITION_OFFSET = 0;
+	//Normalオフセット値
+	constexpr size_t  NORMAL_OFFSET = POSITION_COMPONENTS;
+	//Textrue座標のオフセット値
+	constexpr size_t  TEXTURE_OFFSET = POSITION_COMPONENTS + NORMAL_COMPONENTS;
+	//スキニングオフセット値
+	constexpr size_t  SKINNING_OFFSET = POSITION_COMPONENTS + NORMAL_COMPONENTS;
+	//スキンウェイトオフセット値
+	constexpr size_t  SKINWEIGHT_OFFSET = POSITION_COMPONENTS + NORMAL_COMPONENTS;
+	//テクスチャオフセット値
+	constexpr size_t  SKINTEXTURE_OFFSET = POSITION_COMPONENTS + NORMAL_COMPONENTS + WEIGHT_COMPONENTS;
+
+
+	//Meshオブジェクトの頂点サイズ
+	constexpr size_t  MESHOBJECT_SIZE = POSITION_COMPONENTS + NORMAL_COMPONENTS + TEXCOORD_COMPONENTS;
+	//SkinMeshオブジェクトの頂点サイズ
+	constexpr size_t  SKINMESHOBJECT_SIZE = POSITION_COMPONENTS + NORMAL_COMPONENTS + TEXCOORD_COMPONENTS + BONE_INDEX_COUNT;
+
+	//各頂点のサイズ(NormTex)
+	constexpr size_t  NORMTEX_SIZE = MESHOBJECT_SIZE * FLOAT_SIZE;
+	//各頂点のサイズ(NormSkinTex)
+	constexpr size_t  NORMSKINTEX_SIZE = SKINMESHOBJECT_SIZE * FLOAT_SIZE + WEIGHT_COMPONENTS * UBYTE_SIZE;
+}
+
 //書籍元を改造したファイル
 class VertexArray
 {

@@ -7,6 +7,14 @@
 #include "VertexArray.h"
 #include "FilePath.h"
 
+namespace MeshLayout
+{
+	//メッシュの要素数
+	constexpr int MESH_VERTEXCOUNT = 8;
+	//スキンメッシュの要素数
+	constexpr int SKINMESH_VERTEXCOUNT = 13;
+}
+
 //書籍元を改造したファイル
 //マテリアル情報の構造体
 struct MaterialInfo
@@ -51,9 +59,9 @@ public:
 								Mesh();
 								~Mesh();
 	// Load
-	bool						Load(const string& fileName, class Renderer* renderer,int index);
+	bool						Load(const string& fileName, class Renderer* renderer,int index = 0);
 	// バイナリファイルからの読み込み処理
-	bool						LoadFromMeshBin(const string& fileName, Renderer* renderer, int index);
+	bool						LoadFromMeshBin(const string& fileName, Renderer* renderer, int index = 0);
 	//Meshの数を取得
 	int							CheckMeshIndex(const string& fileName, class Renderer* renderer);
 	// Unload mesh

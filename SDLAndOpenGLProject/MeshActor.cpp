@@ -5,28 +5,66 @@ void MeshActor::Load(string filePath)
 	mMeshRenderer = new MeshRenderer(this);
 	vector<class Mesh*> mesh = GetGame()->GetWinMain()->GetRenderer()->GetMeshs(filePath);
 	mMeshRenderer->SetMeshs(mesh);
-
-	// Add collision box
-	for (unsigned int i = 0; i < mMeshRenderer->GetMeshs().size(); i++)
-	{
-		// ボックスの当たり判定機能追加
-		for (unsigned int j = 0; j < mMeshRenderer->GetMeshs()[i]->GetBoxs().size(); j++)
-		{
-			BoxCollider* box = new BoxCollider(this);
-			box->SetObjectBox(mMeshRenderer->GetMeshs()[i]->GetBoxs()[j]);
-			box->SetObjectOBB(mMeshRenderer->GetMeshs()[i]->GetOBBBoxs()[j]);
-			mBoxs.push_back(box);
-		}
-	}
 }
 
 void MeshActor::SetTrigger(bool active)
 {
-	for (unsigned int i = 0; i < mMeshRenderer->GetMeshs().size(); i++)
+	if (mBoxCollider)
 	{
-		for (unsigned int j = 0; j < mMeshRenderer->GetMeshs()[i]->GetBoxs().size(); j++)
-		{
-			mBoxs[i]->SetStaticObject(active);
-		}
+		mBoxCollider->SetStaticObject(active);
 	}
+
+	if (mSphereCollider)
+	{
+		mSphereCollider->SetStaticObject(active);
+	}
+
+	if (mCapsuleCollider)
+	{
+		mCapsuleCollider->SetStaticObject(active);
+	}
+}
+
+void MeshActor::AddBoxCollider()
+{
+	BoxCollider* box = new BoxCollider(this);
+	box->SetObjectBox(mMeshRenderer->GetMeshs()[0]->GetBoxs()[0]);
+	box->SetObjectOBB(mMeshRenderer->GetMeshs()[0]->GetOBBBoxs()[0]);
+	mBoxCollider = box;
+}
+
+void MeshActor::AddSphereCollider()
+{
+	SphereCollider* sphereCollider = new SphereCollider(this);
+	Sphere sphere(mPosition,0.5f);
+	sphereCollider->SetObjectSphere(sphere);
+
+	mSphereCollider = sphereCollider;
+}
+
+void MeshActor::AddCapsuleCollider()
+{
+	OBB obb = mMeshRenderer->GetMeshs()[0]->GetOBBBoxs()[0];
+	// 中心と回転
+	Vector3 center = obb.mCenter;
+	Quaternion rot = obb.mRotation;
+
+	// ローカル軸方向
+	Vector3 up = Vector3::Transform(Vector3::UnitY, rot); // ローカルY軸を世界空間に
+
+	// 半径 = X/Zの小さい方
+	float radius = std::min(obb.mExtents.x, obb.mExtents.z);
+
+	// 線分の長さ = Y軸方向の長さから両端の半球を除いた部分
+	float lineHalfLength = obb.mExtents.y - radius;
+
+	// 始点・終点を中心から上下に延ばす
+	Vector3 start = center - up * lineHalfLength;
+	Vector3 end = center + up * lineHalfLength;
+
+	Capsule capsule(start, end,radius);
+
+	CapsuleCollider* capsuleCollider = new CapsuleCollider(this);
+	capsuleCollider->SetObjectCapsule(capsule);
+	mCapsuleCollider = capsuleCollider;
 }

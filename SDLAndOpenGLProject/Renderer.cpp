@@ -179,8 +179,6 @@ bool Renderer::LoadShaders()
 
 void Renderer::Draw()
 {
-	// まず鏡のテクスチャを描画します。
-	// Draw3DScene(mMirrorBuffer, mMirrorView, mProjection, 0.25f);
 	// G-bufferに3Dシーンを描画します。
 	Draw3DScene(mGBuffer->GetBufferID(), mView, mProjection, 1.0f, false);
 	// フレームバッファをゼロ（スクリーンのフレームバッファ）に戻します
@@ -508,11 +506,11 @@ Mesh* Renderer::GetMesh(const string& fileName)
 	else
 	{
 		m = new Mesh();
-		if (m->LoadFromMeshBin(file, this, 0))
+		if (m->LoadFromMeshBin(file, this))
 		{
 			mMeshes.emplace(file, m);
 		}
-		else if (m->Load(file, this , 0))
+		else if (m->Load(file, this))
 		{
 			mMeshes.emplace(file, m);
 		}

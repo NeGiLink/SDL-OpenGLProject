@@ -119,6 +119,7 @@ float LineSegment::MinDistSq(const LineSegment& s1, const LineSegment& s2)
 	return dP.LengthSq();   // return the closest distance squared
 }
 
+
 Plane::Plane(const Vector3& normal, float d)
 	:mNormal(normal)
 	, mD(d)
@@ -315,6 +316,89 @@ bool ConvexPolygon::Contains(const Vector2& point) const
 	// Return true if approximately 2pi
 	return Math::NearZero(sum - Math::TwoPi);
 }
+bool OnCollision(const OBB& a, const OBB& b)
+{
+	Vector3 aAxes[3] = {
+	Vector3::Transform(Vector3::UnitX, a.mRotation),
+	Vector3::Transform(Vector3::UnitY, a.mRotation),
+	Vector3::Transform(Vector3::UnitZ, a.mRotation)
+	};
+
+	Vector3 bAxes[3] = {
+		Vector3::Transform(Vector3::UnitX, b.mRotation),
+		Vector3::Transform(Vector3::UnitY, b.mRotation),
+		Vector3::Transform(Vector3::UnitZ, b.mRotation)
+	};
+
+	Vector3 axes[15];
+	int axisCount = 0;
+
+	for (int i = 0; i < 3; ++i) axes[axisCount++] = aAxes[i];
+	for (int i = 0; i < 3; ++i) axes[axisCount++] = bAxes[i];
+	for (int i = 0; i < 3; ++i)
+	{
+		for (int j = 0; j < 3; ++j)
+		{
+			Vector3 cross = Vector3::Cross(aAxes[i], bAxes[j]);
+			if (cross.LengthSq() > 1e-6f)
+				axes[axisCount++] = cross.Normalized();
+		}
+	}
+
+	for (int i = 0; i < axisCount; ++i)
+	{
+		Vector3 axis = axes[i];
+
+		float minA, maxA, minB, maxB;
+		ProjectOBB(a, axis, minA, maxA);
+		ProjectOBB(b, axis, minB, maxB);
+
+		if (std::min(maxA, maxB) - std::max(minA, minB) < 0.0f)
+		{
+			// 分離軸が見つかった → 非衝突
+			return false;
+		}
+	}
+
+	// すべての軸で重なりがある → 衝突している
+	return true;
+}
+bool OnCollision(const OBB& a, const Sphere& b)
+{
+	// 1. Sphere中心をOBBのローカル座標に変換
+	Vector3 localSphereCenter = b.mCenter - a.mCenter;
+
+	// OBBの3つの軸（基底ベクトル）
+	Vector3 axes[3] = {
+		Vector3::Transform(Vector3::UnitX, a.mRotation),
+		Vector3::Transform(Vector3::UnitY, a.mRotation),
+		Vector3::Transform(Vector3::UnitZ, a.mRotation)
+	};
+
+	// Sphere中心のローカル座標
+	Vector3 localPoint(0, 0, 0);
+
+	// 2. 各軸に投影し、Extentsの範囲にクランプ
+	for (int i = 0; i < 3; ++i)
+	{
+		float dist = Vector3::Dot(localSphereCenter, axes[i]);
+		float extent = (i == 0) ? a.mExtents.x : (i == 1) ? a.mExtents.y : a.mExtents.z;
+		float clampedDist = std::max(-extent, std::min(dist, extent));
+		localPoint += axes[i] * clampedDist;
+	}
+
+	// 3. Sphere中心と最近点の距離を計算
+	Vector3 difference = localPoint - localSphereCenter;
+	float distanceSq = difference.LengthSq();
+
+	// 半径の二乗と比較
+	return distanceSq <= b.mRadius * b.mRadius;
+}
+bool OnCollision(const OBB& a, const Capsule& b)
+{
+	float dist = ClosestDistanceSegmentToOBB(b.mSegment, a);
+	return dist <= b.mRadius;
+}
 //球同士の当たり判定
 bool OnCollision(const Sphere& a, const Sphere& b)
 {
@@ -322,18 +406,7 @@ bool OnCollision(const Sphere& a, const Sphere& b)
 	float sumRadii = a.mRadius + b.mRadius;
 	return distSq <= (sumRadii * sumRadii);
 }
-//ボックス同士の当たり判定
-bool OnCollision(const AABB& a, const AABB& b)
-{
-	bool no = a.mMax.x < b.mMin.x ||
-		a.mMax.y < b.mMin.y ||
-		a.mMax.z < b.mMin.z ||
-		b.mMax.x < a.mMin.x ||
-		b.mMax.y < a.mMin.y ||
-		b.mMax.z < a.mMin.z;
-	// If none of these are true, they must intersect
-	return !no;
-}
+
 //カプセル同士の当たり判定
 bool OnCollision(const Capsule& a, const Capsule& b)
 {
@@ -342,38 +415,7 @@ bool OnCollision(const Capsule& a, const Capsule& b)
 	float sumRadii = a.mRadius + b.mRadius;
 	return distSq <= (sumRadii * sumRadii);
 }
-//カプセルとボックスの当たり判定
-bool OnCollision(const Capsule& a, const AABB& b)
-{
-	// 1. カプセルの線分を取得
-	const Vector3& segStart = a.mSegment.mStart;
-	const Vector3& segEnd = a.mSegment.mEnd;
 
-	// 2. AABB に対して、線分の最近接点を求める
-	Vector3 closestPoint = ClosestPtSegmentAABB(segStart, segEnd, b);
-
-	// 3. 最近接点とカプセルの線分の最短距離を計算
-	float sqDist = a.SqrDistanceToSegment(closestPoint);
-
-	// 4. 半径の二乗と比較
-	return sqDist <= a.mRadius * a.mRadius;
-}
-//ボックスとカプセルの当たり判定
-bool OnCollision(const AABB& a, const Capsule& b)
-{
-	// 1. カプセルの線分を取得
-	const Vector3& segStart = b.mSegment.mStart;
-	const Vector3& segEnd = b.mSegment.mEnd;
-
-	// 2. AABB に対して、線分の最近接点を求める
-	Vector3 closestPoint = ClosestPtSegmentAABB(segStart, segEnd, a);
-
-	// 3. 最近接点とカプセルの線分の最短距離を計算
-	float sqDist = b.SqrDistanceToSegment(closestPoint);
-
-	// 4. 半径の二乗と比較
-	return sqDist <= b.mRadius * b.mRadius;
-}
 //カプセルと球の当たり判定
 bool OnCollision(const Capsule& a, const Sphere& b)
 {
@@ -404,20 +446,11 @@ bool OnCollision(const Capsule& a, const Sphere& b)
 //球とカプセルの当たり判定
 bool OnCollision(const Sphere& a, const Capsule& b)
 {
-	return false;
+	float distSq = b.mSegment.MinDistSq(a.mCenter);
+	float radiusSum = a.mRadius + b.mRadius;
+	return distSq <= radiusSum * radiusSum;
 }
-//球とボックスの当たり判定
-bool OnCollision(const Sphere& s, const AABB& box)
-{
-	float distSq = box.MinDistSq(s.mCenter);
-	return distSq <= (s.mRadius * s.mRadius);
-}
-//ボックスと球の当たり判定
-bool OnCollision(const AABB& box, const Sphere& s)
-{
-	float distSq = box.MinDistSq(s.mCenter);
-	return distSq <= (s.mRadius * s.mRadius);
-}
+
 //線分と球の当たり判定
 bool OnCollision(const LineSegment& l, const Sphere& s, float& outT)
 {
@@ -609,6 +642,140 @@ bool SweptSphere(const Sphere& P0, const Sphere& P1,
 			return false;
 		}
 	}
+}
+
+void ProjectOBB(const OBB& obb, const Vector3& axis, float& outMin, float& outMax)
+{
+	Vector3 x = Vector3::Transform(Vector3::UnitX, obb.mRotation) * obb.mExtents.x;
+	Vector3 y = Vector3::Transform(Vector3::UnitY, obb.mRotation) * obb.mExtents.y;
+	Vector3 z = Vector3::Transform(Vector3::UnitZ, obb.mRotation) * obb.mExtents.z;
+
+	Vector3 corners[8] = {
+		obb.mCenter + x + y + z,
+		obb.mCenter + x + y - z,
+		obb.mCenter + x - y + z,
+		obb.mCenter + x - y - z,
+		obb.mCenter - x + y + z,
+		obb.mCenter - x + y - z,
+		obb.mCenter - x - y + z,
+		obb.mCenter - x - y - z,
+	};
+
+	outMin = outMax = Vector3::Dot(axis, corners[0]);
+	for (int i = 1; i < 8; ++i)
+	{
+		float proj = Vector3::Dot(axis, corners[i]);
+		outMin = std::min(outMin, proj);
+		outMax = std::max(outMax, proj);
+	}
+}
+
+float ClosestDistanceSegmentToOBB(const LineSegment& seg, const OBB& obb)
+{
+	// t ∈ [0,1] を細かく分割して調査（簡易）
+	const int steps = 10;
+	float minDistSq = Math::Infinity;
+
+	for (int i = 0; i <= steps; ++i)
+	{
+		float t = i / static_cast<float>(steps);
+		Vector3 pointOnSegment = seg.mStart + (seg.mEnd - seg.mStart) * t;
+		Vector3 closestOnOBB = ClosestPointOnOBB(pointOnSegment, obb);
+		float distSq = (pointOnSegment - closestOnOBB).LengthSq();
+		if (distSq < minDistSq)
+		{
+			minDistSq = distSq;
+		}
+	}
+
+	return std::sqrt(minDistSq); // 距離を返す
+}
+
+Vector3 ClosestPointOnOBB(const Vector3& point, const OBB& obb)
+{
+	Vector3 d = point - obb.mCenter;
+	Vector3 closest = obb.mCenter;
+
+	for (int i = 0; i < 3; ++i)
+	{
+		Vector3 axis = Vector3::Transform(Vector3::Axis(i), obb.mRotation);
+		float dist = Vector3::Dot(d, axis);
+		float extent = (i == 0) ? obb.mExtents.x : (i == 1) ? obb.mExtents.y : obb.mExtents.z;
+		dist = Math::Clamp(dist, -extent, extent);
+		closest += axis * dist;
+	}
+
+	return closest;
+}
+
+void ClosestPtsBetweenSegments(const LineSegment& s1, const LineSegment& s2, Vector3& outPt1, Vector3& outPt2)
+{
+	Vector3 d1 = s1.mStart - s1.mEnd; // 線分1の方向ベクトル
+	Vector3 d2 = s2.mStart - s2.mEnd; // 線分2の方向ベクトル
+	Vector3 r = s1.mStart - s2.mStart;
+
+	float a = Vector3::Dot(d1, d1); // |d1|^2
+	float e = Vector3::Dot(d2, d2); // |d2|^2
+	float f = Vector3::Dot(d2, r);
+
+	float s, t;
+
+	const float EPSILON = 1e-6f;
+
+	if (a <= EPSILON && e <= EPSILON)
+	{
+		// 両方とも点扱い
+		outPt1 = s1.mStart;
+		outPt2 = s2.mStart;
+		return;
+	}
+
+	if (a <= EPSILON)
+	{
+		// 線分1が点
+		s = 0.0f;
+		t = Math::Clamp(f / e, 0.0f, 1.0f);
+	}
+	else
+	{
+		float c = Vector3::Dot(d1, r);
+		if (e <= EPSILON)
+		{
+			// 線分2が点
+			t = 0.0f;
+			s = Math::Clamp(-c / a, 0.0f, 1.0f);
+		}
+		else
+		{
+			float b = Vector3::Dot(d1, d2);
+			float denom = a * e - b * b;
+
+			if (denom != 0.0f)
+			{
+				s = Math::Clamp((b * f - c * e) / denom, 0.0f, 1.0f);
+			}
+			else
+			{
+				s = 0.0f;
+			}
+
+			t = (b * s + f) / e;
+
+			if (t < 0.0f)
+			{
+				t = 0.0f;
+				s = Math::Clamp(-c / a, 0.0f, 1.0f);
+			}
+			else if (t > 1.0f)
+			{
+				t = 1.0f;
+				s = Math::Clamp((b - c) / a, 0.0f, 1.0f);
+			}
+		}
+	}
+
+	outPt1 = s1.mStart + d1 * s;
+	outPt2 = s2.mStart + d2 * t;
 }
 
 OBB::OBB(const Vector3& center, const Quaternion& rotation, const Vector3& extents)

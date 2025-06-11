@@ -65,30 +65,33 @@ public:
 	// 線分をボックスに対して判定します。
 	// ボックスに衝突する場合は真を返します。
 	bool												RayCast(const LineSegment& l, CollisionInfo& outColl,int tag);
-	vector<CollisionInfo>								RayCastAll(const LineSegment& l);
 
-	//素朴なpairwise衝突判定
-	void												TestPairwise(std::function<void(class ActorObject*, class ActorObject*)> f);
+	std::vector<CollisionInfo>							RayCastAll(const LineSegment& l);
 
 	//XYZのSweeppruneを使用した衝突判定
 	void												SweepAndPruneXYZ();
-
+	//押し出し処理の呼び出し元
 	void												FixCollisions(class Collider* dynamicCollider, class Collider* staticCollider);
-	/*
-	//AABBでの押し出しに使用する関数
-	bool												GetContactInfo(const AABB& a, const AABB& b, Vector3& outNormal, float& outDepth);
+	//各コライダー同士の精密判定をまとめた関数
+	bool												IsOnCollision(class Collider* colliderA, class Collider* colliderB);
+	//各コライダー同士の押し出し処理をまとめた関数
+	void												IsCollectContactPoints(class Collider* colliderA, class Collider* colliderB, std::vector<ContactPoint>& outContacts, float contactOffset);
 
-	void												CollectContactPoints(const AABB& a, const AABB& b, std::vector<ContactPoint>& outContacts, float contactOffset);
-	Vector3												CalculatePushVector(const std::vector<ContactPoint>& contacts, float contactOffset);
-	*/
-	//OBBでの押し出しに使用する関数
-	bool												OnCollision_OBB(const OBB& a, const OBB& b);
-
-	void												CollectContactPoints(const OBB& a, const OBB& b, std::vector<ContactPoint>& outContacts, float contactOffset);
-	
+	//OBB vs OBBの押し出し処理
+	void												CollectContactPoints_OBB_OBB(const OBB& a, const OBB& b, std::vector<ContactPoint>& outContacts, float contactOffset);
+	//OBB vs OBBの押し出し処理に使う関数
 	bool												GetContactInfo_OBB(const OBB& a, const OBB& b, Vector3& outNormal, float& outDepth);
+	//Sphere vs Sphereの押し出し処理
+	void												CollectContactPoints_Sphere_Sphere(const Sphere& a, const Sphere& b, std::vector<ContactPoint>& outContacts, float contactOffset);
+	//Capsule vs Capsuleの押し出し処理
+	void												CollectContactPoints_Capsule_Capsule(const Capsule& a, const Capsule& b, std::vector<ContactPoint>& outContacts, float contactOffset);
+	//OBB vs Sphereの押し出し処理
+	void												CollectContactPoints_OBB_Sphere(const OBB& a, const Sphere& b, std::vector<ContactPoint>& outContacts, float contactOffset);
+	//OBB vs Capsuleの押し出し処理
+	void												CollectContactPoints_OBB_Capsule(const OBB& a, const Capsule& b, std::vector<ContactPoint>& outContacts, float contactOffset);
+	//Sphere vs Capsuleの押し出し処理
+	void												CollectContactPoints_Sphere_Capsule(const Sphere& a, const Capsule& b, std::vector<ContactPoint>& outContacts, float contactOffset);
 
-	void												ProjectOBB(const OBB& obb, const Vector3& axis, float& outMin, float& outMax);
 	// 世界からボックスコンポーネントを追加/削除する
 	void												AddCollider(class Collider* box);
 	void												RemoveCollider(class Collider* box);

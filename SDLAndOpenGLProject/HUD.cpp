@@ -136,8 +136,8 @@ void HUD::UpdateCrosshair(float deltaTime)
 	LineSegment l(start, start + dir * cAimDist);
 	// Segment cast
 	PhysWorld::CollisionInfo info;
-	ActorTag tag = ActorTag::Ground;
-	if (mGame->GetPhysWorld()->RayCast(l, info, tag))
+	ActorTag tag = ActorTag::Enemy;
+	if (mGame->GetPhysWorld()->RayCast(l, info, (int)tag))
 	{
 		// Is this a target?
 		for (auto tc : mTargetComps)

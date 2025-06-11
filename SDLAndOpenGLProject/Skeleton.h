@@ -12,9 +12,9 @@
 struct SkeletonBinBone
 {
 	// ボーン名（固定長）
-	char		name[MAX_SKELETONBINBONE];       
+	char		name[SkeletonLayout::MAX_SKELETONBINBONE];
 	// 短縮版ボーン名
-	char		shortName[MAX_SKELETONBINBONE];
+	char		shortName[SkeletonLayout::MAX_SKELETONBINBONE];
 	// 親ボーンインデックス（-1 なら root）
 	int32_t		parentIndex;      
 	// バインドポーズの位置

@@ -3,6 +3,11 @@
 #include "Assimp.h"
 #include "SDL3.h"
 
+namespace AnimationLayout
+{
+	constexpr float DEFAULTTICKSPERSECOND = 25.0f;
+}
+
 //‘ĞŒ³‚ğ‰ü‘¢‚µ‚½ƒtƒ@ƒCƒ‹
 struct AnimationBinHeader 
 {

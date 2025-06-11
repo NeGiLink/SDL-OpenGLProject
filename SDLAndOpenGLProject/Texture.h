@@ -5,6 +5,21 @@
 #include "SDL3.h"
 #include "FilePath.h"
 
+namespace TextureLayout
+{
+	constexpr int GL_RGBA_SIZE = 4;
+
+	constexpr int GL_RGB_SIZE = 3;
+
+	constexpr int GL_RED_SIZE = 1;
+
+	constexpr int GL_RGBA8_SIZE = 4;
+
+	constexpr int GL_RGB8_SIZE = 3;
+
+	constexpr int GL_R8_SIZE = 1;
+}
+
 //書籍元を改造したファイル
 //画像の読み込み、参照を行うことをカプセル化したクラス
 class Texture

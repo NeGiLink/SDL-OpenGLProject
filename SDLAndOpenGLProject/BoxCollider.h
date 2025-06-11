@@ -22,8 +22,7 @@ public:
 	void			SetObjectBox(const AABB& model) { mObjectBox = model; }
 
 	void			SetObjectOBB(const OBB& model) { mObjectOBB = model; }
-	//AABBのGetter
-	AABB			GetWorldBox() const override { return mWorldBox; }
+
 	//OBBのGetter
 	OBB				GetWorldOBB() const override { return mWorldOBB; }
 
@@ -31,15 +30,9 @@ public:
 	//OBBからAABBへ変換
 	AABB			GetWorldAABBFromOBB() const override;
 	//Null
-	const Sphere&	GetWorldSphere() const override
-	{
-		return Sphere(Vector3::Zero, 0.0f);
-	}
+	const Sphere&	GetWorldSphere() const override { return Sphere(Vector3::Zero, 0.0f); }
 	//Null
-	const Capsule&	GetWorldCapsule() const override
-	{
-		return Capsule(Vector3::Zero, Vector3::Zero, 0.0f);
-	}
+	const Capsule&	GetWorldCapsule() const override { return Capsule(Vector3::Zero, Vector3::Zero, 0.0f); }
 	//回転フラグ
 	void			SetShouldRotate(bool value) { mShouldRotate = value; }
 	//コライダーのタグ

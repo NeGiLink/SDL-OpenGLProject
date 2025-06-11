@@ -507,6 +507,8 @@ public:
 	// クォータニオンでベクトル3を変換
 	static Vector3 Transform(const Vector3& v, const class Quaternion& q);
 
+	static Vector3 Axis(int i);
+
 	static const Vector3 Zero;
 	static const Vector3 UnitX;
 	static const Vector3 UnitY;
