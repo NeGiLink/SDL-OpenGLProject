@@ -3,6 +3,12 @@
 #include "Math.h"
 #include "Typedefs.h"
 
+namespace AudioSystemLayout
+{
+	// 同時発音の最大数
+	constexpr int MAX_CHANNELS = 512;
+}
+
 // FMODヘッダーを含めるのを避けるための前方宣言
 namespace FMOD
 {

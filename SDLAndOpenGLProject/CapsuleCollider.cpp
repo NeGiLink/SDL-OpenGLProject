@@ -41,3 +41,16 @@ OBB CapsuleCollider::GetWorldOBB() const
 {
     return mWorldOBB;
 }
+
+AABB CapsuleCollider::GetWorldAABBFromOBB() const
+{
+    const Vector3& p0 = mWorldCapsule.mSegment.mStart;
+    const Vector3& p1 = mWorldCapsule.mSegment.mEnd;
+    float r = mWorldCapsule.mRadius;
+
+    Vector3 min = Vector3::Min(p0, p1);
+    Vector3 max = Vector3::Max(p0, p1);
+
+    Vector3 rVec(r, r, r);
+    return AABB(min - rVec, max + rVec);
+}

@@ -34,7 +34,7 @@ bool Skeleton::LoadFromSkeletonBin(const string& fileName)
 	uint32_t boneCount = 0;
 	in.read((char*)&boneCount, sizeof(uint32_t));
 
-	if (boneCount > MAX_SKELETON_BONES)
+	if (boneCount > SkeletonLayout::MAX_SKELETON_BONES)
 	{
 		SDL_Log("Skeleton bin exceeds max bones");
 		return false;
@@ -119,7 +119,7 @@ bool Skeleton::LoadFromJSON(const string& fileName)
 
 	size_t count = bonecount.GetUint();
 
-	if (count > MAX_SKELETON_BONES)
+	if (count > SkeletonLayout::MAX_SKELETON_BONES)
 	{
 		SDL_Log("Skeleton %s exceeds maximum bone count.", fileName.c_str());
 		return false;
@@ -296,8 +296,8 @@ bool Skeleton::LoadFromFBX(const string& fileName)
 	for (Bone& b : mBones)
 	{
 		SkeletonBinBone bin{};
-		strncpy_s(bin.name, b.mName.c_str(), 64);
-		strncpy_s(bin.shortName, b.mShortName.c_str(), 64);
+		strncpy_s(bin.name, b.mName.c_str(), SkeletonLayout::MAX_SKELETONBINBONE);
+		strncpy_s(bin.shortName, b.mShortName.c_str(), SkeletonLayout::MAX_SKELETONBINBONE);
 		bin.parentIndex = b.mParent;
 		bin.position = b.mLocalBindPose.GetPosition();
 		bin.rotation = b.mLocalBindPose.GetRotation();

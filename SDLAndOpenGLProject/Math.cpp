@@ -89,6 +89,18 @@ Vector3 Vector3::Transform(const Vector3& v, const Quaternion& q)
 	return retVal;
 }
 
+Vector3 Vector3::Axis(int i)
+{
+	if (i == 0)
+		return Vector3::UnitX;
+	else if (i == 1)
+		return Vector3::UnitY;
+	else
+		return Vector3::UnitZ;
+	return Vector3::UnitZ;
+}
+
+
 void Matrix4::Invert()
 {
 	// Thanks slow math

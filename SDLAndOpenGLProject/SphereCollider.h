@@ -20,22 +20,14 @@ public:
 	
 	OBB				GetWorldOBB() const override;
 
-	AABB			GetWorldBox() const override 
-	{
-		Vector3 min = mWorldSphere.mCenter - mWorldSphere.mRadius;
-		Vector3 max = mWorldSphere.mCenter + mWorldSphere.mRadius;
-		return AABB(min, max);
-	}
-	const Sphere&	GetWorldSphere() const override
-	{
-		return mWorldSphere;
-	}
-	const Capsule&	GetWorldCapsule() const override 
-	{
-		return Capsule(Vector3::Zero, Vector3::Zero, 0.0f);
-	}
+	const Sphere&	GetWorldSphere() const override { return mWorldSphere; }
+
+	const Capsule&	GetWorldCapsule() const override { return Capsule(Vector3::Zero, Vector3::Zero, 0.0f); }
 
 	void			SetShouldRotate(bool value) { mShouldRotate = value; }
 
+	AABB			GetWorldAABBFromOBB() const override;
+
 	ColliderType	GetType() override { return ColliderType::SphereType; }
+
 };

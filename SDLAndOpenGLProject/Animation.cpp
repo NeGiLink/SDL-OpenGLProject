@@ -279,7 +279,7 @@ bool Animation::LoadFromFBX(const string& fileName)
 
 	aiAnimation* anim = scene->mAnimations[0];
 
-	float ticksPerSecond = (anim->mTicksPerSecond != 0) ? anim->mTicksPerSecond : 25.0f;
+	float ticksPerSecond = (anim->mTicksPerSecond != 0) ? anim->mTicksPerSecond : AnimationLayout::DEFAULTTICKSPERSECOND;
 	mDuration = static_cast<float>(anim->mDuration / ticksPerSecond);
 
 	//mNumFrames ‚ğƒL[‚ÌÅ‘å’l‚É‡‚í‚¹‚é

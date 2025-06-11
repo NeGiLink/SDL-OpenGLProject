@@ -35,7 +35,7 @@ bool AudioSystem::Initialize()
 
 	// FMODスタジオシステムを初期化
 	result = mSystem->initialize(
-		512, // 同時発音の最大数
+		AudioSystemLayout::MAX_CHANNELS, // 同時発音の最大数
 		FMOD_STUDIO_INIT_NORMAL, // デフォルト設定を使用する
 		FMOD_INIT_NORMAL, // デフォルト設定を使用する
 		nullptr // 通常は無効
@@ -84,7 +84,7 @@ void AudioSystem::LoadBank(const string& name)
 		&bank // バンクへのポインタを保存する
 	);
 
-	const int maxPathLength = 512;
+	const int maxPathLength = AudioSystemLayout::MAX_CHANNELS;
 	if (result == FMOD_OK)
 	{
 		// mapにバンクを追加する
@@ -118,12 +118,12 @@ void AudioSystem::LoadBank(const string& name)
 			// このバンクのバスのリストを取得する
 			vector<FMOD::Studio::Bus*> buses(numBuses);
 			bank->getBusList(buses.data(), numBuses, &numBuses);
-			char busName[512];
+			char busName[AudioSystemLayout::MAX_CHANNELS];
 			for (int i = 0; i < numBuses; i++)
 			{
 				FMOD::Studio::Bus* bus = buses[i];
 				// このバスのパスを取得してください（bus:/SFXのように）
-				bus->getPath(busName, 512, nullptr);
+				bus->getPath(busName, AudioSystemLayout::MAX_CHANNELS, nullptr);
 				//バスをmapに追加
 				mBuses.emplace(busName, bus);
 			}
@@ -151,12 +151,12 @@ void AudioSystem::UnloadBank(const string& name)
 		vector<FMOD::Studio::EventDescription*> events(numEvents);
 		// Get list of events
 		bank->getEventList(events.data(), numEvents, &numEvents);
-		char eventName[512];
+		char eventName[AudioSystemLayout::MAX_CHANNELS];
 		for (int i = 0; i < numEvents; i++)
 		{
 			FMOD::Studio::EventDescription* e = events[i];
 			// Get the path of this event
-			e->getPath(eventName, 512, nullptr);
+			e->getPath(eventName, AudioSystemLayout::MAX_CHANNELS, nullptr);
 			// Remove this event
 			auto eventi = mEvents.find(eventName);
 			if (eventi != mEvents.end())
@@ -173,12 +173,12 @@ void AudioSystem::UnloadBank(const string& name)
 		// Get list of buses in this bank
 		vector<FMOD::Studio::Bus*> buses(numBuses);
 		bank->getBusList(buses.data(), numBuses, &numBuses);
-		char busName[512];
+		char busName[AudioSystemLayout::MAX_CHANNELS];
 		for (int i = 0; i < numBuses; i++)
 		{
 			FMOD::Studio::Bus* bus = buses[i];
 			// Get the path of this bus (like bus:/SFX)
-			bus->getPath(busName, 512, nullptr);
+			bus->getPath(busName, AudioSystemLayout::MAX_CHANNELS, nullptr);
 			// Remove this bus
 			auto busi = mBuses.find(busName);
 			if (busi != mBuses.end())

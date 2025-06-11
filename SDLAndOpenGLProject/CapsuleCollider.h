@@ -20,25 +20,15 @@ public:
 	void			SetObjectCapsule(const Capsule& model) { mObjectCapsule = model; }
 
 	OBB				GetWorldOBB() const override;
-	//ƒJƒvƒZƒ‹‚©‚çAABB‚ðŽæ“¾
-	AABB			GetWorldBox() const override 
-	{
-		Vector3 min = Vector3::Min(mWorldCapsule.mSegment.mStart, mWorldCapsule.mSegment.mEnd) - Vector3(mWorldCapsule.mRadius, mWorldCapsule.mRadius, mWorldCapsule.mRadius);
-		Vector3 max = Vector3::Max(mWorldCapsule.mSegment.mStart, mWorldCapsule.mSegment.mEnd) + Vector3(mWorldCapsule.mRadius, mWorldCapsule.mRadius, mWorldCapsule.mRadius);
-		return AABB(min, max);
-	}
 
-	const Sphere&	GetWorldSphere() const override
-	{
-		return Sphere(Vector3::Zero,0.0f);
-	}
+	const Sphere&	GetWorldSphere() const override { return Sphere(Vector3::Zero, 0.0f); }
 
-	const Capsule&	GetWorldCapsule() const override
-	{
-		return mWorldCapsule;
-	}
+	const Capsule&	GetWorldCapsule() const override { return mWorldCapsule; }
 
 	void			SetShouldRotate(bool value) { mShouldRotate = value; }
 
+	AABB			GetWorldAABBFromOBB() const override;
+
 	ColliderType	GetType() override { return ColliderType::CapsuleType; }
+
 };

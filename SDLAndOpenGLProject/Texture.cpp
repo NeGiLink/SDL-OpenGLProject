@@ -27,7 +27,7 @@ bool Texture::Load(const string& fileName)
 	}
 
 	int format = GL_RGB;
-	if (channels == 4)
+	if (channels == TextureLayout::GL_RGBA_SIZE)
 	{
 		format = GL_RGBA;
 	}
@@ -77,15 +77,13 @@ bool Texture::LoadFromAssimp(const aiTexture* embeddedTex)
 		return false;
 	}
 
-	int format =			(channels == 4) ? GL_RGBA :
-							(channels == 3) ? GL_RGB :
-							(channels == 1) ? GL_RED : GL_RGB;
+	int format =			(channels == TextureLayout::GL_RGBA_SIZE) ? GL_RGBA :
+							(channels == TextureLayout::GL_RGB_SIZE) ? GL_RGB :
+							(channels == TextureLayout::GL_RED_SIZE) ? GL_RED : GL_RGB;
 
-	int internalFormat =	(channels == 4) ? GL_RGBA8 :
-							(channels == 3) ? GL_RGB8 :
-							(channels == 1) ? GL_R8 : GL_RGB8;
-
-	//int format = (channels == 4) ? GL_RGBA : GL_RGB;
+	int internalFormat =	(channels == TextureLayout::GL_RGBA8_SIZE) ? GL_RGBA8 :
+							(channels == TextureLayout::GL_RGB8_SIZE) ? GL_RGB8 :
+							(channels == TextureLayout::GL_R8_SIZE) ? GL_R8 : GL_RGB8;
 
 	glGenTextures(1, &mTextureID);
 	glBindTexture(GL_TEXTURE_2D, mTextureID);

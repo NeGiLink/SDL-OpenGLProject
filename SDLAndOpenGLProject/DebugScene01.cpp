@@ -62,12 +62,14 @@ bool DebugScene01::Initialize()
 	// デバッグ用のステージ追加
 	mDebugStage = new MeshActor();
 	mDebugStage->Load("DebugStage.fbx");
+	mDebugStage->AddBoxCollider();
 
 	Vector3 pos = Vector3(0.0f, -1.0f, 0.0f);
 	mDebugStage->SetLocalPosition(pos);
 	mDebugStage->SetActorTag(ActorTag::Ground);
 	mDebugStage2 = new MeshActor();
 	mDebugStage2->Load("DebugStage.fbx");
+	mDebugStage2->AddBoxCollider();
 
 	pos = Vector3(0.0f, 9.5f, 10.5f);
 	mDebugStage2->SetLocalPosition(pos);
@@ -81,6 +83,7 @@ bool DebugScene01::Initialize()
 	mDebugStage3->SetLocalPosition(pos);
 	q = Quaternion(Vector3::UnitX, Math::PiOver2);
 	mDebugStage3->SetLocalRotation(q);
+	mDebugStage3->AddBoxCollider();
 
 	mDebugStage4 = new MeshActor();
 	mDebugStage4->Load("DebugStage.fbx");
@@ -90,6 +93,7 @@ bool DebugScene01::Initialize()
 	q = Quaternion(Vector3::UnitX, -Math::PiOver2);
 	q = Quaternion::Concatenate(q, Quaternion(Vector3::UnitY, -Math::PiOver2));
 	mDebugStage4->SetLocalRotation(q);
+	mDebugStage4->AddBoxCollider();
 
 	// プレイヤー生成
 	mFPSActor = new FPSActor();
@@ -100,28 +104,33 @@ bool DebugScene01::Initialize()
 	mCube = new MeshActor();
 	mCube->Load("Cube.fbx");
 	mCube->SetLocalPosition(Vector3(0.0f, 0.5f, 4.0f));
-	/*
+	mCube->AddBoxCollider();
 	
 	mCapsule = new MeshActor();
 	mCapsule->Load("Capsule.fbx");
 	mCapsule->SetLocalPosition(Vector3(2.0f, 2.0f, 4.0f));
+	mCapsule->AddBoxCollider();
 	mCube->AddChildActor(mCapsule);
 
 
 	mSphere = new MeshActor();
 	mSphere->Load("Sphere.fbx");
 	mSphere->SetLocalPosition(Vector3(-2.0f, 0.5f, 4.0f));
+	mSphere->AddBoxCollider();
+	mSphere->AddChildActor(mCapsule);
 	mCube->AddChildActor(mSphere);
 
 	mDice = new MeshActor();
 	mDice->Load("TestCube.fbx");
 	mDice->SetLocalPosition(Vector3(4.0f, 0.5f, 4.0f));
+	mDice->AddBoxCollider();
 
 	mDamageTrap = new MeshActor();
 	mDamageTrap->Load("DamageTrap.fbx");
 	mDamageTrap->SetLocalPosition(Vector3(0.0f, 0.7f, -4.0f));
 	mDamageTrap->SetActorTag(ActorTag::Enemy);
 	mDamageTrap->SetTrigger(false);
+	mDamageTrap->AddBoxCollider();
 
 	mHealthObject = new MeshActor();
 	mHealthObject->Load("Health.fbx");
@@ -129,6 +138,7 @@ bool DebugScene01::Initialize()
 	mHealthObject->SetLocalPosition(Vector3(4.0f, 1.0f, -4.0f));
 	mHealthObject->SetActorTag(ActorTag::Recovery);
 	mHealthObject->SetTrigger(false);
+	mHealthObject->AddBoxCollider();
 
 	// 的オブジェクト生成
 	q = Quaternion();
@@ -136,18 +146,20 @@ bool DebugScene01::Initialize()
 	mTarget1->Load("Target.fbx");
 	mTarget1->SetLocalPosition(Vector3(0.0f, 2.0f, 10.0f));
 	mTarget1->SetLocalRotation(q);
+	mTarget1->AddBoxCollider();
 	new TargetComponent(mTarget1);
 	mTarget2 = new MeshActor();
 	mTarget2->Load("Target.fbx");
 	mTarget2->SetLocalPosition(Vector3(-5.0f, 2.0f, 10.0f));
 	mTarget2->SetLocalRotation(q);
+	mTarget2->AddBoxCollider();
 	new TargetComponent(mTarget2);
 	mTarget3 = new MeshActor();
 	mTarget3->Load("Target.fbx");
 	mTarget3->SetLocalPosition(Vector3(5.0f, 2.0f, 10.0f));
 	mTarget3->SetLocalRotation(q);
+	mTarget3->AddBoxCollider();
 	new TargetComponent(mTarget3);
-	*/
 
 
 	return true;
@@ -231,7 +243,6 @@ bool DebugScene01::Update()
 	float time = Time::GetFrameRate();
 	mFrameRateText->SetText("FPS : " + FloatToString::ToStringWithoutDecimal(time));
 
-	/*
 	//簡易的なY軸回転処理
 	float rotationAmountY = mHealthObject->GetRotationAmountY();
 	rotationAmountY += 5 * Time::gDeltaTime;
@@ -245,7 +256,6 @@ bool DebugScene01::Update()
 	mDamageTrap->SetRotationAmountY(rotationAmountY);
 	r = Quaternion(Vector3::UnitY, rotationAmountY);
 	mDamageTrap->SetLocalRotation(r);
-	*/
 
 	BaseScene::Update();
 	return true;

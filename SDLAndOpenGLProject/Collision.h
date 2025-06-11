@@ -2,6 +2,7 @@
 #include "Math.h"
 #include "Typedefs.h"
 
+
 //書籍部分を一部改造したファイル
 //各当たり判定の構造体をまとめたファイル
 //ボックス、球、線など
@@ -74,7 +75,9 @@ struct Capsule
 				Capsule(const Vector3& start, const Vector3& end, float radius);
 	// 0 <= t <= 1 の間のセグメントに沿った点を取得する
 	Vector3		PointOnSegment(float t) const;
+	
 	bool		Contains(const Vector3& point) const;
+
 	float		SqrDistanceToSegment(const Vector3& point) const;
 
 	LineSegment mSegment;
@@ -88,21 +91,31 @@ struct ConvexPolygon
 	vector<Vector2>		mVertices;
 };
 
+bool	OnCollision(const OBB& a, const OBB& b);
+bool	OnCollision(const OBB& a, const Sphere& b);
+bool	OnCollision(const OBB& a, const Capsule& b);
 // 交差点機能
-bool OnCollision(const Sphere& a, const Sphere& b);
-bool OnCollision(const AABB& a, const AABB& b);
-bool OnCollision(const Capsule& a, const Capsule& b);
-bool OnCollision(const Sphere& s, const AABB& box);
-bool OnCollision(const AABB& box, const Sphere& s);
-bool OnCollision(const Capsule& capsule, const AABB& box);
-bool OnCollision(const AABB& box,const Capsule& capsule);
-bool OnCollision(const Capsule& capsule, const Sphere& b);
-bool OnCollision(const Sphere& a, const Capsule& b);
+bool	OnCollision(const Sphere& a, const Sphere& b);
+bool	OnCollision(const Sphere& a, const Capsule& b);
 
-bool OnCollision(const LineSegment& l, const Sphere& s, float& outT);
-bool OnCollision(const LineSegment& l, const Plane& p, float& outT);
-bool OnCollision(const LineSegment& l, const AABB& b, float& outT,Vector3& outNorm);
-bool OnCollision(const LineSegment& rayWorld, OBB& obb, float& outT, Vector3& outNorm);
+bool	OnCollision(const Capsule& capsule, const Sphere& b);
 
-bool SweptSphere(const Sphere& P0, const Sphere& P1,
-	const Sphere& Q0, const Sphere& Q1, float& t);
+bool	OnCollision(const LineSegment& l, const Sphere& s, float& outT);
+bool	OnCollision(const LineSegment& l, const Plane& p, float& outT);
+bool	OnCollision(const LineSegment& l, const AABB& b, float& outT,Vector3& outNorm);
+bool	OnCollision(const LineSegment& rayWorld, OBB& obb, float& outT, Vector3& outNorm);
+
+
+bool	OnCollision(const Capsule& a, const Capsule& b);
+
+bool	SweptSphere(const Sphere& P0, const Sphere& P1,
+		const Sphere& Q0, const Sphere& Q1, float& t);
+
+
+void	ProjectOBB(const OBB& obb, const Vector3& axis, float& outMin, float& outMax);
+
+float	ClosestDistanceSegmentToOBB(const LineSegment& seg, const OBB& obb);
+
+Vector3 ClosestPointOnOBB(const Vector3& point, const OBB& obb);
+
+void	ClosestPtsBetweenSegments(const LineSegment& s1, const LineSegment& s2, Vector3& outPt1, Vector3& outPt2);

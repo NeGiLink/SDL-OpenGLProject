@@ -28,3 +28,12 @@ OBB SphereCollider::GetWorldOBB() const
 {
 	return mWorldOBB;
 }
+
+AABB SphereCollider::GetWorldAABBFromOBB() const
+{
+	Vector3 rVec(mWorldSphere.mRadius, mWorldSphere.mRadius, mWorldSphere.mRadius);
+	return AABB(
+		mWorldSphere.mCenter - rVec,
+		mWorldSphere.mCenter + rVec
+	);
+}

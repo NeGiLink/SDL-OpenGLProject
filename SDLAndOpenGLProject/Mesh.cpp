@@ -87,7 +87,7 @@ bool Mesh::LoadFromMeshBin(const string& fileName, Renderer* renderer, int index
 		VertexArray::PosNormTex : VertexArray::PosNormSkinTex;
 
 	// 要素数を計算（1頂点あたりのVertex数）
-	size_t stride = (layout == VertexArray::PosNormTex) ? 8 : 13;
+	size_t stride = (layout == VertexArray::PosNormTex) ? MeshLayout::MESH_VERTEXCOUNT : MeshLayout::SKINMESH_VERTEXCOUNT;
 	std::vector<Vertex> vertices(header.vertexCount * stride);
 	std::vector<uint32_t> indices(header.indexCount);
 
@@ -739,11 +739,11 @@ bool Mesh::LoadFromFBX(const string& fileName, Renderer* renderer, int index)
 
 	//Skinの場合のLayout変更
 	VertexArray::Layout layout = VertexArray::PosNormTex;
-	unsigned int vertexCount = static_cast<unsigned>(vertices.size()) / 8;
+	unsigned int vertexCount = static_cast<unsigned>(vertices.size()) / MeshLayout::MESH_VERTEXCOUNT;
 	if (mesh->HasBones())
 	{
 		layout = VertexArray::PosNormSkinTex;
-		vertexCount = static_cast<unsigned>(vertices.size()) / 13;
+		vertexCount = static_cast<unsigned>(vertices.size()) / MeshLayout::SKINMESH_VERTEXCOUNT;
 	}
 
 	mRadiusArray.push_back(radius);

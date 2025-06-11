@@ -2,6 +2,8 @@
 #include "Actor.h"
 #include "MeshRenderer.h"
 #include "BoxCollider.h"
+#include "SphereCollider.h"
+#include "CapsuleCollider.h"
 #include "Mesh.h"
 
 //3DÉÇÉfÉãÇì«Ç›çûÇﬁÉNÉâÉX
@@ -13,12 +15,27 @@ class MeshActor : public ActorObject
 private:
 	MeshRenderer*				mMeshRenderer;
 
-	vector<class BoxCollider*>	mBoxs;
+	class BoxCollider*			mBoxCollider;
+
+	class SphereCollider*		mSphereCollider;
+
+	class CapsuleCollider*		mCapsuleCollider;
+
 public:
 	void Load(string filePath);
 
 	void SetTrigger(bool active);
 
-	vector<class BoxCollider*>	GetBoxs() { return mBoxs; }
+	void AddBoxCollider();
+
+	void AddSphereCollider();
+
+	void AddCapsuleCollider();
+
+	class BoxCollider* GetBoxCollider() { return mBoxCollider; }
+
+	class SphereCollider* GetSphereCollider() { return mSphereCollider; }
+
+	class CapsuleCollider* GetCapsuleCollider() { return mCapsuleCollider; }
 };
 
