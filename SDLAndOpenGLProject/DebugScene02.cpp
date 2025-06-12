@@ -84,6 +84,7 @@ bool DebugScene02::Initialize()
 	Vector3 pos = Vector3(0.0f, 0.0f, 0.0f);
 	mDebugStage1->SetLocalPosition(pos);
 	mDebugStage1->SetActorTag(ActorTag::Ground);
+	mDebugStage1->AddBoxCollider();
 
 	mDebugStage2 = new MeshActor();
 	mDebugStage2->Load("DebugStage.fbx");
@@ -91,6 +92,7 @@ bool DebugScene02::Initialize()
 	mDebugStage2->SetLocalPosition(pos);
 	q = Quaternion(Vector3::UnitX, -Math::PiOver2);
 	mDebugStage2->SetLocalRotation(q);
+	mDebugStage2->AddBoxCollider();
 
 	mTestCharacter = new SkeletonMeshActor();
 	mTestCharacter->Load("Paladin J Nordstrom.fbx");

@@ -108,21 +108,21 @@ bool DebugScene01::Initialize()
 	
 	mCapsule = new MeshActor();
 	mCapsule->Load("Capsule.fbx");
-	mCapsule->SetLocalPosition(Vector3(2.0f, 2.0f, 4.0f));
-	mCapsule->AddBoxCollider();
+	mCapsule->SetLocalPosition(Vector3(4.0f, 1.0f, 4.0f));
+	mCapsule->AddCapsuleCollider();
 	mCube->AddChildActor(mCapsule);
 
 
 	mSphere = new MeshActor();
 	mSphere->Load("Sphere.fbx");
-	mSphere->SetLocalPosition(Vector3(-2.0f, 0.5f, 4.0f));
-	mSphere->AddBoxCollider();
+	mSphere->SetLocalPosition(Vector3(-4.0f, 0.5f, 4.0f));
+	mSphere->AddSphereCollider();
 	mSphere->AddChildActor(mCapsule);
 	mCube->AddChildActor(mSphere);
 
 	mDice = new MeshActor();
 	mDice->Load("TestCube.fbx");
-	mDice->SetLocalPosition(Vector3(4.0f, 0.5f, 4.0f));
+	mDice->SetLocalPosition(Vector3(8.0f, 0.5f, 4.0f));
 	mDice->AddBoxCollider();
 
 	mDamageTrap = new MeshActor();
@@ -130,7 +130,7 @@ bool DebugScene01::Initialize()
 	mDamageTrap->SetLocalPosition(Vector3(0.0f, 0.7f, -4.0f));
 	mDamageTrap->SetActorTag(ActorTag::Enemy);
 	mDamageTrap->SetTrigger(false);
-	mDamageTrap->AddBoxCollider();
+	mDamageTrap->AddSphereCollider();
 
 	mHealthObject = new MeshActor();
 	mHealthObject->Load("Health.fbx");

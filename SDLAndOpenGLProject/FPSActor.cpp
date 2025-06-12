@@ -8,7 +8,7 @@ FPSActor::FPSActor()
 
 	mRigidbody = new Rigidbody(this);
 	mRigidbody->SetSolverIterationCount(6);
-	mRigidbody->SetBounciness(0.5f);
+	mRigidbody->SetBounciness(0.0f);
 
 	mAudioComp = new AudioComponent(this);
 	mLastFootstep = 0.0f;
@@ -45,10 +45,6 @@ void FPSActor::UpdateActor(float deltaTime)
 {
 	ActorObject::UpdateActor(deltaTime);
 
-	//Debug::Log("x %2f", mPosition.x);
-	//Debug::Log("y %2f", mPosition.y);
-	//Debug::Log("z %2f", mPosition.z);
-
 	if (!mBasicInput->GetJumping()) 
 	{
 		// ‘«‰¹‚ÌSE‚ðÄ¶‚·‚éˆ—
@@ -78,16 +74,7 @@ void FPSActor::UpdateActor(float deltaTime)
 		if (info.mActor->GetActorTag() == ActorTag::Ground)
 		{
 			mBasicInput->SetJumping(false);
-			//Debug::Log("In Ground");
 		}
-		else
-		{
-			//Debug::Log("Out Ground");
-		}
-	}
-	else
-	{
-		//Debug::Log("Out Ground");
 	}
 }
 
