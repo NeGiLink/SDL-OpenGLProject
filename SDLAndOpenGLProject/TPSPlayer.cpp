@@ -53,7 +53,7 @@ void TPSPlayer::UpdateActor(float deltaTime)
 
 	mMovement->SetJumping(true);
 	// Make a line segment
-	const float cAimDist = 3.0f;
+	const float cAimDist = 2.5f;
 	Vector3 start = mPosition;
 	start.y += 0.5f;
 	Vector3 dir = GetUp();

@@ -474,6 +474,9 @@ void PhysWorld::CollectContactPoints_OBB_Sphere(const OBB& a, const Sphere& b, s
 		float penetration = radius - dist;
 
 		Vector3 normal = (dist > 0.0001f) ? diff / dist : Vector3::UnitX;
+
+		// normal を押し出される Sphere に外向きに揃える
+		normal *= -1.0f;
 		outContacts.emplace_back(ContactPoint{ normal, penetration });
 	}
 }
@@ -510,6 +513,8 @@ void PhysWorld::CollectContactPoints_OBB_Capsule(const OBB& a, const Capsule& b,
 			normal.Normalize();
 		else
 			normal = Vector3::UnitX;
+
+		normal *= -1.0f;
 
 		outContacts.emplace_back(ContactPoint{ normal, penetration });
 	}
