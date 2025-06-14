@@ -17,13 +17,10 @@ public:
 		const Vector2& pos, const Vector2& dims);
 	~Button();
 
-	// ボタンの名前を設定します
-	void					SetName(const string& name);
 
-
-	void SetButtonText(class Texture* texture) { mButtonTex = texture; }
+	void					SetButtonText(class Texture* texture);
 	// Getters/setters
-	class Texture*			GetNameTex() { return mNameTex; }
+	class Text*				GetNameText() { return mNameText; }
 	const Vector2&			GetPosition() const { return mPosition; }
 	void					SetHighlighted(bool sel) { mHighlighted = sel; }
 	bool					GetHighlighted() const { return mHighlighted; }
@@ -32,7 +29,6 @@ public:
 	bool					ContainsPoint(const Vector2& pt) const;
 	// ボタンがクリックされたときに呼び出されます
 	void					OnClick();
-	void					Draw(class Shader* shader)override;
 	// 画像を描画する関数
 	void					DrawTexture(class Shader* shader, class Texture* texture,
 		const Vector2& offset = Vector2::Zero,
@@ -42,9 +38,9 @@ private:
 
 	string					mName;
 
-	class Texture*			mButtonTex;
+	class Image*			mButtonImage;
 
-	class Texture*			mNameTex;
+	class Text*				mNameText;
 
 	class Font*				mFont;
 

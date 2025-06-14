@@ -18,6 +18,8 @@ Text::~Text()
 
 void Text::SetText(const string& name)
 {
+	const char* text = name.c_str();
+	mU8Name = std::u8string(reinterpret_cast<const char8_t*>(text));
 	mName = name;
 
 	if (mTexture)

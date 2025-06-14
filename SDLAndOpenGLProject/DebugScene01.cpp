@@ -8,7 +8,6 @@ DebugScene01::DebugScene01(GameWinMain* winMain)
 
 bool DebugScene01::Initialize()
 {
-
 	BaseScene::Initialize();
 	// Load English text
 	LoadText("Assets/English.gptext");
@@ -17,7 +16,7 @@ bool DebugScene01::Initialize()
 
 
 	// ポイントライトメッシュをロードする
-	mWinMain->GetRenderer()->SetPointLightMesh(mWinMain->GetRenderer()->GetMesh("PointLight.gpmesh"));
+	//mWinMain->GetRenderer()->SetPointLightMesh(mWinMain->GetRenderer()->GetMesh("PointLight.gpmesh"));
 
 	// 環境光の設定
 	mWinMain->GetRenderer()->SetAmbientLight(Vector3(0.4f, 0.4f, 0.4f));
@@ -32,15 +31,15 @@ bool DebugScene01::Initialize()
 	Font* font = GetFont("NotoSansJP-Bold.ttf");
 	//シーン名生成
 	mSceneNameText = new Text(font, Vector2(500, 350));
-	mSceneNameText->SetText(u8"デバッグシーン1");
+	mSceneNameText->SetText("デバッグシーン1");
 	mSceneNameText->SetFontSize(40);
 	
 	mPoseButtonText = new Text(font, Vector2(-500, 350));
-	mPoseButtonText->SetText(u8"ポーズ:ESC Key");
+	mPoseButtonText->SetText("ポーズ:ESC Key");
 	mPoseButtonText->SetFontSize(40);
 
 	mSceneLoadButtonText = new Text(font, Vector2(450, 150));
-	string t = u8"シーンのロード:L Key";
+	string t = "シーンのロード:L Key";
 	mSceneLoadButtonText->SetText(t);
 	mSceneLoadButtonText->SetFontSize(48);
 
@@ -165,58 +164,8 @@ bool DebugScene01::Initialize()
 	return true;
 }
 
-bool DebugScene01::InputUpdate()
+bool DebugScene01::InputUpdate(const InputState& state)
 {
-	//入力操作
-	SDL_Event event;
-	while (SDL_PollEvent(&event))
-	{
-		switch (event.type)
-		{
-			//実行が終了するとtrue
-		case SDL_EVENT_QUIT:
-			GameStateClass::SetGameState(GameState::GameEnd);
-			break;
-			// This fires when a key's initially pressed
-			//キーボードのボタンをどれかを押すとtrue
-		case SDL_EVENT_KEY_DOWN:
-			if (!event.key.repeat)
-			{
-				if (GameStateClass::mGameState == GameState::GamePlay)
-				{
-					HandleKeyPress(event.key.key);
-				}
-				else if (!mUIStack.empty())
-				{
-					mUIStack.back()->
-						HandleKeyPress(event.key.key);
-				}
-			}
-			break;
-			//マウスボタンのどれかを押すとtrue
-		case SDL_EVENT_MOUSE_BUTTON_DOWN:
-			if (!mUIStack.empty())
-			{
-				mUIStack.back()->
-					HandleKeyPress(event.button.button);
-			}
-		default:
-			break;
-		}
-	}
-	const InputState& state = InputSystem::GetState();
-
-	if (GameStateClass::mGameState == GameState::GamePlay)
-	{
-		for (auto actor : mActors)
-		{
-			if (actor->GetState() == ActorObject::EActive)
-			{
-				actor->ProcessInput(state);
-			}
-		}
-	}
-
 	if (state.Keyboard.GetKeyDown(KEY_O))
 	{
 		mMusicEvent.Pause();
@@ -225,16 +174,18 @@ bool DebugScene01::InputUpdate()
 	{
 		mMusicEvent.Restart();
 	}
-
-	if (state.Keyboard.GetKeyDown(SDL_SCANCODE_L))
+	bool L = state.Keyboard.GetKeyDown(KEY_L);
+	if (L)
 	{
-		SceneManager::LoadScene(1);
+		SceneManager::LoadScene(2);
 	}
 	else if (!mUIStack.empty())
 	{
 		mUIStack.back()->ProcessInput(state);
 	}
-	BaseScene::InputUpdate();
+
+	BaseScene::InputUpdate(state);
+
 	return true;
 }
 

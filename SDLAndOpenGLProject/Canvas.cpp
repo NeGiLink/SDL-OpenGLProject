@@ -142,6 +142,17 @@ void Canvas::AddButton(const string& name, std::function<void()> onClick)
 	mNextButtonPos.y -= mButtonOff->GetHeight() + 20.0f;
 }
 
+Button* Canvas::CreateButton(const string& name, const Vector2& pos, std::function<void()> onClick)
+{
+	Vector2 dims(static_cast<float>(mButtonOn->GetWidth()),
+		static_cast<float>(mButtonOn->GetHeight()));
+	Button* b = new Button(name, mTitleFont->GetFont(), onClick, pos, dims);
+	mButtons.emplace_back(b);
+	return b;
+}
+
+
+
 void Canvas::DrawTexture(class Shader* shader, class Texture* texture,
 	const Vector2& offset, Vector3 scale, float angle)
 {

@@ -39,7 +39,7 @@ class Mesh
 {
 private:
 	//JSONファイルの読み込み処理
-	bool						LoadFromJSON(const string& fileName, class Renderer* renderer, int index);
+	//bool						LoadFromJSON(const string& fileName, class Renderer* renderer, int index);
 	// FBXファイルからJSONに変換処理
 	bool						LoadFromFBX(const string& fileName, class Renderer* renderer, int index);
 	// AABBの当たり判定を配列で取得
@@ -68,7 +68,10 @@ public:
 	void						Unload();
 	// Getter
 	// MeshのVertexArrayを配列で取得
-	vector<class VertexArray*>	GetVertexArrays() {return mVertexArrays; }
+	vector<class VertexArray*>	GetVertexArrays() 
+	{
+		return mVertexArrays; 
+	}
 	// テクスチャを配列で取得
 	class Texture*				GetTexture(size_t index);
 	// シェーダー名を取得

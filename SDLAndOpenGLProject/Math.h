@@ -932,8 +932,9 @@ public:
 	{
 		return x * b.x + y * b.y + z * b.z + w * b.w;
 	}
-
+	/*
 	inline Vector3 Quaternion::ToEulerAngles() const;
+	*/
 
 	inline static Quaternion AngleAxis(float angleDegrees, const Vector3& axis)
 	{

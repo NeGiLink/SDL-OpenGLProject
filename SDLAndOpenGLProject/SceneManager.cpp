@@ -7,10 +7,13 @@ BaseScene* SceneManager::mNowScene;
 
 bool SceneManager::loading = false;
 
+int SceneManager::mNowSceneIndex = 0;
+
 void SceneManager::LoadScene(int index)
 {
 	if (mNowScene == mScenes[index]) { return; }
 	mNowScene = mScenes[index];
+	mNowSceneIndex = index;
 	loading = true;
 }
 

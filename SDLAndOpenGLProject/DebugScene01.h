@@ -52,7 +52,7 @@ public:
 
 	bool							Initialize()override;
 
-	bool							InputUpdate()override;
+	bool							InputUpdate(const InputState& state)override;
 
 	bool							Update()override;
 

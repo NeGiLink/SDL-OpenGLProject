@@ -31,6 +31,10 @@ void Image::Load(string file)
 void Image::SetTexture(Texture* texture)
 {
 	mTexture = texture;
+	mTextureRect.x = 0;
+	mTextureRect.y = 0;
+	mTextureRect.w = static_cast<float>(mTexture->GetWidth());
+	mTextureRect.h = static_cast<float>(mTexture->GetHeight());
 }
 
 void Image::SetPosition(Vector2 pos)

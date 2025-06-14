@@ -2,8 +2,8 @@
 
 OrbitCamera::OrbitCamera(ActorObject* owner)
 	:BaseCamera(owner)
-	, mOffset(-400.0f, 0.0f, 0.0f)
-	, mUp(Vector3::UnitZ)
+	, mOffset(-4.0f, 0.0f, 0.0f)
+	, mUp(Vector3::UnitY)
 	, mPitchSpeed(0.0f)
 	, mYawSpeed(0.0f)
 {

@@ -308,27 +308,30 @@ void Renderer::DrawFromGBuffer()
 	// 深度テストを有効にしますが、深度バッファへの書き込みを無効にします。
 	glEnable(GL_DEPTH_TEST);
 	glDepthMask(GL_FALSE);
-
+	/*
 	// 点光源シェーダーとメッシュをアクティブに設定します。
 	mGPointLightShader->SetActive();
-	for (unsigned int i = 0; i < mPointLightMesh->GetVertexArrays().size(); i++) 
+	size_t size = mPointLightMesh->GetVertexArrays().size();
+	for (unsigned int i = 0; i < size; i++) 
 	{
 		mPointLightMesh->GetVertexArrays()[i]->SetActive();
 	}
+	*/
 	// ビュー投影行列を設定する
-	mGPointLightShader->SetMatrixUniform("uViewProj",mView * mProjection);
+	//mGPointLightShader->SetMatrixUniform("uViewProj",mView * mProjection);
 	// サンプリングのためにGバッファーのテクスチャを設定します
 	mGBuffer->SetTexturesActive();
 
 	// 点光源の色は既存の色に追加される
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_ONE, GL_ONE);
-
+	/*
 	// ポイントライトを描画
 	for (PointLightComponent* p : mPointLights)
 	{
 		p->Draw(mGPointLightShader, mPointLightMesh);
 	}
+	*/
 }
 
 void Renderer::Shutdown()

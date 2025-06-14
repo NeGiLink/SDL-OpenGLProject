@@ -17,5 +17,11 @@
 #include <memory.h>
 #include <limits>
 #include <random>
+#include <chrono>
+#include <coroutine>
+#include <thread>
+#include <optional>
 //Rapidjsonの外部インクルード
+//#include <rapidjson/document.h>
 #include <rapidjson/document.h>
+#include <rapidjson/istreamwrapper.h>

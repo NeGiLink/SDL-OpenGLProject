@@ -63,6 +63,7 @@ public:
 							int pointSize = 40);
 	// この画面にボタンを追加する関数
 	void					AddButton(const string& name, std::function<void()> onClick);
+	class Button*			CreateButton(const string& name,const Vector2& pos, std::function<void()> onClick);
 	// マウスモードを相対モードに設定するかどうか
 	void					SetRelativeMouseMode(bool relative);
 };

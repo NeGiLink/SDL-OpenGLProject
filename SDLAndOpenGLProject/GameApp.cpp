@@ -1,5 +1,6 @@
 #include "GameApp.h"
 
+#include "TitleScene.h"
 #include "DebugScene01.h"
 #include "DebugScene02.h"
 
@@ -15,15 +16,15 @@ GameApp::GameApp(GameWinMain* main)
 bool GameApp::Initialize()
 {
 	//シーン生成
+	mTitleScene = new TitleScene(mWinMain);
 	mDebugScene01 = new DebugScene01(mWinMain);
 	mDebugScene02 = new DebugScene02(mWinMain);
 	//シーンをリストに追加
+	SceneManager::AddSceneList(mTitleScene);
 	SceneManager::AddSceneList(mDebugScene01);
 	SceneManager::AddSceneList(mDebugScene02);
 	//ベースに最初のシーンを設定
-	mActiveScene = mDebugScene01;
-	//staticなシーンとして保存
-	//mActiveScene = mBaseScene;
+	mActiveScene = mTitleScene;
 	//シーンの初期化
 	if (!mActiveScene->Initialize())
 	{
@@ -38,8 +39,9 @@ bool GameApp::Initialize()
 
 bool GameApp::ProcessInput()
 {
+	const InputState& state = InputSystem::GetState();
 	//入力更新
-	mActiveScene->InputUpdate();
+	mActiveScene->InputUpdate(state);
 
 	return true;
 }
@@ -55,6 +57,7 @@ bool GameApp::LoadUpdate()
 		mWinMain->GetRenderer()->UnloadData();
 		//シーンを変更
 		mActiveScene = SceneManager::GetNowScene();
+		GameStateClass::SetGameState(GameState::GamePlay);
 		//staticも変更
 		//新しいシーンの初期化
 		mActiveScene->Initialize();

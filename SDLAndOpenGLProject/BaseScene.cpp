@@ -43,9 +43,59 @@ bool BaseScene::Initialize()
 	return true;
 }
 
-bool BaseScene::InputUpdate()
+bool BaseScene::InputUpdate(const InputState& state)
 {
 	InputSystem::PrepareForUpdate();
+
+	//入力操作
+	SDL_Event event;
+	while (SDL_PollEvent(&event))
+	{
+		switch (event.type)
+		{
+			//実行が終了するとtrue
+		case SDL_EVENT_QUIT:
+			GameStateClass::SetGameState(GameState::GameEnd);
+			break;
+			// This fires when a key's initially pressed
+			//キーボードのボタンをどれかを押すとtrue
+		case SDL_EVENT_KEY_DOWN:
+			if (!event.key.repeat)
+			{
+				if (GameStateClass::mGameState == GameState::GamePlay)
+				{
+					HandleKeyPress(event.key.key);
+				}
+				else if (!mUIStack.empty())
+				{
+					mUIStack.back()->
+						HandleKeyPress(event.key.key);
+				}
+			}
+			break;
+			//マウスボタンのどれかを押すとtrue
+		case SDL_EVENT_MOUSE_BUTTON_DOWN:
+			if (!mUIStack.empty())
+			{
+				mUIStack.back()->
+					HandleKeyPress(event.button.button);
+			}
+		default:
+			break;
+		}
+	}
+
+	if (GameStateClass::mGameState == GameState::GamePlay)
+	{
+		for (auto actor : mActors)
+		{
+			if (actor->GetState() == ActorObject::EActive)
+			{
+				actor->ProcessInput(state);
+			}
+		}
+	}
+
 
 	InputSystem::Update();
 

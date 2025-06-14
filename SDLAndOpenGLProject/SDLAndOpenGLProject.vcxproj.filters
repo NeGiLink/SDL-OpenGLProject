@@ -345,6 +345,18 @@
     <ClCompile Include="TPSPlayer.cpp">
       <Filter>SourceFiles\B_GameObjects\3Ds</Filter>
     </ClCompile>
+    <ClCompile Include="FreeCamera.cpp">
+      <Filter>SourceFiles\E_Cameras</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleScene.cpp">
+      <Filter>SourceFiles\G_Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="FreeCameraActor.cpp">
+      <Filter>SourceFiles\B_GameObjects\3Ds</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleCanvas.cpp">
+      <Filter>SourceFiles\F_UIs</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actor.h">
@@ -625,6 +637,18 @@
     </ClInclude>
     <ClInclude Include="TPSPlayer.h">
       <Filter>SourceFiles\B_GameObjects\3Ds</Filter>
+    </ClInclude>
+    <ClInclude Include="FreeCamera.h">
+      <Filter>SourceFiles\E_Cameras</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleScene.h">
+      <Filter>SourceFiles\G_Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="FreeCameraActor.h">
+      <Filter>SourceFiles\B_GameObjects\3Ds</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleCanvas.h">
+      <Filter>SourceFiles\F_UIs</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

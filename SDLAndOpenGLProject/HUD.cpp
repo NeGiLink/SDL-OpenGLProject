@@ -39,10 +39,6 @@ HUD::HUD()
 	mHelthBar->SetPosition(Vector2(-300,-300));
 }
 
-HUD::~HUD()
-{
-}
-
 void HUD::Update(float deltaTime)
 {
 	Canvas::Update(deltaTime);

@@ -38,7 +38,6 @@ protected:
 public:
 	// (‰º‚Éˆø‚­‡˜‚ÍŒã‚ë‚É‘Î‰‚µ‚Ü‚·)
 											HUD();
-											~HUD();
 
 	void									Update(float deltaTime) override;
 

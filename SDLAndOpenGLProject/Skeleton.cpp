@@ -11,11 +11,13 @@ bool Skeleton::Load(const string& fileName)
 	{
 		return LoadFromFBX(fileName);
 	}
+	/*
 	// **JSON ÇÃèÍçáÅiè]óàÇÃèàóùÅj**
 	else if(extension == "gpmesh")
 	{
 		return LoadFromJSON(fileName);
 	}
+	*/
 
 	return false;
 }
@@ -78,7 +80,7 @@ bool Skeleton::LoadFromSkeletonBin(const string& fileName)
 	ComputeGlobalInvBindPose();
 	return true;
 }
-
+/*
 bool Skeleton::LoadFromJSON(const string& fileName)
 {
 	std::ifstream file(fileName);
@@ -175,21 +177,12 @@ bool Skeleton::LoadFromJSON(const string& fileName)
 		Quaternion rotation(rot[0].GetDouble(), rot[1].GetDouble(), rot[2].GetDouble(), rot[3].GetDouble());
 
 		temp.mLocalBindPose.SetRotation(rotation);
-		/*
-		temp.mLocalBindPose.mRotation.x = rot[0].GetDouble();
-		temp.mLocalBindPose.mRotation.y = rot[1].GetDouble();
-		temp.mLocalBindPose.mRotation.z = rot[2].GetDouble();
-		temp.mLocalBindPose.mRotation.w = rot[3].GetDouble();
-		*/
+
 
 		Vector3 position(trans[0].GetDouble(), trans[1].GetDouble(), trans[2].GetDouble());
 
 		temp.mLocalBindPose.SetPosition(position);
-		/*
-		temp.mLocalBindPose.mPosition.x = trans[0].GetDouble();
-		temp.mLocalBindPose.mPosition.y = trans[1].GetDouble();
-		temp.mLocalBindPose.mPosition.z = trans[2].GetDouble();
-		*/
+
 
 		mBones.emplace_back(temp);
 	}
@@ -199,6 +192,7 @@ bool Skeleton::LoadFromJSON(const string& fileName)
 
 	return true;
 }
+*/
 
 
 bool Skeleton::LoadFromFBX(const string& fileName)

@@ -4,6 +4,8 @@
 //•¶š—ñ‚ÌŠÈˆÕ‹Lq–½—ß
 typedef std::string string;
 
+typedef std::u8string u8string;
+
 typedef std::stringstream stringstream;
 
 typedef std::stringbuf stringbuf;

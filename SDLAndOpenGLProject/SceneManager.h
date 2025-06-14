@@ -11,6 +11,8 @@ private:
 	static class BaseScene*								mNowScene;
 	//ロードフラグ
 	static bool											loading;
+	//現在のシーンの数値
+	static int											mNowSceneIndex;
 public:
 	//シーンのロード処理
 	static void											LoadScene(int index);
@@ -22,5 +24,7 @@ public:
 	static bool											IsLoading() { return loading; }
 	//ロードフラグを解除
 	static void											DisabledLoading() { loading = false; }
+	//現在のシーンの数値のGetter
+	static int											GetNowSceneIndex() { return mNowSceneIndex; }
 };
 

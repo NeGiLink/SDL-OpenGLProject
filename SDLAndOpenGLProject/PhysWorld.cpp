@@ -26,8 +26,9 @@ bool PhysWorld::RayCast(const LineSegment& l, CollisionInfo& outColl, int tag)
 		{
 			continue;
 		}
+		OBB obb = collider->GetWorldOBB();
 		// その線分はボックスと交差しているか判定
-		if (OnCollision(l, collider->GetWorldOBB(), t, norm))
+		if (OnRayCastCollision(l, obb, t, norm))
 		{
 			// これは以前の交差点より近いか
 			if (t >= 0.0f && t < closestT)

@@ -104,7 +104,7 @@ public:
 	// éûä‘ÇÕ0.0fà»è„Ç≈mDurationà»â∫Ç≈Ç†ÇÈÇ±Ç∆ÅB
 	void									GetGlobalPoseAtTime(vector<Matrix4>& outPoses, const class Skeleton* inSkeleton, float inTime) const;
 private:
-	bool									LoadFromJSON(const string& fileName);
+	//bool									LoadFromJSON(const string& fileName);
 
 	bool									LoadFromFBX(const string& fileName);
 
