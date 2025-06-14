@@ -274,7 +274,7 @@ Matrix4 Matrix4::CreateFromQuaternion(const class Quaternion& q)
 	return Matrix4(mat);
 	*/
 }
-
+/*
 inline Vector3 Quaternion::ToEulerAngles() const
 {
 	Vector3 euler;
@@ -301,3 +301,4 @@ inline Vector3 Quaternion::ToEulerAngles() const
 
 	return euler;
 }
+*/

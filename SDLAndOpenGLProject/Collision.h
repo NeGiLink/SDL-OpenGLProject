@@ -103,7 +103,7 @@ bool	OnCollision(const Capsule& capsule, const Sphere& b);
 bool	OnCollision(const LineSegment& l, const Sphere& s, float& outT);
 bool	OnCollision(const LineSegment& l, const Plane& p, float& outT);
 bool	OnCollision(const LineSegment& l, const AABB& b, float& outT,Vector3& outNorm);
-bool	OnCollision(const LineSegment& rayWorld, OBB& obb, float& outT, Vector3& outNorm);
+bool	OnRayCastCollision(const LineSegment& rayWorld, OBB& obb, float& outT, Vector3& outNorm);
 
 
 bool	OnCollision(const Capsule& a, const Capsule& b);

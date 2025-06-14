@@ -4,6 +4,8 @@
 // ここで定義（初期値を指定してもOK）
 GameState GameStateClass::mGameState = GameState::GamePlay;
 
+bool GameStateClass::mGameEventFrag = false;
+
 GameWinMain::GameWinMain()
 	:mGameApp(nullptr)
 	, mRenderer(nullptr)

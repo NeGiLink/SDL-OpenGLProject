@@ -11,8 +11,9 @@ enum GameState
 class GameStateClass 
 {
 public:
-	static void SetGameState(GameState state) { mGameState = state; }
-	static GameState mGameState;
+	static void			SetGameState(GameState state) { mGameState = state; }
+	static GameState	mGameState;
+	static bool			mGameEventFrag;
 };
 //ゲームの描画処理管理クラス
 //主にRenderernなどの画面の構成を管理しているクラス

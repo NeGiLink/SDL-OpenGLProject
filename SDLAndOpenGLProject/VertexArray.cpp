@@ -32,7 +32,7 @@ VertexArray::VertexArray(const void* verts, unsigned int numVerts, Layout layout
 		// Positionは3つの浮動小数点
 		glEnableVertexAttribArray(VertexLayout::POSITION_INDEX);
 		glVertexAttribPointer(VertexLayout::POSITION_INDEX, VertexLayout::POSITION_COMPONENTS,
-							  GL_FLOAT, GL_FALSE, vertexSize, VertexLayout::POSITION_OFFSET);
+							  GL_FLOAT, GL_FALSE, vertexSize, 0);
 
 		// Normalは3つの浮動小数点
 		glEnableVertexAttribArray(VertexLayout::NORMAL_INDEX);
@@ -51,7 +51,7 @@ VertexArray::VertexArray(const void* verts, unsigned int numVerts, Layout layout
 		// Positionは3つの浮動小数点
 		glEnableVertexAttribArray(VertexLayout::POSITION_INDEX);
 		glVertexAttribPointer(VertexLayout::POSITION_INDEX, VertexLayout::POSITION_COMPONENTS,
-			GL_FLOAT, GL_FALSE, vertexSize, VertexLayout::POSITION_OFFSET);
+			GL_FLOAT, GL_FALSE, vertexSize, 0);
 		
 		// Normalは3つの浮動小数点
 		glEnableVertexAttribArray(VertexLayout::NORMAL_INDEX);

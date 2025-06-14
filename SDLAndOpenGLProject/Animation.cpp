@@ -21,12 +21,13 @@ bool Animation::Load(const string& fileName)
 	{
 		return LoadFromFBX(fileName);
 	}
-
+	/*
 	// **JSON の場合（従来の処理）**
 	if (extension == "gpmesh")
 	{
 		return LoadFromJSON(fileName);
 	}
+	*/
 
 	return false;
 }
@@ -41,14 +42,14 @@ bool Animation::ReLoad()
 	{
 		return LoadFromFBX(mFileName);
 	}
-
+	/*
 	// **JSON の場合（従来の処理）**
 	if (extension == "gpmesh")
 	{
 		return LoadFromJSON(mFileName);
 	}
+	*/
 
-	return false;
 	return false;
 }
 
@@ -137,6 +138,7 @@ void Animation::Update()
 	}
 }
 
+/*
 bool Animation::LoadFromJSON(const string& fileName)
 {
 	std::ifstream file(fileName);
@@ -239,21 +241,10 @@ bool Animation::LoadFromJSON(const string& fileName)
 			Quaternion rotation(rot[0].GetDouble(), rot[1].GetDouble(), rot[2].GetDouble(), rot[3].GetDouble());
 
 			temp.SetRotation(rotation);
-			/*
-			temp.mRotation.x = rot[0].GetDouble();
-			temp.mRotation.y = rot[1].GetDouble();
-			temp.mRotation.z = rot[2].GetDouble();
-			temp.mRotation.w = rot[3].GetDouble();
-			*/
 
 			Vector3 position(trans[0].GetDouble(), trans[1].GetDouble(), trans[2].GetDouble());
 
 			temp.SetPosition(position);
-			/*
-			temp.mPosition.x = trans[0].GetDouble();
-			temp.mPosition.y = trans[1].GetDouble();
-			temp.mPosition.z = trans[2].GetDouble();
-			*/
 
 			mTracks[boneIndex].emplace_back(temp);
 		}
@@ -261,6 +252,7 @@ bool Animation::LoadFromJSON(const string& fileName)
 
 	return true;
 }
+*/
 
 bool Animation::LoadFromFBX(const string& fileName)
 {

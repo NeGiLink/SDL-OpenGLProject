@@ -28,11 +28,13 @@ bool Mesh::Load(const string& fileName, Renderer* renderer, int index)
 	{
 		return LoadFromFBX(fileName, renderer,index);
 	}
+	/*
 	// **JSON の場合（従来の処理）**
 	if (extension == "gpmesh") 
 	{
 		return LoadFromJSON(fileName, renderer, index);
 	}
+	*/
 
 	return false; 
 }
@@ -264,6 +266,7 @@ bool Mesh::LoadFromMeshBin(const string& fileName, Renderer* renderer, int index
 	//読み込み成功
 	return true;
 }
+/*
 //独自フォーマット用読み込み関数
 bool Mesh::LoadFromJSON(const string& fileName, Renderer* renderer, int index)
 {
@@ -467,6 +470,7 @@ bool Mesh::LoadFromJSON(const string& fileName, Renderer* renderer, int index)
 	SDL_Log("JSON file exists: %s", fileName.c_str());
 	return true;
 }
+*/
 //FBX用読み込み関数
 bool Mesh::LoadFromFBX(const string& fileName, Renderer* renderer, int index)
 {

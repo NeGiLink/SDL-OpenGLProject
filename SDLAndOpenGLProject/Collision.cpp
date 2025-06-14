@@ -589,7 +589,7 @@ bool OnCollision(const LineSegment& l, const AABB& b, float& outT,
 	return false;
 }
 
-bool OnCollision(const LineSegment& rayWorld, OBB& obb, float& outT, Vector3& outNorm)
+bool OnRayCastCollision(const LineSegment& rayWorld, OBB& obb, float& outT, Vector3& outNorm)
 {
 	obb.mRotation.Conjugate(); // 逆回転でローカル変換
 	Quaternion invRot = obb.mRotation;

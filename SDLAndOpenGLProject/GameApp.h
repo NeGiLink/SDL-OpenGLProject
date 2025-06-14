@@ -9,6 +9,7 @@ class GameApp
 private:
 	//現在の有効なシーン
 	static class BaseScene*		mActiveScene;
+	class TitleScene*			mTitleScene;
 	//シーン01
 	class DebugScene01*			mDebugScene01;
 	//シーン02

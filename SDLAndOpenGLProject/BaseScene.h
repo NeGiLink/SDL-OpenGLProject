@@ -48,7 +48,7 @@ public:
 	//初期化
 	virtual bool									Initialize();
 	//入力更新
-	virtual bool									InputUpdate();
+	virtual bool									InputUpdate(const InputState& state);
 	//固定更新
 	virtual bool									FixedUpdate();
 	//更新

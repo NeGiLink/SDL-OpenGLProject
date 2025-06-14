@@ -27,3 +27,26 @@ public:
     }
 
 };
+/*
+struct WaitForSeconds {
+    std::chrono::milliseconds duration;
+    bool await_ready() const noexcept { return false; }
+    void await_suspend(std::coroutine_handle<> handle) const {
+        std::thread([handle, d = duration]() {
+            std::this_thread::sleep_for(d);
+            handle.resume();
+            }).detach();
+    }
+    void await_resume() const noexcept {}
+};
+
+struct Coroutine {
+    struct promise_type {
+        Coroutine get_return_object() { return {}; }
+        std::suspend_never initial_suspend() { return {}; }
+        std::suspend_never final_suspend() noexcept { return {}; }
+        void return_void() {}
+        void unhandled_exception() { std::terminate(); }
+    };
+};
+*/

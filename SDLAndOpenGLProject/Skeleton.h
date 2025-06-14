@@ -70,7 +70,7 @@ public:
 	bool									LoadFromSkeletonBin(const string& fileName);
 
 	// JSONファイルから読み込み
-	bool									LoadFromJSON(const string& fileName);
+	//bool									LoadFromJSON(const string& fileName);
 	//FBXファイルから読み込み
 	bool									LoadFromFBX(const string& fileName);
 	//ボーンの親を設定

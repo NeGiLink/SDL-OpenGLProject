@@ -17,7 +17,7 @@ bool DebugScene02::Initialize()
 	Quaternion q;
 
 	// ポイントライトメッシュをロードする
-	mWinMain->GetRenderer()->SetPointLightMesh(mWinMain->GetRenderer()->GetMesh("PointLight.gpmesh"));
+	//mWinMain->GetRenderer()->SetPointLightMesh(mWinMain->GetRenderer()->GetMesh("PointLight.gpmesh"));
 	
 
 	// 環境光の設定
@@ -31,7 +31,7 @@ bool DebugScene02::Initialize()
 	mHUD = new HUD();
 
 
-	Font* font = GetFont("Carlito-Regular.ttf");
+	Font* font = GetFont("NotoSansJP-Bold.ttf");
 	//シーン名生成
 	mSceneNameText = new Text(font, Vector2(500, 350));
 	mSceneNameText->SetText("DebugScene2");
@@ -131,61 +131,13 @@ bool DebugScene02::Initialize()
 	return true;
 }
 
-bool DebugScene02::InputUpdate()
+bool DebugScene02::InputUpdate(const InputState& state)
 {
-	//入力操作
-	SDL_Event event;
-	while (SDL_PollEvent(&event))
-	{
-		switch (event.type)
-		{
-		case SDL_EVENT_QUIT:
-			GameStateClass::SetGameState(GameState::GameEnd);
-			break;
-			// This fires when a key's initially pressed
-		case SDL_EVENT_KEY_DOWN:
-			if (!event.key.repeat)
-			{
-				if (GameStateClass::mGameState == GameState::GamePlay)
-				{
-					HandleKeyPress(event.key.key);
-				}
-				else if (!mUIStack.empty())
-				{
-					mUIStack.back()->
-						HandleKeyPress(event.key.key);
-				}
-			}
-			break;
-		case SDL_EVENT_MOUSE_BUTTON_DOWN:
-			if (GameStateClass::mGameState == GameState::GamePlay)
-			{
-				HandleKeyPress(event.button.button);
-			}
-			else if (!mUIStack.empty())
-			{
-				mUIStack.back()->
-					HandleKeyPress(event.button.button);
-			}
-		default:
-			break;
-		}
-	}
-	const InputState& state = InputSystem::GetState();
-	//const bool* state = SDL_GetKeyboardState(NULL);
-	if (GameStateClass::mGameState == GameState::GamePlay)
-	{
-		for (auto actor : mActors)
-		{
-			if (actor->GetState() == ActorObject::EActive)
-			{
-				actor->ProcessInput(state);
-			}
-		}
-	}
+	BaseScene::InputUpdate(state);
+
 	if (state.Keyboard.GetKeyDown(SDL_SCANCODE_K)) 
 	{
-		SceneManager::LoadScene(0);
+		SceneManager::LoadScene(1);
 	}
 	else if (!mUIStack.empty())
 	{
@@ -218,7 +170,6 @@ bool DebugScene02::InputUpdate()
 		mSmallCharacter->GetAnimator()->PlayBlendAnimation(mSmallCharacter->GetAnimator()->GetAnimations()[3]);
 	}
 
-	BaseScene::InputUpdate();
 	return true;
 }
 

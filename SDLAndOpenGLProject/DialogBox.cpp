@@ -13,13 +13,13 @@ GameDialogBox::GameDialogBox(const string& text,
 	mBackground = new Image();
 	mBackground->Load("DialogBG.png");
 
-	mTitleFont = new Text(mGame->GetFont("Carlito-Regular.ttf"), Vector2::Zero);
+	mTitleFont = new Text(mGame->GetFont("NotoSansJP-Bold.ttf"), Vector2::Zero);
 	mTitleFont->SetPosition(mTitlePos);
 	SetTitle(text, Vector3::Zero, 30);
-	AddButton("OKButton", [onOK]() {
+	CreateButton("‚Í‚¢",Vector2(0.0f,0.0f), [onOK]() {
 		onOK();
 		});
-	AddButton("CancelButton", [this]() {
+	CreateButton("‚¢‚¢‚¦",Vector2(0.0f, -80.0f), [this]() {
 		Close();
 		});
 }

@@ -5,31 +5,32 @@ Button::Button(const string& name, Font* font,
 
 	: Image()
 	, mOnClick(onClick)
-	, mNameTex(nullptr)
 	, mFont(font)
 	, mPosition(pos)
 	, mDimensions(dims)
 	, mHighlighted(false)
 {
-	SetName(name);
+	mButtonImage = new Image();
+	mButtonImage->SetPosition(pos);
+
+	mNameText = new Text(mFont,mPosition);
+	mNameText->SetText(name);
 }
 
 Button::~Button()
 {
+	//画像の解放
+	//ボタン本体
 	mGame->RemoveImage(this);
+	//ボタンの枠
+	mGame->RemoveImage(mButtonImage);
+	//ボタンの文字
+	mGame->RemoveImage(mNameText);
 }
 
-void Button::SetName(const string& name)
+void Button::SetButtonText(Texture* texture)
 {
-	mName = name;
-
-	if (mNameTex)
-	{
-		mNameTex->Unload();
-		delete mNameTex;
-		mNameTex = nullptr;
-	}
-	mNameTex = mFont->RenderText(mName);
+	mButtonImage->SetTexture(texture);
 }
 
 bool Button::ContainsPoint(const Vector2& pt) const
@@ -43,22 +44,17 @@ bool Button::ContainsPoint(const Vector2& pt) const
 
 void Button::OnClick()
 {
+	if (GameStateClass::mGameEventFrag) { return; }
+
+
+	GameStateClass::mGameEventFrag = true;
+
+
 	// Call attached handler, if it exists
 	if (mOnClick)
 	{
+		GameStateClass::mGameEventFrag = false;
 		mOnClick();
-	}
-}
-
-void Button::Draw(Shader* shader)
-{
-	if (mButtonTex)
-	{
-		DrawTexture(shader, mButtonTex, mPosition);
-	}
-	if (mNameTex)
-	{
-		DrawTexture(shader, mNameTex, mPosition);
 	}
 }
 

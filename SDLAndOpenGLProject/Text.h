@@ -6,6 +6,8 @@ class Text : public Image
 {
 private:
 	string			mName;
+
+	std::u8string   mU8Name;
 	
 	class Font*		mFont;
 	
