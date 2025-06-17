@@ -4,6 +4,8 @@
 FPSActor::FPSActor()
 	:ActorObject()
 {
+	mActorTag = ActorTag::Player;
+
 	mBasicInput = new BasicInputAction(this);
 
 	mRigidbody = new Rigidbody(this);
@@ -23,7 +25,6 @@ FPSActor::FPSActor()
 	AABB myBox(Vector3(-0.5f, -1.0f, -0.5f),Vector3(0.5f, 0.5f, 0.5f));
 	mBoxCollider->SetObjectBox(myBox);
 	mBoxCollider->SetObjectOBB(myOBB);
-	mBoxCollider->SetShouldRotate(false);
 	mBoxCollider->SetStaticObject(false);
 
 	mMaxHP = 100.0f;
@@ -36,6 +37,11 @@ FPSActor::FPSActor()
 			mFootstep.SetPaused(false); mFootstep.ResetStart(); 
 		}
 	);
+
+
+	mGunActor = new GunActor();
+	AddChildActor(mGunActor);
+	mGunActor->SetLocalPosition(Vector3(0.5f,-0.25f,0.5f));
 }
 
 void FPSActor::FixedUpdateActor(float deltaTime){}
@@ -76,6 +82,14 @@ void FPSActor::UpdateActor(float deltaTime)
 			mBasicInput->SetJumping(false);
 		}
 	}
+
+	GunObjectUpdate(deltaTime);
+}
+
+void FPSActor::GunObjectUpdate(float deltaTime)
+{
+	Quaternion q = Quaternion(mGunActor->GetRight(), mFPSCamera->GetPitch());
+	mGunActor->SetLocalRotation(q);
 }
 
 void FPSActor::ActorInput(const struct InputState& keys)

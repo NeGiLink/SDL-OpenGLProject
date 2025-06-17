@@ -7,9 +7,15 @@
 ////‘ĞŒ³‚Ìƒtƒ@ƒCƒ‹
 class GameDialogBox : public Canvas
 {
+private:
+	Button* mButton01;
+
+	Button* mButton02;
 public:
 	// (‰º‚Éˆø‚­‡˜‚ÍŒã‚ë‚É‘Î‰‚µ‚Ü‚·)
 	GameDialogBox(const string& text,
+		std::function<void()> onOK);
+	GameDialogBox(const char8_t* text,
 		std::function<void()> onOK);
 	~GameDialogBox();
 };

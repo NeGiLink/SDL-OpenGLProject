@@ -22,9 +22,12 @@ bool PhysWorld::RayCast(const LineSegment& l, CollisionInfo& outColl, int tag)
 	for (auto collider : mCollider)
 	{
 		float t = 0;
-		if ((int)collider->GetOwner()->GetActorTag() != tag)
+		if (tag != -1)
 		{
-			continue;
+			if ((int)collider->GetOwner()->GetActorTag() != tag)
+			{
+				continue;
+			}
 		}
 		OBB obb = collider->GetWorldOBB();
 		// その線分はボックスと交差しているか判定
@@ -39,6 +42,7 @@ bool PhysWorld::RayCast(const LineSegment& l, CollisionInfo& outColl, int tag)
 				outColl.mCollider = collider;
 				outColl.mActor = collider->GetOwner();
 				collided = true;
+				break;
 			}
 		}
 	}
@@ -146,15 +150,17 @@ void PhysWorld::SweepAndPruneXYZ()
 			{
 				actorA->OnCollisionStay(actorB);
 				actorB->OnCollisionStay(actorA);
-				//当たり続けている時も判定
-				if (!colliderA->IsStaticObject() && colliderB->IsStaticObject())
+				if (colliderA->IsCollider() && colliderB->IsCollider())
 				{
-					FixCollisions(colliderA, colliderB);
-				}
-				else 
-				if (colliderA->IsStaticObject() && !colliderB->IsStaticObject())
-				{
-					FixCollisions(colliderB, colliderA);
+					//当たり続けている時も判定
+					if (!colliderA->IsStaticObject() && colliderB->IsStaticObject())
+					{
+						FixCollisions(colliderA, colliderB);
+					}
+					else if (colliderA->IsStaticObject() && !colliderB->IsStaticObject())
+					{
+						FixCollisions(colliderB, colliderA);
+					}
 				}
 			}
 			else
@@ -162,15 +168,17 @@ void PhysWorld::SweepAndPruneXYZ()
 				actorA->OnCollisionEnter(actorB);
 				actorB->OnCollisionEnter(actorA);
 
-				//当たり初めに判定
-				if (!colliderA->IsStaticObject() && colliderB->IsStaticObject())
+				if (colliderA->IsCollider() && colliderB->IsCollider())
 				{
-					FixCollisions(colliderA, colliderB);
-				}
-				else 
-				if (colliderA->IsStaticObject() && !colliderB->IsStaticObject())
-				{
-					FixCollisions(colliderB, colliderA);
+					//当たり初めに判定
+					if (!colliderA->IsStaticObject() && colliderB->IsStaticObject())
+					{
+						FixCollisions(colliderA, colliderB);
+					}
+					else if (colliderA->IsStaticObject() && !colliderB->IsStaticObject())
+					{
+						FixCollisions(colliderB, colliderA);
+					}
 				}
 			}
 		}
@@ -589,5 +597,17 @@ void PhysWorld::RemoveCollider(Collider* box)
 		// ポップオフします（コピーの消去を避けるため）
 		std::iter_swap(iter, mColliderZAxis.end() - 1);
 		mColliderZAxis.pop_back();
+	}
+
+	for (auto it = mPrevHitPairs.begin(); it != mPrevHitPairs.end(); )
+	{
+		if (it->first == box->GetOwner() || it->second == box->GetOwner())
+		{
+			it = mPrevHitPairs.erase(it); // eraseは次のイテレータを返す
+		}
+		else
+		{
+			++it;
+		}
 	}
 }

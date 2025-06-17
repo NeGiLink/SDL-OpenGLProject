@@ -16,7 +16,7 @@ protected:
 	AABB					mWorldBox;
 	//オブジェクト同士の当たり判定をするかしないか
 	//UnityのColliderかTriggerかを切り替えるフラグ
-	bool					mCollider = true;
+	bool					mIsCollider = true;
 	//オブジェクトを動かさないか動かすかを決める
 	//Rigidbodyのような機能がないため追加
 	bool					mStaticObject = true;
@@ -40,8 +40,8 @@ public:
 
 	virtual OBB				GetWorldOBB() const = 0;
 
-	bool					IsCollider() { return mCollider; }
-	void					SetCollider(bool active) { mCollider = active; }
+	bool					IsCollider() { return mIsCollider; }
+	void					SetCollider(bool active) { mIsCollider = active; }
 
 	bool					IsStaticObject() { return mStaticObject; }
 	void					SetStaticObject(bool active) { mStaticObject = active; }

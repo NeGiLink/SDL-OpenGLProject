@@ -193,13 +193,11 @@ void InputSystem::Update()
 	float x = 0, y = 0;
 	if (mState.Mouse.mIsRelative)
 	{
-		mState.Mouse.mCurrButtons =
-			SDL_GetRelativeMouseState(&x, &y);
+		mState.Mouse.mCurrButtons = SDL_GetRelativeMouseState(&x, &y);
 	}
 	else
 	{
-		mState.Mouse.mCurrButtons =
-			SDL_GetMouseState(&x, &y);
+		mState.Mouse.mCurrButtons = SDL_GetMouseState(&x, &y);
 	}
 
 	mState.Mouse.mMousePos.x = static_cast<float>(x);

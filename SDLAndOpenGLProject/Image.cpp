@@ -16,6 +16,7 @@ Image::Image()
 
 Image::~Image()
 {
+	mState = EDestroy;
 }
 
 void Image::Load(string file)
@@ -55,6 +56,17 @@ void Image::SetFillAmount(float fill)
 void Image::SetAngleZ(float angle)
 {
 	mAngleZ = angle;
+}
+
+void Image::SetState(UIState state)
+{
+	mState = state;
+
+}
+
+void Image::AddChildUIImage(Image* image)
+{
+	mImages.emplace_back(image);
 }
 
 void Image::Update(float deltaTime)

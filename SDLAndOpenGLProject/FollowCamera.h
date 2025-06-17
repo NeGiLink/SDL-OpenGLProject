@@ -47,5 +47,8 @@ public:
 	void		SetVertDist(float dist) { mVertDist = dist; }
 	void		SetTargetDist(float dist) { mTargetDist = dist; }
 	void		SetSpringConstant(float spring) { mSpringConstant = spring; }
+
+	float		GetYaw() { return mYaw; }
+	float		GetPitch() { return mPitch; }
 };
 

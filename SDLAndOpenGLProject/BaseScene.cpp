@@ -45,7 +45,7 @@ bool BaseScene::Initialize()
 
 bool BaseScene::InputUpdate(const InputState& state)
 {
-	InputSystem::PrepareForUpdate();
+	InputSystem::Update();
 
 	//入力操作
 	SDL_Event event;
@@ -96,8 +96,13 @@ bool BaseScene::InputUpdate(const InputState& state)
 		}
 	}
 
+	if (state.Mouse.GetButtonDown(SDL_BUTTON_LEFT))
+	{
+		Debug::Log("LeftClick");
+	}
 
-	InputSystem::Update();
+	InputSystem::PrepareForUpdate();
+
 
 	return true;
 }
@@ -129,57 +134,61 @@ bool BaseScene::Update()
 {
 	//特定のシーンに読み込まれたオブジェクトやコンポーネントを
 	// まとめて処理する部分
-	if (GameStateClass::mGameState == GamePlay)
+	// Update all actors
+	mUpdatingActors = true;
+	for (int i = 0; i < mActors.size(); i++)
 	{
-		// Update all actors
-		mUpdatingActors = true;
-		for (auto actor : mActors)
+		if (mActors[i]->GetState() == ActorObject::EActive)
 		{
-			actor->Update(Time::gDeltaTime);
+			mActors[i]->Update(Time::gDeltaTime);
 		}
-		mUpdatingActors = false;
+	}
 
-		// 保留中のアクターをmActorsに移動します
-		for (auto pending : mPendingActors)
-		{
-			pending->ComputeWorldTransform(NULL);
-			mActors.emplace_back(pending);
-		}
-		mPendingActors.clear();
+	mUpdatingActors = false;
 
-		// Add any dead actors to a temp vector
-		vector<ActorObject*> deadActors;
-		for (auto actor : mActors)
-		{
-			if (actor->GetState() == ActorObject::EDead)
-			{
-				deadActors.emplace_back(actor);
-			}
-		}
+	// 保留中のアクターをmActorsに移動します
+	for (int i = 0; i < mPendingActors.size(); i++)
+	{
+		mPendingActors[i]->ComputeWorldTransform(NULL);
+		mActors.emplace_back(mPendingActors[i]);
+	}
 
-		// Delete dead actors (which removes them from mActors)
-		for (auto actor : deadActors)
+	mPendingActors.clear();
+
+	// Add any dead actors to a temp vector
+	vector<ActorObject*> deadActors;
+	for (int i = 0; i < mActors.size(); i++)
+	{
+		if (mActors[i]->GetState() == ActorObject::EDead)
 		{
-			delete actor;
+			deadActors.emplace_back(mActors[i]);
 		}
+	}
+
+
+	// Delete dead actors (which removes them from mActors)
+	for (auto actor : deadActors)
+	{
+		delete actor;
 	}
 
 	// Update audio system
 	mAudioSystem->Update(Time::gDeltaTime);
 
 	// Update UI screens
-	for (auto ui : mUIStack)
+	for (int i = 0; i < mUIStack.size(); i++)
 	{
-		if (ui->GetState() == Canvas::EActive)
+		if (mUIStack[i]->GetState() == Canvas::EActive)
 		{
-			ui->Update(Time::gDeltaTime);
+			mUIStack[i]->Update(Time::gDeltaTime);
 		}
 	}
-	for (auto image : mImageStack)
+
+	for (int i = 0; i < mImageStack.size(); i++)
 	{
-		if (image->GetState() == Image::EActive)
+		if (mImageStack[i]->GetState() == Image::EActive)
 		{
-			image->Update(Time::gDeltaTime);
+			mImageStack[i]->Update(Time::gDeltaTime);
 		}
 	}
 
@@ -221,14 +230,16 @@ void BaseScene::HandleKeyPress(int key)
 void BaseScene::AddActor(ActorObject* actor)
 {
 	// If we're updating actors, need to add to pending
+	mPendingActors.emplace_back(actor);
+	/*
 	if (mUpdatingActors)
 	{
-		mPendingActors.emplace_back(actor);
 	}
 	else
 	{
 		mActors.emplace_back(actor);
 	}
+	*/
 }
 
 void BaseScene::RemoveActor(ActorObject* actor)

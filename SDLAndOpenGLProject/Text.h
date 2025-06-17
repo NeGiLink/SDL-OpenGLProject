@@ -7,7 +7,7 @@ class Text : public Image
 private:
 	string			mName;
 
-	std::u8string   mU8Name;
+	ccp_String      mText;
 	
 	class Font*		mFont;
 	
@@ -24,6 +24,8 @@ public:
 
 	// Set the name of the button
 	void			SetText(const string& name);
+
+	void			SetUTF_8Text(const char8_t* name);
 
 	void			SetFontSize(int size);
 

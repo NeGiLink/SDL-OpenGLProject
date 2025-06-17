@@ -7,10 +7,11 @@
 //ポーズUIのクラス
 class PauseMenu : public Canvas
 {
+private:
+	//class GameDialogBox* mDialogBox;
 public:
 			PauseMenu();
 			~PauseMenu();
 
 	void	HandleKeyPress(int key) override;
 };
-

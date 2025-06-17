@@ -4,11 +4,9 @@
 #include "BasicInputAction.h"
 #include "AudioSystem.h"
 #include "AudioComponent.h"
-#include "FPSCamera.h"
-#include "MeshRenderer.h"
-#include "BallActor.h"
+#include "FPSCameraActor.h"
 #include "BoxCollider.h"
-#include "PlaneActor.h"
+#include "GunActor.h"
 
 //一人称視点のプレイヤー操作クラス
 //現在ゲーム内の移動に使用しています。
@@ -35,12 +33,16 @@ private:
 	float					mMaxHP;
 	//簡易的なHPの変数
 	float					mHP;
+
+	GunActor*				mGunActor;
 public:
 							FPSActor();
 
 	void					FixedUpdateActor(float deltaTime)override;
 
 	void					UpdateActor(float deltaTime) override;
+
+	void					GunObjectUpdate(float deltaTime);
 	
 	void					ActorInput(const struct InputState& keys) override;
 

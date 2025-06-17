@@ -22,20 +22,30 @@ private:
 	class CapsuleCollider*		mCapsuleCollider;
 
 public:
-	void Load(string filePath);
+	void					Load(string filePath);
 
-	void SetTrigger(bool active);
+	void					SetColliderMode(bool active);
 
-	void AddBoxCollider();
+	void					SetStaticMode(bool active);
 
-	void AddSphereCollider();
+	void					AddBoxCollider();
 
-	void AddCapsuleCollider();
+	void					AddSphereCollider();
 
-	class BoxCollider* GetBoxCollider() { return mBoxCollider; }
+	void					AddCapsuleCollider();
 
-	class SphereCollider* GetSphereCollider() { return mSphereCollider; }
+	MeshRenderer*			GetMeshRenderer() { return mMeshRenderer; }
 
-	class CapsuleCollider* GetCapsuleCollider() { return mCapsuleCollider; }
+	class BoxCollider*		GetBoxCollider() { return mBoxCollider; }
+
+	class SphereCollider*	GetSphereCollider() { return mSphereCollider; }
+
+	class CapsuleCollider*  GetCapsuleCollider() { return mCapsuleCollider; }
+
+	//MeshRenderer‚©‚çAABB‚ğæ“¾ˆ—‚ğÈ—ª‚µ‚½ŠÖ”
+	const AABB&				GetBoxAABB();
+	//MeshRenderer‚©‚çOBB‚ğæ“¾ˆ—‚ğÈ—ª‚µ‚½ŠÖ”
+	const OBB&				GetBoxOBB();
+
+
 };
-

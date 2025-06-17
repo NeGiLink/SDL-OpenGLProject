@@ -25,9 +25,10 @@ void BoxCollider::OnUpdateWorldTransform()
 	Vector3 scale = mOwner->GetScale();
 	Quaternion rotation = mOwner->GetRotation();
 	Vector3 position = mOwner->GetPosition();
+	Vector3 offset = mObjectOBB.mOffset;
 
 	// ƒ[ƒ‹ƒh OBB ‚ğ\’z
-	mWorldOBB.mCenter = position;
+	mWorldOBB.mCenter = position + offset;
 	mWorldOBB.mRotation = rotation;
 	mWorldOBB.mExtents = mObjectOBB.mExtents * scale;
 

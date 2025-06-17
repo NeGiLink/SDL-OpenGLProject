@@ -28,7 +28,14 @@ Canvas::~Canvas()
 	}
 	mButtons.clear();
 
-	mGame->RemoveImage(mTitleFont);
+	if (mTitleFont)
+	{
+		mGame->RemoveImage(mTitleFont);
+	}
+	if (mBackground)
+	{
+		mGame->RemoveImage(mBackground);
+	}
 }
 
 void Canvas::Update(float deltaTime)
@@ -120,6 +127,12 @@ void Canvas::Close()
 	mState = EDestroy;
 }
 
+void Canvas::SetState(UIState state)
+{
+	mState = state;
+
+}
+
 void Canvas::SetTitle(const string& text,
 	const Vector3& color,
 	int pointSize)
@@ -147,6 +160,17 @@ Button* Canvas::CreateButton(const string& name, const Vector2& pos, std::functi
 	Vector2 dims(static_cast<float>(mButtonOn->GetWidth()),
 		static_cast<float>(mButtonOn->GetHeight()));
 	Button* b = new Button(name, mTitleFont->GetFont(), onClick, pos, dims);
+	//AddChildUIImage((Image*)b);
+	mButtons.emplace_back(b);
+	return b;
+}
+
+Button* Canvas::CreateButton(const char8_t* name, const Vector2& pos, std::function<void()> onClick)
+{
+	Vector2 dims(static_cast<float>(mButtonOn->GetWidth()),
+		static_cast<float>(mButtonOn->GetHeight()));
+	Button* b = new Button(name, mTitleFont->GetFont(), onClick, pos, dims);
+	//AddChildUIImage((Image*)b);
 	mButtons.emplace_back(b);
 	return b;
 }
@@ -187,5 +211,10 @@ void Canvas::SetRelativeMouseMode(bool relative)
 	{
 		SDL_SetWindowRelativeMouseMode(mGame->GetWinMain()->GetRenderer()->GetWindow(),false);
 	}
+}
+
+void Canvas::AddChildUIImage(Image* image)
+{
+	mImages.emplace_back(image);
 }
 

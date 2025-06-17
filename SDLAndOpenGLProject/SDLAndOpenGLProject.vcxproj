@@ -153,6 +153,7 @@
     <ClCompile Include="BoneActor.cpp" />
     <ClCompile Include="BoneTransform.cpp" />
     <ClCompile Include="BoxCollider.cpp" />
+    <ClCompile Include="BulletActor.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="CallBackManager.cpp" />
     <ClCompile Include="CameraActor.cpp" />
@@ -172,9 +173,11 @@
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="FPSActor.cpp" />
     <ClCompile Include="FPSCamera.cpp" />
+    <ClCompile Include="FPSCameraActor.cpp" />
     <ClCompile Include="FreeCamera.cpp" />
     <ClCompile Include="FreeCameraActor.cpp" />
     <ClCompile Include="GameApp.cpp" />
+    <ClCompile Include="GunActor.cpp" />
     <ClCompile Include="Image.cpp" />
     <ClCompile Include="InputSystem.cpp" />
     <ClCompile Include="LineRenderer.cpp" />
@@ -185,6 +188,8 @@
     <ClCompile Include="SkeletonMeshActor.cpp" />
     <ClCompile Include="SphereActor.cpp" />
     <ClCompile Include="SphereCollider.cpp" />
+    <ClCompile Include="Stages00.cpp" />
+    <ClCompile Include="TargetActor.cpp" />
     <ClCompile Include="Text.cpp" />
     <ClCompile Include="Time.cpp" />
     <ClCompile Include="DebugScene01.cpp" />
@@ -242,6 +247,7 @@
     <ClInclude Include="BoneActor.h" />
     <ClInclude Include="BoneTransform.h" />
     <ClInclude Include="BoxCollider.h" />
+    <ClInclude Include="BulletActor.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="CallBackManager.h" />
     <ClInclude Include="CameraActor.h" />
@@ -262,10 +268,12 @@
     <ClInclude Include="Font.h" />
     <ClInclude Include="FPSActor.h" />
     <ClInclude Include="FPSCamera.h" />
+    <ClInclude Include="FPSCameraActor.h" />
     <ClInclude Include="FreeCamera.h" />
     <ClInclude Include="FreeCameraActor.h" />
     <ClInclude Include="GameApp.h" />
     <ClInclude Include="GameFunctions.h" />
+    <ClInclude Include="GunActor.h" />
     <ClInclude Include="Image.h" />
     <ClInclude Include="InputSystem.h" />
     <ClInclude Include="LineRenderer.h" />
@@ -281,8 +289,10 @@
     <ClInclude Include="SkeletonMeshActor.h" />
     <ClInclude Include="SphereActor.h" />
     <ClInclude Include="SphereCollider.h" />
+    <ClInclude Include="Stages00.h" />
     <ClInclude Include="StandardLibrary.h" />
     <ClInclude Include="StringFormat.h" />
+    <ClInclude Include="TargetActor.h" />
     <ClInclude Include="Text.h" />
     <ClInclude Include="Time.h" />
     <ClInclude Include="DebugScene01.h" />

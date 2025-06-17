@@ -43,6 +43,8 @@ protected:
 	UIState					mState;
 	// ボタンのリスト
 	vector<Button*>			mButtons;
+
+	vector<Image*>			mImages;
 public:
 							Canvas();
 	virtual					~Canvas();
@@ -56,7 +58,7 @@ public:
 	void					Close();
 	// UI画面の状態を取得する
 	UIState					GetState() const { return mState; }
-	void					SetState(UIState state) { mState = state; }
+	void					SetState(UIState state);
 	// タイトルテキストを変更する
 	void					SetTitle(const string& text,
 							const Vector3& color = Color::White,
@@ -64,6 +66,9 @@ public:
 	// この画面にボタンを追加する関数
 	void					AddButton(const string& name, std::function<void()> onClick);
 	class Button*			CreateButton(const string& name,const Vector2& pos, std::function<void()> onClick);
+	class Button*			CreateButton(const char8_t* name,const Vector2& pos, std::function<void()> onClick);
 	// マウスモードを相対モードに設定するかどうか
 	void					SetRelativeMouseMode(bool relative);
+
+	void					AddChildUIImage(Image* image);
 };

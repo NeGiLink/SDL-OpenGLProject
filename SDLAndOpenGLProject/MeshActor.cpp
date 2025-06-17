@@ -7,7 +7,25 @@ void MeshActor::Load(string filePath)
 	mMeshRenderer->SetMeshs(mesh);
 }
 
-void MeshActor::SetTrigger(bool active)
+void MeshActor::SetColliderMode(bool active)
+{
+	if (mBoxCollider)
+	{
+		mBoxCollider->SetCollider(active);
+	}
+
+	if (mSphereCollider)
+	{
+		mSphereCollider->SetCollider(active);
+	}
+
+	if (mCapsuleCollider)
+	{
+		mCapsuleCollider->SetCollider(active);
+	}
+}
+
+void MeshActor::SetStaticMode(bool active)
 {
 	if (mBoxCollider)
 	{
@@ -36,7 +54,11 @@ void MeshActor::AddBoxCollider()
 void MeshActor::AddSphereCollider()
 {
 	SphereCollider* sphereCollider = new SphereCollider(this);
-	Sphere sphere(mPosition,0.5f);
+	Vector3 max = mMeshRenderer->GetMeshs()[0]->GetBoxs()[0].mMax;
+	Vector3 min = mMeshRenderer->GetMeshs()[0]->GetBoxs()[0].mMin;
+	Vector3 extent = (max - min) * 0.5f;
+	extent.Length();
+	Sphere sphere(mPosition, extent.Length());
 	sphereCollider->SetObjectSphere(sphere);
 
 	mSphereCollider = sphereCollider;
@@ -67,4 +89,24 @@ void MeshActor::AddCapsuleCollider()
 	CapsuleCollider* capsuleCollider = new CapsuleCollider(this);
 	capsuleCollider->SetObjectCapsule(capsule);
 	mCapsuleCollider = capsuleCollider;
+}
+
+const AABB& MeshActor::GetBoxAABB()
+{
+	AABB aabb(Vector3(-0.5f, -0.5f, -0.5f), Vector3(0.5f, 0.5f, 0.5f));
+	if (mMeshRenderer)
+	{
+		aabb = mMeshRenderer->GetMeshs()[0]->GetBoxs()[0];
+	}
+	return aabb;
+}
+
+const OBB& MeshActor::GetBoxOBB()
+{
+	OBB obb(mPosition,mRotation,mScale);
+	if (mMeshRenderer)
+	{
+		obb = mMeshRenderer->GetMeshs()[0]->GetOBBBoxs()[0];
+	}
+	return obb;
 }

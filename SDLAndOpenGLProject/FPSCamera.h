@@ -12,6 +12,8 @@ private:
 	float	mPitchSpeed;
 	// 前方からの最大ピッチ偏差。
 	float	mMaxPitch;
+
+	float	mAngular;
 	// 現在のピッチ。
 	float	mPitch;
 
@@ -26,6 +28,7 @@ public:
 	//一人称視点のカメラ処理を行いピッチ速度を取得する関数
 	void	CameraInputUpdate();
 
+	float	GetAngular() const { return mAngular; }
 	float	GetAngularSpeed() const { return mAngularSpeed; }
 	float	GetPitch() const { return mPitch; }
 	float	GetPitchSpeed() const { return mPitchSpeed; }

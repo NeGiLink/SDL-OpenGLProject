@@ -4,7 +4,8 @@ TPSPlayer::TPSPlayer()
 	:ActorObject()
 {
 	mSkeletonMeshActor = new SkeletonMeshActor();
-	mSkeletonMeshActor->Load("Y Bot.fbx");
+	//mSkeletonMeshActor->Load("Y Bot.fbx");
+	mSkeletonMeshActor->Load("Vanguard By T. Choonyung.fbx");
 	//アニメーションの読み込み
 	mSkeletonMeshActor->SetAnimatorName("TPSPlayer");
 	mSkeletonMeshActor->GetAnimator()->Load("Sword And Shield Idle.fbx", true, true);
@@ -31,9 +32,10 @@ TPSPlayer::TPSPlayer()
 
 	// ボックスの当たり判定の機能を追加
 	mBoxCollider = new BoxCollider(this);
-	AABB myBox(Vector3(-0.5f, 0.0f, -0.5f), Vector3(0.5f, 2.0f, 0.5f));
-	mBoxCollider->SetObjectBox(myBox);
-	mBoxCollider->SetShouldRotate(false);
+	OBB obb(mPosition, mRotation, Vector3(0.5f, 0.5f, 0.5f));
+	obb.mOffset = Vector3(0.0f, 0.6f, 0.0f);
+
+	mBoxCollider->SetObjectOBB(obb);
 	mBoxCollider->SetStaticObject(false);
 }
 
