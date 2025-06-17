@@ -1,6 +1,8 @@
 #pragma once
 #include "BaseScene.h"
 
+#include "Stages00.h"
+
 //通常のモデルなどを生成しているゲームシーン
 class DebugScene01 : public BaseScene
 {
@@ -20,17 +22,9 @@ private:
 
 	class MeshActor*				mCapsule;
 
-	class MeshActor*				mDebugStage;
+	Stages00*						mStages;
 
-	class MeshActor*				mDebugStage2;
-
-	class MeshActor*				mDebugStage3;
-	
-	class MeshActor*				mDebugStage4;
-
-	class MeshActor*				mTarget1;
-	class MeshActor*				mTarget2;
-	class MeshActor*				mTarget3;
+	class MeshActor*				mLeftHandBox;
 
 	vector<class PlaneActor*>		mPlanes;
 

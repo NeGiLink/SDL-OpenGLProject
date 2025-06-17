@@ -53,6 +53,7 @@ private:
 
 	std::set<std::pair<Collider*, Collider*>>			mHitColliderZAxis;
 
+	vector<class ActorObject*>							mDeadActors;
 
 	std::set<std::pair<ActorObject*, ActorObject*>>		mPrevHitPairs;
 
@@ -64,7 +65,7 @@ public:
 
 	// 線分をボックスに対して判定します。
 	// ボックスに衝突する場合は真を返します。
-	bool												RayCast(const LineSegment& l, CollisionInfo& outColl,int tag);
+	bool												RayCast(const LineSegment& l, CollisionInfo& outColl,int tag = -1);
 
 	std::vector<CollisionInfo>							RayCastAll(const LineSegment& l);
 

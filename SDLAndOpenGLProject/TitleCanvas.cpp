@@ -14,16 +14,13 @@ TitleCanvas::TitleCanvas()
 	float height = WindowRenderProperty::GetHeight();
 	mTitleLogo->SetPosition(Vector2(0,200));
 
-	const char8_t* t8 = u8"開始";
-	CreateButton("開始", Vector2(0.0f, 0.0f), [this]() {
+	CreateButton(u8"開始", Vector2(0.0f, 0.0f), [this]() {
 		SceneManager::LoadScene(1);
 		});
 
-	CreateButton("終了", Vector2(0.0f, -80.0f), [this]() {
-		new GameDialogBox("終了しますか？",
-			[this]() {
-				GameStateClass::SetGameState(GameState::GameEnd);
-			});
+	CreateButton(u8"終了", Vector2(0.0f, -80.0f), [this]() {
+		//mDialogBox->SetState(Canvas::EActive);
+		new GameDialogBox(u8"終了しますか？", [this]() {GameStateClass::SetGameState(GameState::GameEnd); });
 		});
 }
 

@@ -20,10 +20,10 @@ void FPSCamera::Update(float deltaTime)
 	if (!Math::NearZero(mAngularSpeed))
 	{
 		Quaternion rot = mOwner->GetLocalRotation();
-		float angle = mAngularSpeed * deltaTime;
+		mAngular = mAngularSpeed * deltaTime;
 		// Create quaternion for incremental rotation
 		// (Rotate about up axis)
-		Quaternion inc(Vector3::UnitY, angle);
+		Quaternion inc(Vector3::UnitY, mAngular);
 		// Concatenate old and new quaternion
 		rot = Quaternion::Concatenate(rot, inc);
 		mOwner->SetLocalRotation(rot);

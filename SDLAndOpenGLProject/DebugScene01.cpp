@@ -31,16 +31,15 @@ bool DebugScene01::Initialize()
 	Font* font = GetFont("NotoSansJP-Bold.ttf");
 	//シーン名生成
 	mSceneNameText = new Text(font, Vector2(500, 350));
-	mSceneNameText->SetText("デバッグシーン1");
+	mSceneNameText->SetUTF_8Text(u8"デバッグシーン1");
 	mSceneNameText->SetFontSize(40);
 	
 	mPoseButtonText = new Text(font, Vector2(-500, 350));
-	mPoseButtonText->SetText("ポーズ:ESC Key");
+	mPoseButtonText->SetUTF_8Text(u8"ポーズ:ESC Key");
 	mPoseButtonText->SetFontSize(40);
 
 	mSceneLoadButtonText = new Text(font, Vector2(450, 150));
-	string t = "シーンのロード:L Key";
-	mSceneLoadButtonText->SetText(t);
+	mSceneLoadButtonText->SetUTF_8Text(u8"シーンのロード:L Key");
 	mSceneLoadButtonText->SetFontSize(48);
 
 	mFrameRateText = new Text(font, Vector2(500, 250));
@@ -59,40 +58,13 @@ bool DebugScene01::Initialize()
 	SDL_GetRelativeMouseState(nullptr, nullptr);
 
 	// デバッグ用のステージ追加
-	mDebugStage = new MeshActor();
-	mDebugStage->Load("DebugStage.fbx");
-	mDebugStage->AddBoxCollider();
+	mStages = new Stages00();
+	mStages->Initialize();
 
-	Vector3 pos = Vector3(0.0f, -1.0f, 0.0f);
-	mDebugStage->SetLocalPosition(pos);
-	mDebugStage->SetActorTag(ActorTag::Ground);
-	mDebugStage2 = new MeshActor();
-	mDebugStage2->Load("DebugStage.fbx");
-	mDebugStage2->AddBoxCollider();
-
-	pos = Vector3(0.0f, 9.5f, 10.5f);
-	mDebugStage2->SetLocalPosition(pos);
-	q = Quaternion(Vector3::UnitX, -Math::PiOver2);
-	mDebugStage2->SetLocalRotation(q);
-
-	mDebugStage3 = new MeshActor();
-	mDebugStage3->Load("DebugStage.fbx");
-
-	pos = Vector3(0.0f, 9.5f, -10.5f);
-	mDebugStage3->SetLocalPosition(pos);
-	q = Quaternion(Vector3::UnitX, Math::PiOver2);
-	mDebugStage3->SetLocalRotation(q);
-	mDebugStage3->AddBoxCollider();
-
-	mDebugStage4 = new MeshActor();
-	mDebugStage4->Load("DebugStage.fbx");
-
-	pos = Vector3(10.5f, 9.5f, 0.0f);
-	mDebugStage4->SetLocalPosition(pos);
-	q = Quaternion(Vector3::UnitX, -Math::PiOver2);
-	q = Quaternion::Concatenate(q, Quaternion(Vector3::UnitY, -Math::PiOver2));
-	mDebugStage4->SetLocalRotation(q);
-	mDebugStage4->AddBoxCollider();
+	mLeftHandBox = new MeshActor();
+	mLeftHandBox->Load("LeftHandBox.fbx");
+	mLeftHandBox->SetLocalPosition(Vector3(-2.0f, 0.5f, 0.0f));
+	//mLeftHandBox->LookAt(Vector3::Zero);
 
 	// プレイヤー生成
 	mFPSActor = new FPSActor();
@@ -128,37 +100,16 @@ bool DebugScene01::Initialize()
 	mDamageTrap->Load("DamageTrap.fbx");
 	mDamageTrap->SetLocalPosition(Vector3(0.0f, 0.7f, -4.0f));
 	mDamageTrap->SetActorTag(ActorTag::Enemy);
-	mDamageTrap->SetTrigger(false);
 	mDamageTrap->AddSphereCollider();
+	mDamageTrap->SetColliderMode(false);
 
 	mHealthObject = new MeshActor();
 	mHealthObject->Load("Health.fbx");
 	mHealthObject->SetLocalScale(0.5f);
 	mHealthObject->SetLocalPosition(Vector3(4.0f, 1.0f, -4.0f));
 	mHealthObject->SetActorTag(ActorTag::Recovery);
-	mHealthObject->SetTrigger(false);
 	mHealthObject->AddBoxCollider();
-
-	// 的オブジェクト生成
-	q = Quaternion();
-	mTarget1 = new MeshActor();
-	mTarget1->Load("Target.fbx");
-	mTarget1->SetLocalPosition(Vector3(0.0f, 2.0f, 10.0f));
-	mTarget1->SetLocalRotation(q);
-	mTarget1->AddBoxCollider();
-	new TargetComponent(mTarget1);
-	mTarget2 = new MeshActor();
-	mTarget2->Load("Target.fbx");
-	mTarget2->SetLocalPosition(Vector3(-5.0f, 2.0f, 10.0f));
-	mTarget2->SetLocalRotation(q);
-	mTarget2->AddBoxCollider();
-	new TargetComponent(mTarget2);
-	mTarget3 = new MeshActor();
-	mTarget3->Load("Target.fbx");
-	mTarget3->SetLocalPosition(Vector3(5.0f, 2.0f, 10.0f));
-	mTarget3->SetLocalRotation(q);
-	mTarget3->AddBoxCollider();
-	new TargetComponent(mTarget3);
+	mHealthObject->SetColliderMode(false);
 
 
 	return true;

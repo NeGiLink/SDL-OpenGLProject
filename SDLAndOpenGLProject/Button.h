@@ -9,14 +9,18 @@
 
 //書籍元を改造したファイル
 //ボタンUIのクラス
-class Button : Image
+class Button : public Image
 {
 public:
 	Button(const string& name, class Font* font,
 		std::function<void()> onClick,
 		const Vector2& pos, const Vector2& dims);
+	Button(const char8_t* name, class Font* font,
+		std::function<void()> onClick,
+		const Vector2& pos, const Vector2& dims);
 	~Button();
 
+	void					Update(float deltaTime)override;
 
 	void					SetButtonText(class Texture* texture);
 	// Getters/setters
@@ -29,12 +33,14 @@ public:
 	bool					ContainsPoint(const Vector2& pt) const;
 	// ボタンがクリックされたときに呼び出されます
 	void					OnClick();
-	// 画像を描画する関数
-	void					DrawTexture(class Shader* shader, class Texture* texture,
-		const Vector2& offset = Vector2::Zero,
-		Vector3 scale = Vector3(1.0f, 1.0f, 1.0f), float angle = 0);
+
+	Coroutine				DicideButton();
 private:
 	std::function<void()>	mOnClick;
+
+	float					mClickCount;
+
+	float					mDicideButton;
 
 	string					mName;
 
@@ -49,4 +55,6 @@ private:
 	Vector2					mDimensions;
 
 	bool					mHighlighted;
+
+	Vector2					mBaseButtonPosition;
 };

@@ -19,7 +19,6 @@ Text::~Text()
 void Text::SetText(const string& name)
 {
 	const char* text = name.c_str();
-	mU8Name = std::u8string(reinterpret_cast<const char8_t*>(text));
 	mName = name;
 
 	if (mTexture)
@@ -29,6 +28,24 @@ void Text::SetText(const string& name)
 		mTexture = nullptr;
 	}
 	mTexture = mFont->RenderFreeText(mName,mColor,mFontSize);
+	mTextureRect.x = 0;
+	mTextureRect.y = 0;
+	mTextureRect.w = static_cast<float>(mTexture->GetWidth());
+	mTextureRect.h = static_cast<float>(mTexture->GetHeight());
+}
+
+void Text::SetUTF_8Text(const char8_t* name)
+{
+	const char* text = reinterpret_cast<const char*>(name);
+	mText = text;
+
+	if (mTexture)
+	{
+		mTexture->Unload();
+		delete mTexture;
+		mTexture = nullptr;
+	}
+	mTexture = mFont->RenderFreeText(mText, mColor, mFontSize);
 	mTextureRect.x = 0;
 	mTextureRect.y = 0;
 	mTextureRect.w = static_cast<float>(mTexture->GetWidth());

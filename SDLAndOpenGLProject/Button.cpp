@@ -5,11 +5,14 @@ Button::Button(const string& name, Font* font,
 
 	: Image()
 	, mOnClick(onClick)
+	, mClickCount(0)
 	, mFont(font)
 	, mPosition(pos)
 	, mDimensions(dims)
 	, mHighlighted(false)
 {
+	mBaseButtonPosition = pos;
+
 	mButtonImage = new Image();
 	mButtonImage->SetPosition(pos);
 
@@ -17,15 +20,67 @@ Button::Button(const string& name, Font* font,
 	mNameText->SetText(name);
 }
 
+Button::Button(const char8_t* name, Font* font, std::function<void()> onClick, const Vector2& pos, const Vector2& dims)
+	: Image()
+	, mOnClick(onClick)
+	, mClickCount(0)
+	, mFont(font)
+	, mPosition(pos)
+	, mDimensions(dims)
+	, mHighlighted(false)
+{
+	mBaseButtonPosition = pos;
+
+	mButtonImage = new Image();
+	mButtonImage->Load("ButtonBlue.png");
+	mButtonImage->SetPosition(pos);
+
+	mNameText = new Text(mFont, mPosition);
+	mNameText->SetUTF_8Text(name);
+}
+
 Button::~Button()
 {
+	/*
 	//画像の解放
 	//ボタン本体
+	this->SetState(Image::EDestroy);
+	mButtonImage->SetState(Image::EDestroy);
+	mNameText->SetState(Image::EDestroy);
+	*/
+
 	mGame->RemoveImage(this);
 	//ボタンの枠
 	mGame->RemoveImage(mButtonImage);
 	//ボタンの文字
 	mGame->RemoveImage(mNameText);
+}
+
+void Button::Update(float deltaTime)
+{
+	if (GameStateClass::mGameEventFrag && mDicideButton > 0)
+	{
+		mDicideButton -= Time::gUnscaledDeltaTime;
+		if (mDicideButton < 0)
+		{
+			mButtonImage->SetPosition(mBaseButtonPosition);
+
+			mNameText->SetPosition(mBaseButtonPosition);
+		}
+	}
+
+	if (GameStateClass::mGameEventFrag&&mClickCount > 0)
+	{
+		mClickCount -= Time::gUnscaledDeltaTime;
+		if (mClickCount < 0)
+		{
+			GameStateClass::mGameEventFrag = false;
+			if (mOnClick)
+			{
+				mOnClick();
+			}
+		}
+	}
 }
 
 void Button::SetButtonText(Texture* texture)
@@ -49,32 +104,35 @@ void Button::OnClick()
 
 	GameStateClass::mGameEventFrag = true;
 
+	Vector2 pos = mBaseButtonPosition;
+	pos.y -= 5.0f;
+	mButtonImage->SetPosition(pos);
 
-	// Call attached handler, if it exists
-	if (mOnClick)
-	{
-		GameStateClass::mGameEventFrag = false;
-		mOnClick();
-	}
+	mNameText->SetPosition(pos);
+
+	mDicideButton = 0.1f;
+
+	mClickCount = 0.2f;
+
+	//DicideButton();
 }
 
-void Button::DrawTexture(Shader* shader, Texture* texture, const Vector2& offset, Vector3 scale, float angle)
+Coroutine Button::DicideButton()
 {
-	// Scale the quad by the width/height of texture
-	Matrix4 scaleMat = Matrix4::CreateScale(
-		static_cast<float>(texture->GetWidth()) * scale.x,
-		static_cast<float>(texture->GetHeight()) * scale.y,
-		scale.z);
-	// 回転（Z軸回転）
-	Matrix4 rotationMat = Matrix4::CreateRotationZ(angle);
-	// Translate to position on screen
-	Matrix4 transMat = Matrix4::CreateTranslation(
-		Vector3(offset.x, offset.y, 0.0f));
-	// Set world transform
-	Matrix4 world = scaleMat * rotationMat * transMat;
-	shader->SetMatrixUniform("uWorldTransform", world);
-	// Set current texture
-	texture->SetActive();
-	// Draw quad
-	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+	Vector2 pos = mBaseButtonPosition;
+	pos.y -= 5.0f;
+	mButtonImage->SetPosition(pos);
+
+	mNameText->SetPosition(pos);
+
+	mDicideButton = 0.1f;
+
+	mClickCount = 0.2f;
+	
+	co_await WaitForSeconds{ std::chrono::milliseconds(100) };
+
+	mButtonImage->SetPosition(mBaseButtonPosition);
+
+	mNameText->SetPosition(mBaseButtonPosition);
+
 }

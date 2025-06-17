@@ -484,8 +484,10 @@ bool Mesh::LoadFromFBX(const string& fileName, Renderer* renderer, int index)
 	//ƒ‚ƒfƒ‹î•ñæ“¾
 	Assimp::Importer importer;
 	const aiScene* scene = importer.ReadFile(fileName,
-		aiProcess_Triangulate | aiProcess_FlipUVs | 
-		aiProcess_GenNormals  | aiProcess_GlobalScale |
+		aiProcess_Triangulate |
+		aiProcess_FlipUVs |
+		aiProcess_GenNormals  |
+		aiProcess_GlobalScale |
 		aiProcess_MakeLeftHanded |
 		aiProcess_FlipWindingOrder);
 	//MeshCheck

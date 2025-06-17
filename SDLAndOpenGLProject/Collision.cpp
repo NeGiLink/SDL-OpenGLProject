@@ -782,5 +782,6 @@ OBB::OBB(const Vector3& center, const Quaternion& rotation, const Vector3& exten
 	: mCenter(center)
 	, mRotation(rotation)
 	, mExtents(extents)
+	, mOffset(Vector3::Zero)
 {
 }

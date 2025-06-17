@@ -8,7 +8,7 @@ class BaseScene
 {
 protected:
 
-	class GameWinMain* mWinMain;
+	class GameWinMain*								mWinMain;
 
 	// Track if we're updating actors right now
 	bool											mUpdatingActors;

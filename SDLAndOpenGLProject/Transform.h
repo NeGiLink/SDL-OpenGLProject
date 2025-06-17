@@ -60,6 +60,8 @@ public:
 
 	virtual void						RotateToNewForward(const Vector3& forward);
 
+	virtual void						LookAt(const Vector3& targetPosition);
+
 	// Getters/setters
 	virtual const Vector3&				GetPosition() const { return mPosition; }
 
@@ -104,12 +106,6 @@ public:
 	virtual const Quaternion&			GetLocalRotation() const { return mLocalRotation; }
 
 	virtual void						SetLocalRotation(const Quaternion& rotation)
-	{
-		mLocalRotation = rotation;
-		mRecomputeWorldTransform = true;
-	}
-
-	virtual void						AddLocalRotation(const Quaternion& rotation)
 	{
 		mLocalRotation = rotation;
 		mRecomputeWorldTransform = true;

@@ -66,6 +66,7 @@ struct OBB
 
 
 	Vector3		mCenter;
+	Vector3		mOffset;
 	Quaternion	mRotation;
 	Vector3		mExtents;
 };

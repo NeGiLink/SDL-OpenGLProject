@@ -34,7 +34,7 @@ bool DebugScene02::Initialize()
 	Font* font = GetFont("NotoSansJP-Bold.ttf");
 	//ƒV[ƒ“–¼¶¬
 	mSceneNameText = new Text(font, Vector2(500, 350));
-	mSceneNameText->SetText("DebugScene2");
+	mSceneNameText->SetUTF_8Text(u8"DebugScene2");
 	mSceneNameText->SetFontSize(40);
 
 	mFrameRateText = new Text(font, Vector2(500, 250));
@@ -43,31 +43,31 @@ bool DebugScene02::Initialize()
 	mFrameRateText->SetFontSize(40);
 
 	mPoseButtonText = new Text(font, Vector2(-550, 350));
-	mPoseButtonText->SetText("Pose:ESC");
+	mPoseButtonText->SetUTF_8Text(u8"Pose:ESC");
 	mPoseButtonText->SetFontSize(40);
 
 	mSceneLoadButtonText = new Text(font, Vector2(500, 150));
-	mSceneLoadButtonText->SetText("LoadScene:K Key");
+	mSceneLoadButtonText->SetUTF_8Text(u8"LoadScene:K Key");
 	mSceneLoadButtonText->SetFontSize(40);
 
 	mTPoseButtonText = new Text(font, Vector2(-500, -350));
-	mTPoseButtonText->SetText("TPose:1");
+	mTPoseButtonText->SetUTF_8Text(u8"TPose:1");
 	mTPoseButtonText->SetFontSize(40);
 
 	mIdlePoseButtonText = new Text(font, Vector2(-300, -350));
-	mIdlePoseButtonText->SetText("IdlePose:2");
+	mIdlePoseButtonText->SetUTF_8Text(u8"IdlePose:2");
 	mIdlePoseButtonText->SetFontSize(40);
 
 	mRunPoseButtonText = new Text(font, Vector2(-100, -350));
-	mRunPoseButtonText->SetText("RunPose:3");
+	mRunPoseButtonText->SetUTF_8Text(u8"RunPose:3");
 	mRunPoseButtonText->SetFontSize(40);
 
 	mJumpPoseButtonText = new Text(font, Vector2(100, -350));
-	mJumpPoseButtonText->SetText("JumpPose:4");
+	mJumpPoseButtonText->SetUTF_8Text(u8"JumpPose:4");
 	mJumpPoseButtonText->SetFontSize(40);
 
 	mCapoeiraPoseButtonText = new Text(font, Vector2(300, -350));
-	mCapoeiraPoseButtonText->SetText("CapoeiraPose:5");
+	mCapoeiraPoseButtonText->SetUTF_8Text(u8"CapoeiraPose:5");
 	mCapoeiraPoseButtonText->SetFontSize(40);
 
 	// Start music
@@ -95,8 +95,8 @@ bool DebugScene02::Initialize()
 	mDebugStage2->AddBoxCollider();
 
 	mTestCharacter = new SkeletonMeshActor();
-	mTestCharacter->Load("Paladin J Nordstrom.fbx");
-	mTestCharacter->SetLocalPosition(Vector3(2.0f, 0.0f, 4.0f));
+	mTestCharacter->Load("Y Bot.fbx");
+	mTestCharacter->SetLocalPosition(Vector3(2.0f, 0.5f, 4.0f));
 
 	mTestCharacter->SetAnimatorName("TestCharacter");
 	mTestCharacter->GetAnimator()->Load("Idle.fbx", true);
@@ -110,11 +110,11 @@ bool DebugScene02::Initialize()
 	q = Quaternion(Vector3::UnitY, Math::Pi);
 
 	mTPSPlayer = new TPSPlayer();
-	mTPSPlayer->SetLocalPosition(Vector3(0.0f,2.0f,0.0f));
+	mTPSPlayer->SetLocalPosition(Vector3(0.0f,0.5f,0.0f));
 	
 	mSmallCharacter = new SkeletonMeshActor();
 	mSmallCharacter->Load("goblin_d_shareyko.fbx");
-	mSmallCharacter->SetLocalPosition(Vector3(-4.0f, 0.0f, 4.0f));
+	mSmallCharacter->SetLocalPosition(Vector3(-4.0f, 0.5f, 4.0f));
 	mSmallCharacter->SetLocalRotation(Quaternion());
 
 	mSmallCharacter->SetAnimatorName("SmallCharacter");

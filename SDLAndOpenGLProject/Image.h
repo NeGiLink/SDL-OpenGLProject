@@ -60,6 +60,8 @@ protected:
 	FillMethod				mFillMethod;
 
 	int						mVerticesCount;
+
+	vector<Image*>			mImages;
 public:
 							Image();
 	virtual					~Image();
@@ -85,7 +87,10 @@ public:
 	
 	virtual float			GetFillAmount() { return mFillAmount; }
 	// UI‰æ–Ê‚Ìó‘Ô‚ğæ“¾‚·‚é
-	UIState					GetState() const { return mState; }
+	UIState					GetState() const 
+	{
+		return mState; 
+	}
 
 	class Texture*			GetTexture() const { return mTexture; }
 
@@ -110,5 +115,7 @@ public:
 	virtual void			SetVerticesCount(int count) { mVerticesCount = count; }
 	virtual int				GetVerticesCount() { return mVerticesCount; }
 
-	virtual void 			SetState(UIState state)  { mState = state; }
+	virtual void 			SetState(UIState state);
+
+	void					AddChildUIImage(Image* image);
 };

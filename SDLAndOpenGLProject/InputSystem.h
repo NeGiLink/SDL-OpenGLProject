@@ -47,8 +47,8 @@ private:
 	// スクロールホイールの移動
 	Vector2			mScrollWheel;
 	// ボタンデータを保存
-	Uint32			mCurrButtons;
-	Uint32			mPrevButtons;
+	Uint8			mCurrButtons;
+	Uint8			mPrevButtons;
 	// 相対マウスモードフラグ
 	bool			mIsRelative;
 public:

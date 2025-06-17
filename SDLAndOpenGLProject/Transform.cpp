@@ -21,7 +21,7 @@ Transform::~Transform()
 void Transform::RotateToNewForward(const Vector3& forward)
 {
 	// Figure out difference between original (unit x) and new
-	float dot = Vector3::Dot(Vector3::UnitX, forward);
+	float dot = Vector3::Dot(Vector3::UnitZ, forward);
 	float angle = Math::Acos(dot);
 	// Facing down X
 	if (dot > 0.9999f)
@@ -36,10 +36,38 @@ void Transform::RotateToNewForward(const Vector3& forward)
 	else
 	{
 		// Rotate about axis from cross product
-		Vector3 axis = Vector3::Cross(Vector3::UnitX, forward);
+		Vector3 axis = Vector3::Cross(Vector3::UnitZ, forward);
 		axis.Normalize();
 		SetLocalRotation(Quaternion(axis, angle));
 	}
+}
+
+void Transform::LookAt(const Vector3& targetPosition)
+{
+	Vector3 currentPosition = mPosition; // もしくは mLocalPosition など用途に応じて
+	Vector3 forward = targetPosition - currentPosition;
+	forward.Normalize();
+
+	// Z軸をforward方向に合わせる
+	float dot = Vector3::Dot(Vector3::UnitZ, forward);
+	float angle = Math::Acos(dot);
+
+	if (dot > 0.9999f)
+	{
+		SetLocalRotation(Quaternion::Identity);
+	}
+	else if (dot < -0.9999f)
+	{
+		SetLocalRotation(Quaternion(Vector3::UnitZ, Math::Pi));
+	}
+	else
+	{
+		Vector3 axis = Vector3::Cross(Vector3::UnitZ, forward);
+		axis.Normalize();
+		SetLocalRotation(Quaternion(axis, angle));
+	}
+
+	mRecomputeWorldTransform = true;
 }
 
 void Transform::ComputeWorldTransform(const Matrix4* parentMatrix)
@@ -65,18 +93,19 @@ void Transform::ComputeWorldTransform(const Matrix4* parentMatrix)
 		mPosition = mWorldTransform.GetTranslation();
 		mRotation = mWorldTransform.GetRotation();
 		mScale = mWorldTransform.GetScale();
-		//子オブジェクトの座標計算
-		for (auto child : mChildActor)
-		{
-			child->SetActive();
-			child->ComputeWorldTransform(&mWorldTransform);
-		}
 
 		// Inform components world transform updated
 		for (auto comp : mComponents)
 		{
 			comp->OnUpdateWorldTransform();
 		}
+	}
+	//一時的な修正
+	//子オブジェクトの座標計算
+	for (auto child : mChildActor)
+	{
+		child->SetActive();
+		child->ComputeWorldTransform(&mWorldTransform);
 	}
 }
 
