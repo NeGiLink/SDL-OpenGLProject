@@ -2,8 +2,13 @@
 #include "Typedefs.h"
 #include "StandardLibrary.h"
 
+/*
+* ===エンジン内部処理/Engine internal processing===
+*/
+
 //コールバック処理をカプセル化したもの
 //C#のevent Actionを元に作成
+// C++のstd::functionを使用している
 template<typename Signature>
 class Event;
 

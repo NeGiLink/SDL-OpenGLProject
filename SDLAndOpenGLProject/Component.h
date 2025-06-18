@@ -1,7 +1,12 @@
 #pragma once
 #include <cstdint>
 
+/*
+* ===エンジン内部処理/Engine internal processing===
+*/
+
 //コンポーネントの基底クラス
+// Unityのコンポーネントに近いクラス
 class Component
 {
 public:

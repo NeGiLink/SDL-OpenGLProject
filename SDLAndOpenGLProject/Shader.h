@@ -2,6 +2,10 @@
 #include "Math.h"
 #include "Mesh.h"
 
+/*
+* ===エンジン内部処理/Engine internal processing===
+*/
+
 //書籍元を改造したファイル
 //シェーダーの読み込みクラス
 class Shader

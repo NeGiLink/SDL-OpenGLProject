@@ -2,21 +2,17 @@
 #include "BaseScene.h"
 #include "SoundEventClip.h"
 
+#include "Stages01.h"
+
 //スケルタルメッシュなどの人型のキャラクターを生成しているシーン
 class DebugScene02 : public BaseScene
 {
 private:
 	// Game-specific code
 
-	class SkeletonMeshActor*		mTestCharacter;
-
 	class TPSPlayer*				mTPSPlayer;
 
-	class SkeletonMeshActor*		mSmallCharacter;
-
-	class MeshActor*				mDebugStage1;
-
-	class MeshActor*				mDebugStage2;
+	Stages01*						mStages01;
 
 	class SpriteComponent*			mCrosshair;
 

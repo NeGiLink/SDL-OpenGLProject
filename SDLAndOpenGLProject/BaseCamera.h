@@ -2,6 +2,10 @@
 #include "Component.h"
 #include "Math.h"
 
+/*
+* ===エンジン内部処理/Engine internal processing===
+*/
+
 //カメラの基底クラス
 class BaseCamera : public Component
 {

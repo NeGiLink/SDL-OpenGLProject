@@ -5,7 +5,12 @@
 #include "WinMain.h"
 #include "BaseScene.h"
 
+/*
+* ===エンジン内部処理/Engine internal processing===
+*/
+
 //画像描画をカプセル化したクラス
+// UnityのImageに近いクラス
 class Image
 {
 public:

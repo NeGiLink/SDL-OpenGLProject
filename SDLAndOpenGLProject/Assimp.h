@@ -1,4 +1,9 @@
 #pragma once
+
+/*
+* ===エンジン内部処理/Engine internal processing===
+*/
+
 //Assimp関連のインクルードをまとめたファイル
 //Assimpは主に3Dのモデルを読み込むことに使用しています。
 #include <assimp/texture.h>

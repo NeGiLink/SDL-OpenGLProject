@@ -4,8 +4,13 @@
 #include "Texture.h"
 #include "BaseScene.h"
 
+/*
+* ===エンジン内部処理/Engine internal processing===
+*/
+
 //書籍元を一部改造したファイル
 //文字のフォントを読み込み、参照するクラス
+// フォントのポイントサイズごとにTTF_Fontを管理するクラス
 class Font
 {
 private:

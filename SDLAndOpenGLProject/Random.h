@@ -1,6 +1,10 @@
 #pragma once
 #include "Math.h"
 
+/*
+* ===エンジン内部処理/Engine internal processing===
+*/
+
 //書籍元のファイル
 //ランダム出力を管理するクラス
 class Random

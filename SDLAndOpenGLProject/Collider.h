@@ -5,8 +5,13 @@
 #include "BaseScene.h"
 #include "PhysWorld.h"
 
+/*
+* ===エンジン内部処理/Engine internal processing===
+*/
+
 //コライダーの基底クラス
 //コライダーに必要な情報を持っています。
+// UnityのColliderとTriggerの機能を持っています。
 class Collider : public Component
 {
 protected:

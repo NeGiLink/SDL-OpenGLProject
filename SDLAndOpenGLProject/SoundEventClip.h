@@ -1,6 +1,10 @@
 #pragma once
 #include "SDOpenLib.h"
 
+/*
+* ===エンジン内部処理/Engine internal processing===
+*/
+
 //書籍元を改造したファイル
 //SE,BGMを再生するクラス
 //AudioSystem内にあるAudioBankから

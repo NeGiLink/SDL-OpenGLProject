@@ -5,17 +5,21 @@
 #include "PushButtonMove.h"
 #include "Mesh.h"
 
+/*
+* ===エンジン内部処理/Engine internal processing===
+*/
+
 //箱型のオブジェクト
 //Unityのようにデフォルトで作成可能オブジェクト
 class CubeActor : public ActorObject
 {
 private:
 	//AABBのコライダー
-	vector<class BoxCollider*>	mBoxs;
+	BoxCollider*	mBox;
 public:
-								CubeActor();
+					CubeActor();
 
-	vector<class BoxCollider*>	GetBoxs() { return mBoxs; }
+	BoxCollider*	GetBoxs() { return mBox; }
 
 };
 

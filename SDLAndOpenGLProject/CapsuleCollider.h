@@ -1,6 +1,10 @@
 #pragma once
 #include "Collider.h"
 
+/*
+* ===エンジン内部処理/Engine internal processing===
+*/
+
 //カプセル型のコライダークラス
 class CapsuleCollider : public Collider
 {

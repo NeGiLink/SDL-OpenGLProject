@@ -1,6 +1,7 @@
 #pragma once
 #include "Component.h"
 #include "Actor.h"
+
 //ボタンを押した時での操作に特化した移動機能
 //現在はテストなので矢印キーで移動
 class PushButtonMove : public Component

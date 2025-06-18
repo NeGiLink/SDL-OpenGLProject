@@ -1,6 +1,10 @@
 #pragma once
 #include "Actor.h"
 
+/*
+* ===エンジン内部処理/Engine internal processing===
+*/
+
 //スケルタルメッシュのボーン1つ1つの情報を管理するBoneActor
 //主に子オブジェクトの位置管理を行っています。
 class BoneActor : public ActorObject

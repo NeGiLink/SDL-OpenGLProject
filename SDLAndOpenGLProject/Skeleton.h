@@ -6,6 +6,10 @@
 #include <GL/glew.h>
 #include "Actor.h"
 
+/*
+* ===エンジン内部処理/Engine internal processing===
+*/
+
 //書籍元を改造したファイル
 
 //スケルトンのバイナリデータ構造体
@@ -24,7 +28,7 @@ struct SkeletonBinBone
 	// バインドポーズのスケール（オプション）
 	Vector3		scale;            
 };
-
+//スケルタルメッシュの骨格を管理するクラス
 class Skeleton
 {
 public:

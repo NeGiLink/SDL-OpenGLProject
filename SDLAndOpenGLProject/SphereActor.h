@@ -4,6 +4,10 @@
 #include "SphereCollider.h"
 #include "Mesh.h"
 
+/*
+* ===エンジン内部処理/Engine internal processing===
+*/
+
 //球型のオブジェクト
 //Unityのようにデフォルトで作成可能オブジェクト
 class SphereActor : public ActorObject

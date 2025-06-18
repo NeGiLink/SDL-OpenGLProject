@@ -5,6 +5,11 @@
 #include "SDL3.h"
 #include "FilePath.h"
 
+/*
+* ===エンジン内部処理/Engine internal processing===
+*/
+
+// OpenGLのテクスチャのフォーマットを定義する定数
 namespace TextureLayout
 {
 	constexpr int GL_RGBA_SIZE = 4;
@@ -22,6 +27,7 @@ namespace TextureLayout
 
 //書籍元を改造したファイル
 //画像の読み込み、参照を行うことをカプセル化したクラス
+// OpenGLのテクスチャを管理するクラス
 class Texture
 {
 private:

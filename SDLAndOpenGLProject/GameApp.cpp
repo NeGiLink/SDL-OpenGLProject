@@ -40,9 +40,10 @@ bool GameApp::Initialize()
 bool GameApp::ProcessInput()
 {
 	const InputState& state = InputSystem::GetState();
+	InputSystem::Update();
 	//“ü—ÍXV
 	mActiveScene->InputUpdate(state);
-
+	InputSystem::PrepareForUpdate();
 	return true;
 }
 

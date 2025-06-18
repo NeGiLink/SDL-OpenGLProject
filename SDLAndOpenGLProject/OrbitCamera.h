@@ -2,6 +2,10 @@
 #include "BaseCamera.h"
 #include "Actor.h"
 
+/*
+* ===エンジン内部処理/Engine internal processing===
+*/
+
 //書籍部分のファイル
 //軌道カメラのクラス
 class OrbitCamera : public BaseCamera

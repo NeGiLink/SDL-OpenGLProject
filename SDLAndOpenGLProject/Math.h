@@ -1,6 +1,10 @@
 ﻿#pragma once
 #include "StandardLibrary.h"
 
+/*
+* ===エンジン内部処理/Engine internal processing===
+*/
+
 //書籍元のコードを改造したファイル
 //Vector2、Vector3、Matrix関係の計算処理を行っているnamespace
 namespace Math
@@ -411,9 +415,17 @@ public:
 	void Normalize()
 	{
 		float length = Length();
-		x /= length;
-		y /= length;
-		z /= length;
+		if (length > 0.000001f) // もしくは std::numeric_limits<float>::epsilon() を使っても良い
+		{
+			x /= length;
+			y /= length;
+			z /= length;
+		}
+		else
+		{
+			// 長さが0に近い場合はゼロベクトルにするなど安全な処理をする
+			x = y = z = 0.0f;
+		}
 	}
 
 

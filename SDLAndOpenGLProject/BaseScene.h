@@ -1,9 +1,13 @@
 #pragma once
 #include "WinMain.h"
 
+/*
+* ===エンジン内部処理/Engine internal processing===
+*/
 
 //シーンの基底クラス
 //オブジェクトの更新などをまとめて行う部分になります。
+// シーンごとに継承して使用します。
 class BaseScene
 {
 protected:

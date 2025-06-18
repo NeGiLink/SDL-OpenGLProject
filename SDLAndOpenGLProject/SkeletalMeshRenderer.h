@@ -2,6 +2,10 @@
 #include "MeshRenderer.h"
 #include "Animator.h"
 
+/*
+* ===エンジン内部処理/Engine internal processing===
+*/
+
 //スケルタルメッシュの描画を行うクラス
 //MeshRendererと同様スケルタルメッシュを読み込んで使用する
 class SkeletalMeshRenderer : public MeshRenderer

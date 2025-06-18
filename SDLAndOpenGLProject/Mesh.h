@@ -7,6 +7,10 @@
 #include "VertexArray.h"
 #include "FilePath.h"
 
+/*
+* ===エンジン内部処理/Engine internal processing===
+*/
+
 namespace MeshLayout
 {
 	//メッシュの要素数
@@ -35,6 +39,7 @@ struct MeshBinHeader {
 	float		colliderRadius;
 };
 //1つの3DMeshの管理クラス
+//FBXファイルを読み込んでメッシュ情報を管理するクラス
 class Mesh
 {
 private:

@@ -1,5 +1,9 @@
 #pragma once
 
+/*
+* ===エンジン内部処理/Engine internal processing===
+*/
+
 //***ゲームシーンで必要なオブジェクトや画像の情報をまとめているファイル
 //Actor
 #include "Actor.h"

@@ -4,6 +4,10 @@
 #include "OrbitCamera.h"
 #include "MoveComponent.h"
 
+/*
+* ===エンジン内部処理/Engine internal processing===
+*/
+
 //書籍部分
 //軌道カメラに使うオブジェクトのクラス
 //今後使うため残しています。

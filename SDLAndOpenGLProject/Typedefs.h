@@ -1,6 +1,10 @@
 #pragma once
 #include "StandardLibrary.h"
 
+/*
+* ===エンジン内部処理/Engine internal processing===
+*/
+
 //文字列の簡易記述命令
 typedef std::string string;
 

@@ -2,8 +2,14 @@
 #include "BaseCamera.h"
 #include "Actor.h"
 
+/*
+* ===エンジン内部処理/Engine internal processing===
+*/
+
 //書籍部分を改造したファイル
 //三人称視点カメラのクラス
+//ターゲットの真後ろにカメラを配置し、
+//マウスでカメラの向きを変更できるようにするクラス
 class FollowCamera : public BaseCamera
 {
 private:

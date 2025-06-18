@@ -45,8 +45,6 @@ bool BaseScene::Initialize()
 
 bool BaseScene::InputUpdate(const InputState& state)
 {
-	InputSystem::Update();
-
 	//“ü—Í‘€ì
 	SDL_Event event;
 	while (SDL_PollEvent(&event))
@@ -95,13 +93,6 @@ bool BaseScene::InputUpdate(const InputState& state)
 			}
 		}
 	}
-
-	if (state.Mouse.GetButtonDown(SDL_BUTTON_LEFT))
-	{
-		Debug::Log("LeftClick");
-	}
-
-	InputSystem::PrepareForUpdate();
 
 
 	return true;

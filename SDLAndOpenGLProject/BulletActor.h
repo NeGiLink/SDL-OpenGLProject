@@ -15,6 +15,8 @@ private:
 	BoxCollider*			mBoxCollider;
 
 	float					mDestroyCount;
+
+	float					mPower;
 public:
 							BulletActor(Vector3 powerDir,Vector3 position);
 							~BulletActor();

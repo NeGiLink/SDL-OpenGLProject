@@ -2,11 +2,13 @@
 #include "Math.h"
 #include "Typedefs.h"
 
+/*
+* ===エンジン内部処理/Engine internal processing===
+*/
 
 //書籍部分を一部改造したファイル
 //各当たり判定の構造体をまとめたファイル
 //ボックス、球、線など
-
 struct LineSegment
 {
 					LineSegment(const Vector3& start, const Vector3& end);

@@ -3,6 +3,7 @@
 BulletActor::BulletActor(Vector3 powerDir, Vector3 position)
 	:ActorObject()
 	, mPowerDirection(powerDir)
+	, mPower(20000.0f)
 {
 	mBullet = new MeshActor();
 	mBullet->Load("Sphere.fbx");
@@ -21,7 +22,7 @@ BulletActor::BulletActor(Vector3 powerDir, Vector3 position)
 
 	mRigidbody = new Rigidbody(this);
 	mRigidbody->SetUseGravity(false);
-	mRigidbody->AddForce(mPowerDirection * 10000.0f);
+	mRigidbody->AddForce(mPowerDirection * mPower);
 
 	mDestroyCount = 3.0f;
 }

@@ -2,6 +2,10 @@
 #include "Typedefs.h"
 #include "StandardLibrary.h"
 
+/*
+* ===ƒGƒ“ƒWƒ““à•”ˆ—/Engine internal processing===
+*/
+
 namespace Model 
 {
 	const string AssetPath = "Assets/";

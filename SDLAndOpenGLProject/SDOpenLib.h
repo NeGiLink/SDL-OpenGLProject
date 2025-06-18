@@ -1,4 +1,9 @@
 #pragma once
+
+/*
+* ===ƒGƒ“ƒWƒ““à•”ˆ—/Engine internal processing===
+*/
+
 #include "FilePath.h"
 #include "WindowRenderProperty.h"
 #include "AudioBankProperty.h"

@@ -7,8 +7,13 @@
 #include "Image.h"
 #include "Text.h"
 
+/*
+* ===エンジン内部処理/Engine internal processing===
+*/
+
 //書籍元を改造したファイル
 //ボタンUIのクラス
+// ボタンは画像とテキストを持ち、クリックイベントを処理します
 class Button : public Image
 {
 public:

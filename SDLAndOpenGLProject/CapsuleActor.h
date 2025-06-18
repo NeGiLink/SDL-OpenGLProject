@@ -4,6 +4,10 @@
 #include "CapsuleCollider.h"
 #include "Mesh.h"
 
+/*
+* ===エンジン内部処理/Engine internal processing===
+*/
+
 //カプセル型のオブジェクト
 //Unityのようにデフォルトで作成可能オブジェクト
 class CapsuleActor : public ActorObject

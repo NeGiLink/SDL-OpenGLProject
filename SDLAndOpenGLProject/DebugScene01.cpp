@@ -34,8 +34,8 @@ bool DebugScene01::Initialize()
 	mSceneNameText->SetUTF_8Text(u8"デバッグシーン1");
 	mSceneNameText->SetFontSize(40);
 	
-	mPoseButtonText = new Text(font, Vector2(-500, 350));
-	mPoseButtonText->SetUTF_8Text(u8"ポーズ:ESC Key");
+	mPoseButtonText = new Text(font, Vector2(-600, 350));
+	mPoseButtonText->SetUTF_8Text(u8"ESC Key");
 	mPoseButtonText->SetFontSize(40);
 
 	mSceneLoadButtonText = new Text(font, Vector2(450, 150));
@@ -61,11 +61,6 @@ bool DebugScene01::Initialize()
 	mStages = new Stages00();
 	mStages->Initialize();
 
-	mLeftHandBox = new MeshActor();
-	mLeftHandBox->Load("LeftHandBox.fbx");
-	mLeftHandBox->SetLocalPosition(Vector3(-2.0f, 0.5f, 0.0f));
-	//mLeftHandBox->LookAt(Vector3::Zero);
-
 	// プレイヤー生成
 	mFPSActor = new FPSActor();
 	mFPSActor->SetLocalPosition(Vector3(0.0f,1.0f,0.0f));
@@ -74,31 +69,31 @@ bool DebugScene01::Initialize()
 
 	mCube = new MeshActor();
 	mCube->Load("Cube.fbx");
-	mCube->SetLocalPosition(Vector3(0.0f, 0.5f, 4.0f));
+	mCube->SetLocalPosition(Vector3(0.0f, 0.0f, 6.0f));
 	mCube->AddBoxCollider();
 	
 	mCapsule = new MeshActor();
 	mCapsule->Load("Capsule.fbx");
-	mCapsule->SetLocalPosition(Vector3(4.0f, 1.0f, 4.0f));
+	mCapsule->SetLocalPosition(Vector3(4.0f, 0.5f, 6.0f));
 	mCapsule->AddCapsuleCollider();
 	mCube->AddChildActor(mCapsule);
 
 
 	mSphere = new MeshActor();
 	mSphere->Load("Sphere.fbx");
-	mSphere->SetLocalPosition(Vector3(-4.0f, 0.5f, 4.0f));
+	mSphere->SetLocalPosition(Vector3(-4.0f, 0.0f, 6.0f));
 	mSphere->AddSphereCollider();
 	mSphere->AddChildActor(mCapsule);
 	mCube->AddChildActor(mSphere);
 
 	mDice = new MeshActor();
 	mDice->Load("TestCube.fbx");
-	mDice->SetLocalPosition(Vector3(8.0f, 0.5f, 4.0f));
+	mDice->SetLocalPosition(Vector3(8.0f, 0.0f, 6.0f));
 	mDice->AddBoxCollider();
 
 	mDamageTrap = new MeshActor();
 	mDamageTrap->Load("DamageTrap.fbx");
-	mDamageTrap->SetLocalPosition(Vector3(0.0f, 0.7f, -4.0f));
+	mDamageTrap->SetLocalPosition(Vector3(-20.0f, 0.7f, -4.0f));
 	mDamageTrap->SetActorTag(ActorTag::Enemy);
 	mDamageTrap->AddSphereCollider();
 	mDamageTrap->SetColliderMode(false);
@@ -106,7 +101,7 @@ bool DebugScene01::Initialize()
 	mHealthObject = new MeshActor();
 	mHealthObject->Load("Health.fbx");
 	mHealthObject->SetLocalScale(0.5f);
-	mHealthObject->SetLocalPosition(Vector3(4.0f, 1.0f, -4.0f));
+	mHealthObject->SetLocalPosition(Vector3(-20.0f, 1.0f, 4.0f));
 	mHealthObject->SetActorTag(ActorTag::Recovery);
 	mHealthObject->AddBoxCollider();
 	mHealthObject->SetColliderMode(false);
@@ -117,6 +112,7 @@ bool DebugScene01::Initialize()
 
 bool DebugScene01::InputUpdate(const InputState& state)
 {
+	BaseScene::InputUpdate(state);
 	if (state.Keyboard.GetKeyDown(KEY_O))
 	{
 		mMusicEvent.Pause();
@@ -135,7 +131,6 @@ bool DebugScene01::InputUpdate(const InputState& state)
 		mUIStack.back()->ProcessInput(state);
 	}
 
-	BaseScene::InputUpdate(state);
 
 	return true;
 }

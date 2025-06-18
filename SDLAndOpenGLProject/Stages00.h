@@ -25,7 +25,7 @@ private:
 	TargetActor* mTarget2;
 	TargetActor* mTarget3;
 public:
-	Stages00();
+							Stages00();
 
 	void					Initialize();
 

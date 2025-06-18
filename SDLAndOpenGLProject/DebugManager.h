@@ -4,7 +4,12 @@
 #include <iostream>
 #include <cstdlib>
 
+/*
+* ===エンジン内部処理/Engine internal processing===
+*/
+
 //エラー、警告、デバッグ用のログを出力する関数をまとめている
+//エンジン内部処理のため、ヘッダーファイルを分けていません
 namespace Debug
 {
     /// <summary> 

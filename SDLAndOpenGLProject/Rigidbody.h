@@ -6,8 +6,12 @@
 #include "Actor.h"
 #include "BaseScene.h"
 #include "PhysWorld.h"
+/*
+* ===エンジン内部処理/Engine internal processing===
+*/
 
 //オブジェクトにコンポーネントして使うRigidbody
+// UnityのRigidbodyに近いクラス
 class Rigidbody : public Component
 {
 private:
