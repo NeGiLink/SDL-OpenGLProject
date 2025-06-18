@@ -52,14 +52,4 @@ GameDialogBox::GameDialogBox(const char8_t* text, std::function<void()> onOK)
 GameDialogBox::~GameDialogBox()
 {
 	Canvas::~Canvas();
-	/*
-	mTitleFont->SetState(Image::EDestroy);
-	mBackground->SetState(Image::EDestroy);
-	mButton01->SetState(Image::EDestroy);
-	mButton02->SetState(Image::EDestroy);
-	mGame->RemoveImage(mTitleFont);
-	mGame->RemoveImage(mBackground);
-	mGame->RemoveImage(mButton01);
-	mGame->RemoveImage(mButton02);
-	*/
 }

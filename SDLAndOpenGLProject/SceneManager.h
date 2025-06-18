@@ -1,6 +1,10 @@
 #pragma once
 #include "StandardLibrary.h"
 
+/*
+* ===エンジン内部処理/Engine internal processing===
+*/
+
 //シーンの管理、ロード処理を行うクラス
 class SceneManager
 {

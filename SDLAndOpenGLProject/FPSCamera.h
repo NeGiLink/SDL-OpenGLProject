@@ -2,6 +2,10 @@
 #include "BaseCamera.h"
 #include "Actor.h"
 
+/*
+* ===エンジン内部処理/Engine internal processing===
+*/
+
 //書籍部分を一部改造したファイル
 //一人称視点カメラのクラス
 class FPSCamera : public BaseCamera

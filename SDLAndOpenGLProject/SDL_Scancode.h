@@ -3,8 +3,13 @@
 #include <SDL3/SDL_gamepad.h>
 #include <SDL3/SDL_mouse.h>
 
+/*
+* ===エンジン内部処理/Engine internal processing===
+*/
+
 //入力のenumをdefineでまとめたファイル
 //キーボード、マウス、コントローラーの入力をまとめている
+// SDLのスキャンコードを使用している
 
 #define KEY_UNKNOWN					SDL_Scancode::SDL_SCANCODE_UNKNOWN
 

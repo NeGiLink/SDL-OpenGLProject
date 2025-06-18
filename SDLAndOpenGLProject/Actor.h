@@ -4,6 +4,10 @@
 #include "Rigidbody.h"
 #include "Transform.h"
 
+/*
+* ===ƒGƒ“ƒWƒ““à•”ˆ—/Engine internal processing===
+*/
+
 enum ActorTag
 {
 	None,

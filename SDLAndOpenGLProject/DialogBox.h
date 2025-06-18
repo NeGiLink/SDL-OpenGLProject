@@ -2,9 +2,13 @@
 #include "Canvas.h"
 #include "Image.h"
 
+/*
+* ===エンジン内部処理/Engine internal processing===
+*/
+
 //ダイアログボックスUIのクラス
-//ほぼ手を加えていないので
-////書籍元のファイル
+//主にゲーム内の決定を確定するかの処理に使うもの
+//生成を行って使用する形で考えている。
 class GameDialogBox : public Canvas
 {
 private:

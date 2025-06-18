@@ -3,6 +3,10 @@
 #include "BaseScene.h"
 #include "Component.h"
 
+/*
+* ===エンジン内部処理/Engine internal processing===
+*/
+
 //オブジェクトの座標、回転、スケーリングの情報を管理
 //UnityのTransformに近いクラス
 class Transform

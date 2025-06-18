@@ -3,6 +3,10 @@
 #include "Assimp.h"
 #include "SDL3.h"
 
+/*
+* ===エンジン内部処理/Engine internal processing===
+*/
+
 namespace AnimationLayout
 {
 	constexpr float DEFAULTTICKSPERSECOND = 25.0f;
@@ -25,6 +29,8 @@ struct AnimationBinTransform
 };
 
 //アニメーション1つの情報を持つクラス
+//アニメーションのフレーム数、持続時間、各ボーンの変形情報を持つ
+//アニメーションの読み込みはAssimpを使用
 class Animation
 {
 public:

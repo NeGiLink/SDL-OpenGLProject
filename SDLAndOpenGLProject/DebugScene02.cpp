@@ -79,51 +79,14 @@ bool DebugScene02::Initialize()
 	SDL_GetRelativeMouseState(nullptr, nullptr);
 
 	// デバッグ用のステージ追加
-	mDebugStage1 = new MeshActor();
-	mDebugStage1->Load("DebugStage.fbx");
-	Vector3 pos = Vector3(0.0f, 0.0f, 0.0f);
-	mDebugStage1->SetLocalPosition(pos);
-	mDebugStage1->SetActorTag(ActorTag::Ground);
-	mDebugStage1->AddBoxCollider();
-
-	mDebugStage2 = new MeshActor();
-	mDebugStage2->Load("DebugStage.fbx");
-	pos = Vector3(0.0f, 10.0f, 10.0f);
-	mDebugStage2->SetLocalPosition(pos);
-	q = Quaternion(Vector3::UnitX, -Math::PiOver2);
-	mDebugStage2->SetLocalRotation(q);
-	mDebugStage2->AddBoxCollider();
-
-	mTestCharacter = new SkeletonMeshActor();
-	mTestCharacter->Load("Y Bot.fbx");
-	mTestCharacter->SetLocalPosition(Vector3(2.0f, 0.5f, 4.0f));
-
-	mTestCharacter->SetAnimatorName("TestCharacter");
-	mTestCharacter->GetAnimator()->Load("Idle.fbx", true);
-	mTestCharacter->GetAnimator()->Load("Running.fbx", true);
-	mTestCharacter->GetAnimator()->Load("Jumping.fbx");
-	mTestCharacter->GetAnimator()->Load("Capoeira.fbx", true);
-	mTestCharacter->GetAnimator()->Load("T-Pose.fbx", true);
-	mTestCharacter->GetAnimator()->PlayAnimation(mTestCharacter->GetAnimator()->GetAnimations()[4]);
+	mStages01 = new Stages01();
+	mStages01->Initialize();
 
 
 	q = Quaternion(Vector3::UnitY, Math::Pi);
 
 	mTPSPlayer = new TPSPlayer();
-	mTPSPlayer->SetLocalPosition(Vector3(0.0f,0.5f,0.0f));
-	
-	mSmallCharacter = new SkeletonMeshActor();
-	mSmallCharacter->Load("goblin_d_shareyko.fbx");
-	mSmallCharacter->SetLocalPosition(Vector3(-4.0f, 0.5f, 4.0f));
-	mSmallCharacter->SetLocalRotation(Quaternion());
-
-	mSmallCharacter->SetAnimatorName("SmallCharacter");
-	mSmallCharacter->GetAnimator()->Load("Idle.fbx", true);
-	mSmallCharacter->GetAnimator()->Load("Running.fbx", true);
-	mSmallCharacter->GetAnimator()->Load("Jumping.fbx");
-	mSmallCharacter->GetAnimator()->Load("Capoeira.fbx", true);
-	mSmallCharacter->GetAnimator()->Load("T-Pose.fbx", true);
-	mSmallCharacter->GetAnimator()->PlayAnimation(mSmallCharacter->GetAnimator()->GetAnimations()[4]);
+	mTPSPlayer->SetLocalPosition(Vector3(0.0f, 0.5f, 0.0f));
 
 	// プレイヤー生成
 	mPlayer = mTPSPlayer;
@@ -142,32 +105,6 @@ bool DebugScene02::InputUpdate(const InputState& state)
 	else if (!mUIStack.empty())
 	{
 		mUIStack.back()->ProcessInput(state);
-	}
-	//テスト用：アニメーション切り替え
-	if (state.Keyboard.GetKeyDown(KEY_1))
-	{
-		mTestCharacter->GetAnimator()->PlayBlendAnimation(mTestCharacter->GetAnimator()->GetAnimations()[4]);
-		mSmallCharacter->GetAnimator()->PlayBlendAnimation(mSmallCharacter->GetAnimator()->GetAnimations()[4]);
-	}
-	else if (state.Keyboard.GetKeyDown(KEY_2))
-	{
-		mTestCharacter->GetAnimator()->PlayBlendAnimation(mTestCharacter->GetAnimator()->GetAnimations()[0]);
-		mSmallCharacter->GetAnimator()->PlayBlendAnimation(mSmallCharacter->GetAnimator()->GetAnimations()[0]);
-	}
-	else if (state.Keyboard.GetKeyDown(KEY_3))
-	{
-		mTestCharacter->GetAnimator()->PlayBlendAnimation(mTestCharacter->GetAnimator()->GetAnimations()[1]);
-		mSmallCharacter->GetAnimator()->PlayBlendAnimation(mSmallCharacter->GetAnimator()->GetAnimations()[1]);
-	}
-	else if (state.Keyboard.GetKeyDown(KEY_4))
-	{
-		mTestCharacter->GetAnimator()->PlayBlendAnimation(mTestCharacter->GetAnimator()->GetAnimations()[2]);
-		mSmallCharacter->GetAnimator()->PlayBlendAnimation(mSmallCharacter->GetAnimator()->GetAnimations()[2]);
-	}
-	else if (state.Keyboard.GetKeyDown(KEY_5))
-	{
-		mTestCharacter->GetAnimator()->PlayBlendAnimation(mTestCharacter->GetAnimator()->GetAnimations()[3]);
-		mSmallCharacter->GetAnimator()->PlayBlendAnimation(mSmallCharacter->GetAnimator()->GetAnimations()[3]);
 	}
 
 	return true;

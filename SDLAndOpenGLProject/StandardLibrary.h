@@ -1,4 +1,9 @@
 #pragma once
+
+/*
+* ===エンジン内部処理/Engine internal processing===
+*/
+
 //STD関連の外部インクルード
 #include <array>
 #include <string>

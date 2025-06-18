@@ -3,8 +3,13 @@
 #include "Animation.h"
 #include "Skeleton.h"
 
+/*
+* ===エンジン内部処理/Engine internal processing===
+*/
+
 //複数個あるアニメーションを管理するクラス
 //Unityの「Animator」を意識して設計
+//アニメーションの再生、ブレンドなどを行う
 class Animator
 {
 public:
@@ -26,7 +31,7 @@ public:
 	void							BlendComputeMatrixPalette();
 
 	//Getter
-	MatrixPalette					GetPalette() { return mPalette; }
+	MatrixPalette&					GetPalette() { return mPalette; }
 
 	vector<Animation*>				GetAnimations() { return mAnimations; }
 

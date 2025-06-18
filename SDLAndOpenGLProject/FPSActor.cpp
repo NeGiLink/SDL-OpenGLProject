@@ -9,7 +9,6 @@ FPSActor::FPSActor()
 	mBasicInput = new BasicInputAction(this);
 
 	mRigidbody = new Rigidbody(this);
-	mRigidbody->SetSolverIterationCount(6);
 	mRigidbody->SetBounciness(0.0f);
 
 	mAudioComp = new AudioComponent(this);
@@ -22,8 +21,6 @@ FPSActor::FPSActor()
 	// ボックスの当たり判定の機能を追加
 	mBoxCollider = new BoxCollider(this);
 	OBB myOBB(mPosition, mRotation, Vector3(1.0f,1.5f,1.0f));
-	AABB myBox(Vector3(-0.5f, -1.0f, -0.5f),Vector3(0.5f, 0.5f, 0.5f));
-	mBoxCollider->SetObjectBox(myBox);
 	mBoxCollider->SetObjectOBB(myOBB);
 	mBoxCollider->SetStaticObject(false);
 
@@ -66,7 +63,7 @@ void FPSActor::UpdateActor(float deltaTime)
 
 	mBasicInput->SetJumping(true);
 	// Make a line segment
-	const float cAimDist = 3.0f;
+	const float cAimDist = 3.5f;
 	Vector3 start = mPosition;
 	//start.y += 0.5f;
 	Vector3 dir = GetUp();

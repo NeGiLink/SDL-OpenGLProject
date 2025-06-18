@@ -10,6 +10,10 @@
 #include <vector>
 #include <Windows.h>
 
+/*
+* ===エンジン内部処理/Engine internal processing===
+*/
+
 //std::stringの文字列を様々な形に変換する処理をまとめたファイル
 namespace StringFormat
 {

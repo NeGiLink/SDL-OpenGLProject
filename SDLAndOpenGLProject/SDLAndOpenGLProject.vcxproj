@@ -173,7 +173,6 @@
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="FPSActor.cpp" />
     <ClCompile Include="FPSCamera.cpp" />
-    <ClCompile Include="FPSCameraActor.cpp" />
     <ClCompile Include="FreeCamera.cpp" />
     <ClCompile Include="FreeCameraActor.cpp" />
     <ClCompile Include="GameApp.cpp" />
@@ -188,6 +187,7 @@
     <ClCompile Include="SkeletonMeshActor.cpp" />
     <ClCompile Include="SphereActor.cpp" />
     <ClCompile Include="SphereCollider.cpp" />
+    <ClCompile Include="Stages01.cpp" />
     <ClCompile Include="Stages00.cpp" />
     <ClCompile Include="TargetActor.cpp" />
     <ClCompile Include="Text.cpp" />
@@ -195,7 +195,6 @@
     <ClCompile Include="DebugScene01.cpp" />
     <ClCompile Include="TitleCanvas.cpp" />
     <ClCompile Include="TitleScene.cpp" />
-    <ClCompile Include="TPSCamera.cpp" />
     <ClCompile Include="TPSPlayer.cpp" />
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="WindowRenderProperty.cpp" />
@@ -268,7 +267,6 @@
     <ClInclude Include="Font.h" />
     <ClInclude Include="FPSActor.h" />
     <ClInclude Include="FPSCamera.h" />
-    <ClInclude Include="FPSCameraActor.h" />
     <ClInclude Include="FreeCamera.h" />
     <ClInclude Include="FreeCameraActor.h" />
     <ClInclude Include="GameApp.h" />
@@ -289,6 +287,7 @@
     <ClInclude Include="SkeletonMeshActor.h" />
     <ClInclude Include="SphereActor.h" />
     <ClInclude Include="SphereCollider.h" />
+    <ClInclude Include="Stages01.h" />
     <ClInclude Include="Stages00.h" />
     <ClInclude Include="StandardLibrary.h" />
     <ClInclude Include="StringFormat.h" />
@@ -298,7 +297,6 @@
     <ClInclude Include="DebugScene01.h" />
     <ClInclude Include="TitleCanvas.h" />
     <ClInclude Include="TitleScene.h" />
-    <ClInclude Include="TPSCamera.h" />
     <ClInclude Include="TPSPlayer.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="Typedefs.h" />

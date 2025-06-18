@@ -3,6 +3,10 @@
 #include "SDL3.h"
 #include "Typedefs.h"
 
+/*
+* ===エンジン内部処理/Engine internal processing===
+*/
+
 //書籍元を改造したファイル
 //環境光の構造体
 struct DirectionalLight
@@ -14,7 +18,7 @@ struct DirectionalLight
 	// Specular color
 	Vector3 mSpecColor;
 };
-
+// 3D描画のレンダラー
 class Renderer
 {
 private:

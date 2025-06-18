@@ -3,6 +3,10 @@
 #include "Shader.h"
 #include "Actor.h"
 
+/*
+* ===エンジン内部処理/Engine internal processing===
+*/
+
 //メッシュの描画を行うクラス
 //読み込んだメッシュをセットして使用する
 class MeshRenderer : public Component

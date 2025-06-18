@@ -1,6 +1,10 @@
 #pragma once
 #include "Math.h"
 
+/*
+* ===ƒGƒ“ƒWƒ““à•”ˆ—/Engine internal processing===
+*/
+
 namespace SkeletonLayout
 {
 	const size_t MAX_SKELETON_BONES = 96;

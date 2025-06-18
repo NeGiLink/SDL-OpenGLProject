@@ -4,6 +4,10 @@
 #include "BoxCollider.h"
 #include "Mesh.h"
 
+/*
+* ===エンジン内部処理/Engine internal processing===
+*/
+
 //平面型のオブジェクト
 //Unityのようにデフォルトで作成可能オブジェクト
 class PlaneActor : public ActorObject

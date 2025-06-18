@@ -3,6 +3,10 @@
 #include "Math.h"
 #include "Typedefs.h"
 
+/*
+* ===ƒGƒ“ƒWƒ““à•”ˆ—/Engine internal processing===
+*/
+
 namespace AudioSystemLayout
 {
 	// “¯”­‰¹‚ÌÅ‘å”

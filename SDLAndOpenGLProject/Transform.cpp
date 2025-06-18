@@ -1,12 +1,15 @@
 #include "Transform.h"
 
 Transform::Transform()
-	: mLocalPosition(Vector3::Zero)
+	: mPosition(Vector3::Zero)
+	, mLocalPosition(Vector3::Zero)
 	, mPositionOffset(Vector3::Zero)
+	, mRotation(Quaternion::Identity)
 	, mLocalRotation(Quaternion::Identity)
 	, mRotationAmountX(0)
 	, mRotationAmountY(0)
 	, mRotationAmountZ(0)
+	, mScale(Vector3(1.0f, 1.0f, 1.0f))
 	, mLocalScale(Vector3(1.0f, 1.0f, 1.0f))
 	, mRecomputeWorldTransform(true)
 	, mWorldTransform()

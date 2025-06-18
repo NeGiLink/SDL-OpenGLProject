@@ -1,8 +1,13 @@
 #pragma once
 #include "Collider.h"
 
+/*
+* ===エンジン内部処理/Engine internal processing===
+*/
 
 //ボックスのColliderを追加するコンポーネント
+// UnityのBoxColliderに近いクラス
+// OBBを使用しているので、回転可能なコライダー
 class BoxCollider : public Collider
 {
 private:

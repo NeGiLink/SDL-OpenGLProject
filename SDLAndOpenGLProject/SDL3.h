@@ -1,4 +1,9 @@
 #pragma once
+
+/*
+* ===エンジン内部処理/Engine internal processing===
+*/
+
 //SDL関連のインクルードをまとめたファイル
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_log.h>

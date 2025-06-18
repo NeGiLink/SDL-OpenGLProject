@@ -3,6 +3,10 @@
 #include <cmath>
 #include "Math.h"
 
+/*
+* ===ƒGƒ“ƒWƒ““à•”ˆ—/Engine internal processing===
+*/
+
 namespace TimeLayout
 {
 	// 60FPS : 16ms = 16,000,000ns

@@ -4,6 +4,10 @@
 #include <sstream>
 #include <iomanip>
 
+/*
+* ===ƒGƒ“ƒWƒ““à•”ˆ—/Engine internal processing===
+*/
+
 namespace FloatToString 
 {
 	inline string ToStringWithoutDecimal(float value) {

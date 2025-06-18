@@ -9,7 +9,12 @@
 
 #include "Button.h"
 
+/*
+* ===エンジン内部処理/Engine internal processing===
+*/
+
 //ポーズ、ダイアログなどのUIの基底クラス
+// UnityのCanvasに近いクラス
 class Canvas
 {
 public:

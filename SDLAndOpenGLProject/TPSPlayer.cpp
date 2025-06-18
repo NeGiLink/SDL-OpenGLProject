@@ -3,9 +3,11 @@
 TPSPlayer::TPSPlayer()
 	:ActorObject()
 {
+	mActorTag = ActorTag::Player;
+
 	mSkeletonMeshActor = new SkeletonMeshActor();
 	//mSkeletonMeshActor->Load("Y Bot.fbx");
-	mSkeletonMeshActor->Load("Vanguard By T. Choonyung.fbx");
+	mSkeletonMeshActor->Load("Y Bot.fbx");
 	//アニメーションの読み込み
 	mSkeletonMeshActor->SetAnimatorName("TPSPlayer");
 	mSkeletonMeshActor->GetAnimator()->Load("Sword And Shield Idle.fbx", true, true);
@@ -28,19 +30,21 @@ TPSPlayer::TPSPlayer()
 	mMovement = new FollowObjectMovement(this);
 
 	mRigidbody = new Rigidbody(this);
-	mRigidbody->SetSolverIterationCount(6);
 
 	// ボックスの当たり判定の機能を追加
 	mBoxCollider = new BoxCollider(this);
 	OBB obb(mPosition, mRotation, Vector3(0.5f, 0.5f, 0.5f));
 	obb.mOffset = Vector3(0.0f, 0.6f, 0.0f);
-
 	mBoxCollider->SetObjectOBB(obb);
 	mBoxCollider->SetStaticObject(false);
+
+	mPosition = Vector3::Zero;
 }
 
 void TPSPlayer::UpdateActor(float deltaTime)
 {
+	/*
+	*/
 	if (!mMovement->IsJumping())
 	{
 		if (mMovement->GetInputDirection().Length() > 0)
@@ -69,21 +73,14 @@ void TPSPlayer::UpdateActor(float deltaTime)
 		if (info.mActor->GetActorTag() == ActorTag::Ground)
 		{
 			mMovement->SetJumping(false);
-			Debug::Log("In Ground");
 		}
-		else
-		{
-			Debug::Log("Out Ground");
-		}
-	}
-	else
-	{
-		Debug::Log("Out Ground");
 	}
 }
 
 void TPSPlayer::ActorInput(const InputState& keys)
 {
+	/*
+	*/
 	if (keys.Keyboard.GetKeyDown(SDL_SCANCODE_SPACE) && !mMovement->IsJumping())
 	{
 		mSkeletonMeshActor->GetAnimator()->PlayBlendAnimation(mSkeletonMeshActor->GetAnimator()->GetAnimations()[State::RunJump]);

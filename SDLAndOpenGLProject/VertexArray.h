@@ -3,6 +3,11 @@
 #include "StandardLibrary.h"
 #include "Math.h"
 
+/*
+* ===エンジン内部処理/Engine internal processing===
+*/
+
+// 頂点レイアウトの定義
 namespace VertexLayout
 {
 	//各型のバイト数
@@ -61,6 +66,7 @@ namespace VertexLayout
 }
 
 //書籍元を改造したファイル
+//頂点配列オブジェクト(Vertex Array Object)を管理するクラス
 class VertexArray
 {
 private:

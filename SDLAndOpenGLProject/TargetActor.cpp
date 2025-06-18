@@ -3,6 +3,8 @@
 TargetActor::TargetActor()
 	:ActorObject()
 	, mMesh(nullptr)
+	, mHitCoolDownCount(0)
+	, mRotateCount(2.0f)
 {
 	mMesh = new MeshActor();
 	mMesh->Load("Target.fbx");
@@ -42,6 +44,6 @@ void TargetActor::OnCollisionEnter(ActorObject* target)
 	BulletActor* bullet = (BulletActor*)target;
 	if (bullet == nullptr) { return; }
 	if (mHitCoolDownCount > 0) { return; }
-	mHitCoolDownCount = 2.0f;
+	mHitCoolDownCount = mRotateCount;
 
 }

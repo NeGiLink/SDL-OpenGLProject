@@ -5,6 +5,10 @@
 #include "Animator.h"
 #include "BoxCollider.h"
 
+/*
+* ===エンジン内部処理/Engine internal processing===
+*/
+
 //3Dモデルを読み込むクラス
 //スケルトン有りの3Dモデルを
 //読み込みだけのクラス

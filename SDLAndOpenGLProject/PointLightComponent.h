@@ -2,6 +2,10 @@
 #include "Math.h"
 #include "Component.h"
 
+/*
+* ===エンジン内部処理/Engine internal processing===
+*/
+
 //書籍部分
 //ポイントライトの処理を行うクラス
 class PointLightComponent : public Component

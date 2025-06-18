@@ -2,8 +2,14 @@
 #include "Math.h"
 #include "Actor.h"
 
+
+/*
+* ===エンジン内部処理/Engine internal processing===
+*/
+
 //書籍元を改造したファイル
 //スケルタルモデルのボーンのトランスフォームクラス
+//ボーンの位置、回転、スケーリングを管理するクラス
 class BoneTransform
 {
 private:

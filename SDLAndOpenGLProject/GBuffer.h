@@ -1,6 +1,10 @@
 #pragma once
 #include "Texture.h"
 
+/*
+* ===エンジン内部処理/Engine internal processing===
+*/
+
 //書籍元のファイル
 class GBuffer
 {

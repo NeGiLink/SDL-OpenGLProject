@@ -24,8 +24,6 @@ private:
 
 	Stages00*						mStages;
 
-	class MeshActor*				mLeftHandBox;
-
 	vector<class PlaneActor*>		mPlanes;
 
 	class SpriteComponent*			mCrosshair;

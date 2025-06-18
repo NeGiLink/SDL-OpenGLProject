@@ -6,6 +6,10 @@
 #include "CapsuleCollider.h"
 #include "Mesh.h"
 
+/*
+* ===エンジン内部処理/Engine internal processing===
+*/
+
 //3Dモデルを読み込むクラス
 //スケルトン無しの3Dモデルを
 //読み込みだけのクラス

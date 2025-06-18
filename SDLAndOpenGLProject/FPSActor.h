@@ -4,8 +4,8 @@
 #include "BasicInputAction.h"
 #include "AudioSystem.h"
 #include "AudioComponent.h"
-#include "FPSCameraActor.h"
 #include "BoxCollider.h"
+#include "FPSCamera.h"
 #include "GunActor.h"
 
 //一人称視点のプレイヤー操作クラス
