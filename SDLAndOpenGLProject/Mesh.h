@@ -87,5 +87,9 @@ public:
 	const vector<AABB>			GetBoxs() const { return mBoxs; }
 	const vector<OBB>			GetOBBBoxs() const { return mOBBBoxs; }
 	//ƒ}ƒeƒŠƒAƒ‹î•ñæ“¾
-	const vector<MaterialInfo>	GetMaterialInfo() const { return mMaterialInfo; }
+	vector<MaterialInfo>	GetMaterialInfo() { return mMaterialInfo; }
+	void  SetMaterialInfo(const vector<MaterialInfo>& info) 
+	{ 
+		mMaterialInfo = info; 
+	}
 };

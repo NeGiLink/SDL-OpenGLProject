@@ -1,6 +1,6 @@
 #pragma once
 #include "BaseScene.h"
-
+#include "FPSCanvas.h"
 #include "Stages00.h"
 
 //通常のモデルなどを生成しているゲームシーン
@@ -30,13 +30,7 @@ private:
 
 	class SoundEventClip			mMusicEvent;
 
-	class Text*						mSceneNameText;
-
-	class Text*						mPoseButtonText;
-
-	class Text*						mSceneLoadButtonText;
-
-	class Text*						mFrameRateText;
+	class FPSCanvas*				mGameCanvas00;
 
 	class PauseMenu*				mPauseMenu;
 public:

@@ -27,20 +27,19 @@ uniform vec3 specularColor;
 
 uniform float shininess;
 
+uniform vec4 uColor;
 void main()
 {
-	// 環境光成分
-    vec3 ambient = ambientColor;  
-	// 拡散光成分
-    vec3 diffuse = diffuseColor * texture(uTexture, fragTexCoord).rgb;  
-	// 鏡面反射
-    vec3 specular = specularColor * shininess;
-
-    vec3 finalColor = ambient + diffuse + specular;
-
-	// Diffuse color is sampled from texture
-	outDiffuse = vec4(finalColor, 1.0);
-	//outDiffuse = vec4(texture(uTexture, fragTexCoord).xyz, 1.0);
+	vec4 texColor = texture(uTexture, fragTexCoord);
+	
+	vec3 ambient = ambientColor;
+	vec3 diffuse = diffuseColor * texColor.rgb;
+	vec3 specular = specularColor * shininess;
+	
+	vec3 finalColor = ambient + diffuse + specular;
+	
+	// 不透明度 = マテリアルカラー × テクスチャアルファ
+	outDiffuse = vec4(finalColor, uColor.a * texColor.a);
 
 	// Normal/world pos are passed directly along
 	outNormal = fragNormal;

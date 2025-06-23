@@ -35,7 +35,6 @@ protected:
 
 	class AudioSystem* mAudioSystem;
 	class PhysWorld* mPhysWorld;
-	class HUD* mHUD;
 
 	class ActorObject* mPlayer;
 
@@ -67,6 +66,10 @@ public:
 	void											AddActor(class ActorObject* actor);
 	//オブジェクト削除
 	void											RemoveActor(class ActorObject* actor);
+
+	template<typename T>
+	vector<ActorObject*>							SelectAllActorComponent();
+
 	//GameWinMainのGetter
 	class GameWinMain*								GetWinMain() { return mWinMain; }
 	//FontのGetter
@@ -83,8 +86,7 @@ public:
 	class AudioSystem*								GetAudioSystem() { return mAudioSystem; }
 	//PhysWorldのGetter
 	class PhysWorld*								GetPhysWorld() { return mPhysWorld; }
-	//HUDのGetter
-	class HUD*										GetHUD() { return mHUD; }
+
 	// Manage UI stack
 	const vector<class Canvas*>&					GetUIStack() { return mUIStack; }
 	//UIScreenの設定
@@ -102,3 +104,23 @@ public:
 	//MainCameraの設定
 	void											SetMainCamera(class BaseCamera* camera) { mMainCamera = camera; }
 };
+
+template<typename T>
+inline vector<ActorObject*> BaseScene::SelectAllActorComponent()
+{
+	std::vector<ActorObject*> result;
+
+	for (auto* actor : mActors)
+	{
+		for (auto* component : actor->GetComponents())
+		{
+			if (dynamic_cast<T*>(component)) // T型のComponentがあるか
+			{
+				result.push_back(actor);
+				break; // 一つでも見つかればそのオブジェクトは対象になる
+			}
+		}
+	}
+
+	return result;
+}

@@ -2,6 +2,10 @@
 #include "MeshActor.h"
 #include "BoxCollider.h"
 #include "BulletActor.h"
+#include "SoundEventClip.h"
+#include "AudioSystem.h"
+#include "AudioComponent.h"
+#include "TargetComponent.h"
 
 class TargetActor : public ActorObject
 {
@@ -13,6 +17,8 @@ private:
 	float			mHitCoolDownCount;
 
 	float			mRotateCount;
+
+	AudioComponent* mAudioComp;
 public:
 	TargetActor();
 

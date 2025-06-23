@@ -179,6 +179,10 @@ bool Renderer::LoadShaders()
 
 void Renderer::Draw()
 {
+	//Meshの順番を変更
+	MeshOrderUpdate();
+
+
 	// G-bufferに3Dシーンを描画します。
 	Draw3DScene(mGBuffer->GetBufferID(), mView, mProjection, 1.0f, false);
 	// フレームバッファをゼロ（スクリーンのフレームバッファ）に戻します
@@ -380,6 +384,56 @@ void Renderer::UnloadData()
 		delete i.second;
 	}
 	mMeshes.clear();
+}
+
+void Renderer::MeshOrderUpdate()
+{
+	// 1. 一時リストに分離
+	std::vector<MeshRenderer*> opaqueList;
+	std::vector<MeshRenderer*> transparentList;
+	// 透明オブジェクトと不透明オブジェクトを分ける
+	for (auto& mesh : mMeshComps)
+	{
+		if (!mesh->GetVisible()) continue;
+		//MeshRenderer内のMeshを1つずつチェック
+		for (auto& m : mesh->GetMeshs())
+		{
+			if (!m) continue; // nullptrチェック
+			if (m->GetMaterialInfo().empty()) continue; // マテリアルがない場合はスキップ
+			const auto& materials = m->GetMaterialInfo();
+			bool isTransparent = false;
+			for (const auto& mat : materials)
+			{
+				if (mat.Color.w < 1.0f) // 不透明度が1未満なら透明とみなす
+				{
+					isTransparent = true;
+					break;
+				}
+			}
+
+			if (isTransparent)
+				transparentList.push_back(mesh);
+			else
+				opaqueList.push_back(mesh);
+		}
+	}
+
+	// 2. 透明オブジェクトはカメラからの距離でソート（遠い順）
+	Matrix4 view = mView;
+	view.Invert();
+	Vector3 cameraPos = view.GetTranslation(); // ビュー行列の逆行列からカメラ位置取得
+	std::sort(transparentList.begin(), transparentList.end(),
+		[&](MeshRenderer* a, MeshRenderer* b)
+		{
+			float distA = (a->GetOwner()->GetPosition() - cameraPos).LengthSq();
+			float distB = (b->GetOwner()->GetPosition() - cameraPos).LengthSq();
+			return distA > distB; // 遠い順に
+		});
+
+	// 3. mMeshComps を再構築
+	mMeshComps.clear();
+	mMeshComps.insert(mMeshComps.end(), opaqueList.begin(), opaqueList.end());
+	mMeshComps.insert(mMeshComps.end(), transparentList.begin(), transparentList.end());
 }
 
 void Renderer::AddSprite(SpriteComponent* sprite)

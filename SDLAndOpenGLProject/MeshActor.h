@@ -26,6 +26,7 @@ private:
 	class CapsuleCollider*		mCapsuleCollider;
 
 public:
+
 	void					Load(string filePath);
 
 	void					SetColliderMode(bool active);

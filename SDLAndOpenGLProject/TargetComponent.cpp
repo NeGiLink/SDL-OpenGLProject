@@ -2,15 +2,12 @@
 #include "Actor.h"
 #include "PhysWorld.h"
 #include "Math.h"
-#include "HUD.h"
 
 TargetComponent::TargetComponent(ActorObject* owner)
-	:Component(owner)
+	: Component(owner)
 {
-	mOwner->GetGame()->GetHUD()->AddTargetComponent(this);
 }
 
 TargetComponent::~TargetComponent()
 {
-	mOwner->GetGame()->GetHUD()->RemoveTargetComponent(this);
 }
