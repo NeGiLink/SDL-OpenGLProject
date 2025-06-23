@@ -32,12 +32,13 @@ protected:
 		Vector3 scale = Vector3(1.0f, 1.0f, 1.0f), float angle = 0);
 	class BaseScene* mGame;
 
-	class Text* mTitleFont;
-	class Image* mTitle;
-	class Image* mBackground;
+	Image*		mTitleImage;
+	Text*		mTitleFont;
+	Image*		mTitle;
+	Image*		mBackground;
 
-	class Texture* mButtonOn;
-	class Texture* mButtonOff;
+	Texture*	mButtonOn;
+	Texture*	mButtonOff;
 
 	// à íuÇê›íËÇ∑ÇÈ
 	Vector2					mTitlePos;

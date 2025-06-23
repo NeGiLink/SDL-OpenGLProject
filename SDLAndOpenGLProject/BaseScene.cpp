@@ -9,7 +9,6 @@ BaseScene::BaseScene(GameWinMain* winMain)
 	, mFixed_Delta_Time(0.02f)
 	, mPlayer(nullptr)
 	, mMainCamera(nullptr)
-	, mHUD(nullptr)
 	, mFixedTimeAccumulator(0.0f)
 {
 }

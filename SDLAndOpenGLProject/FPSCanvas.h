@@ -3,12 +3,14 @@
 #include "PhysWorld.h"
 #include "TargetComponent.h"
 #include "Actor.h"
+#include "TargetComponentSystem.h"
 
 //ゲーム上のUIをまとめて処理するクラス
-class HUD : public Canvas
+class FPSCanvas : public Canvas
 {
 protected:
 	void									UpdateCrosshair(float deltaTime);
+	void									UpdateBlipTextures();
 	void									UpdateRadar(float deltaTime);
 
 	class Image*							mRadar;
@@ -18,14 +20,28 @@ protected:
 
 	class Image*							mBlipTex;
 
-	class Image*							mRadarArrow;
+	vector<class Image*>					mBlipTexs;
 
-	class Image*							mHelthBarFrame;
+	Image*									mRadarArrow;
 
-	class Image*							mHelthBar;
+	Image*									mHelthBarFrame;
 
-	// ゲーム内のすべてのターゲットコンポーネント
-	vector<class TargetComponent*>			mTargetComps;
+	Image*									mHelthBar;
+
+	Text*									mSceneNameText;
+
+	Image*									mSceneNameFrame;
+
+	Text*									mPoseButtonText;
+
+	Image*									mPoseButtonFrame;
+
+	Image*									mPoseButton;
+
+	Text*									mFrameRateText;
+
+
+
 	// レーダーに対するブリップの2Dオフセット
 	vector<Vector2>							mBlips;
 	// レーダーの範囲と半径を調整する
@@ -35,9 +51,11 @@ protected:
 	bool									mTargetEnemy;
 
 	float									mCrosshairAngle;
+
+	TargetComponentSystem*					mTargetComponentSystem;
 public:
 	// (下に引く順序は後ろに対応します)
-											HUD();
+											FPSCanvas();
 
 	void									Update(float deltaTime) override;
 

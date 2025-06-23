@@ -1,7 +1,7 @@
-#include "HUD.h"
+#include "FPSCanvas.h"
 
 
-HUD::HUD()
+FPSCanvas::FPSCanvas()
 	:Canvas()
 	, mRadarRange(2000.0f)
 	, mRadarRadius(92.0f)
@@ -9,6 +9,36 @@ HUD::HUD()
 	, mCrosshairAngle(0)
 {
 	Renderer* r = mGame->GetWinMain()->GetRenderer();
+
+	Font* font = mGame->GetFont("NotoSansJP-Bold.ttf");
+
+	mSceneNameFrame = new Image();
+	mSceneNameFrame->Load("UIFrame.png");
+	mSceneNameFrame->SetPosition(Vector2(500, 350));
+	mSceneNameFrame->SetScale(Vector3(1.25f, 1.0f, 1.0f));
+	//シーン名生成
+	mSceneNameText = new Text(font, Vector2(500, 350));
+	mSceneNameText->SetUTF_8Text(u8"FPS視点シーン");
+	mSceneNameText->SetFontSize(40);
+
+
+	mPoseButtonFrame = new Image();
+	mPoseButtonFrame->Load("ButtonUI.png");
+	mPoseButtonFrame->SetPosition(Vector2(-550, 330));
+
+	mPoseButton = new Image();
+	mPoseButton->Load("ESCUI.png");
+	mPoseButton->SetPosition(Vector2(-550, 350));
+	mPoseButton->SetScale(Vector3(0.5f, 0.5f, 0.5f));
+	mPoseButtonText = new Text(font, Vector2(-550, 310));
+	mPoseButtonText->SetUTF_8Text(u8"ポーズ");
+	mPoseButtonText->SetFontSize(40);
+
+	mFrameRateText = new Text(font, Vector2(500, 250));
+	float time = Time::gDeltaTime;
+	mFrameRateText->SetText(std::to_string(time));
+	mFrameRateText->SetFontSize(40);
+
 	mRadar = new Image();
 	mRadar->Load("Radar.png");
 
@@ -21,6 +51,7 @@ HUD::HUD()
 	
 	mBlipTex = new Image();
 	mBlipTex->Load("Blip.png");
+	mBlipTex->SetState(Image::EClosing);
 
 	mRadarArrow = new Image();
 	mRadarArrow->Load("RadarArrow.png");
@@ -37,14 +68,22 @@ HUD::HUD()
 
 	mHelthBarFrame->SetPosition(Vector2(-300,-300));
 	mHelthBar->SetPosition(Vector2(-300,-300));
+
+	mTargetComponentSystem = new TargetComponentSystem();
+	mTargetComponentSystem->AllTargetCheck();
 }
 
-void HUD::Update(float deltaTime)
+void FPSCanvas::Update(float deltaTime)
 {
 	Canvas::Update(deltaTime);
 
+	UpdateBlipTextures();
+
 	UpdateCrosshair(deltaTime);
 	UpdateRadar(deltaTime);
+
+	float time = Time::GetFrameRate();
+	mFrameRateText->SetText("FPS : " + FloatToString::ToStringWithoutDecimal(time));
 
 	//各画像の座標更新
 
@@ -71,19 +110,40 @@ void HUD::Update(float deltaTime)
 	// Radar
 	const Vector2 cRadarPos(-390.0f, 275.0f);
 	mRadar->SetPosition(cRadarPos);
-	//mRadar->Draw(shader);
 	// Blips
+	/*
 	for (Vector2& blip : mBlips)
 	{
 		blip *= 100.0f;
 		mBlipTex->SetPosition(cRadarPos + blip);
+	}
+	*/
+	for(int i = 0; i < mBlips.size(); i++)
+	{
+		Vector2 blip = mBlips[i];
+		blip *= 100.0f;
+		Vector2 blipPos = cRadarPos + blip;
+		mBlipTexs[i]->SetPosition(blipPos);
+		/*
+		if (i < mBlipTexs.size())
+		{
+			mBlipTexs[i]->SetPosition(cRadarPos + mBlips[i] * 100.0f);
+			mBlipTexs[i]->SetState(Image::EActive);
+		}
+		else
+		{
+			Image* blipTex = new Image(*mBlipTex);
+			blipTex->SetPosition(cRadarPos + mBlips[i] * 100.0f);
+			mBlipTexs.push_back(blipTex);
+		}
+		*/
 	}
 
 	// Radar arrow
 	mRadarArrow->SetPosition(cRadarPos);
 }
 
-void HUD::ProcessInput(const InputState& keys)
+void FPSCanvas::ProcessInput(const InputState& keys)
 {
 	//テスト用入力
 	if (keys.Keyboard.GetKey(KEY_DOWN))
@@ -108,19 +168,7 @@ void HUD::ProcessInput(const InputState& keys)
 	}
 }
 
-void HUD::AddTargetComponent(TargetComponent* tc)
-{
-	mTargetComps.emplace_back(tc);
-}
-
-void HUD::RemoveTargetComponent(TargetComponent* tc)
-{
-	auto iter = std::find(mTargetComps.begin(), mTargetComps.end(),
-		tc);
-	mTargetComps.erase(iter);
-}
-
-void HUD::UpdateCrosshair(float deltaTime)
+void FPSCanvas::UpdateCrosshair(float deltaTime)
 {
 	// Reset to regular cursor
 	mTargetEnemy = false;
@@ -136,7 +184,7 @@ void HUD::UpdateCrosshair(float deltaTime)
 	if (mGame->GetPhysWorld()->RayCast(l, info, (int)tag))
 	{
 		// Is this a target?
-		for (auto tc : mTargetComps)
+		for (auto tc : mTargetComponentSystem->GetTargetComponent())
 		{
 			if (tc->GetOwner()->GetActorTag() == info.mActor->GetActorTag())
 			{
@@ -147,7 +195,34 @@ void HUD::UpdateCrosshair(float deltaTime)
 	}
 }
 
-void HUD::UpdateRadar(float deltaTime)
+void FPSCanvas::UpdateBlipTextures()
+{
+	int targetCount = static_cast<int>(mTargetComponentSystem->GetTargetComponent().size());
+	int currentCount = static_cast<int>(mBlipTexs.size());
+
+	if (targetCount == currentCount) return;
+
+	// 増やす必要がある場合
+	while (mBlipTexs.size() < targetCount)
+	{
+		Image* blipTex = new Image();
+		blipTex->SetTexture(mBlipTex->GetTexture());
+		mBlipTexs.emplace_back(blipTex); // mBlipTex は雛形？
+	}
+
+	// 減らす必要がある場合
+	while (mBlipTexs.size() > targetCount)
+	{
+		if (!mBlipTexs.empty())
+		{
+			auto* tex = mBlipTexs.back();
+			if (tex) tex->SetState(Image::EDestroy);
+			mBlipTexs.pop_back();
+		}
+	}
+}
+
+void FPSCanvas::UpdateRadar(float deltaTime)
 {
 	// Clear blip positions from last frame
 	mBlips.clear();
@@ -165,7 +240,7 @@ void HUD::UpdateRadar(float deltaTime)
 	Matrix3 rotMat = Matrix3::CreateRotation(angle);
 
 	// Get positions of blips
-	for (auto tc : mTargetComps)
+	for (auto tc : mTargetComponentSystem->GetTargetComponent())
 	{
 		Vector3 targetPos = tc->GetOwner()->GetLocalPosition();
 		Vector2 actorPos2D(targetPos.x, targetPos.z);

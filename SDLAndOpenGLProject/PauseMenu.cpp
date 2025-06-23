@@ -8,6 +8,11 @@ PauseMenu::PauseMenu()
 	Time::gTimeScale = 0;
 	SetRelativeMouseMode(false);
 
+	mTitleImage = new Image();
+	mTitleImage->Load("UIFrame.png");
+	mTitleImage->SetPosition(Vector2(-400.0f, 200.0f));
+	mTitleImage->SetScale(Vector3(1.5f, 1.5f, 1.0f));
+
 	mTitleFont = new Text(mGame->GetFont("NotoSansJP-Bold.ttf"), Vector2::Zero);
 	mTitlePos = Vector2(-400.0f, 200.0f);
 	mTitleFont->SetPosition(mTitlePos);

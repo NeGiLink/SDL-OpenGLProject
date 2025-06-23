@@ -2,6 +2,7 @@
 #include "MeshActor.h"
 #include "SkeletonMeshActor.h"
 #include "CubeActor.h"
+#include "PortalActor.h"
 
 class Stages01 : public ActorObject
 {
@@ -25,6 +26,8 @@ private:
 	CubeActor* mCubeActor01;
 	
 	CubeActor* mCubeActor02;
+
+	PortalActor* mPortal;
 public:
 	Stages01();
 

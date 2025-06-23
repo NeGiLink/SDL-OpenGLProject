@@ -61,6 +61,9 @@ public:
 	// 任意のActor特有の入力コード（上書き可能）
 	virtual void				ActorInput(const struct InputState& keyState);
 
+	template<typename T>
+	T*							GetComponent() const;
+
 	// Getters/setters
 	State						GetState() const { return mState; }
 
@@ -84,3 +87,16 @@ public:
 	//当たり終わった時に呼び出される関数
 	virtual void				OnCollisionExit(ActorObject* target){}
 };
+
+template<typename T>
+inline T* ActorObject::GetComponent() const
+{
+	for (auto* component : mComponents)
+	{
+		if (T* casted = dynamic_cast<T*>(component))
+		{
+			return casted;
+		}
+	}
+	return nullptr; // 指定した型のコンポーネントが見つからなかった場合
+}

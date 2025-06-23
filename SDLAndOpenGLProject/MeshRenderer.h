@@ -11,6 +11,11 @@
 //読み込んだメッシュをセットして使用する
 class MeshRenderer : public Component
 {
+protected:
+	vector<class Mesh*>			mMeshs;
+	size_t						mTextureIndex;
+	bool						mVisible;
+	bool						mIsSkeletal;
 public:
 								MeshRenderer(class ActorObject* owner, bool isSkeletal = false);
 								~MeshRenderer();
@@ -35,9 +40,21 @@ public:
 	bool						GetIsSkeletal() const { return mIsSkeletal; }
 
 	vector<class Mesh*>			GetMeshs() const { return mMeshs; }
-protected:
-	vector<class Mesh*>			mMeshs;
-	size_t						mTextureIndex;
-	bool						mVisible;
-	bool						mIsSkeletal;
+
+    void SetMaterialAlpha(float alpha)
+	{
+		float a = Math::Clamp(alpha, 0.0f, 1.0f);
+		if (!mMeshs.empty())
+		{
+			for (auto& mesh : mMeshs)
+			{
+				vector<MaterialInfo> info = mesh->GetMaterialInfo();
+				for(int i = 0; i < info.size(); ++i)
+				{
+					info[i].Color = Vector4(info[i].Color.x, info[i].Color.y, info[i].Color.z,a);
+				}
+				mesh->SetMaterialInfo(info);
+			}
+		}
+	}
 };

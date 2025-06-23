@@ -15,11 +15,20 @@ private:
 	Button* mButton01;
 
 	Button* mButton02;
+
+	std::function<void()> mExitRun;
 public:
 	// (‰º‚Éˆø‚­‡˜‚ÍŒã‚ë‚É‘Î‰‚µ‚Ü‚·)
 	GameDialogBox(const string& text,
 		std::function<void()> onOK);
 	GameDialogBox(const char8_t* text,
 		std::function<void()> onOK);
+	GameDialogBox(const char8_t* text,
+		std::function<void()> onOK,
+		std::function<void()> run);
+	GameDialogBox(const char8_t* text,
+		std::function<void()> onOK,
+		std::function<void()> run,
+		std::function<void()> exitRun);
 	~GameDialogBox();
 };

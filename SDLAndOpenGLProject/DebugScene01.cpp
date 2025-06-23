@@ -25,28 +25,6 @@ bool DebugScene01::Initialize()
 	dir.mDiffuseColor = Vector3(0.78f, 0.88f, 1.0f);
 	dir.mSpecColor = Vector3(0.8f, 0.8f, 0.8f);
 	
-	// ゲーム内のUI生成
-	mHUD = new HUD();
-
-	Font* font = GetFont("NotoSansJP-Bold.ttf");
-	//シーン名生成
-	mSceneNameText = new Text(font, Vector2(500, 350));
-	mSceneNameText->SetUTF_8Text(u8"デバッグシーン1");
-	mSceneNameText->SetFontSize(40);
-	
-	mPoseButtonText = new Text(font, Vector2(-600, 350));
-	mPoseButtonText->SetUTF_8Text(u8"ESC Key");
-	mPoseButtonText->SetFontSize(40);
-
-	mSceneLoadButtonText = new Text(font, Vector2(450, 150));
-	mSceneLoadButtonText->SetUTF_8Text(u8"シーンのロード:L Key");
-	mSceneLoadButtonText->SetFontSize(48);
-
-	mFrameRateText = new Text(font, Vector2(500, 250));
-	float time = Time::gDeltaTime;
-	mFrameRateText->SetText(std::to_string(time));
-	mFrameRateText->SetFontSize(40);
-	
 	// BGMスタート
 	mMusicEvent = mAudioSystem->PlayEvent("event:/Music3");
 	// BGM一時停止
@@ -107,6 +85,8 @@ bool DebugScene01::Initialize()
 	mHealthObject->SetColliderMode(false);
 
 
+	// ゲーム内のUI生成
+	mGameCanvas00 = new FPSCanvas();
 	return true;
 }
 
@@ -121,12 +101,8 @@ bool DebugScene01::InputUpdate(const InputState& state)
 	{
 		mMusicEvent.Restart();
 	}
-	bool L = state.Keyboard.GetKeyDown(KEY_L);
-	if (L)
-	{
-		SceneManager::LoadScene(2);
-	}
-	else if (!mUIStack.empty())
+
+	if (!mUIStack.empty())
 	{
 		mUIStack.back()->ProcessInput(state);
 	}
@@ -137,8 +113,6 @@ bool DebugScene01::InputUpdate(const InputState& state)
 
 bool DebugScene01::Update()
 {
-	float time = Time::GetFrameRate();
-	mFrameRateText->SetText("FPS : " + FloatToString::ToStringWithoutDecimal(time));
 
 	//簡易的なY軸回転処理
 	float rotationAmountY = mHealthObject->GetRotationAmountY();

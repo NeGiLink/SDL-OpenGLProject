@@ -1,6 +1,7 @@
 #pragma once
 #include "MeshActor.h"
 #include "TargetActor.h"
+#include "PortalActor.h"
 
 class Stages00 : public ActorObject
 {
@@ -24,6 +25,8 @@ private:
 	TargetActor* mTarget1;
 	TargetActor* mTarget2;
 	TargetActor* mTarget3;
+
+	PortalActor* mPortal;
 public:
 							Stages00();
 

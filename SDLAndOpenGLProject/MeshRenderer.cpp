@@ -39,7 +39,21 @@ void MeshRenderer::Draw(Shader* shader)
 					shader->SetNoTexture();
 				}
 				MaterialInfo m = mMeshs[i]->GetMaterialInfo()[j];
-				shader->SetColorUniform("uTexture",m);
+
+				// 不透明度によってブレンド設定（1回だけで済むならループの外でもOK）
+				if (m.Color.w < 1.0f)
+				{
+					glEnable(GL_BLEND);
+					glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+					glDepthMask(GL_FALSE);  // 透明物体は深度書き込み無効（任意）
+				}
+				else
+				{
+					glDisable(GL_BLEND);
+					glDepthMask(GL_TRUE);   // 不透明物体は通常通り
+				}
+
+				shader->SetColorUniform("uTexture", m);
 				// メッシュの頂点配列をアクティブに設定します
 				VertexArray* va = mMeshs[i]->GetVertexArrays()[j];
 				va->SetActive();

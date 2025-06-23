@@ -84,6 +84,9 @@ void Stages00::Initialize()
 
 	mTarget3 = new TargetActor();
 	mTarget3->SetLocalPosition(Vector3(-25.0f, 5.0f, -5.0f));
+
+	mPortal = new PortalActor();
+	mPortal->SetLocalPosition(Vector3(0.0f, 1.0f, -6.0f));
 }
 
 void Stages00::UpdateActor(float deltaTime)

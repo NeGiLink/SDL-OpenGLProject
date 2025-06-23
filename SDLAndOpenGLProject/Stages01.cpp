@@ -83,6 +83,9 @@ void Stages01::Initialize()
 	mCubeActor02->SetLocalPosition(Vector3(5.0f, 0.5f, -5.0f));
 	mCubeActor02->SetLocalScale(Vector3(3.0f, 3.0f, 3.0f));
 	mCubeActor02->SetActorTag(ActorTag::Ground);
+
+	mPortal = new PortalActor();
+	mPortal->SetLocalPosition(Vector3(0.0f, 1.0f, -6.0f));
 }
 
 void Stages01::UpdateActor(float deltaTime)

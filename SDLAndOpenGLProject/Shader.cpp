@@ -126,8 +126,13 @@ void Shader::SetColorUniform(const char* name, const MaterialInfo info)
 	loc = glGetUniformLocation(mShaderProgram, "shininess");
 	glUniform1f(loc, info.Shininess);
 
+	// uColorÅiRGBAÅjÇëóÇÈ
+	loc = glGetUniformLocation(mShaderProgram, "uColor");
+	glUniform4f(loc, info.Color.x, info.Color.y, info.Color.z, info.Color.w);
+	/*
 	loc = glGetUniformLocation(mShaderProgram, name);
 	glUniform4fv(loc, 1, mMaterialColor.GetAsFloatPtr());
+	*/
 }
 
 void Shader::SetMaterialUniform(const char* name, const Vector3& color)

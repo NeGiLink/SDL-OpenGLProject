@@ -33,6 +33,5 @@
 //UI関係のインクルード
 #include "PauseMenu.h"
 #include "Canvas.h"
-#include "HUD.h"
 //ライト関係のインクルード
 #include "PointLightComponent.h"

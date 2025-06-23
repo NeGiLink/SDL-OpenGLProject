@@ -1,5 +1,5 @@
 #include "FPSActor.h"
-#include "HUD.h"
+#include "FPSCanvas.h"
 
 FPSActor::FPSActor()
 	:ActorObject()
@@ -31,7 +31,8 @@ FPSActor::FPSActor()
 	(
 		[this]() 
 		{
-			mFootstep.SetPaused(false); mFootstep.ResetStart(); 
+			mFootstep.SetPaused(false); 
+			mFootstep.ResetStart(); 
 		}
 	);
 
@@ -109,6 +110,7 @@ void FPSActor::SetVisible(bool visible)
 }
 void FPSActor::OnCollisionEnter(ActorObject* target)
 {
+	/*
 	if (target->GetActorTag() == ActorTag::Enemy)
 	{
 		mHP -= 10.0f;
@@ -127,6 +129,7 @@ void FPSActor::OnCollisionEnter(ActorObject* target)
 		}
 		mGame->GetHUD()->GetHelthBar()->SetFillAmount(mHP / mMaxHP);
 	}
+	*/
 }
 
 void FPSActor::OnCollisionExit(ActorObject* target)

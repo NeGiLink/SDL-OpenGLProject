@@ -9,7 +9,7 @@ BulletActor::BulletActor(Vector3 powerDir, Vector3 position)
 	mBullet->Load("Sphere.fbx");
 	AddChildActor(mBullet);
 	mBullet->SetLocalPosition(Vector3::Zero);
-	mBullet->SetLocalScale(Vector3(0.25f, 0.25f, 0.25f));
+	mBullet->SetLocalScale(Vector3(0.2f, 0.2f, 0.2f));
 
 	BoxCollider* box = new BoxCollider(this);
 	box->SetObjectBox(mBullet->GetBoxAABB());

@@ -14,15 +14,19 @@ TargetActor::TargetActor()
 	box->SetObjectBox(mMesh->GetBoxAABB());
 	box->SetObjectOBB(mMesh->GetBoxOBB());
 	mBoxCollider = box;
+
+	mAudioComp = new AudioComponent(this);
+
+	new TargetComponent(this);
 }
 
 void TargetActor::RotateTarget()
 {
-	float x = GetRotationAmountX();
-	x += 0.1f;
-	Quaternion q = Quaternion(Vector3::UnitX, x);
+	float y = GetRotationAmountY();
+	y += 0.1f;
+	Quaternion q = Quaternion(Vector3::UnitY, y);
 	SetLocalRotation(q);
-	SetRotationAmountX(x);
+	SetRotationAmountY(y);
 }
 
 void TargetActor::UpdateActor(float deltaTime)
@@ -45,5 +49,5 @@ void TargetActor::OnCollisionEnter(ActorObject* target)
 	if (bullet == nullptr) { return; }
 	if (mHitCoolDownCount > 0) { return; }
 	mHitCoolDownCount = mRotateCount;
-
+	mAudioComp->LoadAudio("event:/HitTarget");
 }

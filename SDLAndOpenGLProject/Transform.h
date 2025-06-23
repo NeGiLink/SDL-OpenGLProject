@@ -40,11 +40,12 @@ protected:
 
 	bool								mRecomputeWorldTransform;
 
-	vector<class Component*>			mComponents;
 	//親オブジェクト
-	class Transform* mParentActor;
+	class Transform*					mParentActor;
 	//子オブジェクトの配列
 	vector<class Transform*>			mChildActor;
+
+	vector<class Component*>			mComponents;
 public:
 										Transform();
 
@@ -151,6 +152,8 @@ public:
 	virtual void						AddParentActor(Transform* parent);
 
 	virtual void						RemoveParentActor();
+
+	vector<class Component*>			GetComponents() { return mComponents; }
 
 	//子オブジェクトの座標更新
 	virtual void						SetActive() { mRecomputeWorldTransform = true; }

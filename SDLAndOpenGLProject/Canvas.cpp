@@ -28,6 +28,10 @@ Canvas::~Canvas()
 	}
 	mButtons.clear();
 
+	if(mTitleImage)
+	{
+		mGame->RemoveImage(mTitleImage);
+	}
 	if (mTitleFont)
 	{
 		mGame->RemoveImage(mTitleFont);
@@ -201,6 +205,7 @@ void Canvas::DrawTexture(class Shader* shader, class Texture* texture,
 
 void Canvas::SetRelativeMouseMode(bool relative)
 {
+	if (SceneManager::IsLoading()) { return; }
 	if (relative)
 	{
 		SDL_SetWindowRelativeMouseMode(mGame->GetWinMain()->GetRenderer()->GetWindow(), true);

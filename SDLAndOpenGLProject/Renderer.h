@@ -94,6 +94,7 @@ public:
 	void												Shutdown();
 	//シーン別に保存しているオブジェクトをアンロードする処理
 	void												UnloadData();
+	void												MeshOrderUpdate();
 	//描画処理
 	void												Draw();
 	//スプライト追加処理

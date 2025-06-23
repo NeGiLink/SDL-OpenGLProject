@@ -561,7 +561,7 @@ public:
 		:x(inX)
 		, y(inY)
 		, z(inZ)
-		, w(inZ)
+		, w(inW)
 	{
 	}
 
