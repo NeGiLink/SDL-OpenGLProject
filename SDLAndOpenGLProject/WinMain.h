@@ -28,7 +28,7 @@ private:
 	class Renderer*		mRenderer;
 
 	//ƒQ[ƒ€“àˆ—
-	GameApp*			mGameApp;
+	class GameApp*		mGameApp;
 public:
 						GameWinMain();
 	//‰Šú‰»

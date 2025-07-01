@@ -33,14 +33,13 @@ protected:
 	// Any pending actors
 	vector<class ActorObject*>						mPendingActors;
 
-	class AudioSystem* mAudioSystem;
-	class PhysWorld* mPhysWorld;
+	class AudioSystem*								mAudioSystem;
+	class PhysWorld*								mPhysWorld;
 
-	class ActorObject* mPlayer;
+	class ActorObject*								mPlayer;
 
-	class BaseCamera* mMainCamera;
+	class BaseCamera*								mMainCamera;
 
-	//SoundEvent									mMusicEvent;
 	// 50HzÅAUnityÇ∆ìØÇ∂
 	const float										mFixed_Delta_Time = 0.02f;
 

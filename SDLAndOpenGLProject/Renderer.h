@@ -1,4 +1,3 @@
-
 #pragma once
 #include "SDL3.h"
 #include "Typedefs.h"
@@ -49,6 +48,7 @@ private:
 	// すべての（骨格以外の）メッシュコンポーネント
 	vector<class MeshRenderer*>							mMeshComps;
 	vector<class SkeletalMeshRenderer*>					mSkeletalMeshes;
+	vector<class ParticleSystem*>						mParticlesComps;
 	// BaseScene
 	class BaseScene*									mNowScene;
 	//***Shader***
@@ -58,6 +58,9 @@ private:
 	class VertexArray*									mSpriteVerts;
 
 	class VertexArray*									mFanSpriteVerts;
+
+	//パーティクルシェーダー
+	class Shader*										mParticleShader;
 
 	// Mesh shader
 	class Shader*										mMeshShader;
@@ -108,6 +111,10 @@ public:
 	void												AddMeshComp(class MeshRenderer* mesh);
 	//Mesh削除処理
 	void												RemoveMeshComp(class MeshRenderer* mesh);
+	//Mesh追加処理
+	void												AddParticleComp(class ParticleSystem* particle);
+	//Mesh削除処理
+	void												RemoveParticleComp(class ParticleSystem* particle);
 	//PointLight追加処理
 	void												AddPointLight(class PointLightComponent* light);
 	//PointLight削除処理

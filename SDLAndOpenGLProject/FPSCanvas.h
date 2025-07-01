@@ -13,12 +13,12 @@ protected:
 	void									UpdateBlipTextures();
 	void									UpdateRadar(float deltaTime);
 
-	class Image*							mRadar;
+	Image*									mRadar;
 
-	class Image*							mCrosshair;
-	class Image*							mCrosshairEnemy;
+	Image*									mCrosshair;
+	Image*									mCrosshairEnemy;
 
-	class Image*							mBlipTex;
+	Image*									mBlipTex;
 
 	vector<class Image*>					mBlipTexs;
 

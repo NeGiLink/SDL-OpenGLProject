@@ -6,6 +6,7 @@
 #include "SpriteComponent.h"
 #include "LineRenderer.h"
 #include "MeshRenderer.h"
+#include "ParticleSystem.h"
 #include "Canvas.h"
 #include "Image.h"
 #include "WinMain.h"
@@ -87,9 +88,11 @@ bool Renderer::Initialize(float screenWidth, float screenHeight)
 		SDL_Log("Failed to load shaders.");
 		return false;
 	}
-
+	
 	// 画面全体の四角形を作成する
 	CreateSpriteVerts();
+
+
 
 	// Gバッファを作成する
 	mGBuffer = new GBuffer();
@@ -142,6 +145,15 @@ bool Renderer::LoadShaders()
 
 	mSkinnedShader->SetActive();
 	mSkinnedShader->SetMatrixUniform("uViewProj", mView * mProjection);
+
+	// パーティクルシェーダーを作成する
+	mParticleShader = new Shader();
+	if (!mParticleShader->Load("Shaders/Sprite.vert", "Shaders/Sprite.frag"))
+	{
+		return false;
+	}
+	mParticleShader->SetActive();
+	mParticleShader->SetMatrixUniform("uViewProj", mView * mProjection);
 
 	// GBufferから描画するためのシェーダーを作成する（グローバルライティング）
 	mGGlobalShader = new Shader();
@@ -286,6 +298,19 @@ void Renderer::Draw3DScene(unsigned int framebuffer, const Matrix4& view, const 
 			sk->Draw(mSkinnedShader);
 		}
 	}
+	//パーティクルシステムの描画
+	mParticleShader->SetActive();
+	//パーティクルで使うため板ポリをアクティブに設定
+	mSpriteVerts->SetActive(); // 板ポリ
+	mParticleShader->SetMatrixUniform("uViewProj", mView * mProjection);
+	for(auto p : mParticlesComps)
+	{
+		if (p->IsVisible())
+		{
+			p->Draw(mParticleShader);
+		}
+	}
+
 }
 
 void Renderer::DrawFromGBuffer()
@@ -398,13 +423,16 @@ void Renderer::MeshOrderUpdate()
 		//MeshRenderer内のMeshを1つずつチェック
 		for (auto& m : mesh->GetMeshs())
 		{
-			if (!m) continue; // nullptrチェック
-			if (m->GetMaterialInfo().empty()) continue; // マテリアルがない場合はスキップ
+			// nullptrチェック
+			if (!m) continue; 
+			// マテリアルがない場合はスキップ
+			if (m->GetMaterialInfo().empty()) continue; 
 			const auto& materials = m->GetMaterialInfo();
 			bool isTransparent = false;
 			for (const auto& mat : materials)
 			{
-				if (mat.Color.w < 1.0f) // 不透明度が1未満なら透明とみなす
+				// 不透明度が1未満なら透明とみなす
+				if (mat.Color.w < 1.0f) 
 				{
 					isTransparent = true;
 					break;
@@ -421,15 +449,16 @@ void Renderer::MeshOrderUpdate()
 	// 2. 透明オブジェクトはカメラからの距離でソート（遠い順）
 	Matrix4 view = mView;
 	view.Invert();
-	Vector3 cameraPos = view.GetTranslation(); // ビュー行列の逆行列からカメラ位置取得
+	// ビュー行列の逆行列からカメラ位置取得
+	Vector3 cameraPos = view.GetTranslation(); 
 	std::sort(transparentList.begin(), transparentList.end(),
 		[&](MeshRenderer* a, MeshRenderer* b)
 		{
 			float distA = (a->GetOwner()->GetPosition() - cameraPos).LengthSq();
 			float distB = (b->GetOwner()->GetPosition() - cameraPos).LengthSq();
 			return distA > distB; // 遠い順に
-		});
-
+		}
+	);
 	// 3. mMeshComps を再構築
 	mMeshComps.clear();
 	mMeshComps.insert(mMeshComps.end(), opaqueList.begin(), opaqueList.end());
@@ -514,6 +543,17 @@ void Renderer::RemoveMeshComp(MeshRenderer* mesh)
 		auto iter = std::find(mMeshComps.begin(), mMeshComps.end(), mesh);
 		mMeshComps.erase(iter);
 	}
+}
+
+void Renderer::AddParticleComp(ParticleSystem* particle)
+{
+	mParticlesComps.emplace_back(particle);
+}
+
+void Renderer::RemoveParticleComp(ParticleSystem* particle)
+{
+	auto iter = std::find(mParticlesComps.begin(), mParticlesComps.end(), particle);
+	mParticlesComps.erase(iter);
 }
 
 void Renderer::AddPointLight(PointLightComponent* light)

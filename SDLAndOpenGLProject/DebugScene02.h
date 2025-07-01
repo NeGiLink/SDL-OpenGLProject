@@ -4,7 +4,9 @@
 #include "TPSCanvas.h"
 #include "Stages01.h"
 
-//スケルタルメッシュなどの人型のキャラクターを生成しているシーン
+//TPS視点のゲームシーン
+//ゲームの処理をここでまとめて行います。
+// UnityのSceneのようなもの。
 class DebugScene02 : public BaseScene
 {
 private:

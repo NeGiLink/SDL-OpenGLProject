@@ -34,11 +34,11 @@ protected:
 	//オブジェクトのタグ
 	ActorTag					mActorTag = ActorTag::None;
 
-	BaseScene*					mGame;
+	class BaseScene*			mGame;
 
 	class Rigidbody*			mRigidbody;
 
-	Collider*					mCollider;
+	class Collider*				mCollider;
 public:
 	//コンストラクタ
 								ActorObject();
@@ -91,7 +91,7 @@ public:
 template<typename T>
 inline T* ActorObject::GetComponent() const
 {
-	for (auto* component : mComponents)
+	for (auto component : mComponents)
 	{
 		if (T* casted = dynamic_cast<T*>(component))
 		{

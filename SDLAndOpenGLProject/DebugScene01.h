@@ -4,33 +4,20 @@
 #include "Stages00.h"
 
 //通常のモデルなどを生成しているゲームシーン
+//FPS視点のゲームシーン
+//ゲームの処理をここでまとめて行います。
+//UnityのSceneのようなもの。
 class DebugScene01 : public BaseScene
 {
 private:
 	// Game-specific code
 	class FPSActor*					mFPSActor;
 
-	class MeshActor*				mSphere;
-
-	class MeshActor*				mCube;
-
-	class MeshActor*				mDice;
-
-	class MeshActor*				mDamageTrap;
-
-	class MeshActor*				mHealthObject;
-
-	class MeshActor*				mCapsule;
-
 	Stages00*						mStages;
-
-	vector<class PlaneActor*>		mPlanes;
-
-	class SpriteComponent*			mCrosshair;
 
 	class SoundEventClip			mMusicEvent;
 
-	class FPSCanvas*				mGameCanvas00;
+	FPSCanvas*						mGameCanvas00;
 
 	class PauseMenu*				mPauseMenu;
 public:
@@ -43,5 +30,4 @@ public:
 	bool							Update()override;
 
 	void							HandleKeyPress(int key)override;
-	class							FPSActor* GetFPSPlayer() { return mFPSActor; }
 };

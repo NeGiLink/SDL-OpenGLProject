@@ -8,36 +8,36 @@ class TPSCanvas : public Canvas
 {
 protected:
 
-	Image* mSceneNameFrame;
+	Image*	mSceneNameFrame;
 	//フレームレート表示テキスト
-	Text* mFrameRateText;
+	Text*	mFrameRateText;
 
-	Text* mPoseButtonText;
+	Text*	mPoseButtonText;
 
-	Image* mPoseButtonFrame;
+	Image*	mPoseButtonFrame;
 
-	Image* mPoseButton;
+	Image*	mPoseButton;
 
-	class Text* mSceneLoadButtonText;
+	Text*	mSceneLoadButtonText;
 
 	//***アニメーション再生ボタンテキスト***
-	class Text* mSceneNameText;
+	Text*	mSceneNameText;
 
-	Image* mPoseFrame;
+	Image*	mPoseFrame;
 
-	class Text* mTPoseButtonText;
+	Text*	mTPoseButtonText;
 
-	class Text* mIdlePoseButtonText;
+	Text*	mIdlePoseButtonText;
 
-	class Text* mRunPoseButtonText;
+	Text*	mRunPoseButtonText;
 
-	class Text* mJumpPoseButtonText;
+	Text*	mJumpPoseButtonText;
 
-	class Text* mCapoeiraPoseButtonText;
+	Text*	mCapoeiraPoseButtonText;
 
-	class Image* mHelthBarFrame;
+	Image*	mHelthBarFrame;
 
-	class Image* mHelthBar;
+	Image*	mHelthBar;
 public:
 	// (下に引く順序は後ろに対応します)
 	TPSCanvas();

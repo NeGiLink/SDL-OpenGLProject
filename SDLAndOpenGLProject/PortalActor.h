@@ -6,9 +6,11 @@
 class PortalActor: public ActorObject
 {
 private:
-	MeshActor* mMeshActor;
+	MeshActor*		mMeshActor;
 
-	BoxCollider* mBoxCollider;
+	BoxCollider*	mBoxCollider;
+
+	float			mMeshAlpha;
 public:
 	PortalActor();
 	~PortalActor();

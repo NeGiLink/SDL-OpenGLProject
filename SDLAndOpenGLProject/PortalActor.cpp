@@ -3,10 +3,12 @@
 PortalActor::PortalActor()
 	: ActorObject()
 	, mMeshActor(nullptr)
+	, mBoxCollider(nullptr)
+	, mMeshAlpha(0.5f)
 {
 	mMeshActor = new MeshActor();
 	mMeshActor->Load("Portal.fbx");
-	mMeshActor->GetMeshRenderer()->SetMaterialAlpha(0.5f);
+	mMeshActor->GetMeshRenderer()->SetMaterialAlpha(mMeshAlpha);
 	AddChildActor(mMeshActor);
 
 	mBoxCollider = new BoxCollider(this);

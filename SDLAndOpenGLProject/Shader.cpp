@@ -112,7 +112,7 @@ void Shader::SetMaterialColor(const Vector4& color)
 	mMaterialColor = color;
 }
 
-void Shader::SetColorUniform(const char* name, const MaterialInfo info)
+void Shader::SetColorUniform(const char* name, const MaterialInfo& info)
 {
 	GLuint loc = glGetUniformLocation(mShaderProgram, "ambientColor");
 	glUniform3f(loc, info.Ambient.x, info.Ambient.y, info.Ambient.z);
