@@ -85,11 +85,64 @@ void Stages00::Initialize()
 	mTarget3 = new TargetActor();
 	mTarget3->SetLocalPosition(Vector3(-25.0f, 5.0f, -5.0f));
 
+	mCube = new MeshActor();
+	mCube->Load("Cube.fbx");
+	mCube->SetLocalPosition(Vector3(0.0f, 0.0f, 6.0f));
+	mCube->AddBoxCollider();
+
+	mCapsule = new MeshActor();
+	mCapsule->Load("Capsule.fbx");
+	mCapsule->SetLocalPosition(Vector3(4.0f, 0.5f, 6.0f));
+	mCapsule->AddCapsuleCollider();
+	mCube->AddChildActor(mCapsule);
+
+
+	mSphere = new MeshActor();
+	mSphere->Load("Sphere.fbx");
+	mSphere->SetLocalPosition(Vector3(-4.0f, 0.0f, 6.0f));
+	mSphere->AddSphereCollider();
+	mSphere->AddChildActor(mCapsule);
+	mCube->AddChildActor(mSphere);
+
+	mDice = new MeshActor();
+	mDice->Load("TestCube.fbx");
+	mDice->SetLocalPosition(Vector3(8.0f, 0.0f, 6.0f));
+	mDice->AddBoxCollider();
+
+	mDamageTrap = new MeshActor();
+	mDamageTrap->Load("DamageTrap.fbx");
+	mDamageTrap->SetLocalPosition(Vector3(-20.0f, 0.7f, -4.0f));
+	mDamageTrap->SetActorTag(ActorTag::Enemy);
+	mDamageTrap->AddSphereCollider();
+	mDamageTrap->SetColliderMode(false);
+
+	mHealthObject = new MeshActor();
+	mHealthObject->Load("Health.fbx");
+	mHealthObject->SetLocalScale(0.5f);
+	mHealthObject->SetLocalPosition(Vector3(-20.0f, 1.0f, 4.0f));
+	mHealthObject->SetActorTag(ActorTag::Recovery);
+	mHealthObject->AddBoxCollider();
+	mHealthObject->SetColliderMode(false);
+
 	mPortal = new PortalActor();
 	mPortal->SetLocalPosition(Vector3(0.0f, 1.0f, -6.0f));
+
+	mParticleTestActor = new ParticleTestActor();
 }
 
 void Stages00::UpdateActor(float deltaTime)
 {
+	//ŠÈˆÕ“I‚ÈYŽ²‰ñ“]ˆ—
+	float rotationAmountY = mHealthObject->GetRotationAmountY();
+	rotationAmountY += 5 * Time::gDeltaTime;
+	mHealthObject->SetRotationAmountY(rotationAmountY);
+	Quaternion r = Quaternion(Vector3::UnitY, rotationAmountY);
+	mHealthObject->SetLocalRotation(r);
 
+	//ŠÈˆÕ“I‚ÈYŽ²‰ñ“]ˆ—
+	rotationAmountY = mDamageTrap->GetRotationAmountY();
+	rotationAmountY += 5 * Time::gDeltaTime;
+	mDamageTrap->SetRotationAmountY(rotationAmountY);
+	r = Quaternion(Vector3::UnitY, rotationAmountY);
+	mDamageTrap->SetLocalRotation(r);
 }

@@ -2,6 +2,7 @@
 #include "MeshActor.h"
 #include "TargetActor.h"
 #include "PortalActor.h"
+#include "ParticleTestActor.h"
 
 class Stages00 : public ActorObject
 {
@@ -26,7 +27,21 @@ private:
 	TargetActor* mTarget2;
 	TargetActor* mTarget3;
 
+	MeshActor* mSphere;
+
+	MeshActor* mCube;
+
+	MeshActor* mDice;
+
+	MeshActor* mDamageTrap;
+
+	MeshActor* mHealthObject;
+
+	MeshActor* mCapsule;
+
 	PortalActor* mPortal;
+
+	ParticleTestActor* mParticleTestActor;
 public:
 							Stages00();
 

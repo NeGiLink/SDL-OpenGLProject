@@ -29,6 +29,7 @@ private:
 public:
 				Shader();
 				~Shader();
+
 	bool		Load(const string& vertName, const string& fragName);
 	void		Unload();
 	// これをアクティブシェーダープログラムとして設定します。
@@ -48,7 +49,7 @@ public:
 
 	void		SetMaterialColor(const Vector4& color);
 
-	void		SetColorUniform(const char* name,const MaterialInfo info);
+	void		SetColorUniform(const char* name,const MaterialInfo& info);
 
 	void		SetMaterialUniform(const char* name, const Vector3& color);
 

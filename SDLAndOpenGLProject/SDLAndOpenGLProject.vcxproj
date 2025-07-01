@@ -181,6 +181,8 @@
     <ClCompile Include="InputSystem.cpp" />
     <ClCompile Include="LineRenderer.cpp" />
     <ClCompile Include="MeshActor.cpp" />
+    <ClCompile Include="ParticleSystem.cpp" />
+    <ClCompile Include="ParticleTestActor.cpp" />
     <ClCompile Include="PortalActor.cpp" />
     <ClCompile Include="PushButtonMove.cpp" />
     <ClCompile Include="Rigidbody.cpp" />
@@ -280,6 +282,8 @@
     <ClInclude Include="LineRenderer.h" />
     <ClInclude Include="FilePath.h" />
     <ClInclude Include="MeshActor.h" />
+    <ClInclude Include="ParticleSystem.h" />
+    <ClInclude Include="ParticleTestActor.h" />
     <ClInclude Include="PortalActor.h" />
     <ClInclude Include="PushButtonMove.h" />
     <ClInclude Include="resource.h" />
