@@ -148,7 +148,7 @@ bool Renderer::LoadShaders()
 
 	// パーティクルシェーダーを作成する
 	mParticleShader = new Shader();
-	if (!mParticleShader->Load("Shaders/Sprite.vert", "Shaders/Sprite.frag"))
+	if (!mParticleShader->Load("Shaders/Sprite.vert", "Shaders/ParticleSprite.frag"))
 	{
 		return false;
 	}
@@ -298,11 +298,16 @@ void Renderer::Draw3DScene(unsigned int framebuffer, const Matrix4& view, const 
 			sk->Draw(mSkinnedShader);
 		}
 	}
+
+	// 2. パーティクルなど半透明物体を描画
+	//glEnable(GL_BLEND);
+	glDepthMask(GL_FALSE); // Zバッファ書き込みを一時OFF
+	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	//パーティクルシステムの描画
 	mParticleShader->SetActive();
 	//パーティクルで使うため板ポリをアクティブに設定
 	mSpriteVerts->SetActive(); // 板ポリ
-	mParticleShader->SetMatrixUniform("uViewProj", mView * mProjection);
+	mParticleShader->SetMatrixUniform("uViewProj", view * proj);
 	for(auto p : mParticlesComps)
 	{
 		if (p->IsVisible())
@@ -310,7 +315,7 @@ void Renderer::Draw3DScene(unsigned int framebuffer, const Matrix4& view, const 
 			p->Draw(mParticleShader);
 		}
 	}
-
+	glDepthMask(GL_TRUE);  // 書き込みを戻す
 }
 
 void Renderer::DrawFromGBuffer()

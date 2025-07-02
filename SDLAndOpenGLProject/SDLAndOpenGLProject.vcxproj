@@ -351,6 +351,7 @@
     <None Include="..\Shaders\GBufferWrite.frag" />
     <None Include="..\Shaders\LineSprite.frag" />
     <None Include="..\Shaders\LineSprite.vert" />
+    <None Include="..\Shaders\ParticleSprite.frag" />
     <None Include="..\Shaders\Phong.vert" />
     <None Include="..\Shaders\Skinned.vert" />
     <None Include="..\Shaders\Sprite.frag" />

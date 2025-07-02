@@ -1620,6 +1620,29 @@ public:
 		return q;
 	}
 
+	static Matrix4 Billboard(const Vector3& pos, const float& size,const Vector3& camRight, const Vector3& camUp, const Vector3& camForward)
+	{
+		Matrix4 billboard = Matrix4::Identity;
+
+		billboard.mat[0][0] = camRight.x * size;
+		billboard.mat[0][1] = camRight.y * size;
+		billboard.mat[0][2] = camRight.z * size;
+
+		billboard.mat[1][0] = camUp.x * size;
+		billboard.mat[1][1] = camUp.y * size;
+		billboard.mat[1][2] = camUp.z * size;
+
+		billboard.mat[2][0] = camForward.x * size;
+		billboard.mat[2][1] = camForward.y * size;
+		billboard.mat[2][2] = camForward.z * size;
+
+		// 位置設定
+		billboard.mat[3][0] = pos.x;
+		billboard.mat[3][1] = pos.y;
+		billboard.mat[3][2] = pos.z;
+		return billboard;
+	}
+
 	static const Matrix4 Identity;
 };
 

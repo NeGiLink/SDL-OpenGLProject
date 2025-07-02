@@ -127,6 +127,8 @@ public:
 	class Mesh*											GetMesh(const string& fileName);
 	//Mesh配列のGetter
 	vector<class Mesh*>									GetMeshs(const string& fileName);
+
+	Matrix4												GetView() { return mView; }
 	//カメラのビュー行列のSetter
 	void												SetViewMatrix(const Matrix4& view) { mView = view; }
 	//AmbientLightのSetter
