@@ -755,6 +755,9 @@
     <None Include="..\Shaders\Sprite.vert">
       <Filter>Shaders</Filter>
     </None>
+    <None Include="..\Shaders\ParticleSprite.frag">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="SDLAndOpenGLProject.rc">

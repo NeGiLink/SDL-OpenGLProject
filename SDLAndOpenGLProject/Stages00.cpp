@@ -128,6 +128,7 @@ void Stages00::Initialize()
 	mPortal->SetLocalPosition(Vector3(0.0f, 1.0f, -6.0f));
 
 	mParticleTestActor = new ParticleTestActor();
+	mParticleTestActor->SetLocalPosition(Vector3(4.0f, 1.0f, -6.0f));
 }
 
 void Stages00::UpdateActor(float deltaTime)

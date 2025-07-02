@@ -7,9 +7,8 @@ ParticleTestActor::ParticleTestActor()
 	mParticleSystem->SetLoop(true);
 	mParticleSystem->SetVisible(true);
 
-	mParticleSystem->Emit(Vector3(0.0f, 0.0f, 0.0f),0);
 
-	SetLocalPosition(Vector3(0.0f, 0.0f, 2.0f));
+	mParticleSystem->SetParticleLifeTime(1.0f);
 }
 
 ParticleTestActor::~ParticleTestActor()
