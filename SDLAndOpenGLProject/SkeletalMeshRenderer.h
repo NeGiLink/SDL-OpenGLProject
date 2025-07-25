@@ -12,6 +12,7 @@ class SkeletalMeshRenderer : public MeshRenderer
 {
 public:
 									SkeletalMeshRenderer(class ActorObject* owner);
+									~SkeletalMeshRenderer();
 	// スケルタルモデルの描画
 	void							Draw(class Shader* shader) override;
 

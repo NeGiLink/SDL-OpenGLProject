@@ -5,14 +5,13 @@ TitleScene::TitleScene(GameWinMain* winMain)
 {
 }
 
+TitleScene::~TitleScene()
+{
+}
+
 bool TitleScene::Initialize()
 {
 	BaseScene::Initialize();
-	// Load English text
-	LoadText("Assets/English.gptext");
-
-	// ポイントライトメッシュをロードする
-	mWinMain->GetRenderer()->SetPointLightMesh(mWinMain->GetRenderer()->GetMesh("PointLight.gpmesh"));
 
 	// 環境光の設定
 	mWinMain->GetRenderer()->SetAmbientLight(Vector3(0.4f, 0.4f, 0.4f));
@@ -21,9 +20,16 @@ bool TitleScene::Initialize()
 	dir.mDiffuseColor = Vector3(0.78f, 0.88f, 1.0f);
 	dir.mSpecColor = Vector3(0.8f, 0.8f, 0.8f);
 
+	mDebugStage = new MeshActor();
+	mDebugStage->Load("DebugStage.fbx");
+	Vector3 pos = Vector3(0.0f, -1.0f, 0.0f);
+	mDebugStage->SetLocalPosition(pos);
+	mDebugStage->SetActorTag(ActorTag::Ground);
+	mDebugStage->AddBoxCollider();
+
 	mTitleCanvas = new TitleCanvas();
 
-	Font* font = GetFont("NotoSansJP-Bold.ttf");
+	GetFont("NotoSansJP-Bold.ttf");
 
 	mFreeCameraActor = new FreeCameraActor();
 	mFreeCameraActor->SetLocalPosition(Vector3(0.0f, 0.0f, 0.0f));
@@ -34,9 +40,9 @@ bool TitleScene::Initialize()
 
 bool TitleScene::InputUpdate(const InputState& state)
 {
-	if (!mUIStack.empty())
+	if (!mCanvasStack.empty())
 	{
-		mUIStack.back()->ProcessInput(state);
+		mCanvasStack.back()->ProcessInput(state);
 	}
 	BaseScene::InputUpdate(state);
 	return true;

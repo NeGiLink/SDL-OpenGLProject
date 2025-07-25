@@ -23,6 +23,7 @@ private:
 	string						mAnimatorName;
 public:
 	SkeletonMeshActor();
+	~SkeletonMeshActor();
 
 	void Load(string filePath);
 

@@ -22,6 +22,8 @@ public:
 	static void											LoadScene(int index);
 	//シーンリストに追加
 	static void											AddSceneList(class BaseScene* scene);
+	//シーンの削除
+	static void											ReleaseAllScenes();
 	//現在のシーンの取得
 	static class BaseScene*								GetNowScene() { return mNowScene; }
 	//ロードフラグの取得

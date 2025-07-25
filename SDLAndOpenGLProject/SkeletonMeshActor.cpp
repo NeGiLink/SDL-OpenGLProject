@@ -12,6 +12,10 @@ SkeletonMeshActor::SkeletonMeshActor()
 
 }
 
+SkeletonMeshActor::~SkeletonMeshActor()
+{
+}
+
 void SkeletonMeshActor::Load(string filePath)
 {
 	mSkeletonMesh->LoadSkeletonMesh(filePath, this);

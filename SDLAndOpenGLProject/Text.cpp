@@ -13,7 +13,7 @@ Text::Text(Font* font, const Vector2& pos, bool active)
 
 Text::~Text()
 {
-
+	delete mTexture;
 }
 
 void Text::SetText(const string& name)

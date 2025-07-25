@@ -31,7 +31,7 @@ PauseMenu::PauseMenu()
 		});
 
 	CreateButton(u8"終了", Vector2(-400.0f, -60.0f), [this]() {
-		new GameDialogBox(u8"終了しますか？",
+		mDialogBox = new GameDialogBox(u8"終了しますか？",
 			[this]() {
 				GameStateClass::SetGameState(GameState::GameEnd);
 			});
@@ -44,6 +44,8 @@ PauseMenu::~PauseMenu()
 	SetRelativeMouseMode(true);
 	GameStateClass::SetGameState(GameState::GamePlay);
 	Time::gTimeScale = 1;
+
+
 }
 
 void PauseMenu::HandleKeyPress(int key)

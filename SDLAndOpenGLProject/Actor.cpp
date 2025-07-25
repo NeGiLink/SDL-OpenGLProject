@@ -20,6 +20,7 @@ ActorObject::~ActorObject()
 	{
 		delete mComponents.back();
 	}
+	mComponents.clear();
 }
 
 void ActorObject::FixedUpdate(float deltaTime)

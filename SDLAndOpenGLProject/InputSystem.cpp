@@ -166,6 +166,11 @@ bool InputSystem::Initialize()
 
 void InputSystem::Shutdown()
 {
+	if (mController)
+	{
+		SDL_CloseGamepad(mController);
+		mController = nullptr;
+	}
 }
 
 void InputSystem::PrepareForUpdate()

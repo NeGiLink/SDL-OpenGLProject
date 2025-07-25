@@ -19,7 +19,7 @@ protected:
 
 	// All the actors in the game
 	vector<class ActorObject*>						mActors;
-	vector<class Canvas*>							mUIStack;
+	vector<class Canvas*>							mCanvasStack;
 	vector<class Image*>							mImageStack;
 	// Map for fonts
 	std::unordered_map<string, class Font*>			mFonts;
@@ -28,8 +28,6 @@ protected:
 	// Map of loaded animations
 	std::unordered_map<string, class Animation*>	mAnims;
 	std::unordered_map<string, class Animator*>		mAnimators;
-	// Map for text localization
-	std::unordered_map<string, string>				mText;
 	// Any pending actors
 	vector<class ActorObject*>						mPendingActors;
 
@@ -73,10 +71,6 @@ public:
 	class GameWinMain*								GetWinMain() { return mWinMain; }
 	//FontのGetter
 	class Font*										GetFont(const string& fileName);
-	//Textの読み込み
-	void											LoadText(const string& fileName);
-	//TextのGetter
-	const string&									GetText(const string& key);
 	//スケルトンのGetter
 	class Skeleton*									GetSkeleton(const string& fileName);
 	//アニメーターのGetter
@@ -87,7 +81,7 @@ public:
 	class PhysWorld*								GetPhysWorld() { return mPhysWorld; }
 
 	// Manage UI stack
-	const vector<class Canvas*>&					GetUIStack() { return mUIStack; }
+	const vector<class Canvas*>&					GetUIStack() { return mCanvasStack; }
 	//UIScreenの設定
 	void											PushUI(class Canvas* screen);
 	//Image配列のGetter

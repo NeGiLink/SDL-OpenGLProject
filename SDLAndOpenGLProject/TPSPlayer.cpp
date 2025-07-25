@@ -43,8 +43,6 @@ TPSPlayer::TPSPlayer()
 
 void TPSPlayer::UpdateActor(float deltaTime)
 {
-	/*
-	*/
 	if (!mMovement->IsJumping())
 	{
 		if (mMovement->GetInputDirection().Length() > 0)
@@ -79,8 +77,6 @@ void TPSPlayer::UpdateActor(float deltaTime)
 
 void TPSPlayer::ActorInput(const InputState& keys)
 {
-	/*
-	*/
 	if (keys.Keyboard.GetKeyDown(SDL_SCANCODE_SPACE) && !mMovement->IsJumping())
 	{
 		mSkeletonMeshActor->GetAnimator()->PlayBlendAnimation(mSkeletonMeshActor->GetAnimator()->GetAnimations()[State::RunJump]);

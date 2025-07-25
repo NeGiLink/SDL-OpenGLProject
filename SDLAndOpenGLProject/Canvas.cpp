@@ -31,14 +31,26 @@ Canvas::~Canvas()
 	if(mTitleImage)
 	{
 		mGame->RemoveImage(mTitleImage);
+		delete mTitleImage;
 	}
 	if (mTitleFont)
 	{
 		mGame->RemoveImage(mTitleFont);
+		delete mTitleFont;
 	}
 	if (mBackground)
 	{
 		mGame->RemoveImage(mBackground);
+		delete mBackground;
+	}
+
+	if (mButtonOff)
+	{
+		delete mButtonOff;
+	}
+	if (mButtonOn)
+	{
+		delete mButtonOn;
 	}
 }
 

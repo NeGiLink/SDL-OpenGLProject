@@ -29,3 +29,13 @@ void SceneManager::AddSceneList(class BaseScene* scene)
 		mScenes.emplace(mScenes.size(), scene);
 	}
 }
+
+void SceneManager::ReleaseAllScenes()
+{
+	for (auto& pair : mScenes)
+	{
+		delete pair.second;
+	}
+	mScenes.clear();
+	mNowScene = nullptr;
+}

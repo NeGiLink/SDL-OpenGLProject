@@ -56,6 +56,7 @@ protected:
 public:
 	// (‰º‚Éˆø‚­‡˜‚ÍŒã‚ë‚É‘Î‰‚µ‚Ü‚·)
 											FPSCanvas();
+											~FPSCanvas();
 
 	void									Update(float deltaTime) override;
 

@@ -20,8 +20,13 @@ TitleCanvas::TitleCanvas()
 
 	CreateButton(u8"終了", Vector2(0.0f, -80.0f), [this]() {
 		//mDialogBox->SetState(Canvas::EActive);
-		new GameDialogBox(u8"終了しますか？", [this]() {GameStateClass::SetGameState(GameState::GameEnd); });
+		mDialogBox = new GameDialogBox(u8"終了しますか？",
+		[this]() {GameStateClass::SetGameState(GameState::GameEnd); });
 		});
+}
+
+TitleCanvas::~TitleCanvas()
+{
 }
 
 void TitleCanvas::Update(float deltaTime)

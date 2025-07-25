@@ -14,6 +14,9 @@ Transform::Transform()
 	, mRecomputeWorldTransform(true)
 	, mWorldTransform()
 	, mModelTransform()
+	, mParentActor(nullptr)
+	, mChildActor()
+	, mComponents()
 {
 }
 

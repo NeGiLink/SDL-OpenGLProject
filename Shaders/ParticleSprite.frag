@@ -15,8 +15,4 @@ void main()
 
     // テクスチャ色に uColor を乗算（αも含めて）
     outColor = texColor * uColor;
-
-    // αが低すぎると見えなくなるので破棄（ノイズ除去）
-    if (outColor.a < 0.01)
-        discard;
 }

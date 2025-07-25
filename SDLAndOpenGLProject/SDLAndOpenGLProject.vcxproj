@@ -265,6 +265,7 @@
     <ClInclude Include="Component.h" />
     <ClInclude Include="ConvertNumToString.h" />
     <ClInclude Include="CubeActor.h" />
+    <ClInclude Include="Debug_memory.h" />
     <ClInclude Include="DialogBox.h" />
     <ClInclude Include="DebugManager.h" />
     <ClInclude Include="FollowCamera.h" />
