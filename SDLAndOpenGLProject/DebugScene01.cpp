@@ -10,9 +10,7 @@ bool DebugScene01::Initialize()
 {
 	BaseScene::Initialize();
 	// Load English text
-	LoadText("Assets/English.gptext");
-
-	Quaternion q;
+	//LoadText("Assets/English.gptext");
 
 
 	// ポイントライトメッシュをロードする
@@ -65,9 +63,9 @@ bool DebugScene01::InputUpdate(const InputState& state)
 		mMusicEvent.Restart();
 	}
 
-	if (!mUIStack.empty())
+	if (!mCanvasStack.empty())
 	{
-		mUIStack.back()->ProcessInput(state);
+		mCanvasStack.back()->ProcessInput(state);
 	}
 
 

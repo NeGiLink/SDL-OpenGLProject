@@ -58,6 +58,16 @@ bool AudioSystem::Initialize()
 
 void AudioSystem::Shutdown()
 {
+	// すべてのイベントインスタンスを明示的に解放
+	for (auto& ei : mEventInstances)
+	{
+		if (ei.second)
+		{
+			ei.second->stop(FMOD_STUDIO_STOP_IMMEDIATE);
+			ei.second->release();
+		}
+	}
+	mEventInstances.clear();
 	// すべてのバンクをアンロードしてください
 	UnloadAllBanks();
 	// FMODシステムをシャットダウン

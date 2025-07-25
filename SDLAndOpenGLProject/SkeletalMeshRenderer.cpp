@@ -7,6 +7,10 @@ SkeletalMeshRenderer::SkeletalMeshRenderer(ActorObject* owner)
 {
 }
 
+SkeletalMeshRenderer::~SkeletalMeshRenderer()
+{
+}
+
 void SkeletalMeshRenderer::Draw(Shader* shader)
 {
 	for (unsigned int i = 0; i < mMeshs.size(); i++) 

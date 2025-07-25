@@ -393,11 +393,11 @@
     <ClCompile Include="TPSCanvas.cpp">
       <Filter>SourceFiles\D_UIs</Filter>
     </ClCompile>
-    <ClCompile Include="ParticleSystem.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="ParticleTestActor.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>SourceFiles\B_GameObjects\3Ds</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleSystem.cpp">
+      <Filter>SourceFiles\F_Editor\Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -713,10 +713,13 @@
     <ClInclude Include="TPSCanvas.h">
       <Filter>SourceFiles\D_UIs</Filter>
     </ClInclude>
-    <ClInclude Include="ParticleSystem.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="ParticleTestActor.h">
+      <Filter>SourceFiles\B_GameObjects\3Ds</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleSystem.h">
+      <Filter>SourceFiles\F_Editor\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Debug_memory.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

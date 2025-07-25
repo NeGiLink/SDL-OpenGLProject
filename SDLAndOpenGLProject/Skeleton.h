@@ -68,13 +68,12 @@ private:
 	// 現在は未使用
 	//SkeletonType							mSkeletonType;
 public:
+	~Skeleton();
 	//すべてのファイル形式から読み込み
 	bool									Load(const string& fileName);
 	//バイナリデータから読み込み
 	bool									LoadFromSkeletonBin(const string& fileName);
 
-	// JSONファイルから読み込み
-	//bool									LoadFromJSON(const string& fileName);
 	//FBXファイルから読み込み
 	bool									LoadFromFBX(const string& fileName);
 	//ボーンの親を設定

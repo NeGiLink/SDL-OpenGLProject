@@ -78,7 +78,9 @@ void GameWinMain::Shutdown()
 	if (mRenderer)
 	{
 		mRenderer->Shutdown();
+		delete mRenderer;
 	}
+	delete mGameApp;
 	SDL_Quit();
 }
 

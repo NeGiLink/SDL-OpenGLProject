@@ -300,9 +300,14 @@ void Renderer::Draw3DScene(unsigned int framebuffer, const Matrix4& view, const 
 	}
 
 	// 2. パーティクルなど半透明物体を描画
-	//glEnable(GL_BLEND);
-	glDepthMask(GL_FALSE); // Zバッファ書き込みを一時OFF
-	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	//  Z比較を有効（必須）
+	glEnable(GL_DEPTH_TEST);                     
+	//  Zバッファ書き込みを防ぐ
+	glDepthMask(GL_FALSE);                       
+	//  透過合成
+	glEnable(GL_BLEND);                          
+	// アルファブレンド
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); 
 	//パーティクルシステムの描画
 	mParticleShader->SetActive();
 	//パーティクルで使うため板ポリをアクティブに設定
@@ -371,30 +376,81 @@ void Renderer::DrawFromGBuffer()
 void Renderer::Shutdown()
 {
 	// Gバッファを取り除く
-	if (mGBuffer != nullptr)
+	if (mGBuffer)
 	{
 		mGBuffer->Destroy();
 		delete mGBuffer;
+		mGBuffer = nullptr;
 	}
+
 	// ポイントライトを削除する
 	while (!mPointLights.empty())
 	{
 		delete mPointLights.back();
+		mPointLights.pop_back();
 	}
-	
-	delete mSpriteVerts;
-	
-	mSpriteShader->Unload();
-	
-	delete mSpriteShader;
-	
-	mMeshShader->Unload();
-	
-	delete mMeshShader;
-	
-	SDL_GL_DestroyContext(mContext);
 
-	SDL_DestroyWindow(mWindow);
+	// 頂点配列
+	if (mSpriteVerts)
+	{
+		delete mSpriteVerts;
+		mSpriteVerts = nullptr;
+	}
+	if (mFanSpriteVerts)
+	{
+		delete mFanSpriteVerts;
+		mFanSpriteVerts = nullptr;
+	}
+
+	// シェーダー
+	if (mSpriteShader)
+	{
+		mSpriteShader->Unload();
+		delete mSpriteShader;
+		mSpriteShader = nullptr;
+	}
+	if (mMeshShader)
+	{
+		mMeshShader->Unload();
+		delete mMeshShader;
+		mMeshShader = nullptr;
+	}
+	if (mSkinnedShader)
+	{
+		mSkinnedShader->Unload();
+		delete mSkinnedShader;
+		mSkinnedShader = nullptr;
+	}
+	if (mParticleShader)
+	{
+		mParticleShader->Unload();
+		delete mParticleShader;
+		mParticleShader = nullptr;
+	}
+	if (mGGlobalShader)
+	{
+		mGGlobalShader->Unload();
+		delete mGGlobalShader;
+		mGGlobalShader = nullptr;
+	}
+	if (mGPointLightShader)
+	{
+		mGPointLightShader->Unload();
+		delete mGPointLightShader;
+		mGPointLightShader = nullptr;
+	}
+
+	// OpenGLコンテキストとウィンドウ
+	if (mContext)
+	{
+		SDL_GL_DestroyContext(mContext);
+		mContext = nullptr;
+	}
+	if (mWindow)
+	{
+		SDL_DestroyWindow(mWindow);
+		mWindow = nullptr;
+	}
 }
 
 void Renderer::UnloadData()
@@ -414,6 +470,20 @@ void Renderer::UnloadData()
 		delete i.second;
 	}
 	mMeshes.clear();
+
+	// スプライトコンポーネントを破壊する
+	for (auto sprite : mSprites)
+	{
+		delete sprite;
+	}
+	mSprites.clear();
+
+	// ラインスプライトを破壊する
+	for (auto lineSprite : mLineSprites)
+	{
+		delete lineSprite;
+	}
+	mLineSprites.clear();
 }
 
 void Renderer::MeshOrderUpdate()
@@ -635,7 +705,12 @@ vector<class Mesh*> Renderer::GetMeshs(const string& fileName)
 	Mesh* m = nullptr;
 	m = new Mesh();
 	int maxMesh = m->CheckMeshIndex(filePath, this);
-
+	if (m)
+	{
+		//メッシュの解放
+		m->Unload();
+		delete m;
+	}
 	for (int i = 0; i < maxMesh; i++)
 	{
 		string inTex = std::to_string(i);

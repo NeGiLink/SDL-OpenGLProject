@@ -1,5 +1,17 @@
 #include "Animator.h"
 
+Animator::~Animator()
+{
+	for(int i = 0; i < mAnimations.size(); i++)
+	{
+		if (mAnimations[i])
+		{
+			delete mAnimations[i];
+			mAnimations[i] = nullptr;
+		}
+	}
+}
+
 /// <summary>
 /// アニメーションを読み込む処理
 /// </summary>
@@ -17,18 +29,23 @@ bool Animator::Load(const string& fileName,bool animLoop, bool rootMotion)
 	anim->SetLoop(animLoop);
 	anim->SetRootMotion(rootMotion);
 
-		/*
+	/*
 	if (anim->LoadFromBinary(fileName))
 	{
 		mAnimations.push_back(anim);
 		return true;
 	}
 	else
-		*/
+	*/
 	if (anim->Load(path))
 	{
 		mAnimations.push_back(anim);
 		return true;
+	}
+	else
+	{
+		delete anim;
+		anim = nullptr;
 	}
 	return false;
 }

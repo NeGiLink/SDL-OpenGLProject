@@ -41,19 +41,20 @@ Button::Button(const char8_t* name, Font* font, std::function<void()> onClick, c
 
 Button::~Button()
 {
-	/*
-	//画像の解放
-	//ボタン本体
-	this->SetState(Image::EDestroy);
-	mButtonImage->SetState(Image::EDestroy);
-	mNameText->SetState(Image::EDestroy);
-	*/
 
 	mGame->RemoveImage(this);
 	//ボタンの枠
-	mGame->RemoveImage(mButtonImage);
-	//ボタンの文字
-	mGame->RemoveImage(mNameText);
+	if (mButtonImage)
+	{
+		mGame->RemoveImage(mButtonImage);
+		delete mButtonImage;
+	}
+	if (mNameText)
+	{
+		//ボタンの文字
+		mGame->RemoveImage(mNameText);
+		delete mNameText;
+	}
 }
 
 void Button::Update(float deltaTime)

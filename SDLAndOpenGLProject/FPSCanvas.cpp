@@ -73,6 +73,10 @@ FPSCanvas::FPSCanvas()
 	mTargetComponentSystem->AllTargetCheck();
 }
 
+FPSCanvas::~FPSCanvas()
+{
+}
+
 void FPSCanvas::Update(float deltaTime)
 {
 	Canvas::Update(deltaTime);

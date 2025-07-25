@@ -80,5 +80,7 @@ bool GameApp::Update()
 bool GameApp::Release()
 {
 	mActiveScene->UnloadData();
+	SceneManager::ReleaseAllScenes();
+	InputSystem::Shutdown();
 	return true;
 }

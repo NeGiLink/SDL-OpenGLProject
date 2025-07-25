@@ -1,6 +1,10 @@
 #include "Skeleton.h"
 
 
+Skeleton::~Skeleton()
+{
+}
+
 bool Skeleton::Load(const string& fileName)
 {
 	// ファイルの拡張子を取得
@@ -11,13 +15,6 @@ bool Skeleton::Load(const string& fileName)
 	{
 		return LoadFromFBX(fileName);
 	}
-	/*
-	// **JSON の場合（従来の処理）**
-	else if(extension == "gpmesh")
-	{
-		return LoadFromJSON(fileName);
-	}
-	*/
 
 	return false;
 }
@@ -80,119 +77,6 @@ bool Skeleton::LoadFromSkeletonBin(const string& fileName)
 	ComputeGlobalInvBindPose();
 	return true;
 }
-/*
-bool Skeleton::LoadFromJSON(const string& fileName)
-{
-	std::ifstream file(fileName);
-	if (!file.is_open())
-	{
-		SDL_Log("File not found: Skeleton %s", fileName.c_str());
-		return false;
-	}
-
-	stringstream fileStream;
-	fileStream << file.rdbuf();
-	string contents = fileStream.str();
-	rapidjson::StringStream jsonStr(contents.c_str());
-	rapidjson::Document doc;
-	doc.ParseStream(jsonStr);
-
-	if (!doc.IsObject())
-	{
-		SDL_Log("Skeleton %s is not valid json", fileName.c_str());
-		return false;
-	}
-
-	int ver = doc["version"].GetInt();
-
-	// Check the metadata
-	if (ver != 1)
-	{
-		SDL_Log("Skeleton %s unknown format", fileName.c_str());
-		return false;
-	}
-
-	const rapidjson::Value& bonecount = doc["bonecount"];
-	if (!bonecount.IsUint())
-	{
-		SDL_Log("Skeleton %s doesn't have a bone count.", fileName.c_str());
-		return false;
-	}
-
-	size_t count = bonecount.GetUint();
-
-	if (count > SkeletonLayout::MAX_SKELETON_BONES)
-	{
-		SDL_Log("Skeleton %s exceeds maximum bone count.", fileName.c_str());
-		return false;
-	}
-
-	mBones.reserve(count);
-
-	const rapidjson::Value& bones = doc["bones"];
-	if (!bones.IsArray())
-	{
-		SDL_Log("Skeleton %s doesn't have a bone array?", fileName.c_str());
-		return false;
-	}
-
-	if (bones.Size() != count)
-	{
-		SDL_Log("Skeleton %s has a mismatch between the bone count and number of bones", fileName.c_str());
-		return false;
-	}
-
-	Bone temp;
-
-	for (rapidjson::SizeType i = 0; i < count; i++)
-	{
-		if (!bones[i].IsObject())
-		{
-			SDL_Log("Skeleton %s: Bone %d is invalid.", fileName.c_str(), i);
-			return false;
-		}
-
-		const rapidjson::Value& name = bones[i]["name"];
-		temp.mName = name.GetString();
-
-		const rapidjson::Value& parent = bones[i]["parent"];
-		temp.mParent = parent.GetInt();
-
-		const rapidjson::Value& bindpose = bones[i]["bindpose"];
-		if (!bindpose.IsObject())
-		{
-			SDL_Log("Skeleton %s: Bone %d is invalid.", fileName.c_str(), i);
-			return false;
-		}
-
-		const rapidjson::Value& rot = bindpose["rot"];
-		const rapidjson::Value& trans = bindpose["trans"];
-
-		if (!rot.IsArray() || !trans.IsArray())
-		{
-			SDL_Log("Skeleton %s: Bone %d is invalid.", fileName.c_str(), i);
-			return false;
-		}
-
-		Quaternion rotation(rot[0].GetDouble(), rot[1].GetDouble(), rot[2].GetDouble(), rot[3].GetDouble());
-
-		temp.mLocalBindPose.SetRotation(rotation);
-
-
-		Vector3 position(trans[0].GetDouble(), trans[1].GetDouble(), trans[2].GetDouble());
-
-		temp.mLocalBindPose.SetPosition(position);
-
-
-		mBones.emplace_back(temp);
-	}
-
-	// Now that we have the bones
-	ComputeGlobalInvBindPose();
-
-	return true;
-}
-*/
 
 
 bool Skeleton::LoadFromFBX(const string& fileName)

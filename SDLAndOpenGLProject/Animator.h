@@ -13,6 +13,7 @@
 class Animator
 {
 public:
+	~Animator();
 	//アニメーション読み込み処理
 	bool							Load(const string& fileName,bool animLoop = 0,bool rootMotion = 0);
 

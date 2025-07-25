@@ -61,7 +61,7 @@ public:
 	virtual void			HandleKeyPress(int key);
 
 	// ó‘Ô‚ğ•Â½‚Éİ’è
-	void					Close();
+	virtual void					Close();
 	// UI‰æ–Ê‚Ìó‘Ô‚ğæ“¾‚·‚é
 	UIState					GetState() const { return mState; }
 	void					SetState(UIState state);

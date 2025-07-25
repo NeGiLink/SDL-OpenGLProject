@@ -1,5 +1,9 @@
 #include "MeshActor.h"
 
+MeshActor::~MeshActor()
+{
+}
+
 void MeshActor::Load(string filePath)
 {
 	mMeshRenderer = new MeshRenderer(this);
@@ -91,7 +95,7 @@ void MeshActor::AddCapsuleCollider()
 	mCapsuleCollider = capsuleCollider;
 }
 
-const AABB& MeshActor::GetBoxAABB()
+const AABB MeshActor::GetBoxAABB()
 {
 	AABB aabb(Vector3(-0.5f, -0.5f, -0.5f), Vector3(0.5f, 0.5f, 0.5f));
 	if (mMeshRenderer)
@@ -101,7 +105,7 @@ const AABB& MeshActor::GetBoxAABB()
 	return aabb;
 }
 
-const OBB& MeshActor::GetBoxOBB()
+const OBB MeshActor::GetBoxOBB()
 {
 	OBB obb(mPosition,mRotation,mScale);
 	if (mMeshRenderer)

@@ -26,6 +26,7 @@ private:
 	class CapsuleCollider*		mCapsuleCollider;
 
 public:
+							~MeshActor();
 
 	void					Load(string filePath);
 
@@ -48,9 +49,9 @@ public:
 	class CapsuleCollider*  GetCapsuleCollider() { return mCapsuleCollider; }
 
 	//MeshRenderer‚©‚çAABB‚ğæ“¾ˆ—‚ğÈ—ª‚µ‚½ŠÖ”
-	const AABB&				GetBoxAABB();
+	const AABB				GetBoxAABB();
 	//MeshRenderer‚©‚çOBB‚ğæ“¾ˆ—‚ğÈ—ª‚µ‚½ŠÖ”
-	const OBB&				GetBoxOBB();
+	const OBB				GetBoxOBB();
 
 
 };

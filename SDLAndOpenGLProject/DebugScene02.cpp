@@ -9,12 +9,6 @@ DebugScene02::DebugScene02(GameWinMain* winMain)
 bool DebugScene02::Initialize()
 {
 	BaseScene::Initialize();
-	// Load English text
-	LoadText("Assets/English.gptext");
-
-	// Create actors
-	ActorObject* a = nullptr;
-	Quaternion q;
 
 	// ポイントライトメッシュをロードする
 	//mWinMain->GetRenderer()->SetPointLightMesh(mWinMain->GetRenderer()->GetMesh("PointLight.gpmesh"));
@@ -39,9 +33,6 @@ bool DebugScene02::Initialize()
 	mStages01 = new Stages01();
 	mStages01->Initialize();
 
-
-	q = Quaternion(Vector3::UnitY, Math::Pi);
-
 	mTPSPlayer = new TPSPlayer();
 	mTPSPlayer->SetLocalPosition(Vector3(0.0f, 0.5f, 0.0f));
 
@@ -57,9 +48,9 @@ bool DebugScene02::InputUpdate(const InputState& state)
 {
 	BaseScene::InputUpdate(state);
 
-	if (!mUIStack.empty())
+	if (!mCanvasStack.empty())
 	{
-		mUIStack.back()->ProcessInput(state);
+		mCanvasStack.back()->ProcessInput(state);
 	}
 
 	return true;

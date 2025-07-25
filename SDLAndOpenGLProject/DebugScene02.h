@@ -16,8 +16,6 @@ private:
 
 	Stages01*						mStages01;
 
-	class SpriteComponent*			mCrosshair;
-
 	SoundEventClip					mMusicEvent;
 
 	TPSCanvas*						mTPSCanvas;

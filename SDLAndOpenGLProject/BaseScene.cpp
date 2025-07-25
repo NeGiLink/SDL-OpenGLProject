@@ -63,22 +63,20 @@ bool BaseScene::InputUpdate(const InputState& state)
 				{
 					HandleKeyPress(event.key.key);
 				}
-				else if (!mUIStack.empty())
+				else if (!mCanvasStack.empty())
 				{
-					mUIStack.back()->
+					mCanvasStack.back()->
 						HandleKeyPress(event.key.key);
 				}
 			}
 			break;
 			//マウスボタンのどれかを押すとtrue
 		case SDL_EVENT_MOUSE_BUTTON_DOWN:
-			if (!mUIStack.empty())
+			if (!mCanvasStack.empty())
 			{
-				mUIStack.back()->
+				mCanvasStack.back()->
 					HandleKeyPress(event.button.button);
 			}
-		default:
-			break;
 		}
 	}
 
@@ -166,11 +164,11 @@ bool BaseScene::Update()
 	mAudioSystem->Update(Time::gDeltaTime);
 
 	// Update UI screens
-	for (int i = 0; i < mUIStack.size(); i++)
+	for (int i = 0; i < mCanvasStack.size(); i++)
 	{
-		if (mUIStack[i]->GetState() == Canvas::EActive)
+		if (mCanvasStack[i]->GetState() == Canvas::EActive)
 		{
-			mUIStack[i]->Update(Time::gDeltaTime);
+			mCanvasStack[i]->Update(Time::gDeltaTime);
 		}
 	}
 
@@ -183,13 +181,13 @@ bool BaseScene::Update()
 	}
 
 	// Delete any UIScreens that are closed
-	auto iter = mUIStack.begin();
-	while (iter != mUIStack.end())
+	auto iter = mCanvasStack.begin();
+	while (iter != mCanvasStack.end())
 	{
 		if ((*iter)->GetState() == Canvas::EDestroy)
 		{
 			delete* iter;
-			iter = mUIStack.erase(iter);
+			iter = mCanvasStack.erase(iter);
 		}
 		else
 		{
@@ -261,73 +259,19 @@ Font* BaseScene::GetFont(const string& fileName)
 	{
 		return iter->second;
 	}
-	else
-	{
-		Font* font = new Font();
-		if (font->Load(filePath))
-		{
-			mFonts.emplace(filePath, font);
-		}
-		else
-		{
-			font->Unload();
-			delete font;
-			font = nullptr;
-		}
-		return font;
-	}
-}
 
-void BaseScene::LoadText(const string& fileName)
-{
-	// Clear the existing map, if already loaded
-	mText.clear();
-	// Try to open the file
-	std::ifstream file(fileName);
-	if (!file.is_open())
+	// 新規読み込み
+	Font* font = new Font();
+	if (!font->Load(filePath))
 	{
-		SDL_Log("Text file %s not found", fileName.c_str());
-		return;
+		// Load失敗時はクリーンに削除
+		delete font;
+		return nullptr;
 	}
-	// Read the entire file to a string stream
-	stringstream fileStream;
-	fileStream << file.rdbuf();
-	string contents = fileStream.str();
-	// Open this file in rapidJSON
-	rapidjson::StringStream jsonStr(contents.c_str());
-	rapidjson::Document doc;
-	doc.ParseStream(jsonStr);
-	if (!doc.IsObject())
-	{
-		SDL_Log("Text file %s is not valid JSON", fileName.c_str());
-		return;
-	}
-	// Parse the text map
-	const rapidjson::Value& actions = doc["TextMap"];
-	for (rapidjson::Value::ConstMemberIterator itr = actions.MemberBegin();
-		itr != actions.MemberEnd(); ++itr)
-	{
-		if (itr->name.IsString() && itr->value.IsString())
-		{
-			mText.emplace(itr->name.GetString(),
-				itr->value.GetString());
-		}
-	}
-}
 
-const string& BaseScene::GetText(const string& key)
-{
-	static string errorMsg("**KEY NOT FOUND**");
-	// Find this text in the map, if it exists
-	auto iter = mText.find(key);
-	if (iter != mText.end())
-	{
-		return iter->second;
-	}
-	else
-	{
-		return errorMsg;
-	}
+	// 成功時のみ map に登録
+	mFonts.emplace(filePath, font);
+	return font;
 }
 
 Skeleton* BaseScene::GetSkeleton(const string& fileName)
@@ -384,7 +328,7 @@ Animator* BaseScene::GetAnimator(const string& fileName, Animator* animator)
 
 void BaseScene::PushUI(Canvas* screen)
 {
-	mUIStack.emplace_back(screen);
+	mCanvasStack.emplace_back(screen);
 }
 
 void BaseScene::PushImage(Image* screen)
@@ -411,20 +355,22 @@ void BaseScene::UnloadData()
 	{
 		delete mActors.back();
 	}
+	mActors.clear();
 
 	// Clear the UI stack
-	while (!mUIStack.empty())
+	while (!mCanvasStack.empty())
 	{
-		delete mUIStack.back();
-		mUIStack.pop_back();
+		delete mCanvasStack.back();
+		mCanvasStack.pop_back();
 	}
+	mCanvasStack.clear();
 
 	while (!mImageStack.empty())
 	{
 		delete mImageStack.back();
 		mImageStack.pop_back();
 	}
-
+	mImageStack.clear();
 	// Unload fonts
 	for (auto& f : mFonts)
 	{
@@ -453,8 +399,8 @@ void BaseScene::UnloadData()
 	{
 		if (a.second)
 		{
-
 			delete a.second;
+			a.second = nullptr;
 		}
 	}
 	mAnimators.clear();
@@ -463,5 +409,7 @@ void BaseScene::UnloadData()
 	if (mAudioSystem)
 	{
 		mAudioSystem->Shutdown();
+		delete mAudioSystem;
+		mAudioSystem = nullptr;
 	}
 }

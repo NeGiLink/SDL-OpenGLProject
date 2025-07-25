@@ -8,7 +8,7 @@
 class PauseMenu : public Canvas
 {
 private:
-	//class GameDialogBox* mDialogBox;
+	class GameDialogBox* mDialogBox;
 public:
 			PauseMenu();
 			~PauseMenu();

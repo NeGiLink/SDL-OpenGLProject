@@ -12,11 +12,10 @@
 class GameDialogBox : public Canvas
 {
 private:
-	Button* mButton01;
-
-	Button* mButton02;
 
 	std::function<void()> mExitRun;
+
+	std::function<void()> mOnNoRun;
 public:
 	// (‰º‚Éˆø‚­‡˜‚ÍŒã‚ë‚É‘Î‰‚µ‚Ü‚·)
 	GameDialogBox(const string& text,
@@ -30,5 +29,13 @@ public:
 		std::function<void()> onOK,
 		std::function<void()> run,
 		std::function<void()> exitRun);
+	GameDialogBox(const char8_t* text,
+		std::function<void()> onOK,
+		std::function<void()> onNO,
+		std::function<void()> exitRun,
+		const bool onOffFrag);
 	~GameDialogBox();
+
+
+	void					Close()override;
 };
