@@ -16,6 +16,7 @@
 #include "SkeletalMeshRenderer.h"
 #include "GBuffer.h"
 #include "PointLightComponent.h"
+#include "DebugGrid.h"
 
 
 
@@ -89,10 +90,23 @@ bool Renderer::Initialize(float screenWidth, float screenHeight)
 		return false;
 	}
 	
-	// 画面全体の四角形を作成する
+	// 描画用の2D矩形を作成する
 	CreateSpriteVerts();
 
+	std::vector<AxisVertex> axisVerts = {
+		// X軸（赤）
+		{ Vector3(0.0f, 0.0f, 0.0f), Vector3(1.0f, 0.0f, 0.0f) },
+		{ Vector3(1.0f, 0.0f, 0.0f), Vector3(1.0f, 0.0f, 0.0f) },
 
+		// Y軸（緑）
+		{ Vector3(0.0f, 0.0f, 0.0f), Vector3(0.0f, 1.0f, 0.0f) },
+		{ Vector3(0.0f, 1.0f, 0.0f), Vector3(0.0f, 1.0f, 0.0f) },
+
+		// Z軸（青）
+		{ Vector3(0.0f, 0.0f, 0.0f), Vector3(0.0f, 0.0f, 1.0f) },
+		{ Vector3(0.0f, 0.0f, 1.0f), Vector3(0.0f, 0.0f, 1.0f) },
+	};
+	mAxisVAO = new VertexArray(axisVerts);
 
 	// Gバッファを作成する
 	mGBuffer = new GBuffer();
@@ -104,6 +118,8 @@ bool Renderer::Initialize(float screenWidth, float screenHeight)
 		return false;
 	}
 
+	mDebugGrid = new DebugGrid();
+
 	return true;
 }
 
@@ -111,7 +127,7 @@ bool Renderer::LoadShaders()
 {
 	// スプライトシェーダーを作成する
 	mSpriteShader = new Shader();
-	if (!mSpriteShader->Load("Shaders/Sprite.vert", "Shaders/Sprite.frag"))
+	if (!mSpriteShader->Load("Sprite.vert", "Sprite.frag"))
 	{
 		return false;
 	}
@@ -127,7 +143,7 @@ bool Renderer::LoadShaders()
 
 	// 基本的なメッシュシェーダーを作成する
 	mMeshShader = new Shader();
-	if (!mMeshShader->Load("Shaders/Phong.vert", "Shaders/GBufferWrite.frag"))
+	if (!mMeshShader->Load("Phong.vert", "GBufferWrite.frag"))
 	{
 		return false;
 	}
@@ -138,7 +154,7 @@ bool Renderer::LoadShaders()
 
 	// スキンシェーダーを作成する
 	mSkinnedShader = new Shader();
-	if (!mSkinnedShader->Load("Shaders/Skinned.vert", "Shaders/GBufferWrite.frag"))
+	if (!mSkinnedShader->Load("Skinned.vert", "GBufferWrite.frag"))
 	{
 		return false;
 	}
@@ -146,9 +162,15 @@ bool Renderer::LoadShaders()
 	mSkinnedShader->SetActive();
 	mSkinnedShader->SetMatrixUniform("uViewProj", mView * mProjection);
 
+	mArrowShader = new Shader();
+	if (!mArrowShader->Load("Arrow.vert", "Arrow.frag"))
+	{
+		return false;
+	}
+
 	// パーティクルシェーダーを作成する
 	mParticleShader = new Shader();
-	if (!mParticleShader->Load("Shaders/Sprite.vert", "Shaders/ParticleSprite.frag"))
+	if (!mParticleShader->Load("Sprite.vert", "ParticleSprite.frag"))
 	{
 		return false;
 	}
@@ -157,7 +179,7 @@ bool Renderer::LoadShaders()
 
 	// GBufferから描画するためのシェーダーを作成する（グローバルライティング）
 	mGGlobalShader = new Shader();
-	if (!mGGlobalShader->Load("Shaders/GBufferGlobal.vert", "Shaders/GBufferGlobal.frag"))
+	if (!mGGlobalShader->Load("GBufferGlobal.vert", "GBufferGlobal.frag"))
 	{
 		return false;
 	}
@@ -175,7 +197,7 @@ bool Renderer::LoadShaders()
 
 	// GBufferからポイントライト用のシェーダーを作成する
 	mGPointLightShader = new Shader();
-	if (!mGPointLightShader->Load("Shaders/BasicMesh.vert","Shaders/GBufferPointLight.frag"))
+	if (!mGPointLightShader->Load("BasicMesh.vert","GBufferPointLight.frag"))
 	{
 		return false;
 	}
@@ -185,6 +207,12 @@ bool Renderer::LoadShaders()
 	mGPointLightShader->SetIntUniform("uGNormal", 1);
 	mGPointLightShader->SetIntUniform("uGWorldPos", 2);
 	mGPointLightShader->SetVector2Uniform("uScreenDimensions",Vector2(WindowRenderProperty::GetWidth(), WindowRenderProperty::GetHeight()));
+
+	mGridShader = new Shader();
+	if (!mGridShader->Load("Grid.vert", "Grid.frag"))
+	{
+		return false;
+	}
 
 	return true;
 }
@@ -320,6 +348,32 @@ void Renderer::Draw3DScene(unsigned int framebuffer, const Matrix4& view, const 
 			p->Draw(mParticleShader);
 		}
 	}
+
+	if (GameStateClass::mDebugFrag)
+	{
+		mArrowShader->SetActive();
+		mArrowShader->SetMatrixUniform("uViewProj", view * proj);
+		for(auto actor : mNowScene->GetActors())
+		{
+			if (actor->GetState() == ActorObject::EActive)
+			{
+				// アクターのデバッグ描画
+				//actor->DebugDraw(mArrowShader, view * proj);
+
+				mArrowShader->SetMatrixUniform("uModel", actor->GetWorldTransform());
+
+				mAxisVAO->SetActive(); // 6頂点（3軸 × 2点）
+				glLineWidth(3.0f); // 線の太さを3ピクセルに設定
+				glDrawArrays(GL_LINES, 0, 6);
+			}
+		}
+
+		// 最終行列：ViewProj * Model
+		Matrix4 viewProj = view * proj;
+
+		mDebugGrid->Draw(mGridShader, viewProj);
+	}
+
 	glDepthMask(GL_TRUE);  // 書き込みを戻す
 }
 
@@ -402,6 +456,12 @@ void Renderer::Shutdown()
 		mFanSpriteVerts = nullptr;
 	}
 
+	if (mAxisVAO)
+	{
+		delete mAxisVAO;
+		mAxisVAO = nullptr;
+	}
+
 	// シェーダー
 	if (mSpriteShader)
 	{
@@ -421,6 +481,12 @@ void Renderer::Shutdown()
 		delete mSkinnedShader;
 		mSkinnedShader = nullptr;
 	}
+	if (mArrowShader)
+	{
+		mArrowShader->Unload();
+		delete mArrowShader;
+		mArrowShader = nullptr;
+	}
 	if (mParticleShader)
 	{
 		mParticleShader->Unload();
@@ -438,6 +504,18 @@ void Renderer::Shutdown()
 		mGPointLightShader->Unload();
 		delete mGPointLightShader;
 		mGPointLightShader = nullptr;
+	}
+	if (mGridShader)
+	{
+		mGridShader->Unload();
+		delete mGridShader;
+		mGridShader = nullptr;
+	}
+
+	if (mDebugGrid)
+	{
+		delete mDebugGrid;
+		mDebugGrid = nullptr;
 	}
 
 	// OpenGLコンテキストとウィンドウ
@@ -668,7 +746,7 @@ Texture* Renderer::GetTexture(const string& fileName)
 
 Mesh* Renderer::GetMesh(const string& fileName)
 {
-	string file = Model::ModelPath + fileName;
+	string file = File_P::ModelPath + fileName;
 	Mesh* m = nullptr;
 	auto iter = mMeshes.find(file);
 	if (iter != mMeshes.end())
@@ -698,7 +776,7 @@ Mesh* Renderer::GetMesh(const string& fileName)
 vector<class Mesh*> Renderer::GetMeshs(const string& fileName)
 {
 	//ファイルパス追加
-	string filePath = Model::ModelPath + fileName;
+	string filePath = File_P::ModelPath + fileName;
 	//返す複数のメッシュ
 	vector<class Mesh*> ms;
 	//メッシュの数を確認する処理

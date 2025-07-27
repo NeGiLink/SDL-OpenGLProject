@@ -59,6 +59,7 @@ public:
 	void											UnloadData();
 	//ゲーム終了時の解放
 	void											Shutdown();
+	vector<class ActorObject*>&						GetActors() { return mActors; }
 	//オブジェクト追加
 	void											AddActor(class ActorObject* actor);
 	//オブジェクト削除

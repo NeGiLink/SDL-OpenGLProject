@@ -56,8 +56,10 @@ private:
 	class Shader*										mSpriteShader;
 	// Sprite vertex array
 	class VertexArray*									mSpriteVerts;
-
+	//2D画像用の頂点配列
 	class VertexArray*									mFanSpriteVerts;
+	//オブジェクトの方向矢印用の頂点配列
+	class VertexArray*									mAxisVAO;
 
 	//パーティクルシェーダー
 	class Shader*										mParticleShader;
@@ -66,6 +68,7 @@ private:
 	class Shader*										mMeshShader;
 	// Skinned shader
 	class Shader*										mSkinnedShader;
+	class Shader*										mArrowShader;
 
 	// View/projection for 3D shaders
 	Matrix4												mView;
@@ -76,7 +79,7 @@ private:
 	DirectionalLight									mDirLight;
 
 	// Window
-	SDL_Window* mWindow;
+	SDL_Window*											mWindow;
 	// OpenGL context
 	SDL_GLContext										mContext;
 
@@ -87,6 +90,11 @@ private:
 	class Shader*										mGPointLightShader;
 	vector<class PointLightComponent*>					mPointLights;
 	class Mesh*											mPointLightMesh;
+
+	class DebugGrid*									mDebugGrid;
+
+	class Shader*										mGridShader;
+
 
 public:
 														Renderer(class GameWinMain* game);

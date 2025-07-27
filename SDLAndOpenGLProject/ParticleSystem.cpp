@@ -36,7 +36,7 @@ ParticleSystem::~ParticleSystem()
 
 void ParticleSystem::LoadTexture(string name)
 {
-	string path = Model::AssetPath + "Particle/" + name;
+	string path = File_P::AssetPath + "Particle/" + name;
 	mParticleTexture = GetOwner()->GetGame()->GetWinMain()->GetRenderer()->GetTexture(path);
 	if (!mParticleTexture)
 	{

@@ -56,9 +56,9 @@ bool Animation::ReLoad()
 bool Animation::LoadFromBinary(const std::string& filePath)
 {
 	string file = filePath;
-	file = StringConverter::RemoveString(file,Model::AssetPath);
+	file = StringConverter::RemoveString(file,File_P::AssetPath);
 	file = StringConverter::RemoveExtension(file);
-	std::ifstream in(Model::BinaryFilePath + file + Model::BinaryAnimPath, std::ios::binary);
+	std::ifstream in(File_P::BinaryFilePath + file + File_P::BinaryAnimPath, std::ios::binary);
 	if (!in) 
 	{
 		SDL_Log("Failed to open animation bin: %s", filePath.c_str());
@@ -363,7 +363,7 @@ bool Animation::LoadFromFBX(const string& fileName)
 	SaveToBinary(Model::BinaryFilePath + result + Model::BinaryAnimPath);
 	*/
 	//ファイル名から拡張子を除いてアニメーション名として登録
-	mAnimationName = StringConverter::RemoveString(fileName, Model::AnimationFilePath);
+	mAnimationName = StringConverter::RemoveString(fileName, File_P::AnimationFilePath);
 	mAnimationName = StringConverter::RemoveExtension(mAnimationName);
 	return true;
 }

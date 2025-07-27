@@ -21,9 +21,9 @@ bool Skeleton::Load(const string& fileName)
 
 bool Skeleton::LoadFromSkeletonBin(const string& fileName)
 {
-	string name = StringConverter::RemoveString(fileName, Model::ModelPath);
+	string name = StringConverter::RemoveString(fileName, File_P::ModelPath);
 	name = StringConverter::RemoveExtension(name);
-	std::ifstream in(Model::BinaryFilePath + name + Model::BinarySkelPath, std::ios::binary);
+	std::ifstream in(File_P::BinaryFilePath + name + File_P::BinarySkelPath, std::ios::binary);
 	if (!in)
 	{
 		SDL_Log("Failed to open Skeleton bin: %s", fileName.c_str());
@@ -159,9 +159,9 @@ bool Skeleton::LoadFromFBX(const string& fileName)
 	SetParentBones(scene->mRootNode, -1);
 
 	//fileName‚©‚çPath•”•ª‚¾‚¯æ‚èœ‚­
-	string result = StringConverter::RemoveString(fileName, Model::ModelPath);
+	string result = StringConverter::RemoveString(fileName, File_P::ModelPath);
 	result = StringConverter::RemoveExtension(result);
-	std::ofstream out(Model::BinaryFilePath + result + Model::BinarySkelPath, std::ios::binary);
+	std::ofstream out(File_P::BinaryFilePath + result + File_P::BinarySkelPath, std::ios::binary);
 	if (!out)
 	{
 		SDL_Log("Failed to open skelbin for writing.");

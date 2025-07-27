@@ -63,9 +63,9 @@ bool Mesh::LoadFromMeshBin(const string& fileName, Renderer* renderer, int index
 	//1:バイナリ情報に変換した頂点、インデックスデータをbinファイルから取得
 	string number = std::to_string(index);
 	//fileNameからPath部分だけ取り除く
-	string result = StringConverter::RemoveString(name, Model::ModelPath);
+	string result = StringConverter::RemoveString(name, File_P::ModelPath);
 
-	string binaryFilePath = Model::BinaryFilePath + result + number + Model::BinaryPath;
+	string binaryFilePath = File_P::BinaryFilePath + result + number + File_P::BinaryPath;
 	//バイナリファイルの確認
 	std::ifstream in(binaryFilePath, std::ios::binary);
 	if (!in) {
@@ -168,7 +168,7 @@ bool Mesh::LoadFromMeshBin(const string& fileName, Renderer* renderer, int index
 			if (loadedTextures.find(texFile) == loadedTextures.end())
 			{
 				Texture* newTex = new Texture();
-				if (newTex->Load(Model::ModelTexturePath + texFile))
+				if (newTex->Load(File_P::ModelTexturePath + texFile))
 				{
 					loadedTextures[texFile] = newTex;
 				}
@@ -191,7 +191,7 @@ bool Mesh::LoadFromMeshBin(const string& fileName, Renderer* renderer, int index
 		if (loadedTextures.find(texFile) == loadedTextures.end())
 		{
 			Texture* newTex = new Texture();
-			if (newTex->Load(Model::ModelTexturePath + texFile))
+			if (newTex->Load(File_P::ModelTexturePath + texFile))
 			{
 				loadedTextures[texFile] = newTex;
 			}
@@ -565,7 +565,7 @@ bool Mesh::LoadFromFBX(const string& fileName, Renderer* renderer, int index)
 			if (loadedTextures.find(texFile) == loadedTextures.end())
 			{
 				Texture* newTex = new Texture();
-				if (newTex->Load(Model::ModelTexturePath + texFile))
+				if (newTex->Load(File_P::ModelTexturePath + texFile))
 				{
 					loadedTextures[texFile] = newTex;
 				}
@@ -588,7 +588,7 @@ bool Mesh::LoadFromFBX(const string& fileName, Renderer* renderer, int index)
 		if (loadedTextures.find(texFile) == loadedTextures.end())
 		{
 			Texture* newTex = new Texture();
-			if (newTex->Load(Model::ModelTexturePath + texFile))
+			if (newTex->Load(File_P::ModelTexturePath + texFile))
 			{
 				loadedTextures[texFile] = newTex;
 			}
@@ -807,7 +807,7 @@ bool Mesh::LoadFromFBX(const string& fileName, Renderer* renderer, int index)
 
 
 	//fileNameからPath部分だけ取り除く
-	string result = StringConverter::RemoveString(fileName, Model::ModelPath);
+	string result = StringConverter::RemoveString(fileName, File_P::ModelPath);
 
 
 	//バイナリに変換
@@ -824,7 +824,7 @@ bool Mesh::LoadFromFBX(const string& fileName, Renderer* renderer, int index)
 
 	result = StringConverter::RemoveExtension(result);
 	string number = std::to_string(index);
-	std::ofstream out(Model::BinaryFilePath + result + number + Model::BinaryPath, std::ios::binary);
+	std::ofstream out(File_P::BinaryFilePath + result + number + File_P::BinaryPath, std::ios::binary);
 	out.write((char*)&header, sizeof(header));
 	out.write((char*)vertices.data(), sizeof(Vertex)* vertices.size());
 	out.write((char*)indices.data(), sizeof(uint32_t)* indices.size());

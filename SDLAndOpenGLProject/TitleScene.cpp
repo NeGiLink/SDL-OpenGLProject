@@ -19,13 +19,14 @@ bool TitleScene::Initialize()
 	dir.mDirection = Vector3(0.0f, -0.707f, -0.707f);
 	dir.mDiffuseColor = Vector3(0.78f, 0.88f, 1.0f);
 	dir.mSpecColor = Vector3(0.8f, 0.8f, 0.8f);
-
+	/*
 	mDebugStage = new MeshActor();
 	mDebugStage->Load("DebugStage.fbx");
 	Vector3 pos = Vector3(0.0f, -1.0f, 0.0f);
 	mDebugStage->SetLocalPosition(pos);
 	mDebugStage->SetActorTag(ActorTag::Ground);
 	mDebugStage->AddBoxCollider();
+	*/
 
 	mTitleCanvas = new TitleCanvas();
 

@@ -91,6 +91,16 @@ bool BaseScene::InputUpdate(const InputState& state)
 		}
 	}
 
+#ifdef _DEBUG
+	// Debugビルドの場合の処理
+	if (state.Keyboard.GetKeyDown(SDL_SCANCODE_F1))
+	{
+		GameStateClass::mDebugFrag = !GameStateClass::mDebugFrag;
+	}
+#else
+	// Releaseビルドの場合の処理
+#endif
+
 
 	return true;
 }
@@ -276,7 +286,7 @@ Font* BaseScene::GetFont(const string& fileName)
 
 Skeleton* BaseScene::GetSkeleton(const string& fileName)
 {
-	string file = Model::ModelPath + fileName;
+	string file = File_P::ModelPath + fileName;
 	auto iter = mSkeletons.find(file);
 	//すでにあるならそれを使う
 	if (iter != mSkeletons.end())
@@ -405,7 +415,10 @@ void BaseScene::UnloadData()
 	}
 	mAnimators.clear();
 
-	delete mPhysWorld;
+	if (mPhysWorld)
+	{
+		delete mPhysWorld;
+	}
 	if (mAudioSystem)
 	{
 		mAudioSystem->Shutdown();
