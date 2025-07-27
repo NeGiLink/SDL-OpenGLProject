@@ -24,7 +24,7 @@ Animator::~Animator()
 /// <returns></returns>
 bool Animator::Load(const string& fileName,bool animLoop, bool rootMotion)
 {
-	string path = Model::AnimationFilePath + fileName;
+	string path = File_P::AnimationFilePath + fileName;
 	Animation* anim = new Animation(mSkeleton);
 	anim->SetLoop(animLoop);
 	anim->SetRootMotion(rootMotion);

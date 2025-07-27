@@ -10,8 +10,6 @@ ParticleTestActor::ParticleTestActor()
 	mParticleSystem->SetAlphaFade(true);
 	mParticleSystem->SetParticleLifeTime(0.5f);
 	mParticleSystem->SetParticleSize(0.1f,1.0f);
-
-	mParticleSystem->Emit();
 }
 
 ParticleTestActor::~ParticleTestActor()

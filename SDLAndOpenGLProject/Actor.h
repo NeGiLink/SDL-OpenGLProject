@@ -3,6 +3,8 @@
 #include "Collider.h"
 #include "Rigidbody.h"
 #include "Transform.h"
+#include "VertexArray.h"
+#include "Shader.h"
 
 /*
 * ===ƒGƒ“ƒWƒ““à•”ˆ—/Engine internal processing===

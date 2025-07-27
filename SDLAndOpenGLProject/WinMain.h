@@ -14,6 +14,7 @@ public:
 	static void			SetGameState(GameState state) { mGameState = state; }
 	static GameState	mGameState;
 	static bool			mGameEventFrag;
+	static bool			mDebugFrag;
 };
 //ゲームの描画処理管理クラス
 //主にRenderernなどの画面の構成を管理しているクラス

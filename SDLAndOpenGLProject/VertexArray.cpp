@@ -161,6 +161,28 @@ VertexArray::VertexArray(const float* verts, unsigned int numVerts)
 	glBindVertexArray(0);
 }
 
+VertexArray::VertexArray(const std::vector<AxisVertex>& verts)
+	: mNumVerts(static_cast<unsigned int>(verts.size()))
+	, mNumIndices(0)
+{
+	glGenVertexArrays(1, &mVertexArray);
+	glGenBuffers(1, &mVertexBuffer);
+
+	glBindVertexArray(mVertexArray);
+	glBindBuffer(GL_ARRAY_BUFFER, mVertexBuffer);
+	glBufferData(GL_ARRAY_BUFFER, verts.size() * sizeof(AxisVertex), verts.data(), GL_STATIC_DRAW);
+
+	// 位置属性（location = 0）
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(AxisVertex), (void*)offsetof(AxisVertex, position));
+
+	// 色属性（location = 1）
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(AxisVertex), (void*)offsetof(AxisVertex, color));
+
+	glBindVertexArray(0);
+}
+
 VertexArray::~VertexArray()
 {
 	glDeleteBuffers(VertexLayout::NUM_VERTEX_BUFFERS, &mVertexBuffer);

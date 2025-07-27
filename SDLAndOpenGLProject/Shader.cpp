@@ -16,11 +16,13 @@ Shader::~Shader()
 
 bool Shader::Load(const string& vertName, const string& fragName)
 {
+	string vertPath = File_P::ShaderPath + vertName;
+	string fragPath = File_P::ShaderPath + fragName;
 	// 頂点シェーダーとピクセルシェーダーをコンパイルする
-	if (!CompileShader(vertName,
+	if (!CompileShader(vertPath,
 		GL_VERTEX_SHADER,
 		mVertexShader) ||
-		!CompileShader(fragName,
+		!CompileShader(fragPath,
 			GL_FRAGMENT_SHADER,
 			mFragShader))
 	{

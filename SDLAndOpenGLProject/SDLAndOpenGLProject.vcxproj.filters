@@ -399,6 +399,9 @@
     <ClCompile Include="ParticleSystem.cpp">
       <Filter>SourceFiles\F_Editor\Components</Filter>
     </ClCompile>
+    <ClCompile Include="DebugGrid.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component.h">
@@ -722,6 +725,9 @@
     <ClInclude Include="Debug_memory.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="DebugGrid.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -759,6 +765,18 @@
       <Filter>Shaders</Filter>
     </None>
     <None Include="..\Shaders\ParticleSprite.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Shaders\Grid.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Shaders\Grid.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Shaders\Arrow.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Shaders\Arrow.vert">
       <Filter>Shaders</Filter>
     </None>
   </ItemGroup>

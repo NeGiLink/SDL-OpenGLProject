@@ -65,6 +65,12 @@ namespace VertexLayout
 	constexpr size_t  NORMSKINTEX_SIZE = SKINMESHOBJECT_SIZE * FLOAT_SIZE + WEIGHT_COMPONENTS * UBYTE_SIZE;
 }
 
+struct AxisVertex
+{
+	Vector3 position;
+	Vector3 color;
+};
+
 //書籍元を改造したファイル
 //頂点配列オブジェクト(Vertex Array Object)を管理するクラス
 class VertexArray
@@ -93,6 +99,7 @@ public:
 					VertexArray(float fillAmount, int maxSegments);
 
 					VertexArray(const float* verts, unsigned int numVerts);
+					VertexArray(const std::vector<AxisVertex>& verts);
 					~VertexArray();
 
 	void			SetActive();

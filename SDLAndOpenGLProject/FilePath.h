@@ -6,7 +6,7 @@
 * ===ƒGƒ“ƒWƒ““à•”ˆ—/Engine internal processing===
 */
 
-namespace Model 
+namespace File_P 
 {
 	const string AssetPath = "Assets/";
 
@@ -17,6 +17,8 @@ namespace Model
 	const string ModelTexturePath = "Assets/Models/Textures/";
 
 	const string AnimationFilePath = "Assets/Animations/";
+
+	const string ShaderPath = "Shaders/";
 
 	const string BinaryPath = ".meshbin";
 

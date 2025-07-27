@@ -6,6 +6,8 @@ GameState GameStateClass::mGameState = GameState::GamePlay;
 
 bool GameStateClass::mGameEventFrag = false;
 
+bool GameStateClass::mDebugFrag = false;
+
 GameWinMain::GameWinMain()
 	:mGameApp(nullptr)
 	, mRenderer(nullptr)
