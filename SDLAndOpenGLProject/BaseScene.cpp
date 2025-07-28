@@ -15,6 +15,7 @@ BaseScene::BaseScene(GameWinMain* winMain)
 
 void BaseScene::Shutdown()
 {
+	//ゲーム終了時の解放処理
 	InputSystem::Shutdown();
 }
 
@@ -39,6 +40,11 @@ bool BaseScene::Initialize()
 
 	// Physics Worldを作成
 	mPhysWorld = new PhysWorld(this);
+
+	Font* font = GetFont("NotoSansJP-Bold.ttf");
+
+	mFrameRateText = new Text(font, Vector2(500, 250),Debug_Function);
+	mFrameRateText->SetFontSize(22);
 	return true;
 }
 
@@ -190,6 +196,19 @@ bool BaseScene::Update()
 		}
 	}
 
+	if (GameStateClass::mDebugFrag)
+	{
+		for (int i = 0; i < mDebugImageStack.size(); i++)
+		{
+			if (mDebugImageStack[i]->GetState() == Image::EActive)
+			{
+				mDebugImageStack[i]->Update(Time::gDeltaTime);
+			}
+		}
+		float time = Time::GetFrameRate();
+		mFrameRateText->SetText("FPS : " + FloatToString::ToStringWithoutDecimal(time));
+	}
+
 	// Delete any UIScreens that are closed
 	auto iter = mCanvasStack.begin();
 	while (iter != mCanvasStack.end())
@@ -315,32 +334,12 @@ Skeleton* BaseScene::GetSkeleton(const string& fileName)
 	//読み込み失敗
 	return nullptr;
 }
-
-Animator* BaseScene::GetAnimator(const string& fileName, Animator* animator)
-{
-	if (animator == nullptr)
-	{
-		Debug::ErrorLog("The project is ending because there are no animator.");
-		return nullptr;
-	}
-
-	auto iter = mAnimators.find(fileName);
-	if (iter != mAnimators.end())
-	{
-		return iter->second;
-	}
-	else
-	{
-		mAnimators.emplace(fileName, animator);
-		return animator;
-	}
-}
-
+//キャンバスを格納
 void BaseScene::PushUI(Canvas* screen)
 {
 	mCanvasStack.emplace_back(screen);
 }
-
+//2D画像を格納
 void BaseScene::PushImage(Image* screen)
 {
 	mImageStack.emplace_back(screen);
@@ -357,8 +356,27 @@ void BaseScene::RemoveImage(Image* screen)
 	}
 }
 
+void BaseScene::PushDebugImage(Image* screen)
+{
+	mDebugImageStack.emplace_back(screen);
+}
+
+void BaseScene::RemoveDebugImage(Image* screen)
+{
+	// Is it in actors?
+	auto iter = std::find(mDebugImageStack.begin(), mDebugImageStack.end(), screen);
+	if (iter != mDebugImageStack.end())
+	{
+		// Swap to end of vector and pop off (avoid erase copies)
+		std::iter_swap(iter, mDebugImageStack.end() - 1);
+		mDebugImageStack.pop_back();
+	}
+}
+
 void BaseScene::UnloadData()
 {
+	//シーン内のデータを全解放
+	
 	// Delete actors
 	// Because ~Actor calls RemoveActor, have to use a different style loop
 	while (!mActors.empty())
@@ -381,6 +399,14 @@ void BaseScene::UnloadData()
 		mImageStack.pop_back();
 	}
 	mImageStack.clear();
+
+	while (!mDebugImageStack.empty())
+	{
+		delete mDebugImageStack.back();
+		mDebugImageStack.pop_back();
+	}
+	mDebugImageStack.clear();
+
 	// Unload fonts
 	for (auto& f : mFonts)
 	{
@@ -403,18 +429,7 @@ void BaseScene::UnloadData()
 		}
 	}
 	mSkeletons.clear();
-
-	// Unload animators
-	for (auto a : mAnimators) 
-	{
-		if (a.second)
-		{
-			delete a.second;
-			a.second = nullptr;
-		}
-	}
-	mAnimators.clear();
-
+	
 	if (mPhysWorld)
 	{
 		delete mPhysWorld;

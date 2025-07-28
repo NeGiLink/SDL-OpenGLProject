@@ -5,11 +5,16 @@
 #include <crtdbg.h>
 #include <stdlib.h>
 
+/*
+* Debug memory management macros
+*/
+
+//メモリリークチェックを有効にする
 inline void EnableMemoryLeakCheck()
 {
     _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 }
-
+//メモリリークチェックを無効にする
 inline void BreakOnAllocation(int allocNumber)
 {
     _CrtSetBreakAlloc(allocNumber);

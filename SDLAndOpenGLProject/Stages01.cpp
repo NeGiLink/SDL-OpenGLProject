@@ -9,7 +9,7 @@ void Stages01::Initialize()
 {
 	Quaternion q;
 	mTestCharacter = new SkeletonMeshActor();
-	mTestCharacter->Load("Y Bot.fbx");
+	mTestCharacter->Load("goblin_d_shareyko.fbx");
 	mTestCharacter->SetLocalPosition(Vector3(-2.0f, -0.5f, 4.0f));
 
 	mTestCharacter->SetAnimatorName("TestCharacter");
@@ -23,7 +23,6 @@ void Stages01::Initialize()
 	mSmallCharacter = new SkeletonMeshActor();
 	mSmallCharacter->Load("Paladin J Nordstrom.fbx");
 	mSmallCharacter->SetLocalPosition(Vector3(-4.0f, -0.5f, 4.0f));
-	mSmallCharacter->SetLocalRotation(Quaternion());
 
 	mSmallCharacter->SetAnimatorName("SmallCharacter");
 	mSmallCharacter->GetAnimator()->Load("Idle.fbx", true);

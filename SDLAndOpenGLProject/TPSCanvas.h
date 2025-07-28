@@ -9,8 +9,6 @@ class TPSCanvas : public Canvas
 protected:
 
 	Image*	mSceneNameFrame;
-	//フレームレート表示テキスト
-	Text*	mFrameRateText;
 
 	Text*	mPoseButtonText;
 

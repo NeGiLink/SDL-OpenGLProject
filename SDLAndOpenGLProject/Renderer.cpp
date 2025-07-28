@@ -148,8 +148,6 @@ bool Renderer::LoadShaders()
 		return false;
 	}
 	mMeshShader->SetActive();
-
-
 	mMeshShader->SetMatrixUniform("uViewProj", mView * mProjection);
 
 	// スキンシェーダーを作成する
@@ -158,7 +156,6 @@ bool Renderer::LoadShaders()
 	{
 		return false;
 	}
-
 	mSkinnedShader->SetActive();
 	mSkinnedShader->SetMatrixUniform("uViewProj", mView * mProjection);
 
@@ -207,7 +204,7 @@ bool Renderer::LoadShaders()
 	mGPointLightShader->SetIntUniform("uGNormal", 1);
 	mGPointLightShader->SetIntUniform("uGWorldPos", 2);
 	mGPointLightShader->SetVector2Uniform("uScreenDimensions",Vector2(WindowRenderProperty::GetWidth(), WindowRenderProperty::GetHeight()));
-
+	//グリッドを描画するためのシェーダーを作成する
 	mGridShader = new Shader();
 	if (!mGridShader->Load("Grid.vert", "Grid.frag"))
 	{
@@ -267,6 +264,27 @@ void Renderer::Draw()
 				mSpriteVerts->SetActive();
 			}
 			ui->Draw(mSpriteShader);
+		}
+	}
+
+	if (GameStateClass::mDebugFrag)
+	{
+		for (auto ui : mNowScene->GetDebugImageStack())
+		{
+			if (ui->GetState() == Image::EActive)
+			{
+				if (ui->GetFillMethod() == Image::Radial360)
+				{
+					int count = CreateFanSpriteVerts(ui->GetFillAmount(), 30);
+					ui->SetVerticesCount(count);
+					mFanSpriteVerts->SetActive();
+				}
+				else
+				{
+					mSpriteVerts->SetActive();
+				}
+				ui->Draw(mSpriteShader);
+			}
 		}
 	}
 

@@ -1,7 +1,7 @@
 ﻿#include "Image.h"
 
 
-Image::Image()
+Image::Image(int function)
 	:mGame(GameApp::GetActiveScene())
 	,mTexture(nullptr)
 	,mAngleZ(0)
@@ -9,9 +9,15 @@ Image::Image()
 	mTexScale = Vector3(1.0f, 1.0f, 1.0f);
 	mFillAmount = 1.0f;
 	mFillMethod = FillMethod::None;
-
-	//BaseSceneに送る処理
-	mGame->PushImage(this);
+	if (function == Release_Function)
+	{
+		//BaseSceneに送る処理
+		mGame->PushImage(this);
+	}
+	else
+	{
+		mGame->PushDebugImage(this);
+	}
 }
 
 Image::~Image()
