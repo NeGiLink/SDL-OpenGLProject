@@ -21,13 +21,11 @@ protected:
 	vector<class ActorObject*>						mActors;
 	vector<class Canvas*>							mCanvasStack;
 	vector<class Image*>							mImageStack;
+	vector<class Image*>							mDebugImageStack;
 	// Map for fonts
 	std::unordered_map<string, class Font*>			mFonts;
 	// Map of loaded skeletons
 	std::unordered_map<string, class Skeleton*>		mSkeletons;
-	// Map of loaded animations
-	std::unordered_map<string, class Animation*>	mAnims;
-	std::unordered_map<string, class Animator*>		mAnimators;
 	// Any pending actors
 	vector<class ActorObject*>						mPendingActors;
 
@@ -42,6 +40,10 @@ protected:
 	const float										mFixed_Delta_Time = 0.02f;
 
 	float											mFixedTimeAccumulator;
+
+	//デバッグ機能
+	//フレームレート表示テキスト
+	class Text*										mFrameRateText;
 public:
 	//コンストラクタ
 													BaseScene(class GameWinMain* winMain);
@@ -74,8 +76,6 @@ public:
 	class Font*										GetFont(const string& fileName);
 	//スケルトンのGetter
 	class Skeleton*									GetSkeleton(const string& fileName);
-	//アニメーターのGetter
-	class Animator*									GetAnimator(const string& fileName, class Animator* animator);
 	//AudioSystemのGetter
 	class AudioSystem*								GetAudioSystem() { return mAudioSystem; }
 	//PhysWorldのGetter
@@ -87,9 +87,13 @@ public:
 	void											PushUI(class Canvas* screen);
 	//Image配列のGetter
 	const vector<class Image*>&						GetImageStack() { return mImageStack; }
+	const vector<class Image*>&						GetDebugImageStack() { return mDebugImageStack; }
 	//Imageの追加
 	void											PushImage(class Image* screen);
 	void											RemoveImage(class Image* screen);
+	//DebugImageの追加
+	void											PushDebugImage(class Image* screen);
+	void											RemoveDebugImage(class Image* screen);
 	// Game-specific
 	//PlayerオブジェクトのGetter
 	class ActorObject*								GetPlayer() { return mPlayer; }
@@ -118,3 +122,6 @@ inline vector<ActorObject*> BaseScene::SelectAllActorComponent()
 
 	return result;
 }
+
+#define Release_Function  0
+#define Debug_Function  1

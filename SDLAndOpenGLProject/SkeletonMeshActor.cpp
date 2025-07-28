@@ -6,7 +6,7 @@ SkeletonMeshActor::SkeletonMeshActor()
 	, mAnimator(nullptr)
 {
 	mSkeletonMesh = new SkeletalMeshRenderer(this);
-	mAnimator = new Animator();
+	mAnimator = new Animator(this);
 
 	mSkeletonMesh->SetAnimator(mAnimator);
 
@@ -26,5 +26,5 @@ void SkeletonMeshActor::Load(string filePath)
 void SkeletonMeshActor::SetAnimatorName(string name)
 {
 	mAnimatorName = name;
-	GetGame()->GetAnimator(mAnimatorName, mAnimator);
+	//GetGame()->GetAnimator(mAnimatorName, mAnimator);
 }

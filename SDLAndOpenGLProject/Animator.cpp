@@ -1,5 +1,18 @@
 #include "Animator.h"
 
+Animator::Animator(ActorObject* owner)
+	: Component(owner)
+	, mSkeleton(nullptr)
+	, mAnimation(nullptr)
+	, mBlendAnimation(nullptr)
+	, mAnimTime(0.0f)
+	, mBlendAnimTime(0.0f)
+	, mAnimPlayRate(1.0f)
+	, mBlendElapsed(0.25f)
+	, mBlending(false)
+{
+}
+
 Animator::~Animator()
 {
 	for(int i = 0; i < mAnimations.size(); i++)
@@ -149,9 +162,18 @@ void Animator::ComputeMatrixPalette()
 		Matrix4 pose = currentPoses[i];
 		// Global inverse bind pose matrix times current pose matrix
 		mPalette.mEntry[i] = globalInvBindPoses[i] * pose;
-		mSkeleton->GetBoneActor()[i]->SetLocalScale(pose.GetScale());
-		mSkeleton->GetBoneActor()[i]->SetLocalRotation(pose.GetRotation());
-		mSkeleton->GetBoneActor()[i]->SetLocalPosition(pose.GetTranslation());
+		Matrix4 transform;
+		if (mOwner->GetParentActor() == nullptr)
+		{
+			transform = pose;
+		}
+		else
+		{
+			transform = pose * mOwner->GetWorldTransform();
+		}
+		mSkeleton->GetBoneActor()[i]->SetLocalScale(transform.GetScale());
+		mSkeleton->GetBoneActor()[i]->SetLocalRotation(transform.GetRotation());
+		mSkeleton->GetBoneActor()[i]->SetLocalPosition(transform.GetTranslation());
 	}
 }
 
@@ -197,9 +219,18 @@ void Animator::BlendComputeMatrixPalette()
 	{
 		Matrix4 pose = goalPose[i];
 		mPalette.mEntry[i] = globalInvBindPoses[i] * pose;
-		mSkeleton->GetBoneActor()[i]->SetLocalScale(pose.GetScale());
-		mSkeleton->GetBoneActor()[i]->SetLocalRotation(pose.GetRotation());
-		mSkeleton->GetBoneActor()[i]->SetLocalPosition(pose.GetTranslation());
+		Matrix4 transform;
+		if (mOwner->GetParentActor() == nullptr)
+		{
+			transform = pose;
+		}
+		else
+		{
+			transform = pose * mOwner->GetWorldTransform();
+		}
+		mSkeleton->GetBoneActor()[i]->SetLocalScale(transform.GetScale());
+		mSkeleton->GetBoneActor()[i]->SetLocalRotation(transform.GetRotation());
+		mSkeleton->GetBoneActor()[i]->SetLocalPosition(transform.GetTranslation());
 	}
 }
 

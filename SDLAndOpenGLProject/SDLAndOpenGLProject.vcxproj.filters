@@ -112,6 +112,9 @@
     <Filter Include="SourceFiles\G_Unused/未使用ファイル">
       <UniqueIdentifier>{06ed5f55-ba5d-48a9-be9d-a925c0efb940}</UniqueIdentifier>
     </Filter>
+    <Filter Include="SourceFiles\F_Editor\Debugs">
+      <UniqueIdentifier>{f2b1f472-34a9-47b3-bfc0-6c7393dc4633}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Component.cpp">
@@ -400,7 +403,7 @@
       <Filter>SourceFiles\F_Editor\Components</Filter>
     </ClCompile>
     <ClCompile Include="DebugGrid.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>SourceFiles\F_Editor\Debugs</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -722,11 +725,11 @@
     <ClInclude Include="ParticleSystem.h">
       <Filter>SourceFiles\F_Editor\Components</Filter>
     </ClInclude>
-    <ClInclude Include="Debug_memory.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="DebugGrid.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>SourceFiles\F_Editor\Debugs</Filter>
+    </ClInclude>
+    <ClInclude Include="Debug_memory.h">
+      <Filter>SourceFiles\F_Editor\Debugs</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

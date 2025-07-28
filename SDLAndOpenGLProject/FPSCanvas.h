@@ -38,8 +38,6 @@ protected:
 
 	Image*									mPoseButton;
 
-	Text*									mFrameRateText;
-
 
 
 	// レーダーに対するブリップの2Dオフセット

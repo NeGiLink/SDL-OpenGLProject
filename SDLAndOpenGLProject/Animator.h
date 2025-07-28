@@ -10,14 +10,15 @@
 //複数個あるアニメーションを管理するクラス
 //Unityの「Animator」を意識して設計
 //アニメーションの再生、ブレンドなどを行う
-class Animator
+class Animator : public Component
 {
 public:
+	Animator(class ActorObject* owner);
 	~Animator();
 	//アニメーション読み込み処理
 	bool							Load(const string& fileName,bool animLoop = 0,bool rootMotion = 0);
 
-	void							Update(float deltaTime);
+	void							Update(float deltaTime)override;
 
 	void							SetSkeleton(class Skeleton* skeleton);
 

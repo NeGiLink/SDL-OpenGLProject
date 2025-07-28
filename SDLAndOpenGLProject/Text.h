@@ -26,7 +26,7 @@ private:
 	// テキストの色
 	Vector3			mColor;
 public:
-					Text(class Font* font,const Vector2& pos,bool active = true);
+					Text(class Font* font,const Vector2& pos,int function = 0);
 					~Text();
 
 	// Set the name of the button

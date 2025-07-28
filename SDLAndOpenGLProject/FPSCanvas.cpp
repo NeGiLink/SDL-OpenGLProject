@@ -34,11 +34,6 @@ FPSCanvas::FPSCanvas()
 	mPoseButtonText->SetUTF_8Text(u8"ポーズ");
 	mPoseButtonText->SetFontSize(40);
 
-	mFrameRateText = new Text(font, Vector2(500, 250));
-	float time = Time::gDeltaTime;
-	mFrameRateText->SetText(std::to_string(time));
-	mFrameRateText->SetFontSize(40);
-
 	mRadar = new Image();
 	mRadar->Load("Radar.png");
 
@@ -85,9 +80,6 @@ void FPSCanvas::Update(float deltaTime)
 
 	UpdateCrosshair(deltaTime);
 	UpdateRadar(deltaTime);
-
-	float time = Time::GetFrameRate();
-	mFrameRateText->SetText("FPS : " + FloatToString::ToStringWithoutDecimal(time));
 
 	//各画像の座標更新
 

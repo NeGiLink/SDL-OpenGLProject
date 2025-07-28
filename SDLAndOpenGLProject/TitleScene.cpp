@@ -30,8 +30,6 @@ bool TitleScene::Initialize()
 
 	mTitleCanvas = new TitleCanvas();
 
-	GetFont("NotoSansJP-Bold.ttf");
-
 	mFreeCameraActor = new FreeCameraActor();
 	mFreeCameraActor->SetLocalPosition(Vector3(0.0f, 0.0f, 0.0f));
 	mFreeCameraActor->GetCamera()->SetCameraPosition(mFreeCameraActor->GetPosition(), Vector3::UnitZ);

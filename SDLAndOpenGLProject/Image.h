@@ -68,7 +68,7 @@ protected:
 
 	vector<Image*>			mImages;
 public:
-							Image();
+							Image(int function = 0);
 	virtual					~Image();
 	//“Ç‚İ‚İˆ—
 	virtual void			Load(string file);

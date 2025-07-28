@@ -16,11 +16,6 @@ TPSCanvas::TPSCanvas()
 	mSceneNameText->SetUTF_8Text(u8"TPSŽ‹“_ƒV[ƒ“");
 	mSceneNameText->SetFontSize(40);
 
-	mFrameRateText = new Text(font, Vector2(500, 250));
-	float time = Time::gDeltaTime;
-	mFrameRateText->SetText(std::to_string(time));
-	mFrameRateText->SetFontSize(40);
-
 	mPoseButtonFrame = new Image();
 	mPoseButtonFrame->Load("ButtonUI.png");
 	mPoseButtonFrame->SetPosition(Vector2(-550, 330));
@@ -69,6 +64,4 @@ TPSCanvas::TPSCanvas()
 void TPSCanvas::Update(float deltaTime)
 {
 	Canvas::Update(deltaTime);
-	float time = Time::GetFrameRate();
-	mFrameRateText->SetText("FPS : " + FloatToString::ToStringWithoutDecimal(time));
 }

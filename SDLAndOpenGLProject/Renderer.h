@@ -94,8 +94,6 @@ private:
 	class DebugGrid*									mDebugGrid;
 
 	class Shader*										mGridShader;
-
-
 public:
 														Renderer(class GameWinMain* game);
 														~Renderer();

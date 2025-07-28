@@ -4,6 +4,7 @@
 SkeletalMeshRenderer::SkeletalMeshRenderer(ActorObject* owner)
 	:MeshRenderer(owner, true)
 	, mSkeleton(nullptr)
+	, mAnimator(nullptr)
 {
 }
 
@@ -67,8 +68,10 @@ void SkeletalMeshRenderer::Draw(Shader* shader)
 
 void SkeletalMeshRenderer::Update(float deltaTime)
 {
+	/*
 	if (!mAnimator) { return; }
 	mAnimator->Update(deltaTime);
+	*/
 }
 void SkeletalMeshRenderer::LoadSkeletonMesh(const string& fileName, ActorObject* actor)
 {
