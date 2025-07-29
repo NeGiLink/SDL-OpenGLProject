@@ -34,6 +34,8 @@ protected:
 
 	class ActorObject*								mPlayer;
 
+	class DirectionalLightActor*					mDirectionalLightActor;
+
 	class BaseCamera*								mMainCamera;
 
 	// 50Hz、Unityと同じ
@@ -41,7 +43,7 @@ protected:
 
 	float											mFixedTimeAccumulator;
 
-	//デバッグ機能
+	//***デバッグ機能***
 	//フレームレート表示テキスト
 	class Text*										mFrameRateText;
 public:
@@ -97,6 +99,8 @@ public:
 	// Game-specific
 	//PlayerオブジェクトのGetter
 	class ActorObject*								GetPlayer() { return mPlayer; }
+	//環境光の設定
+	class DirectionalLightActor*					GetDirectionalLightActor() { return mDirectionalLightActor; }
 	//CameraのGetter
 	class BaseCamera*								GetCamera() { return mMainCamera; }
 	//MainCameraの設定

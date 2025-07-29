@@ -16,12 +16,6 @@ bool DebugScene01::Initialize()
 	// ポイントライトメッシュをロードする
 	//mWinMain->GetRenderer()->SetPointLightMesh(mWinMain->GetRenderer()->GetMesh("PointLight.gpmesh"));
 
-	// 環境光の設定
-	mWinMain->GetRenderer()->SetAmbientLight(Vector3(0.4f, 0.4f, 0.4f));
-	DirectionalLight& dir = mWinMain->GetRenderer()->GetDirectionalLight();
-	dir.mDirection = Vector3(0.0f, -0.707f, -0.707f);
-	dir.mDiffuseColor = Vector3(0.78f, 0.88f, 1.0f);
-	dir.mSpecColor = Vector3(0.8f, 0.8f, 0.8f);
 	
 	// BGMスタート
 	mMusicEvent = mAudioSystem->PlayEvent("event:/Music3");

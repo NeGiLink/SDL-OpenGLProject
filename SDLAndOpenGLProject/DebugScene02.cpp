@@ -14,13 +14,6 @@ bool DebugScene02::Initialize()
 	//mWinMain->GetRenderer()->SetPointLightMesh(mWinMain->GetRenderer()->GetMesh("PointLight.gpmesh"));
 	
 
-	// ŠÂ‹«Œõ‚ÌÝ’è
-	mWinMain->GetRenderer()->SetAmbientLight(Vector3(0.4f, 0.4f, 0.4f));
-	DirectionalLight& dir = mWinMain->GetRenderer()->GetDirectionalLight();
-	dir.mDirection = Vector3(0.0f, -0.707f, -0.707f);
-	dir.mDiffuseColor = Vector3(0.78f, 0.88f, 1.0f);
-	dir.mSpecColor = Vector3(0.8f, 0.8f, 0.8f);
-
 	// Start music
 	mMusicEvent = mAudioSystem->PlayEvent("event:/Music");
 

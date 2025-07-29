@@ -4,7 +4,6 @@
 #include "Shader.h"
 #include "VertexArray.h"
 #include "SpriteComponent.h"
-#include "LineRenderer.h"
 #include "MeshRenderer.h"
 #include "ParticleSystem.h"
 #include "Canvas.h"
@@ -17,7 +16,6 @@
 #include "GBuffer.h"
 #include "PointLightComponent.h"
 #include "DebugGrid.h"
-
 
 
 Renderer::Renderer(GameWinMain* game)
@@ -93,20 +91,10 @@ bool Renderer::Initialize(float screenWidth, float screenHeight)
 	// 描画用の2D矩形を作成する
 	CreateSpriteVerts();
 
-	std::vector<AxisVertex> axisVerts = {
-		// X軸（赤）
-		{ Vector3(0.0f, 0.0f, 0.0f), Vector3(1.0f, 0.0f, 0.0f) },
-		{ Vector3(1.0f, 0.0f, 0.0f), Vector3(1.0f, 0.0f, 0.0f) },
+	//オブジェクトの方向矢印用の頂点配列を作成
+	CreateAxisVerts();
 
-		// Y軸（緑）
-		{ Vector3(0.0f, 0.0f, 0.0f), Vector3(0.0f, 1.0f, 0.0f) },
-		{ Vector3(0.0f, 1.0f, 0.0f), Vector3(0.0f, 1.0f, 0.0f) },
-
-		// Z軸（青）
-		{ Vector3(0.0f, 0.0f, 0.0f), Vector3(0.0f, 0.0f, 1.0f) },
-		{ Vector3(0.0f, 0.0f, 1.0f), Vector3(0.0f, 0.0f, 1.0f) },
-	};
-	mAxisVAO = new VertexArray(axisVerts);
+	mDebugGrid = new DebugGrid();
 
 	// Gバッファを作成する
 	mGBuffer = new GBuffer();
@@ -117,8 +105,7 @@ bool Renderer::Initialize(float screenWidth, float screenHeight)
 		SDL_Log("Failed to create G-buffer.");
 		return false;
 	}
-
-	mDebugGrid = new DebugGrid();
+	
 
 	return true;
 }
@@ -314,6 +301,8 @@ void Renderer::Draw3DScene(unsigned int framebuffer, const Matrix4& view, const 
 	mMeshShader->SetActive();
 	// ビュー投影行列を更新する
 	mMeshShader->SetMatrixUniform("uViewProj", view * proj);
+	mMeshShader->SetVectorUniform("uViewPos", view.GetTranslation());
+	mMeshShader->SetVectorUniform("uLightPos", mDirLight.mDirection);
 	// 照明のユニフォームを更新する
 	if (lit)
 	{
@@ -366,7 +355,7 @@ void Renderer::Draw3DScene(unsigned int framebuffer, const Matrix4& view, const 
 			p->Draw(mParticleShader);
 		}
 	}
-
+	//デバッグ描画
 	if (GameStateClass::mDebugFrag)
 	{
 		mArrowShader->SetActive();
@@ -468,74 +457,80 @@ void Renderer::Shutdown()
 		delete mSpriteVerts;
 		mSpriteVerts = nullptr;
 	}
+	// 2D画像用の頂点配列を解放
 	if (mFanSpriteVerts)
 	{
 		delete mFanSpriteVerts;
 		mFanSpriteVerts = nullptr;
 	}
-
+	// オブジェクトの方向矢印用の頂点配列を解放
 	if (mAxisVAO)
 	{
 		delete mAxisVAO;
 		mAxisVAO = nullptr;
 	}
-
-	// シェーダー
+	// スプライトシェーダー
 	if (mSpriteShader)
 	{
 		mSpriteShader->Unload();
 		delete mSpriteShader;
 		mSpriteShader = nullptr;
 	}
+	//メッシュシェーダーを解放
 	if (mMeshShader)
 	{
 		mMeshShader->Unload();
 		delete mMeshShader;
 		mMeshShader = nullptr;
 	}
+	// スキンメッシュシェーダーを解放
 	if (mSkinnedShader)
 	{
 		mSkinnedShader->Unload();
 		delete mSkinnedShader;
 		mSkinnedShader = nullptr;
 	}
+	// 矢印シェーダーを解放
 	if (mArrowShader)
 	{
 		mArrowShader->Unload();
 		delete mArrowShader;
 		mArrowShader = nullptr;
 	}
+	// パーティクルシェーダーを解放
 	if (mParticleShader)
 	{
 		mParticleShader->Unload();
 		delete mParticleShader;
 		mParticleShader = nullptr;
 	}
+	// Gバッファーのシェーダーを解放
 	if (mGGlobalShader)
 	{
 		mGGlobalShader->Unload();
 		delete mGGlobalShader;
 		mGGlobalShader = nullptr;
 	}
+	// Gバッファーのポイントライトシェーダーを解放
 	if (mGPointLightShader)
 	{
 		mGPointLightShader->Unload();
 		delete mGPointLightShader;
 		mGPointLightShader = nullptr;
 	}
+	// グリッドシェーダーを解放
 	if (mGridShader)
 	{
 		mGridShader->Unload();
 		delete mGridShader;
 		mGridShader = nullptr;
 	}
-
+	//グリッドを解放
 	if (mDebugGrid)
 	{
 		delete mDebugGrid;
 		mDebugGrid = nullptr;
 	}
-
 	// OpenGLコンテキストとウィンドウ
 	if (mContext)
 	{
@@ -558,7 +553,6 @@ void Renderer::UnloadData()
 		delete i.second;
 	}
 	mTextures.clear();
-
 	// メッシュを破壊する
 	for (auto i : mMeshes)
 	{
@@ -566,20 +560,12 @@ void Renderer::UnloadData()
 		delete i.second;
 	}
 	mMeshes.clear();
-
 	// スプライトコンポーネントを破壊する
 	for (auto sprite : mSprites)
 	{
 		delete sprite;
 	}
 	mSprites.clear();
-
-	// ラインスプライトを破壊する
-	for (auto lineSprite : mLineSprites)
-	{
-		delete lineSprite;
-	}
-	mLineSprites.clear();
 }
 
 void Renderer::MeshOrderUpdate()
@@ -651,7 +637,6 @@ void Renderer::AddSprite(SpriteComponent* sprite)
 			break;
 		}
 	}
-
 	// イテレータの位置の前に要素を挿入します
 	mSprites.insert(iter, sprite);
 }
@@ -660,32 +645,6 @@ void Renderer::RemoveSprite(SpriteComponent* sprite)
 {
 	auto iter = std::find(mSprites.begin(), mSprites.end(), sprite);
 	mSprites.erase(iter);
-}
-
-void Renderer::AddLineSprite(LineRenderer* sprite)
-{
-	//ソートされたベクター内の挿入ポイントを見つける
-// （現在よりも高い描画順序を持つ最初の要素）
-	int myDrawOrder = sprite->GetDrawOrder();
-	auto iter = mLineSprites.begin();
-	for (;
-		iter != mLineSprites.end();
-		++iter)
-	{
-		if (myDrawOrder < (*iter)->GetDrawOrder())
-		{
-			break;
-		}
-	}
-
-	// イテレータの位置の前に要素を挿入します
-	mLineSprites.insert(iter, sprite);
-}
-
-void Renderer::RemoveLineSprite(LineRenderer* sprite)
-{
-	auto iter = std::find(mLineSprites.begin(), mLineSprites.end(), sprite);
-	mLineSprites.erase(iter);
 }
 
 void Renderer::AddMeshComp(MeshRenderer* mesh)
@@ -879,6 +838,24 @@ void Renderer::CreateLineSpriteVerts()
 	//mLineSpriteVerts = new VertexArray(lineVertices, 2);
 }
 
+void Renderer::CreateAxisVerts()
+{
+	std::vector<AxisVertex> axisVerts = {
+		// X軸（赤）
+		{ Vector3(0.0f, 0.0f, 0.0f), Vector3(1.0f, 0.0f, 0.0f) },
+		{ Vector3(1.0f, 0.0f, 0.0f), Vector3(1.0f, 0.0f, 0.0f) },
+
+		// Y軸（緑）
+		{ Vector3(0.0f, 0.0f, 0.0f), Vector3(0.0f, 1.0f, 0.0f) },
+		{ Vector3(0.0f, 1.0f, 0.0f), Vector3(0.0f, 1.0f, 0.0f) },
+
+		// Z軸（青）
+		{ Vector3(0.0f, 0.0f, 0.0f), Vector3(0.0f, 0.0f, 1.0f) },
+		{ Vector3(0.0f, 0.0f, 1.0f), Vector3(0.0f, 0.0f, 1.0f) },
+	};
+	mAxisVAO = new VertexArray(axisVerts);
+}
+
 void Renderer::SetLightUniforms(Shader* shader, const Matrix4& view)
 {
 	// カメラの位置は逆さまの視点からです
@@ -886,14 +863,11 @@ void Renderer::SetLightUniforms(Shader* shader, const Matrix4& view)
 	invView.Invert();
 	shader->SetVectorUniform("uCameraPos", invView.GetTranslation());
 	// Ambient light
-	shader->SetVectorUniform("uAmbientLight", mAmbientLight);
+	shader->SetVectorUniform("uAmbientLight", mDirLight.mAmbientColor);
 	// Directional light
-	shader->SetVectorUniform("uDirLight.mDirection",
-		mDirLight.mDirection);
-	shader->SetVectorUniform("uDirLight.mDiffuseColor",
-		mDirLight.mDiffuseColor);
-	shader->SetVectorUniform("uDirLight.mSpecColor",
-		mDirLight.mSpecColor);
+	shader->SetVectorUniform("uDirLight.mDirection",mDirLight.mDirection);
+	shader->SetVectorUniform("uDirLight.mDiffuseColor",mDirLight.mDiffuseColor);
+	shader->SetVectorUniform("uDirLight.mSpecColor",mDirLight.mSpecColor);
 }
 
 Vector3 Renderer::Unproject(const Vector3& screenPoint) const
