@@ -8,14 +8,18 @@
 
 //書籍元を改造したファイル
 //環境光の構造体
-struct DirectionalLight
+struct DirectionalLightData
 {
 	// Direction of light
 	Vector3 mDirection;
 	// Diffuse color
 	Vector3 mDiffuseColor;
+	// Ambient color
+	Vector3 mAmbientColor;
 	// Specular color
 	Vector3 mSpecColor;
+	//位置
+	Vector3 mPosition;
 };
 // 3D描画のレンダラー
 class Renderer
@@ -30,11 +34,14 @@ private:
 	bool												LoadShaders();
 	//Spriteの頂点を作成
 	void												CreateSpriteVerts();
-
+	//扇型スプライトの頂点を作成
 	int 												CreateFanSpriteVerts(float fillRatio /*0.0～1.0: 扇の割合*/, int segments);
 	//LineSpriteの頂点を作成
 	//現在は未使用
 	void												CreateLineSpriteVerts();
+	//オブジェクトの方向矢印の頂点を作成
+	void 												CreateAxisVerts();
+
 	//ライトのShader、マトリックスのSetter
 	void												SetLightUniforms(class Shader* shader, const Matrix4& view);
 	// テクスチャのマップが読み込み変数
@@ -43,8 +50,6 @@ private:
 	std::unordered_map<string, class Mesh*>				mMeshes;
 	// 描かれたすべてのスプライトコンポーネント
 	vector<class SpriteComponent*>						mSprites;
-	//未使用
-	vector<class LineRenderer*>							mLineSprites;
 	// すべての（骨格以外の）メッシュコンポーネント
 	vector<class MeshRenderer*>							mMeshComps;
 	vector<class SkeletalMeshRenderer*>					mSkeletalMeshes;
@@ -75,9 +80,7 @@ private:
 	Matrix4												mProjection;
 
 	// Lighting data
-	Vector3												mAmbientLight;
-	DirectionalLight									mDirLight;
-
+	DirectionalLightData								mDirLight;
 	// Window
 	SDL_Window*											mWindow;
 	// OpenGL context
@@ -110,9 +113,6 @@ public:
 	void												AddSprite(class SpriteComponent* sprite);
 	//スプライト削除処理
 	void												RemoveSprite(class SpriteComponent* sprite);
-	//未完成
-	void												AddLineSprite(class LineRenderer* sprite);
-	void												RemoveLineSprite(class LineRenderer* sprite);
 	//Mesh追加処理
 	void												AddMeshComp(class MeshRenderer* mesh);
 	//Mesh削除処理
@@ -137,12 +137,10 @@ public:
 	Matrix4												GetView() { return mView; }
 	//カメラのビュー行列のSetter
 	void												SetViewMatrix(const Matrix4& view) { mView = view; }
-	//AmbientLightのSetter
-	void												SetAmbientLight(const Vector3& ambient) { mAmbientLight = ambient; }
 	//DirLightのGetter
-	DirectionalLight&									GetDirectionalLight() { return mDirLight; }
+	DirectionalLightData&								GetDirectionalLight() { return mDirLight; }
 	//DirLightのSetter
-	void												SetDirectionalLight(DirectionalLight& dirLight) { mDirLight = dirLight; }
+	void												SetDirectionalLight(DirectionalLightData& dirLight) { mDirLight = dirLight; }
 	// Given a screen space point, unprojects it into world space,
 	// based on the current 3D view/projection matrices
 	// Expected ranges:

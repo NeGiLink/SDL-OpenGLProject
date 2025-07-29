@@ -219,9 +219,6 @@
     <ClCompile Include="BoneTransform.cpp">
       <Filter>SourceFiles\F_Editor\Renderers</Filter>
     </ClCompile>
-    <ClCompile Include="LineRenderer.cpp">
-      <Filter>SourceFiles\G_Unused/未使用ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="GameApp.cpp">
       <Filter>SourceFiles\A_Mains</Filter>
     </ClCompile>
@@ -405,6 +402,12 @@
     <ClCompile Include="DebugGrid.cpp">
       <Filter>SourceFiles\F_Editor\Debugs</Filter>
     </ClCompile>
+    <ClCompile Include="DirectionalLightComponent.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectionalLightActor.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component.h">
@@ -529,9 +532,6 @@
     </ClInclude>
     <ClInclude Include="BoneTransform.h">
       <Filter>SourceFiles\F_Editor\Renderers</Filter>
-    </ClInclude>
-    <ClInclude Include="LineRenderer.h">
-      <Filter>SourceFiles\G_Unused/未使用ファイル</Filter>
     </ClInclude>
     <ClInclude Include="WinMain.h">
       <Filter>SourceFiles\A_Mains</Filter>
@@ -730,6 +730,12 @@
     </ClInclude>
     <ClInclude Include="Debug_memory.h">
       <Filter>SourceFiles\F_Editor\Debugs</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectionalLightComponent.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectionalLightActor.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

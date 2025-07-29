@@ -34,4 +34,5 @@
 #include "PauseMenu.h"
 #include "Canvas.h"
 //ライト関係のインクルード
+#include "DirectionalLightActor.h"
 #include "PointLightComponent.h"

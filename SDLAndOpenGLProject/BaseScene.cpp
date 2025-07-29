@@ -38,6 +38,9 @@ bool BaseScene::Initialize()
 		return false;
 	}
 
+	mDirectionalLightActor = new DirectionalLightActor();
+
+
 	// Physics World‚ğì¬
 	mPhysWorld = new PhysWorld(this);
 
