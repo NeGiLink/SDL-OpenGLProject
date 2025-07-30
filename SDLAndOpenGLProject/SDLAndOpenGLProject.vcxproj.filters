@@ -403,10 +403,10 @@
       <Filter>SourceFiles\F_Editor\Debugs</Filter>
     </ClCompile>
     <ClCompile Include="DirectionalLightComponent.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>SourceFiles\F_Editor\Components</Filter>
     </ClCompile>
     <ClCompile Include="DirectionalLightActor.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>SourceFiles\F_Editor\Actors</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -732,10 +732,10 @@
       <Filter>SourceFiles\F_Editor\Debugs</Filter>
     </ClInclude>
     <ClInclude Include="DirectionalLightComponent.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>SourceFiles\F_Editor\Components</Filter>
     </ClInclude>
     <ClInclude Include="DirectionalLightActor.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>SourceFiles\F_Editor\Actors</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -16,7 +16,7 @@
 #include "GBuffer.h"
 #include "PointLightComponent.h"
 #include "DebugGrid.h"
-
+#include "DirectionalLightComponent.h"
 
 Renderer::Renderer(GameWinMain* game)
 	: mNowScene(nullptr)
@@ -301,8 +301,8 @@ void Renderer::Draw3DScene(unsigned int framebuffer, const Matrix4& view, const 
 	mMeshShader->SetActive();
 	// ビュー投影行列を更新する
 	mMeshShader->SetMatrixUniform("uViewProj", view * proj);
-	mMeshShader->SetVectorUniform("uViewPos", view.GetTranslation());
-	mMeshShader->SetVectorUniform("uLightPos", mDirLight.mDirection);
+	mMeshShader->SetVectorUniform("uViewPos", WindowRenderProperty::GetViewEye());
+	mMeshShader->SetVectorUniform("uLightDir", mDirLight->mDirection);
 	// 照明のユニフォームを更新する
 	if (lit)
 	{
@@ -863,11 +863,11 @@ void Renderer::SetLightUniforms(Shader* shader, const Matrix4& view)
 	invView.Invert();
 	shader->SetVectorUniform("uCameraPos", invView.GetTranslation());
 	// Ambient light
-	shader->SetVectorUniform("uAmbientLight", mDirLight.mAmbientColor);
+	shader->SetVectorUniform("uAmbientLight", mDirLight->mAmbientColor);
 	// Directional light
-	shader->SetVectorUniform("uDirLight.mDirection",mDirLight.mDirection);
-	shader->SetVectorUniform("uDirLight.mDiffuseColor",mDirLight.mDiffuseColor);
-	shader->SetVectorUniform("uDirLight.mSpecColor",mDirLight.mSpecColor);
+	shader->SetVectorUniform("uDirLight.mDirection",mDirLight->mDirection);
+	shader->SetVectorUniform("uDirLight.mDiffuseColor",mDirLight->mDiffuseColor);
+	shader->SetVectorUniform("uDirLight.mSpecColor",mDirLight->mSpecColor);
 }
 
 Vector3 Renderer::Unproject(const Vector3& screenPoint) const

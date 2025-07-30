@@ -27,8 +27,6 @@ void SkeletalMeshRenderer::Draw(Shader* shader)
 				shader->SetMatrixUniforms("uMatrixPalette",
 					&mAnimator->GetPalette().mEntry[0],
 					SkeletonLayout::MAX_SKELETON_BONES);
-				// Set specular power
-				shader->SetFloatUniform("uSpecPower", mMeshs[i]->GetMaterialInfo()[j].Shininess);
 				Texture* t = nullptr;
 				// Set the active texture
 				t = mMeshs[i]->GetTexture(j);
