@@ -49,6 +49,9 @@ void FPSCamera::Update(float deltaTime)
 
 	// マトリックスを作成し、ビューとして設定します。
 	Matrix4 view = Matrix4::CreateLookAt(cameraPos, target, up);
+	WindowRenderProperty::SetViewEye(cameraPos);
+	WindowRenderProperty::SetViewTarget(target);
+	WindowRenderProperty::SetViewUp(up);
 	SetViewMatrix(view);
 }
 

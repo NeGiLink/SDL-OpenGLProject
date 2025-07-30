@@ -15,7 +15,6 @@ DirectionalLightActor::~DirectionalLightActor()
 
 void DirectionalLightActor::ActorInput(const InputState& keyState)
 {
-	/*
 	if (keyState.Keyboard.GetKey(KEY_Q))
 	{
 		// Rotate left
@@ -28,5 +27,4 @@ void DirectionalLightActor::ActorInput(const InputState& keyState)
 		Quaternion rot = Quaternion::CreateFromAxisAngle(Vector3::UnitZ, 0.1f);
 		SetLocalRotation(GetLocalRotation() * rot);
 	}
-	*/
 }

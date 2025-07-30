@@ -6,21 +6,7 @@
 * ===エンジン内部処理/Engine internal processing===
 */
 
-//書籍元を改造したファイル
-//環境光の構造体
-struct DirectionalLightData
-{
-	// Direction of light
-	Vector3 mDirection;
-	// Diffuse color
-	Vector3 mDiffuseColor;
-	// Ambient color
-	Vector3 mAmbientColor;
-	// Specular color
-	Vector3 mSpecColor;
-	//位置
-	Vector3 mPosition;
-};
+
 // 3D描画のレンダラー
 class Renderer
 {
@@ -80,7 +66,7 @@ private:
 	Matrix4												mProjection;
 
 	// Lighting data
-	DirectionalLightData								mDirLight;
+	struct DirectionalLightData*						mDirLight;
 	// Window
 	SDL_Window*											mWindow;
 	// OpenGL context
@@ -138,9 +124,9 @@ public:
 	//カメラのビュー行列のSetter
 	void												SetViewMatrix(const Matrix4& view) { mView = view; }
 	//DirLightのGetter
-	DirectionalLightData&								GetDirectionalLight() { return mDirLight; }
+	struct DirectionalLightData*						GetDirectionalLight() { return mDirLight; }
 	//DirLightのSetter
-	void												SetDirectionalLight(DirectionalLightData& dirLight) { mDirLight = dirLight; }
+	void												SetDirectionalLight(DirectionalLightData* dirLight) { mDirLight = dirLight; }
 	// Given a screen space point, unprojects it into world space,
 	// based on the current 3D view/projection matrices
 	// Expected ranges:

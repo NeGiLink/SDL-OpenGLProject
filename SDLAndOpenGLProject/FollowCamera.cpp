@@ -26,6 +26,9 @@ void FollowCamera::Update(float deltaTime)
 		target.y += 1.5f;
 		// カメラのビュー行列を作成
 		Matrix4 view = Matrix4::CreateLookAt(mActualPos, target, Vector3::UnitY);
+		WindowRenderProperty::SetViewEye(mActualPos);
+		WindowRenderProperty::SetViewTarget(target);
+		WindowRenderProperty::SetViewUp(Vector3::UnitY);
 		SetViewMatrix(view);
 	}
 	else
@@ -49,6 +52,9 @@ void FollowCamera::Update(float deltaTime)
 		// 理想ではなく、ここに実際の位置を使用してください。
 		Matrix4 view = Matrix4::CreateLookAt(mActualPos, target,
 			Vector3::UnitY);
+		WindowRenderProperty::SetViewEye(mActualPos);
+		WindowRenderProperty::SetViewTarget(target);
+		WindowRenderProperty::SetViewUp(Vector3::UnitY);
 		SetViewMatrix(view);
 	}
 }

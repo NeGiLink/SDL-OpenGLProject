@@ -26,8 +26,6 @@ void MeshRenderer::Draw(Shader* shader)
 				// Set the world transform
 				shader->SetMatrixUniform("uWorldTransform",
 					mOwner->GetWorldTransform());
-				// Set specular power
-				shader->SetFloatUniform("uSpecPower", mMeshs[i]->GetMaterialInfo()[j].Shininess);
 				Texture* t = nullptr;
 				// Set the active texture
 				t = mMeshs[i]->GetTexture(j);
