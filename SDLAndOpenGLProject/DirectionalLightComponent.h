@@ -3,6 +3,8 @@
 #include "Shader.h"
 #include "Actor.h"
 
+
+//ŠÂ‹«Œõ‚Ì‹@”\
 class DirectionalLightComponent : public Component
 {
 private:

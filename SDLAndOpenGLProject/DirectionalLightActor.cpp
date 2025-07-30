@@ -5,7 +5,7 @@ DirectionalLightActor::DirectionalLightActor()
 	, mDirectionalLightComp(nullptr)
 {
 	mDirectionalLightComp = new DirectionalLightComponent(this);
-	Quaternion rot = Quaternion::CreateFromAxisAngle(Vector3::UnitZ, 90.0f); // 90度：X→Yに向く → Y成分 = 1（昼！）
+	Quaternion rot = Quaternion::CreateFromAxisAngle(Vector3::UnitZ, -90.0f); // 90度：X→Yに向く → Y成分 = 1（昼！）
 	SetLocalRotation(rot);
 }
 
@@ -15,6 +15,7 @@ DirectionalLightActor::~DirectionalLightActor()
 
 void DirectionalLightActor::ActorInput(const InputState& keyState)
 {
+	/*
 	if (keyState.Keyboard.GetKey(KEY_Q))
 	{
 		// Rotate left
@@ -27,4 +28,5 @@ void DirectionalLightActor::ActorInput(const InputState& keyState)
 		Quaternion rot = Quaternion::CreateFromAxisAngle(Vector3::UnitZ, 0.1f);
 		SetLocalRotation(GetLocalRotation() * rot);
 	}
+	*/
 }

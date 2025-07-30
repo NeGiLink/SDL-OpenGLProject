@@ -24,10 +24,10 @@ void DirectionalLightComponent::OnUpdateWorldTransform()
 
     // ライト方向を保存
     mDirectionalLight.mDirection = lightDir;
-
+    /*
     // ライトのY成分（太陽の高さ）を使って環境光を調整
     float sunHeight = lightDir.y; // y = 1:真上, y = 0:水平, y = -1:真下
-
+	Debug::Log("Sun Height: %f", sunHeight);
     // 昼夜の補間
     Vector3 dayColor(0.7f, 0.7f, 0.6f);
     Vector3 nightColor(0.05f, 0.05f, 0.1f);
@@ -37,7 +37,39 @@ void DirectionalLightComponent::OnUpdateWorldTransform()
 
     // 最終的にライトに適用（例）
     mDirectionalLight.mAmbientColor = ambient;
-    mDirectionalLight.mPosition = mOwner->GetPosition();
 
+    float y = Math::Clamp(sunHeight, 0.0f, 1.0f); // 太陽の高さ
+
+    // 太陽光の最大色（昼間の色）
+    Vector3 dayDiffuse = Vector3(1.0f, 0.95f, 0.8f); // やや暖色
+    // 太陽光の最小色（夜の色）
+    Vector3 nightDiffuse = Vector3(0.05f, 0.05f, 0.1f); // ほぼ暗闇（少し青系）
+
+    // 高さに応じて線形補間
+    mDirectionalLight.mDiffuseColor = Vector3::Lerp(nightDiffuse, dayDiffuse, y);
+    */
+
+
+
+    float y = Math::Clamp(lightDir.y, 0.0f, 1.0f);
+
+    // Ambient（環境光）
+    Vector3 dayAmbient = Vector3(0.7f, 0.7f, 0.6f);
+    Vector3 nightAmbient = Vector3(0.05f, 0.05f, 0.1f);
+    mDirectionalLight.mAmbientColor = Vector3::Lerp(dayAmbient, nightAmbient, y);
+
+    // Diffuse（拡散光）
+    Vector3 dayDiffuse = Vector3(1.0f, 0.95f, 0.8f);
+    Vector3 nightDiffuse = Vector3(0.05f, 0.05f, 0.1f);
+    mDirectionalLight.mDiffuseColor = Vector3::Lerp(dayDiffuse, nightDiffuse, y);
+
+    // Specular（鏡面反射）
+    Vector3 daySpecular = Vector3(1.0f, 1.0f, 1.0f);
+    Vector3 nightSpecular = Vector3(0.0f, 0.0f, 0.0f);
+    mDirectionalLight.mSpecColor = Vector3::Lerp(daySpecular, nightSpecular, y);
+
+
+
+    mDirectionalLight.mPosition = mOwner->GetPosition();
 	mGame->GetWinMain()->GetRenderer()->SetDirectionalLight(mDirectionalLight);
 }
