@@ -14,6 +14,7 @@
 #include <GL/glew.h>
 #include "SkeletalMeshRenderer.h"
 #include "GBuffer.h"
+#include "ShadowMap.h"
 #include "PointLightComponent.h"
 #include "DebugGrid.h"
 #include "DirectionalLightComponent.h"
@@ -81,12 +82,6 @@ bool Renderer::Initialize(float screenWidth, float screenHeight)
 	// これをクリア。
 	glGetError();
 
-	// シェーダーを作成/コンパイルできることを確認してください
-	if (!LoadShaders())
-	{
-		SDL_Log("Failed to load shaders.");
-		return false;
-	}
 	
 	// 描画用の2D矩形を作成する
 	CreateSpriteVerts();
@@ -105,7 +100,20 @@ bool Renderer::Initialize(float screenWidth, float screenHeight)
 		SDL_Log("Failed to create G-buffer.");
 		return false;
 	}
+
+	mShadowMap = new ShadowMap();
+	if(!mShadowMap->Initialize(width, height))
+	{
+		SDL_Log("Failed to create shadow map.");
+		return false;
+	}
 	
+	// シェーダーを作成/コンパイルできることを確認してください
+	if (!LoadShaders())
+	{
+		SDL_Log("Failed to load shaders.");
+		return false;
+	}
 
 	return true;
 }
@@ -179,6 +187,16 @@ bool Renderer::LoadShaders()
 		1.0f);
 	mGGlobalShader->SetMatrixUniform("uWorldTransform", gbufferWorld);
 
+	glActiveTexture(GL_TEXTURE3); // 空いているテクスチャユニットを選択
+	glBindTexture(GL_TEXTURE_2D, mShadowMap->GetDepthTexture());
+	mGGlobalShader->SetIntUniform("uShadowMap", 3);
+
+	mShadowShader = new Shader();
+	if (!mShadowShader->Load("ShadowDepth.vert", "ShadowDepth.frag"))
+	{
+		return false;
+	}
+
 	// GBufferからポイントライト用のシェーダーを作成する
 	mGPointLightShader = new Shader();
 	if (!mGPointLightShader->Load("BasicMesh.vert","GBufferPointLight.frag"))
@@ -206,9 +224,15 @@ void Renderer::Draw()
 	//Meshの順番を変更
 	MeshOrderUpdate();
 
+	mShadowMap->UpdateLightMatrix(mDirLight.mDirection.Normalized(), Vector3::Zero);
+	Matrix4 lightViewProj = mShadowMap->GetLightViewProj();
+	mGGlobalShader->SetActive();
+	mGGlobalShader->SetMatrixUniform("uLightViewProj", lightViewProj);
+	// ライト視点で深度情報をシャドウマップに描画
+	DrawShadow3DScene(lightViewProj);
 
 	// G-bufferに3Dシーンを描画します。
-	Draw3DScene(mGBuffer->GetBufferID(), mView, mProjection, 1.0f, false);
+	Draw3DScene(mGBuffer->GetBufferID(), mView, mProjection, 1.0f, true);
 	// フレームバッファをゼロ（スクリーンのフレームバッファ）に戻します
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	// Gバッファから描画する
@@ -279,15 +303,14 @@ void Renderer::Draw()
 	SDL_GL_SwapWindow(mWindow);
 }
 
-void Renderer::Draw3DScene(unsigned int framebuffer, const Matrix4& view, const Matrix4& proj,
-	float viewPortScale, bool lit)
+void Renderer::Draw3DScene(unsigned int framebuffer, const Matrix4& view, const Matrix4& proj,float viewPortScale, bool lit)
 {
 	// 現在のフレームバッファを設定する
 	glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
 
 	// スケールに基づいてビューポートサイズを設定します
 	glViewport(0, 0,static_cast<int>(WindowRenderProperty::GetWidth() * viewPortScale),static_cast<int>(WindowRenderProperty::GetHeight() * viewPortScale));
-
+	
 	// カラー バッファ/深度バッファをクリア
 	glClearColor(Color::mClearColor.x, Color::mClearColor.y, Color::mClearColor.z, Color::mClearColor.w);
 	glDepthMask(GL_TRUE);
@@ -297,17 +320,13 @@ void Renderer::Draw3DScene(unsigned int framebuffer, const Matrix4& view, const 
 	// アルファブレンドを無効にする
 	glEnable(GL_DEPTH_TEST);
 	glDisable(GL_BLEND);
-	// メッシュシェーダーをアクティブに設定します
+
+	// メッシュ（静的）
 	mMeshShader->SetActive();
-	// ビュー投影行列を更新する
 	mMeshShader->SetMatrixUniform("uViewProj", view * proj);
-	mMeshShader->SetVectorUniform("uViewPos", WindowRenderProperty::GetViewEye());
-	mMeshShader->SetVectorUniform("uLightDir", mDirLight->mDirection);
-	// 照明のユニフォームを更新する
-	if (lit)
-	{
-		SetLightUniforms(mMeshShader, view);
-	}
+	//mMeshShader->SetVectorUniform("uViewPos", WindowRenderProperty::GetViewEye());
+	//mMeshShader->SetVectorUniform("uLightDir", mDirLight.mDirection);
+	SetLightUniforms(mMeshShader, view);
 
 	for (auto mc : mMeshComps)
 	{
@@ -322,10 +341,7 @@ void Renderer::Draw3DScene(unsigned int framebuffer, const Matrix4& view, const 
 	// ビュー投影行列を更新する
 	mSkinnedShader->SetMatrixUniform("uViewProj", view * proj);
 	// 照明のユニフォームを更新する
-	if (lit)
-	{
-		SetLightUniforms(mSkinnedShader, view);
-	}
+	SetLightUniforms(mSkinnedShader, view);
 	for (auto sk : mSkeletalMeshes)
 	{
 		if (sk->GetVisible())
@@ -384,6 +400,30 @@ void Renderer::Draw3DScene(unsigned int framebuffer, const Matrix4& view, const 
 	glDepthMask(GL_TRUE);  // 書き込みを戻す
 }
 
+void Renderer::DrawShadow3DScene(const Matrix4& lightViewProj)
+{
+	mShadowMap->BeginRender();
+
+	glClearColor(Color::mClearColor.x, Color::mClearColor.y, Color::mClearColor.z, Color::mClearColor.w);
+	glDepthMask(GL_TRUE);
+
+	glEnable(GL_DEPTH_TEST);
+	glDisable(GL_BLEND);
+
+	mShadowShader->SetActive();
+	mShadowShader->SetMatrixUniform("uLightViewProj", lightViewProj);
+
+	for (auto mc : mMeshComps)
+	{
+		if (mc->GetVisible())
+		{
+			mc->DrawForShadowMap(mShadowShader);
+		}
+	}
+
+	mShadowMap->EndRender(); 
+}
+
 void Renderer::DrawFromGBuffer()
 {
 	// グローバルライティングパスの深度テストを無効にします
@@ -394,6 +434,11 @@ void Renderer::DrawFromGBuffer()
 	mSpriteVerts->SetActive();
 	// Gバッファーテクスチャをサンプリングするように設定する
 	mGBuffer->SetTexturesActive();
+
+	glActiveTexture(GL_TEXTURE3);
+	glBindTexture(GL_TEXTURE_2D, mShadowMap->GetDepthTexture());
+	mGGlobalShader->SetIntUniform("uShadowMap", 3);
+
 	// 照明ユニフォームを設定する
 	SetLightUniforms(mGGlobalShader, mView);
 	// 三角形を描画
@@ -442,6 +487,12 @@ void Renderer::Shutdown()
 		mGBuffer->Destroy();
 		delete mGBuffer;
 		mGBuffer = nullptr;
+	}
+	// シャドウマップを取り除く
+	if (mShadowMap)
+	{
+		delete mShadowMap;
+		mShadowMap = nullptr;
 	}
 
 	// ポイントライトを削除する
@@ -510,6 +561,13 @@ void Renderer::Shutdown()
 		mGGlobalShader->Unload();
 		delete mGGlobalShader;
 		mGGlobalShader = nullptr;
+	}
+	// シャドウマップのシェーダーを解放
+	if(mShadowShader)
+	{
+		mShadowShader->Unload();
+		delete mShadowShader;
+		mShadowShader = nullptr;
 	}
 	// Gバッファーのポイントライトシェーダーを解放
 	if (mGPointLightShader)
@@ -863,11 +921,11 @@ void Renderer::SetLightUniforms(Shader* shader, const Matrix4& view)
 	invView.Invert();
 	shader->SetVectorUniform("uCameraPos", invView.GetTranslation());
 	// Ambient light
-	shader->SetVectorUniform("uAmbientLight", mDirLight->mAmbientColor);
+	shader->SetVectorUniform("uAmbientLight", mDirLight.mAmbientColor);
 	// Directional light
-	shader->SetVectorUniform("uDirLight.mDirection",mDirLight->mDirection);
-	shader->SetVectorUniform("uDirLight.mDiffuseColor",mDirLight->mDiffuseColor);
-	shader->SetVectorUniform("uDirLight.mSpecColor",mDirLight->mSpecColor);
+	shader->SetVectorUniform("uDirLight.mDirection",mDirLight.mDirection);
+	shader->SetVectorUniform("uDirLight.mDiffuseColor",mDirLight.mDiffuseColor);
+	shader->SetVectorUniform("uDirLight.mSpecColor",mDirLight.mSpecColor);
 }
 
 Vector3 Renderer::Unproject(const Vector3& screenPoint) const

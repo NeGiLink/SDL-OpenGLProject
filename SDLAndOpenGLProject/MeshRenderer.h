@@ -21,6 +21,7 @@ public:
 								~MeshRenderer();
 	// このメッシュコンポーネントを描画
 	virtual void				Draw(class Shader* shader);
+	virtual void				DrawForShadowMap(class Shader* shader);
 	// メッシュコンポーネントで使用されるメッシュ/テクスチャインデックスを設定する
 	virtual void				SetMesh(class Mesh* mesh) 
 	{

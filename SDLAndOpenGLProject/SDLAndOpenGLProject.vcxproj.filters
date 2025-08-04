@@ -408,6 +408,9 @@
     <ClCompile Include="DirectionalLightActor.cpp">
       <Filter>SourceFiles\F_Editor\Actors</Filter>
     </ClCompile>
+    <ClCompile Include="ShadowMap.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component.h">
@@ -737,6 +740,9 @@
     <ClInclude Include="DirectionalLightActor.h">
       <Filter>SourceFiles\F_Editor\Actors</Filter>
     </ClInclude>
+    <ClInclude Include="ShadowMap.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -786,6 +792,12 @@
       <Filter>Shaders</Filter>
     </None>
     <None Include="..\Shaders\Arrow.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Shaders\ShadowDepth.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Shaders\ShadowDepth.vert">
       <Filter>Shaders</Filter>
     </None>
   </ItemGroup>

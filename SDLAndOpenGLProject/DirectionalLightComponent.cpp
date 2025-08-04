@@ -20,7 +20,7 @@ void DirectionalLightComponent::OnUpdateWorldTransform()
 
     // 回転を適用してライトの最終的な方向を得る（ワールド空間）
     Vector3 lightDir = Vector3::Transform(baseDir, mOwner->GetRotation());
-    lightDir.Normalize();
+    //lightDir.Normalize();
 
     // ライト方向を保存
     mDirectionalLight.mDirection = lightDir;
@@ -47,5 +47,5 @@ void DirectionalLightComponent::OnUpdateWorldTransform()
 
 
     mDirectionalLight.mPosition = mOwner->GetPosition();
-	mGame->GetWinMain()->GetRenderer()->SetDirectionalLight(&mDirectionalLight);
+	mGame->GetWinMain()->GetRenderer()->SetDirectionalLight(mDirectionalLight);
 }

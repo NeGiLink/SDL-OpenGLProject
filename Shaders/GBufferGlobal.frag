@@ -34,6 +34,27 @@ uniform vec3 uAmbientLight;
 // Directional Light
 uniform DirectionalLight uDirLight;
 
+uniform sampler2DShadow uShadowMap;
+uniform mat4 uLightViewProj;
+
+float ComputeShadow(vec4 worldPos)
+{
+    vec4 lightSpacePos = worldPos * uLightViewProj;
+    vec3 projCoords = lightSpacePos.xyz / lightSpacePos.w;
+    projCoords = projCoords * 0.5 + 0.5;
+
+    // 範囲外チェック
+    if (projCoords.x < 0.0 || projCoords.x > 1.0 ||
+        projCoords.y < 0.0 || projCoords.y > 1.0 ||
+        projCoords.z < 0.0 || projCoords.z > 1.0)
+    {
+        return 1.0; // ライト視錐台外 → 明るい
+    }
+
+    float bias = 0.005;
+    return texture(uShadowMap, vec3(projCoords.xy, projCoords.z - bias));
+}
+
 void main()
 {
 	vec3 gbufferDiffuse = texture(uGDiffuse, fragTexCoord).xyz;
@@ -53,9 +74,13 @@ void main()
 	float NdotL = dot(N, L);
 	if (NdotL > 0)
 	{
-		vec3 Diffuse = uDirLight.mDiffuseColor * dot(N, L);
-		Phong += Diffuse;
+		vec3 Diffuse = uDirLight.mDiffuseColor * NdotL;
+		float shadow = ComputeShadow(vec4(gbufferWorldPos, 1.0));
+		shadow = clamp(shadow, 0.0, 1.0);
+		Phong += Diffuse * shadow; // ← shadowを掛けるのは拡散光のみに限定
 	}
+
+
 	// Clamp light between 0-1 RGB values
 	Phong = clamp(Phong, 0.0, 1.0);
 

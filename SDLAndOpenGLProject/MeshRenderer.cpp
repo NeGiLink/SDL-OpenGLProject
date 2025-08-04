@@ -61,3 +61,28 @@ void MeshRenderer::Draw(Shader* shader)
 		}
 	}
 }
+
+void MeshRenderer::DrawForShadowMap(Shader* shader)
+{
+	for (unsigned int i = 0; i < mMeshs.size(); i++)
+	{
+		for (unsigned int j = 0; j < mMeshs[i]->GetVertexArrays().size(); j++)
+		{
+			if (!mMeshs[i]) continue;
+
+			// ワールド変換のみ設定
+			shader->SetMatrixUniform("uWorldTransform", mOwner->GetWorldTransform());
+
+			// ブレンドなどはシャドウマップ描画時は一切不要
+			glDisable(GL_BLEND);
+			glDepthMask(GL_TRUE);
+
+			// 頂点配列をアクティブに
+			VertexArray* va = mMeshs[i]->GetVertexArrays()[j];
+			va->SetActive();
+
+			// 描画
+			glDrawElements(GL_TRIANGLES, va->GetNumIndices(), GL_UNSIGNED_INT, nullptr);
+		}
+	}
+}

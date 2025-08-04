@@ -18,7 +18,7 @@ public:
 		NUM_GBUFFER_TEXTURES
 	};
 private:
-	// Textures associated with G-buffer
+	// Gバッファに関連するテクスチャ
 	vector<class Texture*>		mTextures;
 	// Frame buffer object ID
 	unsigned int				mBufferID;
