@@ -1435,6 +1435,16 @@ public:
 		return q;
 	}
 
+	Matrix4 RemoveScale()const
+	{
+		Vector3 scale = this->GetScale(); // 自作メソッドで各軸のスケールを取得
+		Matrix4 noScale = *this;
+		noScale.mat[0][0] /= scale.x;
+		noScale.mat[1][1] /= scale.y;
+		noScale.mat[2][2] /= scale.z;
+		return noScale;
+	}
+
 
 	// x、y、zのスケールを持つスケール行列を作成
 	static Matrix4 CreateScale(float xScale, float yScale, float zScale)

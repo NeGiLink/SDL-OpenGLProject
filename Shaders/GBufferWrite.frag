@@ -35,24 +35,6 @@ uniform vec3 specularColor;  // 鏡面反射光
 uniform float shininess;     // 鏡面反射の鋭さ
 
 
-// --- シャドウ用 ---
-uniform sampler2DShadow uShadowMap;          // シャドウマップ（depth texture）
-uniform mat4 uLightSpaceMatrix;              // ライトのビュー・プロジェクション行列
-
-float CalculateShadow(vec4 fragPosLightSpace)
-{
-    // 射影座標系 → NDC → [0,1]へ変換
-    vec3 projCoords = fragPosLightSpace.xyz / fragPosLightSpace.w;
-    projCoords = projCoords * 0.5 + 0.5;
-
-    // ライトから見た深度より奥にいるかチェック（バイアス込み）
-    float bias = 0.005; // アーティファクト防止用
-    float shadow = texture(uShadowMap, vec3(projCoords.xy, projCoords.z - bias));
-
-    // 影なら0、明るい場所なら1
-    return shadow;
-}
-
 void main()
 {
 
