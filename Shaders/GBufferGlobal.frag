@@ -51,8 +51,23 @@ float ComputeShadow(vec4 worldPos)
         return 1.0; // ライト視錐台外 → 明るい
     }
 
+    float shadow = 0.0;
     float bias = 0.005;
-    return texture(uShadowMap, vec3(projCoords.xy, projCoords.z - bias));
+    float texelSize = 1.0 / 1024.0; // シャドウマップのサイズに合わせる
+
+    // 3x3 PCFサンプリング
+    for (int x = -1; x <= 1; ++x)
+    {
+        for (int y = -1; y <= 1; ++y)
+        {
+            vec2 offset = vec2(x, y) * texelSize;
+            shadow += texture(uShadowMap, vec3(projCoords.xy + offset, projCoords.z - bias));
+        }
+    }
+
+    shadow /= 9.0; // サンプル数で割る（3x3=9）
+
+    return shadow;
 }
 
 void main()
