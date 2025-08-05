@@ -27,6 +27,7 @@ void Stages00::Initialize()
 	mFloor00->SetLocalPosition(pos);
 	mFloor00->SetActorTag(ActorTag::Ground);
 	mFloor00->AddBoxCollider();
+
 	mDebugStage2 = new MeshActor();
 	mDebugStage2->Load("DebugStage.fbx");
 	pos = Vector3(0.0f, 9.5f, 10.5f);

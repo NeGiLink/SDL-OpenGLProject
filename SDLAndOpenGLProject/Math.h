@@ -452,65 +452,24 @@ public:
 	}
 
 	// 二つのベクトルのクロス積（a × b）
-	static Vector3 Cross(const Vector3& a, const Vector3& b)
-	{
-		Vector3 temp;
-		temp.x = a.y * b.z - a.z * b.y;
-		temp.y = a.z * b.x - a.x * b.z;
-		temp.z = a.x * b.y - a.y * b.x;
-		return temp;
-	}
+	static Vector3 Cross(const Vector3& a, const Vector3& b);
 
 	// 二つのベクトルのクロス積（a × b）
-	Vector3 Cross(const Vector3& b) const
-	{
-		Vector3 temp;
-		temp.x = y * b.z - z * b.y;
-		temp.y = z * b.x - x * b.z;
-		temp.z = x * b.y - y * b.x;
-		return temp;
-	}
+	Vector3 Cross(const Vector3& b) const;
 
 	// AからBへfによって線形補間
-	static Vector3 Lerp(const Vector3& a, const Vector3& b, float f)
-	{
-		return Vector3(a + f * (b - a));
-	}
+	static Vector3 Lerp(const Vector3& a, const Vector3& b, float f);
 
-	static Vector3 LerpXYZ(const Vector3& a, const Vector3& b, float f)
-	{
-		return Vector3(
-			Math::Lerp(a.x, b.x, f),
-			Math::Lerp(a.y, b.y, f),
-			Math::Lerp(a.z, b.z, f)
-		);
-	}
+	static Vector3 LerpXYZ(const Vector3& a, const Vector3& b, float f);
 
 	// N（正規化された）について反射する
-	static Vector3 Reflect(const Vector3& v, const Vector3& n)
-	{
-		return v - 2.0f * Vector3::Dot(v, n) * n;
-	}
+	static Vector3 Reflect(const Vector3& v, const Vector3& n);
 
 	// 成分ごとのMin
-	static Vector3 Min(const Vector3& a, const Vector3& b)
-	{
-		return Vector3(
-			std::min(a.x, b.x),
-			std::min(a.y, b.y),
-			std::min(a.z, b.z)
-		);
-	}
+	static Vector3 Min(const Vector3& a, const Vector3& b);
 
 	// 成分ごとのMax
-	static Vector3 Max(const Vector3& a, const Vector3& b)
-	{
-		return Vector3(
-			std::max(a.x, b.x),
-			std::max(a.y, b.y),
-			std::max(a.z, b.z)
-		);
-	}
+	static Vector3 Max(const Vector3& a, const Vector3& b);
 
 	static Vector3 Transform(const Vector3& vec, const class Matrix4& mat, float w = 1.0f);
 	// ベクトルを変換、w成分が再正規化
@@ -663,30 +622,16 @@ public:
 	}
 
 	// 渡されたベクトルを正規化
-	static Vector4 Normalize(const Vector4& vec)
-	{
-		Vector4 temp = vec;
-		temp.Normalize();
-		return temp;
-	}
+	static Vector4 Normalize(const Vector4& vec);
 
 	// 二つのベクトル間のドット積（a・b）
-	static float Dot(const Vector4& a, const Vector4& b)
-	{
-		return (a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w);
-	}
+	static float Dot(const Vector4& a, const Vector4& b);
 
 	// AからBへfによって線形補間
-	static Vector4 Lerp(const Vector4& a, const Vector4& b, float f)
-	{
-		return Vector4(a + f * (b - a));
-	}
+	static Vector4 Lerp(const Vector4& a, const Vector4& b, float f);
 
 	// N（正規化された）について反射
-	static Vector4 Reflect(const Vector4& v, const Vector4& n)
-	{
-		return v - 2.0f * Vector4::Dot(v, n) * n;
-	}
+	static Vector4 Reflect(const Vector4& v, const Vector4& n);
 
 	static const Vector4 Zero;
 	static const Vector4 UnitX;
@@ -783,52 +728,19 @@ public:
 	}
 
 	// xおよびyスケールを持つスケール行列を作成
-	static Matrix3 CreateScale(float xScale, float yScale)
-	{
-		float temp[3][3] =
-		{
-			{ xScale, 0.0f, 0.0f },
-			{ 0.0f, yScale, 0.0f },
-			{ 0.0f, 0.0f, 1.0f },
-		};
-		return Matrix3(temp);
-	}
+	static Matrix3 CreateScale(float xScale, float yScale);
 
-	static Matrix3 CreateScale(const Vector2& scaleVector)
-	{
-		return CreateScale(scaleVector.x, scaleVector.y);
-	}
+	static Matrix3 CreateScale(const Vector2& scaleVector);
 
 	// 均一な因子でスケール行列を作成
-	static Matrix3 CreateScale(float scale)
-	{
-		return CreateScale(scale, scale);
-	}
+	static Matrix3 CreateScale(float scale);
 
 	// Z軸回りの回転行列を作成
 	// シータはラジアンで表されます
-	static Matrix3 CreateRotation(float theta)
-	{
-		float temp[3][3] =
-		{
-			{ Math::Cos(theta), Math::Sin(theta), 0.0f },
-			{ -Math::Sin(theta), Math::Cos(theta), 0.0f },
-			{ 0.0f, 0.0f, 1.0f },
-		};
-		return Matrix3(temp);
-	}
+	static Matrix3 CreateRotation(float theta);
 
 	// xy平面上に翻訳行列を作成
-	static Matrix3 CreateTranslation(const Vector2& trans)
-	{
-		float temp[3][3] =
-		{
-			{ 1.0f, 0.0f, 0.0f },
-			{ 0.0f, 1.0f, 0.0f },
-			{ trans.x, trans.y, 1.0f },
-		};
-		return Matrix3(temp);
-	}
+	static Matrix3 CreateTranslation(const Vector2& trans);
 
 	static const Matrix3 Identity;
 };
@@ -852,25 +764,6 @@ public:
 	{
 		Set(inX, inY, inZ, inW);
 	}
-
-	void Rotate(const Vector3& axis, float angle) 
-	{
-		float scalar = Math::Sin(angle / 2.0f);
-		x = axis.x * scalar;
-		y = axis.y * scalar;
-		z = axis.z * scalar;
-		w = Math::Cos(angle / 2.0f);
-	}
-
-	Vector3 Rotate(const Vector3& v) const
-	{
-		// q * v * q^-1 を使う方法
-		Quaternion qv(v.x, v.y, v.z, 0.0f);
-		Quaternion result = (*this) * qv * Inverse();
-		return Vector3(result.x, result.y, result.z);
-	}
-
-
 	// 軸と角度からクォータニオンを構築します。
 	// 軸はすでに正規化されていると仮定し、
 	// 角度はラジアンで表されます。
@@ -895,142 +788,41 @@ public:
 		z *= -1.0f;
 	}
 
+	void Rotate(const Vector3& axis, float angle);
 
-	float LengthSq() const
-	{
-		return (x * x + y * y + z * z + w * w);
-	}
+	Vector3 Rotate(const Vector3& v) const;
 
-	float Length() const
-	{
-		return Math::Sqrt(LengthSq());
-	}
+	float LengthSq() const;
 
-	void Normalize()
-	{
-		float length = Length();
-		x /= length;
-		y /= length;
-		z /= length;
-		w /= length;
-	}
+	float Length() const;
+
+	void Normalize();
 
 	// 提供された四元数を正規化
-	static Quaternion Normalize(const Quaternion& q)
-	{
-		Quaternion retVal = q;
-		retVal.Normalize();
-		return retVal;
-	}
+	static Quaternion Normalize(const Quaternion& q);
 
 	// 線形補間
-	static Quaternion Lerp(const Quaternion& a, const Quaternion& b, float f)
-	{
-		Quaternion retVal;
-		retVal.x = Math::Lerp(a.x, b.x, f);
-		retVal.y = Math::Lerp(a.y, b.y, f);
-		retVal.z = Math::Lerp(a.z, b.z, f);
-		retVal.w = Math::Lerp(a.w, b.w, f);
-		retVal.Normalize();
-		return retVal;
-	}
+	static Quaternion Lerp(const Quaternion& a, const Quaternion& b, float f);
 
-	static float Dot(const Quaternion& a, const Quaternion& b)
-	{
-		return a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w;
-	}
+	static float Dot(const Quaternion& a, const Quaternion& b);
 
-	float Dot(const Quaternion& b) const
+	inline float Dot(const Quaternion& b) const
 	{
 		return x * b.x + y * b.y + z * b.z + w * b.w;
 	}
-	/*
-	inline Vector3 Quaternion::ToEulerAngles() const;
-	*/
 
-	inline static Quaternion AngleAxis(float angleDegrees, const Vector3& axis)
-	{
-		Vector3 normAxis = axis;
-		normAxis.Normalize();
-
-		float radians = angleDegrees * (Math::Pi / 180.0f); // 度→ラジアン変換
-		float halfAngle = radians * 0.5f;
-		float s = std::sin(halfAngle);
-		float c = std::cos(halfAngle);
-
-		return Quaternion(
-			normAxis.x * s,
-			normAxis.y * s,
-			normAxis.z * s,
-			c
-		);
-	}
+	static Quaternion AngleAxis(float angleDegrees, const Vector3& axis);
 
 	// 球面線形補間
-	static Quaternion Slerp(const Quaternion& a, const Quaternion& b, float f)
-	{
-		float rawCosm = Quaternion::Dot(a, b);
-
-		float cosom = -rawCosm;
-		if (rawCosm >= 0.0f)
-		{
-			cosom = rawCosm;
-		}
-
-		float scale0, scale1;
-
-		if (cosom < 0.9999f)
-		{
-			const float omega = Math::Acos(cosom);
-			const float invSin = 1.f / Math::Sin(omega);
-			scale0 = Math::Sin((1.f - f) * omega) * invSin;
-			scale1 = Math::Sin(f * omega) * invSin;
-		}
-		else
-		{
-			// クォータニオンが共線である場合は、線形補間を使用。
-			scale0 = 1.0f - f;
-			scale1 = f;
-		}
-
-		if (rawCosm < 0.0f)
-		{
-			scale1 = -scale1;
-		}
-
-		Quaternion retVal;
-		retVal.x = scale0 * a.x + scale1 * b.x;
-		retVal.y = scale0 * a.y + scale1 * b.y;
-		retVal.z = scale0 * a.z + scale1 * b.z;
-		retVal.w = scale0 * a.w + scale1 * b.w;
-		retVal.Normalize();
-		return retVal;
-	}
+	static Quaternion Slerp(const Quaternion& a, const Quaternion& b, float f);
 
 	// 連結
 	// qで回転した後にpを続ける
-	static Quaternion Concatenate(const Quaternion& q, const Quaternion& p)
-	{
-		Quaternion retVal;
-
-		// ベクトル成分:
-		// ps * qv + qs * pv + pv x qv
-		Vector3 qv(q.x, q.y, q.z);
-		Vector3 pv(p.x, p.y, p.z);
-		Vector3 newVec = p.w * qv + q.w * pv + Vector3::Cross(pv, qv);
-		retVal.x = newVec.x;
-		retVal.y = newVec.y;
-		retVal.z = newVec.z;
-
-		// スカラー成分:
-		// ps * qs - pv . qv
-		retVal.w = p.w * q.w - Vector3::Dot(pv, qv);
-
-		return retVal;
-	}
+	static Quaternion Concatenate(const Quaternion& q, const Quaternion& p);
 
 	// 四元数の逆行列を計算するメソッド
-	Quaternion Inverse() const {
+	inline Quaternion Inverse() const 
+	{
 		// ノルムの2乗
 		float normSquared = x * x + y * y + z * z + w * w;
 		if (normSquared == 0) 
@@ -1044,17 +836,9 @@ public:
 		return Quaternion(-x / normSquared, -y / normSquared, -z / normSquared, w / normSquared);
 	}
 
-	static Vector3 RotateVector(const Vector3 scale,const Quaternion& parent)
-	{
-		// ベクトルをクォータニオン形式に変換
-		Quaternion qv = Quaternion(0, scale.x, scale.y, scale.z);
-		// 回転を適用
-		qv = parent * qv * parent.Inverse();
-		// 回転後のベクトルを返す
-		return Vector3(qv.x, qv.y, qv.z);
-	}
+	static Vector3 RotateVector(const Vector3 scale, const Quaternion& parent);
 
-	Vector3 RotateVector(const Vector3& v) const
+	inline Vector3 RotateVector(const Vector3& v) const
 	{
 		// q * v * q^-1 を実装している
 		Quaternion qv(v.x, v.y, v.z, 1.0f);
@@ -1064,17 +848,10 @@ public:
 
 
 	// 指定軸と角度で回転クォータニオンを作成して返す関数（角度は度数）
-	static Quaternion CreateFromAxisAngle(const Vector3& axis, float angleDegrees)
-	{
-		// 角度をラジアンに変換
-		float angleRadians = Math::ToRadians(angleDegrees);
-		// axisが正規化されていることを前提にしているが、念のためNormalizeしてもOK
-		Vector3 normAxis = Vector3::Normalize(axis);
-		return Quaternion(normAxis, angleRadians);
-	}
+	static Quaternion CreateFromAxisAngle(const Vector3& axis, float angleDegrees);
 
 	// 自身の回転に、指定軸と角度の回転を追加する（角度は度数）
-	void RotateByAxisAngle(const Vector3& axis, float angleDegrees)
+	inline void RotateByAxisAngle(const Vector3& axis, float angleDegrees)
 	{
 		float angleRadians = Math::ToRadians(angleDegrees);
 		// 追加回転を生成
@@ -1083,112 +860,19 @@ public:
 		*this = deltaRot * (*this);              
 	}
 
-	Quaternion Normalized() const {
+	inline Quaternion Normalized() const 
+	{
 		float mag = sqrtf(x * x + y * y + z * z + w * w);
 		// 単位クォータニオンを返す
 		if (mag == 0.0f) return Quaternion(0, 0, 0, 1); 
 		return Quaternion(x / mag, y / mag, z / mag, w / mag);
 	}
 
-	static Quaternion LookRotation(const Vector3& forward, const Vector3& up = Vector3(0, 1, 0)) {
-		Vector3 f = forward.Normalized();
-		// 右方向
-		Vector3 r = up.Cross(f).Normalized();     
-		// 上方向（直交系）
-		Vector3 u = f.Cross(r);                   
+	static Quaternion LookRotation(const Vector3& forward, const Vector3& up = Vector3(0, 1, 0));
 
-		// 3x3 回転行列を作る
-		float m00 = r.x, m01 = u.x, m02 = f.x;
-		float m10 = r.y, m11 = u.y, m12 = f.y;
-		float m20 = r.z, m21 = u.z, m22 = f.z;
+	static float Angle(const Quaternion& a, const Quaternion& b);
 
-		float trace = m00 + m11 + m22;
-		Quaternion q;
-
-		if (trace > 0.0f) {
-			float s = 0.5f / sqrtf(trace + 1.0f);
-			q.w = 0.25f / s;
-			q.x = (m21 - m12) * s;
-			q.y = (m02 - m20) * s;
-			q.z = (m10 - m01) * s;
-		}
-		else {
-			if (m00 > m11 && m00 > m22) {
-				float s = 2.0f * sqrtf(1.0f + m00 - m11 - m22);
-				q.w = (m21 - m12) / s;
-				q.x = 0.25f * s;
-				q.y = (m01 + m10) / s;
-				q.z = (m02 + m20) / s;
-			}
-			else if (m11 > m22) {
-				float s = 2.0f * sqrtf(1.0f + m11 - m00 - m22);
-				q.w = (m02 - m20) / s;
-				q.x = (m01 + m10) / s;
-				q.y = 0.25f * s;
-				q.z = (m12 + m21) / s;
-			}
-			else {
-				float s = 2.0f * sqrtf(1.0f + m22 - m00 - m11);
-				q.w = (m10 - m01) / s;
-				q.x = (m02 + m20) / s;
-				q.y = (m12 + m21) / s;
-				q.z = 0.25f * s;
-			}
-		}
-
-		return q.Normalized();
-	}
-
-	static float Angle(const Quaternion& a, const Quaternion& b) {
-		float dot = a.Dot(b);
-		return std::acos(std::min(std::abs(dot), 1.0f)) * 2.0f; // ラジアン角
-	}
-	/*
-	static Quaternion Slerp(const Quaternion& a, const Quaternion& b, float t) {
-		float dot = a.Dot(b);
-
-		// 反転で最短経路に
-		Quaternion end = b;
-		if (dot < 0.0f) {
-			dot = -dot;
-			end = Quaternion(-b.x, -b.y, -b.z, -b.w);
-		}
-
-		if (dot > 0.9995f) {
-			// 線形補間 + 正規化
-			Quaternion result = Quaternion(
-				a.x + t * (end.x - a.x),
-				a.y + t * (end.y - a.y),
-				a.z + t * (end.z - a.z),
-				a.w + t * (end.w - a.w)
-			);
-			return result.Normalized();
-		}
-
-		float theta_0 = std::acos(dot);       // θ₀ = angle between input
-		float theta = theta_0 * t;            // θ = angle we move
-		float sin_theta = std::sin(theta);
-		float sin_theta_0 = std::sin(theta_0);
-
-		float s0 = std::cos(theta) - dot * sin_theta / sin_theta_0;
-		float s1 = sin_theta / sin_theta_0;
-
-		return Quaternion(
-			(a.x * s0) + (end.x * s1),
-			(a.y * s0) + (end.y * s1),
-			(a.z * s0) + (end.z * s1),
-			(a.w * s0) + (end.w * s1)
-		).Normalized();
-	}
-	*/
-
-	static Quaternion RotateTowards(const Quaternion& from, const Quaternion& to, float maxRadiansDelta) {
-		float angle = Quaternion::Angle(from, to);
-		if (angle == 0.0f) return to;
-
-		float t = std::min(1.0f, maxRadiansDelta / angle);
-		return Quaternion::Slerp(from, to, t);
-	}
+	static Quaternion RotateTowards(const Quaternion& from, const Quaternion& to, float maxRadiansDelta);
 
 	static const Quaternion Identity;
 
@@ -1358,31 +1042,31 @@ public:
 	void Invert();
 
 	// 行列の翻訳成分を取得する
-	Vector3 GetTranslation() const
+	inline Vector3 GetTranslation() const
 	{
 		return Vector3(mat[3][0], mat[3][1], mat[3][2]);
 	}
 
 	// 行列のX軸を取得する（前方）
-	Vector3 GetXAxis() const
+	inline Vector3 GetXAxis() const
 	{
 		return Vector3::Normalize(Vector3(mat[0][0], mat[0][1], mat[0][2]));
 	}
 
 	// 行列のY軸を取得してください（左）
-	Vector3 GetYAxis() const
+	inline Vector3 GetYAxis() const
 	{
 		return Vector3::Normalize(Vector3(mat[1][0], mat[1][1], mat[1][2]));
 	}
 
 	// 行列のZ軸を取得する（上）
-	Vector3 GetZAxis() const
+	inline Vector3 GetZAxis() const
 	{
 		return Vector3::Normalize(Vector3(mat[2][0], mat[2][1], mat[2][2]));
 	}
 
 	// 行列からスケール成分を抽出
-	Vector3 GetScale() const
+	inline Vector3 GetScale() const
 	{
 		Vector3 retVal;
 		retVal.x = Vector3(mat[0][0], mat[0][1], mat[0][2]).Length();
@@ -1391,7 +1075,7 @@ public:
 		return retVal;
 	}
 
-	Quaternion GetRotation() const
+	inline Quaternion GetRotation() const
 	{
 		Quaternion q;
 		float trace = mat[0][0] + mat[1][1] + mat[2][2];
@@ -1435,7 +1119,7 @@ public:
 		return q;
 	}
 
-	Matrix4 RemoveScale()const
+	inline Matrix4 RemoveScale()const
 	{
 		Vector3 scale = this->GetScale(); // 自作メソッドで各軸のスケールを取得
 		Matrix4 noScale = *this;
@@ -1447,22 +1131,9 @@ public:
 
 
 	// x、y、zのスケールを持つスケール行列を作成
-	static Matrix4 CreateScale(float xScale, float yScale, float zScale)
-	{
-		float temp[4][4] =
-		{
-			{ xScale, 0.0f, 0.0f, 0.0f },
-			{ 0.0f, yScale, 0.0f, 0.0f },
-			{ 0.0f, 0.0f, zScale, 0.0f },
-			{ 0.0f, 0.0f, 0.0f, 1.0f }
-		};
-		return Matrix4(temp);
-	}
+	static Matrix4 CreateScale(float xScale, float yScale, float zScale);
 
-	static Matrix4 CreateScale(const Vector3& scaleVector)
-	{
-		return CreateScale(scaleVector.x, scaleVector.y, scaleVector.z);
-	}
+	static Matrix4 CreateScale(const Vector3& scaleVector);
 
 	// 均一な因子でスケール行列を作成
 	static Matrix4 CreateScale(float scale)
@@ -1471,187 +1142,33 @@ public:
 	}
 
 	// x軸回転
-	static Matrix4 CreateRotationX(float theta)
-	{
-		float temp[4][4] =
-		{
-			{ 1.0f, 0.0f, 0.0f , 0.0f },
-			{ 0.0f, Math::Cos(theta), Math::Sin(theta), 0.0f },
-			{ 0.0f, -Math::Sin(theta), Math::Cos(theta), 0.0f },
-			{ 0.0f, 0.0f, 0.0f, 1.0f },
-		};
-		return Matrix4(temp);
-	}
+	static Matrix4 CreateRotationX(float theta);
 
 	// y軸回転
-	static Matrix4 CreateRotationY(float theta)
-	{
-		float temp[4][4] =
-		{
-			{ Math::Cos(theta), 0.0f, -Math::Sin(theta), 0.0f },
-			{ 0.0f, 1.0f, 0.0f, 0.0f },
-			{ Math::Sin(theta), 0.0f, Math::Cos(theta), 0.0f },
-			{ 0.0f, 0.0f, 0.0f, 1.0f },
-		};
-		return Matrix4(temp);
-	}
+	static Matrix4 CreateRotationY(float theta);
 
 	// z軸回転
-	static Matrix4 CreateRotationZ(float theta)
-	{
-		float temp[4][4] =
-		{
-			{ Math::Cos(theta), Math::Sin(theta), 0.0f, 0.0f },
-			{ -Math::Sin(theta), Math::Cos(theta), 0.0f, 0.0f },
-			{ 0.0f, 0.0f, 1.0f, 0.0f },
-			{ 0.0f, 0.0f, 0.0f, 1.0f },
-		};
-		return Matrix4(temp);
-	}
+	static Matrix4 CreateRotationZ(float theta);
 
 	// クォータニオンから回転行列を作成
 	static Matrix4 CreateFromQuaternion(const class Quaternion& q);
 	// Positionを取得(行優先)
-	static Matrix4 CreateTranslation(const Vector3& trans)
-	{
-		float temp[4][4] =
-		{
-			{ 1.0f, 0.0f, 0.0f, 0.0f },
-			{ 0.0f, 1.0f, 0.0f, 0.0f },
-			{ 0.0f, 0.0f, 1.0f, 0.0f },
-			{ trans.x, trans.y, trans.z, 1.0f }
-		};
-		return Matrix4(temp);
-	}
+	static Matrix4 CreateTranslation(const Vector3& trans);
 	//カメラがある位置（eye）から、特定のターゲット（target）を見るような視点変換行列を行う
-	static Matrix4 CreateLookAt(const Vector3& eye, const Vector3& target, const Vector3& up)
-	{
+	static Matrix4 CreateLookAt(const Vector3& eye, const Vector3& target, const Vector3& up);
 
-		Vector3 forward = Vector3::Normalize(target - eye);
-		Vector3 right = Vector3::Normalize(Vector3::Cross(up, forward));
-		Vector3 newUp = Vector3::Normalize(Vector3::Cross(forward, right));
-		Vector3 trans;
-		trans.x = -Vector3::Dot(right, eye);
-		trans.y = -Vector3::Dot(newUp, eye);
-		trans.z = -Vector3::Dot(forward, eye);
-
-		float temp[4][4] =
-		{
-			{ right.x, newUp.x, forward.x, 0.0f },
-			{ right.y, newUp.y, forward.y, 0.0f },
-			{ right.z, newUp.z, forward.z, 0.0f },
-			{ trans.x, trans.y, trans.z, 1.0f }
-		};
-		return Matrix4(temp);
-	}
-
-	static Matrix4 CreateOrtho(float width, float height, float near_SDL, float far_SDL)
-	{
-		float temp[4][4] =
-		{
-			{ 2.0f / width, 0.0f, 0.0f, 0.0f },
-			{ 0.0f, 2.0f / height, 0.0f, 0.0f },
-			{ 0.0f, 0.0f, 1.0f / (far_SDL - near_SDL), 0.0f },
-			{ 0.0f, 0.0f, near_SDL / (near_SDL - far_SDL), 1.0f }
-		};
-		return Matrix4(temp);
-	}
+	static Matrix4 CreateOrtho(float width, float height, float near_SDL, float far_SDL);
 
 	//透視投影行列（Perspective Projection Matrix）を作成する関数
 	//3D空間のシーンを、カメラを通して「遠くの物は小さく見える」ようなパース（遠近感）付きの2D画面に投影する行列を構築
-	static Matrix4 CreatePerspectiveFOV(float fovY, float width, float height, float near_SDL, float far_SDL)
-	{
-		float yScale = Math::Cot(fovY / 2.0f);
-		float xScale = yScale * height / width;
-		float temp[4][4] =
-		{
-			{ xScale, 0.0f, 0.0f, 0.0f },
-			{ 0.0f, yScale, 0.0f, 0.0f },
-			{ 0.0f, 0.0f, far_SDL / (far_SDL - near_SDL), 1.0f },
-			{ 0.0f, 0.0f, -near_SDL * far_SDL / (far_SDL - near_SDL), 0.0f }
-		};
-		return Matrix4(temp);
-	}
+	static Matrix4 CreatePerspectiveFOV(float fovY, float width, float height, float near_SDL, float far_SDL);
 
 	// シンプルビュー投影行列を作成する
-	static Matrix4 CreateSimpleViewProj(float width, float height)
-	{
-		float temp[4][4] =
-		{
-			{ 2.0f / width, 0.0f, 0.0f, 0.0f },
-			{ 0.0f, 2.0f / height, 0.0f, 0.0f },
-			{ 0.0f, 0.0f, 1.0f, 0.0f },
-			{ 0.0f, 0.0f, 1.0f, 1.0f }
-		};
-		return Matrix4(temp);
-	}
+	static Matrix4 CreateSimpleViewProj(float width, float height);
 
-	static Quaternion FromMatrix(const Matrix4& mat)
-	{
-		Quaternion q;
-		float trace = mat.mat[0][0] + mat.mat[1][1] + mat.mat[2][2];
+	static Quaternion FromMatrix(const Matrix4& mat);
 
-		if (trace > 0.0f)
-		{
-			float s = Math::Sqrt(trace + 1.0f) * 2.0f;
-			q.w = 0.25f * s;
-			q.x = (mat.mat[2][1] - mat.mat[1][2]) / s;
-			q.y = (mat.mat[0][2] - mat.mat[2][0]) / s;
-			q.z = (mat.mat[1][0] - mat.mat[0][1]) / s;
-		}
-		else
-		{
-			if (mat.mat[0][0] > mat.mat[1][1] && mat.mat[0][0] > mat.mat[2][2])
-			{
-				float s = Math::Sqrt(1.0f + mat.mat[0][0] - mat.mat[1][1] - mat.mat[2][2]) * 2.0f;
-				q.w = (mat.mat[2][1] - mat.mat[1][2]) / s;
-				q.x = 0.25f * s;
-				q.y = (mat.mat[0][1] + mat.mat[1][0]) / s;
-				q.z = (mat.mat[0][2] + mat.mat[2][0]) / s;
-			}
-			else if (mat.mat[1][1] > mat.mat[2][2])
-			{
-				float s = Math::Sqrt(1.0f + mat.mat[1][1] - mat.mat[0][0] - mat.mat[2][2]) * 2.0f;
-				q.w = (mat.mat[0][2] - mat.mat[2][0]) / s;
-				q.x = (mat.mat[0][1] + mat.mat[1][0]) / s;
-				q.y = 0.25f * s;
-				q.z = (mat.mat[1][2] + mat.mat[2][1]) / s;
-			}
-			else
-			{
-				float s = Math::Sqrt(1.0f + mat.mat[2][2] - mat.mat[0][0] - mat.mat[1][1]) * 2.0f;
-				q.w = (mat.mat[1][0] - mat.mat[0][1]) / s;
-				q.x = (mat.mat[0][2] + mat.mat[2][0]) / s;
-				q.y = (mat.mat[1][2] + mat.mat[2][1]) / s;
-				q.z = 0.25f * s;
-			}
-		}
-
-		return q;
-	}
-
-	static Matrix4 Billboard(const Vector3& pos, const float& size,const Vector3& camRight, const Vector3& camUp, const Vector3& camForward)
-	{
-		Matrix4 billboard = Matrix4::Identity;
-
-		billboard.mat[0][0] = camRight.x * size;
-		billboard.mat[0][1] = camRight.y * size;
-		billboard.mat[0][2] = camRight.z * size;
-
-		billboard.mat[1][0] = camUp.x * size;
-		billboard.mat[1][1] = camUp.y * size;
-		billboard.mat[1][2] = camUp.z * size;
-
-		billboard.mat[2][0] = camForward.x * size;
-		billboard.mat[2][1] = camForward.y * size;
-		billboard.mat[2][2] = camForward.z * size;
-
-		// 位置設定
-		billboard.mat[3][0] = pos.x;
-		billboard.mat[3][1] = pos.y;
-		billboard.mat[3][2] = pos.z;
-		return billboard;
-	}
+	static Matrix4 Billboard(const Vector3& pos, const float& size, const Vector3& camRight, const Vector3& camUp, const Vector3& camForward);
 
 	static const Matrix4 Identity;
 };
