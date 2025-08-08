@@ -93,6 +93,7 @@ private:
 
 	class ShadowMap*									mShadowMap;
 	class Shader*										mShadowShader;
+	class Shader*										mSkinnedShadowShader;
 	// GBuffer shader
 	class Shader*										mGGlobalShader;
 	class Shader*										mGPointLightShader;

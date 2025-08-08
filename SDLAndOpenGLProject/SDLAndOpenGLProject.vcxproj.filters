@@ -409,7 +409,7 @@
       <Filter>SourceFiles\F_Editor\Actors</Filter>
     </ClCompile>
     <ClCompile Include="ShadowMap.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>SourceFiles\F_Editor\Renderers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -741,7 +741,7 @@
       <Filter>SourceFiles\F_Editor\Actors</Filter>
     </ClInclude>
     <ClInclude Include="ShadowMap.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>SourceFiles\F_Editor\Renderers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -798,6 +798,12 @@
       <Filter>Shaders</Filter>
     </None>
     <None Include="..\Shaders\ShadowDepth.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Shaders\SkinnedShadowDepth.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Shaders\SkinnedShadowDepth.vert">
       <Filter>Shaders</Filter>
     </None>
   </ItemGroup>

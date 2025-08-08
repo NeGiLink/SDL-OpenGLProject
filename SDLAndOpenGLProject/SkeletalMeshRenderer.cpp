@@ -64,6 +64,36 @@ void SkeletalMeshRenderer::Draw(Shader* shader)
 	}
 }
 
+void SkeletalMeshRenderer::DrawForShadowMap(Shader* shader)
+{
+	for (unsigned int i = 0; i < mMeshs.size(); i++)
+	{
+		for (unsigned int j = 0; j < mMeshs[i]->GetVertexArrays().size(); j++)
+		{
+			if (mMeshs[i])
+			{
+				// Set the world transform
+				shader->SetMatrixUniform("uWorldTransform",
+					mOwner->GetWorldTransform());
+				// Set the matrix palette
+				shader->SetMatrixUniforms("uMatrixPalette",
+					&mAnimator->GetPalette().mEntry[0],
+					SkeletonLayout::MAX_SKELETON_BONES);
+
+				// ブレンドなどはシャドウマップ描画時は一切不要
+				glDisable(GL_BLEND);
+				glDepthMask(GL_TRUE);
+
+				// メッシュの頂点配列をアクティブに設定します
+				VertexArray* va = mMeshs[i]->GetVertexArrays()[j];
+				va->SetActive();
+				// 描画
+				glDrawElements(GL_TRIANGLES, va->GetNumIndices(), GL_UNSIGNED_INT, nullptr);
+			}
+		}
+	}
+}
+
 void SkeletalMeshRenderer::Update(float deltaTime)
 {
 	/*
@@ -82,6 +112,7 @@ void SkeletalMeshRenderer::LoadSkeletonMesh(const string& fileName, ActorObject*
 	{
 		mSkeleton->SetParentActor(actor);
 	}
+	mIsSkeletal = true;
 }
 
 void SkeletalMeshRenderer::SetAnimator(Animator* animator)

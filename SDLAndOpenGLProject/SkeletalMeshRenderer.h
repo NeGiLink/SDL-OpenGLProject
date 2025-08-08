@@ -16,6 +16,8 @@ public:
 	// スケルタルモデルの描画
 	void							Draw(class Shader* shader) override;
 
+	void							DrawForShadowMap(class Shader* shader)override;
+
 	void							Update(float deltaTime) override;
 
 	void							LoadSkeletonMesh(const string& fileName,class ActorObject* actor);
