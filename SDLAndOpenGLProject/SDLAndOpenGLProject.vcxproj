@@ -370,6 +370,8 @@
     <None Include="..\Shaders\ShadowDepth.frag" />
     <None Include="..\Shaders\ShadowDepth.vert" />
     <None Include="..\Shaders\Skinned.vert" />
+    <None Include="..\Shaders\SkinnedShadowDepth.frag" />
+    <None Include="..\Shaders\SkinnedShadowDepth.vert" />
     <None Include="..\Shaders\Sprite.frag" />
     <None Include="..\Shaders\Sprite.vert" />
     <None Include="packages.config" />

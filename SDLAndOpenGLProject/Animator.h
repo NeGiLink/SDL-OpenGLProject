@@ -26,7 +26,7 @@ public:
 	// アニメーションの長さを返します。
 	float							PlayAnimation(class Animation* anim, float playRate = 1.0f);
 
-	float							PlayBlendAnimation(class Animation* anim, float playRate = 1.0f, float blendTime = 0.25f);
+	float							PlayBlendAnimation(class Animation* anim, float playRate = 1.0f, float blendTime = 0.1f);
 	//スケルトンとアニメーションを使ってスキニング行列（palette）とボーンの可視化更新を行う
 	void							ComputeMatrixPalette();
 

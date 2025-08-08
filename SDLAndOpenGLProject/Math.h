@@ -1074,7 +1074,9 @@ public:
 		retVal.z = Vector3(mat[2][0], mat[2][1], mat[2][2]).Length();
 		return retVal;
 	}
-
+	//行優先の行列を列優先の行列に変換
+	// 行列の転置を返す
+	// 列優先の行列を返す
 	inline Quaternion GetRotation() const
 	{
 		Quaternion q;
@@ -1118,7 +1120,8 @@ public:
 
 		return q;
 	}
-
+	// 行列からスケールを除去した新しい行列を返す
+	// 列優先の行列を返す
 	inline Matrix4 RemoveScale()const
 	{
 		Vector3 scale = this->GetScale(); // 自作メソッドで各軸のスケールを取得
@@ -1129,45 +1132,49 @@ public:
 		return noScale;
 	}
 
-
 	// x、y、zのスケールを持つスケール行列を作成
+	//行優先の行列を作成
 	static Matrix4 CreateScale(float xScale, float yScale, float zScale);
-
+	// x、y、zのスケールを持つスケール行列を作成
+	//行優先の行列を作成
 	static Matrix4 CreateScale(const Vector3& scaleVector);
-
 	// 均一な因子でスケール行列を作成
+	//行優先の行列を作成
 	static Matrix4 CreateScale(float scale)
 	{
 		return CreateScale(scale, scale, scale);
 	}
-
 	// x軸回転
+	//列優先の行列を作成
 	static Matrix4 CreateRotationX(float theta);
-
 	// y軸回転
+	//列優先の行列を作成
 	static Matrix4 CreateRotationY(float theta);
-
 	// z軸回転
+	//列優先の行列を作成
 	static Matrix4 CreateRotationZ(float theta);
-
 	// クォータニオンから回転行列を作成
+	//列優先の行列を作成
 	static Matrix4 CreateFromQuaternion(const class Quaternion& q);
-	// Positionを取得(行優先)
+	// Positionを取得(列優先)
 	static Matrix4 CreateTranslation(const Vector3& trans);
 	//カメラがある位置（eye）から、特定のターゲット（target）を見るような視点変換行列を行う
+	//列優先の行列を作成
 	static Matrix4 CreateLookAt(const Vector3& eye, const Vector3& target, const Vector3& up);
-
+	//カメラがある位置（eye）から、特定のターゲット（target）を見るような視点変換行列を行う
+	//列優先の行列を作成
 	static Matrix4 CreateOrtho(float width, float height, float near_SDL, float far_SDL);
-
 	//透視投影行列（Perspective Projection Matrix）を作成する関数
 	//3D空間のシーンを、カメラを通して「遠くの物は小さく見える」ようなパース（遠近感）付きの2D画面に投影する行列を構築
+	//列優先の行列を作成
 	static Matrix4 CreatePerspectiveFOV(float fovY, float width, float height, float near_SDL, float far_SDL);
-
 	// シンプルビュー投影行列を作成する
+	// これは、カメラの位置を原点に、X軸とY軸をそれぞれ幅と高さでスケーリングするだけの行列
+	//列優先の行列を作成
 	static Matrix4 CreateSimpleViewProj(float width, float height);
-
+	//現在未使用
 	static Quaternion FromMatrix(const Matrix4& mat);
-
+	//列優先の行列を作成
 	static Matrix4 Billboard(const Vector3& pos, const float& size, const Vector3& camRight, const Vector3& camUp, const Vector3& camForward);
 
 	static const Matrix4 Identity;

@@ -1,3 +1,4 @@
+
 #include "Renderer.h"
 #include "Texture.h"
 #include "Mesh.h"
@@ -26,6 +27,9 @@ Renderer::Renderer(GameWinMain* game)
 	, mSkinnedShader(nullptr)
 	, mGBuffer(nullptr)
 	, mGGlobalShader(nullptr)
+	, mShadowMap(nullptr)
+	, mShadowShader(nullptr)
+	, mSkinnedShadowShader(nullptr)
 	, mGPointLightShader(nullptr)
 	, mContext(nullptr)
 	, mFanSpriteVerts(nullptr)
@@ -196,6 +200,11 @@ bool Renderer::LoadShaders()
 	{
 		return false;
 	}
+	mSkinnedShadowShader = new Shader();
+	if (!mSkinnedShadowShader->Load("SkinnedShadowDepth.vert", "SkinnedShadowDepth.frag"))
+	{
+		return false;
+	}
 
 	// GBufferからポイントライト用のシェーダーを作成する
 	mGPointLightShader = new Shader();
@@ -324,8 +333,6 @@ void Renderer::Draw3DScene(unsigned int framebuffer, const Matrix4& view, const 
 	// メッシュ（静的）
 	mMeshShader->SetActive();
 	mMeshShader->SetMatrixUniform("uViewProj", view * proj);
-	//mMeshShader->SetVectorUniform("uViewPos", WindowRenderProperty::GetViewEye());
-	//mMeshShader->SetVectorUniform("uLightDir", mDirLight.mDirection);
 	SetLightUniforms(mMeshShader, view);
 
 	for (auto mc : mMeshComps)
@@ -410,14 +417,25 @@ void Renderer::DrawShadow3DScene(const Matrix4& lightViewProj)
 	glEnable(GL_DEPTH_TEST);
 	glDisable(GL_BLEND);
 
+
 	mShadowShader->SetActive();
 	mShadowShader->SetMatrixUniform("uLightViewProj", lightViewProj);
-
 	for (auto mc : mMeshComps)
 	{
 		if (mc->GetVisible())
 		{
 			mc->DrawForShadowMap(mShadowShader);
+		}
+	}
+	// スキンメッシュを有効
+	mSkinnedShadowShader->SetActive();
+	// ビュー投影行列を更新する
+	mSkinnedShadowShader->SetMatrixUniform("uLightViewProj", lightViewProj);
+	for (auto sk : mSkeletalMeshes)
+	{
+		if (sk->GetVisible())
+		{
+			sk->DrawForShadowMap(mSkinnedShadowShader);
 		}
 	}
 
@@ -568,6 +586,13 @@ void Renderer::Shutdown()
 		mShadowShader->Unload();
 		delete mShadowShader;
 		mShadowShader = nullptr;
+	}
+	// スキンシャドウマップのシェーダーを解放
+	if(mSkinnedShadowShader)
+	{
+		mSkinnedShadowShader->Unload();
+		delete mSkinnedShadowShader;
+		mSkinnedShadowShader = nullptr;
 	}
 	// Gバッファーのポイントライトシェーダーを解放
 	if (mGPointLightShader)
