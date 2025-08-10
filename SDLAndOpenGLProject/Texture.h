@@ -42,9 +42,13 @@ public:
 
 	bool			Load(const string& fileName);
 	bool			LoadFromAssimp(const aiTexture* embeddedTex);
+	bool			LoadCubemapFromSingleImage(const std::string& fileName, int faceSize);
+	bool			LoadEquirectangularToCubemap(const std::string& fileName, int faceSize);
 	void			Unload();
 	void			CreateFromSurface(struct SDL_Surface* surface);
 	void			CreateForRendering(int width, int height, unsigned int format);
+
+	static void SampleEquirect(const unsigned char* src, int srcW, int srcH, int channels,float u, float v, unsigned char* outPixel);
 
 	void			SetActive(int index = 0);
 	void			SetNoActive(int index = 0);

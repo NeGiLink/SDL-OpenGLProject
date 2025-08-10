@@ -36,7 +36,7 @@ bool GameWinMain::Initialize()
 	}
 
 	// SDL_ttf‚Ì‰Šú‰»
-	if (TTF_Init() < 0)
+	if (!TTF_Init())
 	{
 		Debug::ErrorLog("Failed to initialize SDL_ttf");
 		return false;

@@ -38,6 +38,8 @@ bool BaseScene::Initialize()
 		return false;
 	}
 
+	mWinMain->GetRenderer()->GetSkyBoxRenderer()->Load("CubeMap01.png");
+
 	mDirectionalLightActor = new DirectionalLightActor();
 
 

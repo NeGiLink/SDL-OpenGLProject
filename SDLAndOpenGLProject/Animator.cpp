@@ -8,7 +8,7 @@ Animator::Animator(ActorObject* owner)
 	, mAnimTime(0.0f)
 	, mBlendAnimTime(0.0f)
 	, mAnimPlayRate(1.0f)
-	, mBlendElapsed(0.25f)
+	, mBlendElapsed(0.1f)
 	, mBlending(false)
 {
 }
@@ -118,12 +118,11 @@ void Animator::SetSkeleton(Skeleton* skeleton)
 	mSkeleton = skeleton;
 }
 
-float Animator::PlayAnimation(Animation* anim, float playRate)
+float Animator::PlayAnimation(Animation* anim)
 {
 	if (mAnimation == anim) { return 0.0f; }
 	mAnimation = anim;
 	mAnimTime = 0.0f;
-	mAnimPlayRate = playRate;
 
 	mAnimation->SetIsAnimationEnd(false);
 
@@ -134,13 +133,11 @@ float Animator::PlayAnimation(Animation* anim, float playRate)
 	return mAnimation->GetDuration();
 }
 
-float Animator::PlayBlendAnimation(Animation* anim, float playRate, float blendTime)
+float Animator::PlayBlendAnimation(Animation* anim)
 {
 	if (mAnimation == anim || mBlendAnimation == anim) { return 0.0f; }
 
 	mBlendAnimation = anim;
-	mBlendElapsed = blendTime;
-	mAnimPlayRate = playRate;
 	mBlendAnimTime = 0.0f;
 
 	mBlendAnimation->SetIsAnimationEnd(false);
@@ -191,12 +188,6 @@ void Animator::BlendComputeMatrixPalette()
 	mAnimation->GetGlobalPoseAtTime(nowPose, mSkeleton, mAnimTime);
 	// is‹ï‡‚É‰ž‚¶‚ÄŽæ“¾
 	mBlendAnimation->GetGlobalPoseAtTime(nextPose, mSkeleton, mBlendAnimTime);
-
-	if (nowPose.size() != nextPose.size())
-	{
-		int a = nowPose.size();
-		int b = nextPose.size();
-	}
 
 	goalPose.resize(nowPose.size());
 
