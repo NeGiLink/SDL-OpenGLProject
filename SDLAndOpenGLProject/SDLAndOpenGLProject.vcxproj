@@ -194,6 +194,7 @@
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="ShadowMap.cpp" />
     <ClCompile Include="SkeletonMeshActor.cpp" />
+    <ClCompile Include="SkyBoxRenderer.cpp" />
     <ClCompile Include="SphereActor.cpp" />
     <ClCompile Include="SphereCollider.cpp" />
     <ClCompile Include="Stages01.cpp" />
@@ -235,7 +236,6 @@
     <ClCompile Include="SoundEventClip.cpp" />
     <ClCompile Include="SplineActor.cpp" />
     <ClCompile Include="SplineCamera.cpp" />
-    <ClCompile Include="SpriteComponent.cpp" />
     <ClCompile Include="TargetComponent.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Canvas.cpp" />
@@ -303,6 +303,7 @@
     <ClInclude Include="SDOpenLib.h" />
     <ClInclude Include="ShadowMap.h" />
     <ClInclude Include="SkeletonMeshActor.h" />
+    <ClInclude Include="SkyBoxRenderer.h" />
     <ClInclude Include="SphereActor.h" />
     <ClInclude Include="SphereCollider.h" />
     <ClInclude Include="Stages01.h" />
@@ -347,7 +348,6 @@
     <ClInclude Include="SoundEventClip.h" />
     <ClInclude Include="SplineActor.h" />
     <ClInclude Include="SplineCamera.h" />
-    <ClInclude Include="SpriteComponent.h" />
     <ClInclude Include="TargetComponent.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Canvas.h" />
@@ -372,6 +372,8 @@
     <None Include="..\Shaders\Skinned.vert" />
     <None Include="..\Shaders\SkinnedShadowDepth.frag" />
     <None Include="..\Shaders\SkinnedShadowDepth.vert" />
+    <None Include="..\Shaders\Skybox.frag" />
+    <None Include="..\Shaders\Skybox.vert" />
     <None Include="..\Shaders\Sprite.frag" />
     <None Include="..\Shaders\Sprite.vert" />
     <None Include="packages.config" />

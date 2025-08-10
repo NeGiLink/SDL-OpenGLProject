@@ -77,6 +77,11 @@ VertexArray::VertexArray(const void* verts, unsigned int numVerts, Layout layout
 			GL_FLOAT, GL_FALSE, vertexSize,
 			reinterpret_cast<void*>(sizeof(float) * VertexLayout::SKINTEXTURE_OFFSET + sizeof(char) * VertexLayout::BONE_INDEX_COUNT));
 	}
+	else if(layout == Pos)
+	{
+		glEnableVertexAttribArray(VertexLayout::POSITION_INDEX);
+		glVertexAttribPointer(VertexLayout::POSITION_INDEX, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, 0);
+	}
 }
 
 VertexArray::VertexArray(float fillAmount, int maxSegments)

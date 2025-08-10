@@ -1,5 +1,4 @@
 #include "Laser.h"
-#include "SpriteComponent.h"
 #include "MoveComponent.h"
 #include "WinMain.h"
 #include "CircleComponent.h"

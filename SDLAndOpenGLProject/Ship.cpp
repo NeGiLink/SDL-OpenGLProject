@@ -1,5 +1,4 @@
 #include "Ship.h"
-#include "SpriteComponent.h"
 #include "InputComponent.h"
 #include "WinMain.h"
 #include "Laser.h"

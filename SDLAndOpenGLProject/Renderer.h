@@ -26,10 +26,11 @@ struct DirectionalLightData
 class Renderer
 {
 private:
+	void												DrawSkybox(const Matrix4& view, const Matrix4& proj);
 	//3D描画処理
 	void												Draw3DScene(unsigned int framebuffer, const Matrix4& view, const Matrix4& proj,
 		float viewPortScale = 1.0f, bool lit = true);
-	void												DrawShadow3DScene(const Matrix4& lightViewProj);
+	void												DrawShadow3DScene();
 	//ライト描画処理
 	void												DrawFromGBuffer();
 	//Shaderの読み込み
@@ -38,71 +39,66 @@ private:
 	void												CreateSpriteVerts();
 	//扇型スプライトの頂点を作成
 	int 												CreateFanSpriteVerts(float fillRatio /*0.0～1.0: 扇の割合*/, int segments);
-	//LineSpriteの頂点を作成
-	//現在は未使用
-	void												CreateLineSpriteVerts();
 	//オブジェクトの方向矢印の頂点を作成
 	void 												CreateAxisVerts();
 
 	//ライトのShader、マトリックスのSetter
 	void												SetLightUniforms(class Shader* shader, const Matrix4& view);
-	// テクスチャのマップが読み込み変数
-	std::unordered_map<string, class Texture*>			mTextures;
-	// メッシュの地図がロード
-	std::unordered_map<string, class Mesh*>				mMeshes;
-	// 描かれたすべてのスプライトコンポーネント
-	vector<class SpriteComponent*>						mSprites;
-	// すべての（骨格以外の）メッシュコンポーネント
-	vector<class MeshRenderer*>							mMeshComps;
-	vector<class SkeletalMeshRenderer*>					mSkeletalMeshes;
-	vector<class ParticleSystem*>						mParticlesComps;
 	// BaseScene
 	class BaseScene*									mNowScene;
-	//***Shader***
+	// テクスチャのマップが読み込み変数
+	std::unordered_map<string, class Texture*>			mTextures;
 	// Sprite shader
 	class Shader*										mSpriteShader;
 	// Sprite vertex array
 	class VertexArray*									mSpriteVerts;
 	//2D画像用の頂点配列
 	class VertexArray*									mFanSpriteVerts;
-	//オブジェクトの方向矢印用の頂点配列
-	class VertexArray*									mAxisVAO;
-
+	//パーティクルシステムの配列
+	vector<class ParticleSystem*>						mParticlesComps;
 	//パーティクルシェーダー
 	class Shader*										mParticleShader;
-
+	// メッシュの地図がロード
+	std::unordered_map<string, class Mesh*>				mMeshes;
+	// すべての（骨格以外の）メッシュコンポーネント
+	vector<class MeshRenderer*>							mMeshComps;
+	vector<class SkeletalMeshRenderer*>					mSkeletalMeshes;
 	// Mesh shader
 	class Shader*										mMeshShader;
 	// Skinned shader
 	class Shader*										mSkinnedShader;
-	class Shader*										mArrowShader;
-
 	// View/projection for 3D shaders
 	Matrix4												mView;
 	Matrix4												mProjection;
-
-	// Lighting data
+	//環境光のデータ構造体
 	DirectionalLightData								mDirLight;
 	// Window
 	SDL_Window*											mWindow;
 	// OpenGL context
 	SDL_GLContext										mContext;
-
-
+	//GBufferクラス
 	class GBuffer*										mGBuffer;
+	// GBuffer shader
+	class Shader*										mGGlobalShader;
 
 	class ShadowMap*									mShadowMap;
 	class Shader*										mShadowShader;
 	class Shader*										mSkinnedShadowShader;
-	// GBuffer shader
-	class Shader*										mGGlobalShader;
-	class Shader*										mGPointLightShader;
+	
 	vector<class PointLightComponent*>					mPointLights;
+	class Shader*										mGPointLightShader;
 	class Mesh*											mPointLightMesh;
 
-	class DebugGrid*									mDebugGrid;
+	class SkyBoxRenderer*								mSkyBoxRenderer;
+	class Shader*										mSkyBoxShader;
 
+	//デバッググリッドのポインタクラス
+	class DebugGrid*									mDebugGrid;
+	//グリッドのシェーダー
 	class Shader*										mGridShader;
+	class Shader*										mArrowShader;
+	//オブジェクトの方向矢印用の頂点配列
+	class VertexArray*									mAxisVAO;
 public:
 														Renderer(class GameWinMain* game);
 														~Renderer();
@@ -115,10 +111,6 @@ public:
 	void												MeshOrderUpdate();
 	//描画処理
 	void												Draw();
-	//スプライト追加処理
-	void												AddSprite(class SpriteComponent* sprite);
-	//スプライト削除処理
-	void												RemoveSprite(class SpriteComponent* sprite);
 	//Mesh追加処理
 	void												AddMeshComp(class MeshRenderer* mesh);
 	//Mesh削除処理
@@ -131,6 +123,16 @@ public:
 	void												AddPointLight(class PointLightComponent* light);
 	//PointLight削除処理
 	void												RemovePointLight(class PointLightComponent* light);
+	// Given a screen space point, unprojects it into world space,
+	// based on the current 3D view/projection matrices
+	// Expected ranges:
+	// x = [-screenWidth/2, +screenWidth/2]
+	// y = [-screenHeight/2, +screenHeight/2]
+	// z = [0, 1) -- 0 is closer to camera, 1 is further
+	// スクリーン座標からワールド座標への変換
+	Vector3												Unproject(const Vector3& screenPoint) const;
+	//スカイボックスのGetter
+	class SkyBoxRenderer*								GetSkyBoxRenderer() { return mSkyBoxRenderer; }
 	//PointLightMeshの設定処理
 	void												SetPointLightMesh(class Mesh* mesh) { mPointLightMesh = mesh; }
 	//TextureのGetter
@@ -147,14 +149,6 @@ public:
 	DirectionalLightData								GetDirectionalLight() { return mDirLight; }
 	//DirLightのSetter
 	void												SetDirectionalLight(DirectionalLightData dirLight) { mDirLight = dirLight; }
-	// Given a screen space point, unprojects it into world space,
-	// based on the current 3D view/projection matrices
-	// Expected ranges:
-	// x = [-screenWidth/2, +screenWidth/2]
-	// y = [-screenHeight/2, +screenHeight/2]
-	// z = [0, 1) -- 0 is closer to camera, 1 is further
-	// スクリーン座標からワールド座標への変換
-	Vector3												Unproject(const Vector3& screenPoint) const;
 	//スクリーンの方向を取得
 	void												GetScreenDirection(Vector3& outStart, Vector3& outDir) const;
 	//GBufferのGetter

@@ -36,3 +36,5 @@
 //ライト関係のインクルード
 #include "DirectionalLightActor.h"
 #include "PointLightComponent.h"
+// Skybox関係のインクルード
+#include "SkyBoxRenderer.h"

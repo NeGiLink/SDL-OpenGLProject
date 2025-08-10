@@ -309,9 +309,6 @@
     <ClCompile Include="PointLightComponent.cpp">
       <Filter>SourceFiles\F_Editor\Components</Filter>
     </ClCompile>
-    <ClCompile Include="SpriteComponent.cpp">
-      <Filter>SourceFiles\F_Editor\UIs</Filter>
-    </ClCompile>
     <ClCompile Include="Text.cpp">
       <Filter>SourceFiles\F_Editor\UIs</Filter>
     </ClCompile>
@@ -410,6 +407,9 @@
     </ClCompile>
     <ClCompile Include="ShadowMap.cpp">
       <Filter>SourceFiles\F_Editor\Renderers</Filter>
+    </ClCompile>
+    <ClCompile Include="SkyBoxRenderer.cpp">
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -638,9 +638,6 @@
     <ClInclude Include="Texture.h">
       <Filter>SourceFiles\F_Editor\UIs</Filter>
     </ClInclude>
-    <ClInclude Include="SpriteComponent.h">
-      <Filter>SourceFiles\F_Editor\UIs</Filter>
-    </ClInclude>
     <ClInclude Include="Text.h">
       <Filter>SourceFiles\F_Editor\UIs</Filter>
     </ClInclude>
@@ -743,6 +740,9 @@
     <ClInclude Include="ShadowMap.h">
       <Filter>SourceFiles\F_Editor\Renderers</Filter>
     </ClInclude>
+    <ClInclude Include="SkyBoxRenderer.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -804,6 +804,12 @@
       <Filter>Shaders</Filter>
     </None>
     <None Include="..\Shaders\SkinnedShadowDepth.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Shaders\Skybox.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Shaders\Skybox.vert">
       <Filter>Shaders</Filter>
     </None>
   </ItemGroup>

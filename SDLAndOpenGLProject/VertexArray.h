@@ -91,7 +91,8 @@ public:
 	enum Layout
 	{
 		PosNormTex,
-		PosNormSkinTex
+		PosNormSkinTex,
+		Pos,
 	};
 
 					VertexArray(const void* verts, unsigned int numVerts, Layout layout,

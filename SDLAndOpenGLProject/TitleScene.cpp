@@ -13,7 +13,6 @@ bool TitleScene::Initialize()
 {
 	BaseScene::Initialize();
 
-
 	/*
 	mDebugStage = new MeshActor();
 	mDebugStage->Load("DebugStage.fbx");

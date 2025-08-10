@@ -4,7 +4,6 @@
 #include "Mesh.h"
 #include "Shader.h"
 #include "VertexArray.h"
-#include "SpriteComponent.h"
 #include "MeshRenderer.h"
 #include "ParticleSystem.h"
 #include "Canvas.h"
@@ -19,6 +18,7 @@
 #include "PointLightComponent.h"
 #include "DebugGrid.h"
 #include "DirectionalLightComponent.h"
+#include "SkyBoxRenderer.h"
 
 Renderer::Renderer(GameWinMain* game)
 	: mNowScene(nullptr)
@@ -36,6 +36,11 @@ Renderer::Renderer(GameWinMain* game)
 	, mPointLightMesh(nullptr)
 	, mSpriteVerts(nullptr)
 	, mWindow(nullptr)
+	, mArrowShader(nullptr)
+	, mAxisVAO(nullptr)
+	, mDebugGrid(nullptr)
+	, mGridShader(nullptr)
+	, mParticleShader(nullptr)
 {
 }
 
@@ -45,7 +50,6 @@ Renderer::~Renderer()
 
 bool Renderer::Initialize(float screenWidth, float screenHeight)
 {
-
 	// OpenGLの属性を設定する
 	// コアOpenGLプロファイルを使用
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
@@ -62,18 +66,16 @@ bool Renderer::Initialize(float screenWidth, float screenHeight)
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 	// OpenGLにハードウェアアクセラレーションを使用
 	SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
-
+	//SDL_Windowを作成する
 	mWindow = SDL_CreateWindow("SDL&OpenGLProject",static_cast<int>(WindowRenderProperty::GetWidth()), static_cast<int>(WindowRenderProperty::GetHeight()), SDL_WINDOW_OPENGL);
-
+	//エラーチェック
 	if (!mWindow)
 	{
 		SDL_Log("Failed to create window: %s", SDL_GetError());
 		return false;
 	}
-
 	// OpenGLコンテキストを作成する
 	mContext = SDL_GL_CreateContext(mWindow);
-
 	// GLEWを初期化する
 	glewExperimental = GL_TRUE;
 	if (glewInit() != GLEW_OK)
@@ -81,20 +83,19 @@ bool Renderer::Initialize(float screenWidth, float screenHeight)
 		SDL_Log("Failed to initialize GLEW.");
 		return false;
 	}
-
 	// 一部のプラットフォームでは、GLEWが無害なエラーコードを出力するので、
 	// これをクリア。
 	glGetError();
-
-	
 	// 描画用の2D矩形を作成する
 	CreateSpriteVerts();
-
 	//オブジェクトの方向矢印用の頂点配列を作成
 	CreateAxisVerts();
 
-	mDebugGrid = new DebugGrid();
+	//スカイボックスを生成
+	mSkyBoxRenderer = new SkyBoxRenderer();
 
+	//デバッググリッド生成
+	mDebugGrid = new DebugGrid();
 	// Gバッファを作成する
 	mGBuffer = new GBuffer();
 	int width = static_cast<int>(WindowRenderProperty::GetWidth());
@@ -104,36 +105,41 @@ bool Renderer::Initialize(float screenWidth, float screenHeight)
 		SDL_Log("Failed to create G-buffer.");
 		return false;
 	}
-
+	//シャドウマップを作成する
 	mShadowMap = new ShadowMap();
 	if(!mShadowMap->Initialize(width, height))
 	{
 		SDL_Log("Failed to create shadow map.");
 		return false;
 	}
-	
 	// シェーダーを作成/コンパイルできることを確認してください
 	if (!LoadShaders())
 	{
 		SDL_Log("Failed to load shaders.");
 		return false;
 	}
-
 	return true;
 }
 
 bool Renderer::LoadShaders()
 {
+	mSkyBoxShader = new Shader();
+	if (!mSkyBoxShader->Load("Skybox.vert", "Skybox.frag"))
+	{
+		return false;
+	}
+	mSkyBoxShader->SetActive();
+	mSkyBoxShader->SetIntUniform("skybox", 0);
+
 	// スプライトシェーダーを作成する
 	mSpriteShader = new Shader();
 	if (!mSpriteShader->Load("Sprite.vert", "Sprite.frag"))
 	{
 		return false;
 	}
-
 	mSpriteShader->SetActive();
-	// ビュー投影行列を設定する
 	Matrix4 spriteViewProj = Matrix4::CreateSimpleViewProj(WindowRenderProperty::GetWidth(), WindowRenderProperty::GetHeight());
+	// ビュー投影行列を設定する
 	mSpriteShader->SetMatrixUniform("uViewProj", spriteViewProj);
 
 	// ビュー投影行列を設定する
@@ -190,7 +196,6 @@ bool Renderer::LoadShaders()
 	Matrix4 gbufferWorld = Matrix4::CreateScale(WindowRenderProperty::GetWidth(), -WindowRenderProperty::GetHeight(),
 		1.0f);
 	mGGlobalShader->SetMatrixUniform("uWorldTransform", gbufferWorld);
-
 	glActiveTexture(GL_TEXTURE3); // 空いているテクスチャユニットを選択
 	glBindTexture(GL_TEXTURE_2D, mShadowMap->GetDepthTexture());
 	mGGlobalShader->SetIntUniform("uShadowMap", 3);
@@ -224,21 +229,19 @@ bool Renderer::LoadShaders()
 	{
 		return false;
 	}
-
 	return true;
 }
 
 void Renderer::Draw()
 {
+	// G-bufferパス開始
+	//glBindFramebuffer(GL_FRAMEBUFFER, mGBuffer->GetBufferID());
+
 	//Meshの順番を変更
 	MeshOrderUpdate();
 
-	mShadowMap->UpdateLightMatrix(mDirLight.mDirection.Normalized(), Vector3::Zero);
-	Matrix4 lightViewProj = mShadowMap->GetLightViewProj();
-	mGGlobalShader->SetActive();
-	mGGlobalShader->SetMatrixUniform("uLightViewProj", lightViewProj);
 	// ライト視点で深度情報をシャドウマップに描画
-	DrawShadow3DScene(lightViewProj);
+	DrawShadow3DScene();
 
 	// G-bufferに3Dシーンを描画します。
 	Draw3DScene(mGBuffer->GetBufferID(), mView, mProjection, 1.0f, true);
@@ -259,15 +262,6 @@ void Renderer::Draw()
 	mSpriteShader->SetActive();
 
 	mSpriteVerts->SetActive();
-
-	for (auto sprite : mSprites)
-	{
-		if (sprite->GetVisible())
-		{
-			sprite->Draw(mSpriteShader);
-		}
-	}
-
 
 	for (auto ui : mNowScene->GetImageStack())
 	{
@@ -312,6 +306,23 @@ void Renderer::Draw()
 	SDL_GL_SwapWindow(mWindow);
 }
 
+void Renderer::DrawSkybox(const Matrix4& view, const Matrix4& proj)
+{
+	/*
+	// スカイボックスのシェーダーをアクティブに設定
+	mSkyboxShader->SetActive();
+	// ビュー投影行列を設定する
+	mSkyboxShader->SetMatrixUniform("uViewProj", view * proj);
+	// スカイボックスのテクスチャをバインドする
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, mSkyboxTexture->GetOpenGLTextureID());
+	// スカイボックスのVAOをアクティブに設定
+	mSkyboxVAO->SetActive();
+	// スカイボックスを描画する
+	glDrawArrays(GL_TRIANGLES, 0, 36); // 6面 × 2三角形 × 3頂点 = 36頂点
+	*/
+}
+
 void Renderer::Draw3DScene(unsigned int framebuffer, const Matrix4& view, const Matrix4& proj,float viewPortScale, bool lit)
 {
 	// 現在のフレームバッファを設定する
@@ -324,6 +335,9 @@ void Renderer::Draw3DScene(unsigned int framebuffer, const Matrix4& view, const 
 	glClearColor(Color::mClearColor.x, Color::mClearColor.y, Color::mClearColor.z, Color::mClearColor.w);
 	glDepthMask(GL_TRUE);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	// 1. スカイボックス描画
+	mSkyBoxRenderer->Draw(mSkyBoxShader, mView, mProjection);
 
 	// メッシュコンポーネントを描画する深度バッファリングを有効にする
 	// アルファブレンドを無効にする
@@ -356,7 +370,6 @@ void Renderer::Draw3DScene(unsigned int framebuffer, const Matrix4& view, const 
 			sk->Draw(mSkinnedShader);
 		}
 	}
-
 	// 2. パーティクルなど半透明物体を描画
 	//  Z比較を有効（必須）
 	glEnable(GL_DEPTH_TEST);                     
@@ -388,8 +401,6 @@ void Renderer::Draw3DScene(unsigned int framebuffer, const Matrix4& view, const 
 			if (actor->GetState() == ActorObject::EActive)
 			{
 				// アクターのデバッグ描画
-				//actor->DebugDraw(mArrowShader, view * proj);
-
 				mArrowShader->SetMatrixUniform("uModel", actor->GetWorldTransform());
 
 				mAxisVAO->SetActive(); // 6頂点（3軸 × 2点）
@@ -397,18 +408,19 @@ void Renderer::Draw3DScene(unsigned int framebuffer, const Matrix4& view, const 
 				glDrawArrays(GL_LINES, 0, 6);
 			}
 		}
-
-		// 最終行列：ViewProj * Model
-		Matrix4 viewProj = view * proj;
-
-		mDebugGrid->Draw(mGridShader, viewProj);
+		mDebugGrid->Draw(mGridShader, view * proj);
 	}
 
 	glDepthMask(GL_TRUE);  // 書き込みを戻す
 }
 
-void Renderer::DrawShadow3DScene(const Matrix4& lightViewProj)
+void Renderer::DrawShadow3DScene()
 {
+	mShadowMap->UpdateLightMatrix(mDirLight.mDirection.Normalized(), Vector3::Zero);
+	Matrix4 lightViewProj = mShadowMap->GetLightViewProj();
+	mGGlobalShader->SetActive();
+	mGGlobalShader->SetMatrixUniform("uLightViewProj", lightViewProj);
+
 	mShadowMap->BeginRender();
 
 	glClearColor(Color::mClearColor.x, Color::mClearColor.y, Color::mClearColor.z, Color::mClearColor.w);
@@ -538,6 +550,12 @@ void Renderer::Shutdown()
 		delete mAxisVAO;
 		mAxisVAO = nullptr;
 	}
+	// スカイボックスレンダラーを解放
+	if( mSkyBoxRenderer)
+	{
+		delete mSkyBoxRenderer;
+		mSkyBoxRenderer = nullptr;
+	}
 	// スプライトシェーダー
 	if (mSpriteShader)
 	{
@@ -608,6 +626,13 @@ void Renderer::Shutdown()
 		delete mGridShader;
 		mGridShader = nullptr;
 	}
+	//スカイボックスを解放
+	if( mSkyBoxShader)
+	{
+		mSkyBoxShader->Unload();
+		delete mSkyBoxShader;
+		mSkyBoxShader = nullptr;
+	}
 	//グリッドを解放
 	if (mDebugGrid)
 	{
@@ -643,12 +668,6 @@ void Renderer::UnloadData()
 		delete i.second;
 	}
 	mMeshes.clear();
-	// スプライトコンポーネントを破壊する
-	for (auto sprite : mSprites)
-	{
-		delete sprite;
-	}
-	mSprites.clear();
 }
 
 void Renderer::MeshOrderUpdate()
@@ -703,31 +722,6 @@ void Renderer::MeshOrderUpdate()
 	mMeshComps.clear();
 	mMeshComps.insert(mMeshComps.end(), opaqueList.begin(), opaqueList.end());
 	mMeshComps.insert(mMeshComps.end(), transparentList.begin(), transparentList.end());
-}
-
-void Renderer::AddSprite(SpriteComponent* sprite)
-{
-	//ソートされたベクター内の挿入ポイントを見つける
-	// （現在よりも高い描画順序を持つ最初の要素）
-	int myDrawOrder = sprite->GetDrawOrder();
-	auto iter = mSprites.begin();
-	for (;
-		iter != mSprites.end();
-		++iter)
-	{
-		if (myDrawOrder < (*iter)->GetDrawOrder())
-		{
-			break;
-		}
-	}
-	// イテレータの位置の前に要素を挿入します
-	mSprites.insert(iter, sprite);
-}
-
-void Renderer::RemoveSprite(SpriteComponent* sprite)
-{
-	auto iter = std::find(mSprites.begin(), mSprites.end(), sprite);
-	mSprites.erase(iter);
 }
 
 void Renderer::AddMeshComp(MeshRenderer* mesh)
@@ -909,16 +903,6 @@ int Renderer::CreateFanSpriteVerts(float fillRatio, int maxSegments)
 		delete mFanSpriteVerts;
 	mFanSpriteVerts = new VertexArray(fillRatio, maxSegments);
 	return mFanSpriteVerts->GetNumVerts();
-}
-
-void Renderer::CreateLineSpriteVerts()
-{
-	float lineVertices[] = {
-	0.0f, 0.0f, 0.0f,  // 始点 (x, y, z)
-	1.0f, 1.0f, 1.0f   // 終点 (x, y, z)
-	};
-
-	//mLineSpriteVerts = new VertexArray(lineVertices, 2);
 }
 
 void Renderer::CreateAxisVerts()
