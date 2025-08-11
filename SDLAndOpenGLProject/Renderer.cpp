@@ -1,5 +1,6 @@
-
 #include "Renderer.h"
+#include "BaseScene.h"
+#include <GL/glew.h>
 #include "Texture.h"
 #include "Mesh.h"
 #include "Shader.h"
@@ -8,10 +9,6 @@
 #include "ParticleSystem.h"
 #include "Canvas.h"
 #include "Image.h"
-#include "WinMain.h"
-#include "BaseScene.h"
-#include "GameApp.h"
-#include <GL/glew.h>
 #include "SkeletalMeshRenderer.h"
 #include "GBuffer.h"
 #include "ShadowMap.h"
@@ -41,6 +38,8 @@ Renderer::Renderer(GameWinMain* game)
 	, mDebugGrid(nullptr)
 	, mGridShader(nullptr)
 	, mParticleShader(nullptr)
+	, mSkyBoxRenderer(nullptr)
+	, mSkyBoxShader(nullptr)
 {
 }
 
@@ -232,11 +231,62 @@ bool Renderer::LoadShaders()
 	return true;
 }
 
+void Renderer::MeshOrderUpdate()
+{
+	// 1. 一時リストに分離
+	std::vector<MeshRenderer*> opaqueList;
+	std::vector<MeshRenderer*> transparentList;
+	// 透明オブジェクトと不透明オブジェクトを分ける
+	for (auto& mesh : mMeshComps)
+	{
+		if (!mesh->GetVisible()) continue;
+		//MeshRenderer内のMeshを1つずつチェック
+		for (auto& m : mesh->GetMeshs())
+		{
+			// nullptrチェック
+			if (!m) continue; 
+			// マテリアルがない場合はスキップ
+			if (m->GetMaterialInfo().empty()) continue; 
+			const auto& materials = m->GetMaterialInfo();
+			bool isTransparent = false;
+			for (const auto& mat : materials)
+			{
+				// 不透明度が1未満なら透明とみなす
+				if (mat.Color.w < 1.0f) 
+				{
+					isTransparent = true;
+					break;
+				}
+			}
+
+			if (isTransparent)
+				transparentList.push_back(mesh);
+			else
+				opaqueList.push_back(mesh);
+		}
+	}
+
+	// 2. 透明オブジェクトはカメラからの距離でソート（遠い順）
+	Matrix4 view = mView;
+	view.Invert();
+	// ビュー行列の逆行列からカメラ位置取得
+	Vector3 cameraPos = view.GetTranslation(); 
+	std::sort(transparentList.begin(), transparentList.end(),
+		[&](MeshRenderer* a, MeshRenderer* b)
+		{
+			float distA = (a->GetOwner()->GetPosition() - cameraPos).LengthSq();
+			float distB = (b->GetOwner()->GetPosition() - cameraPos).LengthSq();
+			return distA > distB; // 遠い順に
+		}
+	);
+	// 3. mMeshComps を再構築
+	mMeshComps.clear();
+	mMeshComps.insert(mMeshComps.end(), opaqueList.begin(), opaqueList.end());
+	mMeshComps.insert(mMeshComps.end(), transparentList.begin(), transparentList.end());
+}
+
 void Renderer::Draw()
 {
-	// G-bufferパス開始
-	//glBindFramebuffer(GL_FRAMEBUFFER, mGBuffer->GetBufferID());
-
 	//Meshの順番を変更
 	MeshOrderUpdate();
 
@@ -306,23 +356,6 @@ void Renderer::Draw()
 	SDL_GL_SwapWindow(mWindow);
 }
 
-void Renderer::DrawSkybox(const Matrix4& view, const Matrix4& proj)
-{
-	/*
-	// スカイボックスのシェーダーをアクティブに設定
-	mSkyboxShader->SetActive();
-	// ビュー投影行列を設定する
-	mSkyboxShader->SetMatrixUniform("uViewProj", view * proj);
-	// スカイボックスのテクスチャをバインドする
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_CUBE_MAP, mSkyboxTexture->GetOpenGLTextureID());
-	// スカイボックスのVAOをアクティブに設定
-	mSkyboxVAO->SetActive();
-	// スカイボックスを描画する
-	glDrawArrays(GL_TRIANGLES, 0, 36); // 6面 × 2三角形 × 3頂点 = 36頂点
-	*/
-}
-
 void Renderer::Draw3DScene(unsigned int framebuffer, const Matrix4& view, const Matrix4& proj,float viewPortScale, bool lit)
 {
 	// 現在のフレームバッファを設定する
@@ -336,8 +369,8 @@ void Renderer::Draw3DScene(unsigned int framebuffer, const Matrix4& view, const 
 	glDepthMask(GL_TRUE);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	// 1. スカイボックス描画
-	mSkyBoxRenderer->Draw(mSkyBoxShader, mView, mProjection);
+	// スカイボックス描画
+	mSkyBoxRenderer->Draw(mSkyBoxShader, view, proj);
 
 	// メッシュコンポーネントを描画する深度バッファリングを有効にする
 	// アルファブレンドを無効にする
@@ -670,59 +703,6 @@ void Renderer::UnloadData()
 	mMeshes.clear();
 }
 
-void Renderer::MeshOrderUpdate()
-{
-	// 1. 一時リストに分離
-	std::vector<MeshRenderer*> opaqueList;
-	std::vector<MeshRenderer*> transparentList;
-	// 透明オブジェクトと不透明オブジェクトを分ける
-	for (auto& mesh : mMeshComps)
-	{
-		if (!mesh->GetVisible()) continue;
-		//MeshRenderer内のMeshを1つずつチェック
-		for (auto& m : mesh->GetMeshs())
-		{
-			// nullptrチェック
-			if (!m) continue; 
-			// マテリアルがない場合はスキップ
-			if (m->GetMaterialInfo().empty()) continue; 
-			const auto& materials = m->GetMaterialInfo();
-			bool isTransparent = false;
-			for (const auto& mat : materials)
-			{
-				// 不透明度が1未満なら透明とみなす
-				if (mat.Color.w < 1.0f) 
-				{
-					isTransparent = true;
-					break;
-				}
-			}
-
-			if (isTransparent)
-				transparentList.push_back(mesh);
-			else
-				opaqueList.push_back(mesh);
-		}
-	}
-
-	// 2. 透明オブジェクトはカメラからの距離でソート（遠い順）
-	Matrix4 view = mView;
-	view.Invert();
-	// ビュー行列の逆行列からカメラ位置取得
-	Vector3 cameraPos = view.GetTranslation(); 
-	std::sort(transparentList.begin(), transparentList.end(),
-		[&](MeshRenderer* a, MeshRenderer* b)
-		{
-			float distA = (a->GetOwner()->GetPosition() - cameraPos).LengthSq();
-			float distB = (b->GetOwner()->GetPosition() - cameraPos).LengthSq();
-			return distA > distB; // 遠い順に
-		}
-	);
-	// 3. mMeshComps を再構築
-	mMeshComps.clear();
-	mMeshComps.insert(mMeshComps.end(), opaqueList.begin(), opaqueList.end());
-	mMeshComps.insert(mMeshComps.end(), transparentList.begin(), transparentList.end());
-}
 
 void Renderer::AddMeshComp(MeshRenderer* mesh)
 {

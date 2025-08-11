@@ -4,10 +4,11 @@
 #include "TitleCanvas.h"
 #include "MeshActor.h"
 
+//タイトルシーンのクラス
 class TitleScene : public BaseScene
 {
 private:
-	MeshActor* mDebugStage;
+	MeshActor*						mDebugStage;
 
 	class FreeCameraActor*			mFreeCameraActor;
 

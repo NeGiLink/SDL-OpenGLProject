@@ -2,6 +2,9 @@
 
 TitleScene::TitleScene(GameWinMain* winMain)
 	:BaseScene(winMain)
+	, mDebugStage(nullptr)
+	, mFreeCameraActor(nullptr)
+	, mTitleCanvas(nullptr)
 {
 }
 
@@ -21,12 +24,15 @@ bool TitleScene::Initialize()
 	mDebugStage->SetActorTag(ActorTag::Ground);
 	mDebugStage->AddBoxCollider();
 	*/
+	SetMouseMode(MouseMode::Absolute);
 
 	mTitleCanvas = new TitleCanvas();
 
 	mFreeCameraActor = new FreeCameraActor();
 	mFreeCameraActor->SetLocalPosition(Vector3(0.0f, 0.0f, 0.0f));
 	mFreeCameraActor->GetCamera()->SetCameraPosition(mFreeCameraActor->GetPosition(), Vector3::UnitZ);
+
+	LoadSkyBoxTexture("SkyBox02.png");
 
 	return true;
 }

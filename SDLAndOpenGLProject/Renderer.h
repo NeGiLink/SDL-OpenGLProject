@@ -1,7 +1,8 @@
 #pragma once
 #include "SDL3.h"
 #include "Typedefs.h"
-
+#include "WinMain.h"
+#include "GameApp.h"
 /*
 * ===エンジン内部処理/Engine internal processing===
 */
@@ -11,39 +12,22 @@
 struct DirectionalLightData
 {
 	// Direction of light
-	Vector3 mDirection;
+	Vector3 mDirection = Vector3();
 	// Diffuse color
-	Vector3 mDiffuseColor;
+	Vector3 mDiffuseColor = Vector3();
 	// Ambient color
-	Vector3 mAmbientColor;
+	Vector3 mAmbientColor = Vector3();
 	// Specular color
-	Vector3 mSpecColor;
+	Vector3 mSpecColor = Vector3();
 	//位置
-	Vector3 mPosition;
+	Vector3 mPosition = Vector3();
 };
 
 // 3D描画のレンダラー
+//ゲームのレンダリングを担当するクラス
 class Renderer
 {
 private:
-	void												DrawSkybox(const Matrix4& view, const Matrix4& proj);
-	//3D描画処理
-	void												Draw3DScene(unsigned int framebuffer, const Matrix4& view, const Matrix4& proj,
-		float viewPortScale = 1.0f, bool lit = true);
-	void												DrawShadow3DScene();
-	//ライト描画処理
-	void												DrawFromGBuffer();
-	//Shaderの読み込み
-	bool												LoadShaders();
-	//Spriteの頂点を作成
-	void												CreateSpriteVerts();
-	//扇型スプライトの頂点を作成
-	int 												CreateFanSpriteVerts(float fillRatio /*0.0～1.0: 扇の割合*/, int segments);
-	//オブジェクトの方向矢印の頂点を作成
-	void 												CreateAxisVerts();
-
-	//ライトのShader、マトリックスのSetter
-	void												SetLightUniforms(class Shader* shader, const Matrix4& view);
 	// BaseScene
 	class BaseScene*									mNowScene;
 	// テクスチャのマップが読み込み変数
@@ -80,18 +64,17 @@ private:
 	class GBuffer*										mGBuffer;
 	// GBuffer shader
 	class Shader*										mGGlobalShader;
-
+	//シャドウマップのクラス
 	class ShadowMap*									mShadowMap;
 	class Shader*										mShadowShader;
 	class Shader*										mSkinnedShadowShader;
-	
+	//ポイントライトの配列
 	vector<class PointLightComponent*>					mPointLights;
 	class Shader*										mGPointLightShader;
 	class Mesh*											mPointLightMesh;
-
+	//スカイボックスのレンダラー
 	class SkyBoxRenderer*								mSkyBoxRenderer;
 	class Shader*										mSkyBoxShader;
-
 	//デバッググリッドのポインタクラス
 	class DebugGrid*									mDebugGrid;
 	//グリッドのシェーダー
@@ -99,6 +82,24 @@ private:
 	class Shader*										mArrowShader;
 	//オブジェクトの方向矢印用の頂点配列
 	class VertexArray*									mAxisVAO;
+
+	//3D描画処理
+	void												Draw3DScene(unsigned int framebuffer, const Matrix4& view, const Matrix4& proj,
+		float viewPortScale = 1.0f, bool lit = true);
+	void												DrawShadow3DScene();
+	//ライト描画処理
+	void												DrawFromGBuffer();
+	//Shaderの読み込み
+	bool												LoadShaders();
+	//Spriteの頂点を作成
+	void												CreateSpriteVerts();
+	//扇型スプライトの頂点を作成
+	int 												CreateFanSpriteVerts(float fillRatio /*0.0～1.0: 扇の割合*/, int segments);
+	//オブジェクトの方向矢印の頂点を作成
+	void 												CreateAxisVerts();
+
+	//ライトのShader、マトリックスのSetter
+	void												SetLightUniforms(class Shader* shader, const Matrix4& view);
 public:
 														Renderer(class GameWinMain* game);
 														~Renderer();

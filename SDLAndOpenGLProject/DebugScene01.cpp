@@ -3,6 +3,10 @@
 
 DebugScene01::DebugScene01(GameWinMain* winMain)
 	:BaseScene(winMain)
+	, mFPSActor(nullptr)
+	, mStages(nullptr)
+	, mGameCanvas00(nullptr)
+	, mPauseMenu(nullptr)
 {
 }
 
@@ -22,10 +26,7 @@ bool DebugScene01::Initialize()
 	// BGM一時停止
 	mMusicEvent.Pause();
 
-	// マウスカーソル位置を固定
-	SDL_SetWindowRelativeMouseMode(mWinMain->GetRenderer()->GetWindow(), true);
-	// マウスカーソルを非表示
-	SDL_GetRelativeMouseState(nullptr, nullptr);
+	SetMouseMode(MouseMode::Relative);
 
 	// デバッグ用のステージ追加
 	mStages = new Stages00();
@@ -42,6 +43,8 @@ bool DebugScene01::Initialize()
 
 	// ゲーム内のUI生成
 	mGameCanvas00 = new FPSCanvas();
+
+	LoadSkyBoxTexture("SkyBox02.png");
 	return true;
 }
 

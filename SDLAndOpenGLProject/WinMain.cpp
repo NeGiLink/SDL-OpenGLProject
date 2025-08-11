@@ -1,5 +1,4 @@
 #include "WinMain.h"
-#include "GameFunctions.h"
 
 // ここで定義（初期値を指定してもOK）
 GameState GameStateClass::mGameState = GameState::GamePlay;

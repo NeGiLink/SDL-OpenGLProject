@@ -10,6 +10,8 @@ BaseScene::BaseScene(GameWinMain* winMain)
 	, mPlayer(nullptr)
 	, mMainCamera(nullptr)
 	, mFixedTimeAccumulator(0.0f)
+	, mDirectionalLightActor(nullptr)
+	, mFrameRateText(nullptr)
 {
 }
 
@@ -17,6 +19,28 @@ void BaseScene::Shutdown()
 {
 	//ƒQ[ƒ€I—¹Žž‚Ì‰ð•úˆ—
 	InputSystem::Shutdown();
+}
+
+void BaseScene::SetMouseMode(MouseMode mode)
+{
+	if (mode == MouseMode::Relative)
+	{
+		SDL_SetWindowRelativeMouseMode(mWinMain->GetRenderer()->GetWindow(), true);
+		SDL_GetRelativeMouseState(nullptr, nullptr);
+	}
+	else if (mode == MouseMode::Absolute)
+	{
+		SDL_SetWindowRelativeMouseMode(mWinMain->GetRenderer()->GetWindow(), false);
+	}
+	else
+	{
+		SDL_Log("Unknown mouse mode");
+	}
+}
+
+void BaseScene::LoadSkyBoxTexture(string file)
+{
+	mWinMain->GetRenderer()->GetSkyBoxRenderer()->Load(file);
 }
 
 bool BaseScene::Initialize()
@@ -37,8 +61,6 @@ bool BaseScene::Initialize()
 		mAudioSystem = nullptr;
 		return false;
 	}
-
-	mWinMain->GetRenderer()->GetSkyBoxRenderer()->Load("CubeMap01.png");
 
 	mDirectionalLightActor = new DirectionalLightActor();
 

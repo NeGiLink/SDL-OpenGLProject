@@ -23,6 +23,7 @@ enum ActorTag
 class ActorObject : public Transform
 {
 public:
+	//オブジェクトの状態
 	enum State
 	{
 		EActive,

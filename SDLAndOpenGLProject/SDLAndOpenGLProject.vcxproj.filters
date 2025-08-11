@@ -409,7 +409,7 @@
       <Filter>SourceFiles\F_Editor\Renderers</Filter>
     </ClCompile>
     <ClCompile Include="SkyBoxRenderer.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>SourceFiles\F_Editor\Renderers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -741,7 +741,7 @@
       <Filter>SourceFiles\F_Editor\Renderers</Filter>
     </ClInclude>
     <ClInclude Include="SkyBoxRenderer.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>SourceFiles\F_Editor\Renderers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -759,12 +759,6 @@
       <Filter>Shaders</Filter>
     </None>
     <None Include="..\Shaders\GBufferWrite.frag">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="..\Shaders\LineSprite.frag">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="..\Shaders\LineSprite.vert">
       <Filter>Shaders</Filter>
     </None>
     <None Include="..\Shaders\Phong.vert">

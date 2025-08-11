@@ -5,13 +5,22 @@
 #include "WinMain.h"
 #include "BaseScene.h"
 
+#define SKYBOXVERTEX_COUNT 36
+
+//スカイボックスを描画するクラス
+// Cubemapを使って立方体のメッシュを描画する
+// 立方体のメッシュは裏面描画用
+// 立方体のメッシュは、OpenGLのデフォルトの立方体メッシュを使用
 class SkyBoxRenderer
 {
 private:
-    class BaseScene* mGame;
-    class Texture* mTexture;      // Cubemap用
-    class VertexArray* mCubeVAO;  // 裏面描画用の立方体メッシュ
-    int mVerticesCount;
+    // Cubemap用
+    class Texture*                              mTexture;
+    std::unordered_map<string, class Texture*>	mTextures;
+    // 裏面描画用の立方体メッシュ
+    class VertexArray*                          mCubeVAO;  
+	// 頂点数
+    int                                         mVerticesCount;
 public:
     SkyBoxRenderer();
     ~SkyBoxRenderer();
