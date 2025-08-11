@@ -10,10 +10,19 @@
 // シーンごとに継承して使用します。
 class BaseScene
 {
+public:
+	enum MouseMode
+	{
+		Relative, // 相対モード
+		Absolute  // 絶対モード
+	};
 protected:
 
-	class GameWinMain*								mWinMain;
+	GameWinMain*									mWinMain;
 
+	AudioSystem*									mAudioSystem;
+
+	PhysWorld*										mPhysWorld;
 	// Track if we're updating actors right now
 	bool											mUpdatingActors;
 
@@ -29,8 +38,6 @@ protected:
 	// Any pending actors
 	vector<class ActorObject*>						mPendingActors;
 
-	class AudioSystem*								mAudioSystem;
-	class PhysWorld*								mPhysWorld;
 
 	class ActorObject*								mPlayer;
 
@@ -63,6 +70,11 @@ public:
 	void											UnloadData();
 	//ゲーム終了時の解放
 	void											Shutdown();
+
+	void											SetMouseMode(MouseMode mode);
+
+	void											LoadSkyBoxTexture(string file);
+
 	vector<class ActorObject*>&						GetActors() { return mActors; }
 	//オブジェクト追加
 	void											AddActor(class ActorObject* actor);

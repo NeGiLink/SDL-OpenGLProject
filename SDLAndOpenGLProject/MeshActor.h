@@ -26,6 +26,8 @@ private:
 	class CapsuleCollider*		mCapsuleCollider;
 
 public:
+	//コンストラクタ
+							MeshActor();
 							~MeshActor();
 
 	void					Load(string filePath);
@@ -52,6 +54,4 @@ public:
 	const AABB				GetBoxAABB();
 	//MeshRendererからOBBを取得処理を省略した関数
 	const OBB				GetBoxOBB();
-
-
 };

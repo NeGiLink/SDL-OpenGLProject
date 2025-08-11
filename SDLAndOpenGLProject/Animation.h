@@ -16,16 +16,16 @@ namespace AnimationLayout
 struct AnimationBinHeader 
 {
 	uint32_t	version = 1;
-	float		duration;
-	uint32_t	numFrames;
-	uint32_t	numBones;
+	float		duration = 0;
+	uint32_t	numFrames = 0;
+	uint32_t	numBones = 0;
 };
 
 struct AnimationBinTransform 
 {
-	Vector3		position;
-	Quaternion	rotation;
-	Vector3		scale;
+	Vector3		position = Vector3();
+	Quaternion	rotation = Quaternion();
+	Vector3		scale = Vector3();
 };
 
 //アニメーション1つの情報を持つクラス

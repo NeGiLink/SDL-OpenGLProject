@@ -85,6 +85,11 @@ VertexArray::VertexArray(const void* verts, unsigned int numVerts, Layout layout
 }
 
 VertexArray::VertexArray(float fillAmount, int maxSegments)
+	: mNumVerts(0)
+	, mNumIndices(0)
+	, mVertexArray(0)
+	, mVertexBuffer(0)
+	, mIndexBuffer(0)
 {
 	struct Vertex
 	{
@@ -151,6 +156,9 @@ VertexArray::VertexArray(float fillAmount, int maxSegments)
 VertexArray::VertexArray(const float* verts, unsigned int numVerts)
 	: mNumVerts(numVerts)
 	, mNumIndices(0)
+	, mVertexArray(0)
+	, mVertexBuffer(0)
+	, mIndexBuffer(0)
 {
 	glGenVertexArrays(VertexLayout::NUM_VERTEX_ARRAYS, &mVertexArray);
 	glGenBuffers(VertexLayout::NUM_VERTEX_BUFFERS, &mVertexBuffer);
@@ -169,6 +177,9 @@ VertexArray::VertexArray(const float* verts, unsigned int numVerts)
 VertexArray::VertexArray(const std::vector<AxisVertex>& verts)
 	: mNumVerts(static_cast<unsigned int>(verts.size()))
 	, mNumIndices(0)
+	, mVertexArray(0)
+	, mVertexBuffer(0)
+	, mIndexBuffer(0)
 {
 	glGenVertexArrays(1, &mVertexArray);
 	glGenBuffers(1, &mVertexBuffer);

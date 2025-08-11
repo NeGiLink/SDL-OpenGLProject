@@ -17,10 +17,7 @@ bool DebugScene02::Initialize()
 	// Start music
 	mMusicEvent = mAudioSystem->PlayEvent("event:/Music");
 
-	// マウスカーソル位置を固定
-	SDL_SetWindowRelativeMouseMode(mWinMain->GetRenderer()->GetWindow(), true);
-	// マウスカーソルを非表示
-	SDL_GetRelativeMouseState(nullptr, nullptr);
+	SetMouseMode(MouseMode::Relative);
 
 	// デバッグ用のステージ追加
 	mStages01 = new Stages01();
@@ -34,6 +31,9 @@ bool DebugScene02::Initialize()
 
 	// ゲーム内のUI生成
 	mTPSCanvas = new TPSCanvas();
+
+	LoadSkyBoxTexture("SkyBox03.png");
+
 	return true;
 }
 

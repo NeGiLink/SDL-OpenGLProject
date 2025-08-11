@@ -1,5 +1,5 @@
 
-
+//シャドウマップの深度シェーダー
 #version 330 core
 
 void main()

@@ -1,10 +1,9 @@
 #include "SkyBoxRenderer.h"
 
 SkyBoxRenderer::SkyBoxRenderer()
-    : mGame(nullptr)
-    , mTexture(nullptr)
+    : mTexture(nullptr)
     , mCubeVAO(nullptr)
-    , mVerticesCount(36)
+    , mVerticesCount(SKYBOXVERTEX_COUNT)
 {
     // キューブ頂点生成
 	float skyboxVertices[] = {
@@ -61,15 +60,27 @@ SkyBoxRenderer::~SkyBoxRenderer()
 
 void SkyBoxRenderer::Load(const std::string& file, int faceSize)
 {
-	if (mTexture)
-	{
-		mTexture->Unload();
-		delete mTexture;
-		mTexture = nullptr;
-	}
-    mTexture = new Texture();
 	string filePath = TexFile::TextureFilePath + file;
-    mTexture->LoadEquirectangularToCubemap(filePath, faceSize);
+	Texture* tex = nullptr;
+	auto iter = mTextures.find(filePath);
+	if (iter != mTextures.end())
+	{
+		tex = iter->second;
+	}
+	else
+	{
+		tex = new Texture();
+		if (tex->LoadEquirectangularToCubemap(filePath, faceSize))
+		{
+			mTextures.emplace(filePath, tex);
+		}
+		else
+		{
+			delete tex;
+			tex = nullptr;
+		}
+	}
+	mTexture = tex;
 }
 
 void SkyBoxRenderer::Draw(class Shader* shader, const Matrix4& view, const Matrix4& proj)
@@ -109,11 +120,19 @@ void SkyBoxRenderer::Draw(class Shader* shader, const Matrix4& view, const Matri
 
 void SkyBoxRenderer::UnLoad()
 {
+	/*
     if (mTexture) {
         mTexture->Unload();
         delete mTexture;
         mTexture = nullptr;
     }
+	*/
+	for (auto& pair : mTextures) {
+		if (pair.second) {
+			pair.second->Unload();
+			delete pair.second;
+		}
+	}
     if (mCubeVAO) {
         delete mCubeVAO;
         mCubeVAO = nullptr;

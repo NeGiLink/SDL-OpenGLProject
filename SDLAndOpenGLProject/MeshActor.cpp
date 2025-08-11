@@ -1,5 +1,14 @@
 #include "MeshActor.h"
 
+MeshActor::MeshActor()
+	: ActorObject()
+	, mMeshRenderer(nullptr)
+	, mBoxCollider(nullptr)
+	, mSphereCollider(nullptr)
+	, mCapsuleCollider(nullptr)
+{
+}
+
 MeshActor::~MeshActor()
 {
 }
