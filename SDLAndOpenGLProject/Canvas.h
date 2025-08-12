@@ -2,7 +2,7 @@
 #include "Math.h"
 #include "Texture.h"
 #include "Shader.h"
-#include "WinMain.h"
+#include "GameWinMain.h"
 #include "Font.h"
 #include "Image.h"
 #include "Text.h"

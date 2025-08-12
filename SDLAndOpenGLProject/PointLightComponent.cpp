@@ -1,6 +1,6 @@
 #include "PointLightComponent.h"
 #include "Shader.h"
-#include "WinMain.h"
+#include "GameWinMain.h"
 #include "BaseScene.h"
 #include "Renderer.h"
 #include "Mesh.h"

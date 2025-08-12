@@ -3,7 +3,7 @@
 #include <SDL3/SDL_scancode.h>
 #include "Renderer.h"
 #include "AudioSystem.h"
-#include "WinMain.h"
+#include "GameWinMain.h"
 #include "AudioComponent.h"
 /*
 

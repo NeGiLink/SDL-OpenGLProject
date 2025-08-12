@@ -225,7 +225,7 @@
     <ClCompile Include="Main.cpp">
       <Filter>SourceFiles\A_Mains</Filter>
     </ClCompile>
-    <ClCompile Include="WinMain.cpp">
+    <ClCompile Include="GameWinMain.cpp">
       <Filter>SourceFiles\A_Mains</Filter>
     </ClCompile>
     <ClCompile Include="ColliderActor.cpp">
@@ -536,7 +536,7 @@
     <ClInclude Include="BoneTransform.h">
       <Filter>SourceFiles\F_Editor\Renderers</Filter>
     </ClInclude>
-    <ClInclude Include="WinMain.h">
+    <ClInclude Include="GameWinMain.h">
       <Filter>SourceFiles\A_Mains</Filter>
     </ClInclude>
     <ClInclude Include="GameApp.h">

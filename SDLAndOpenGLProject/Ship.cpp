@@ -1,6 +1,6 @@
 #include "Ship.h"
 #include "InputComponent.h"
-#include "WinMain.h"
+#include "GameWinMain.h"
 #include "Laser.h"
 /*
 Ship::Ship(Game* game)

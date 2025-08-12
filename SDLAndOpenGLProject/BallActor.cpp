@@ -1,5 +1,5 @@
 #include "BallActor.h"
-#include "WinMain.h"
+#include "GameWinMain.h"
 #include "BaseScene.h"
 #include "Renderer.h"
 #include "MeshRenderer.h"

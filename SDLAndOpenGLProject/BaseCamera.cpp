@@ -1,7 +1,7 @@
 #include "BaseCamera.h"
 #include "Actor.h"
 #include "Renderer.h"
-#include "WinMain.h"
+#include "GameWinMain.h"
 #include "BaseScene.h"
 #include "AudioSystem.h"
 

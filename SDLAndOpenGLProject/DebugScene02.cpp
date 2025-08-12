@@ -60,7 +60,7 @@ void DebugScene02::HandleKeyPress(int key)
 	switch (key)
 	{
 	case SDLK_ESCAPE:
-		// Create pause menu
+		// ポートメニューの作成
 		new PauseMenu();
 		break;
 	case SDL_BUTTON_LEFT:

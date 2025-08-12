@@ -1,5 +1,5 @@
 #pragma once
-#include "WinMain.h"
+#include "GameWinMain.h"
 
 /*
 * ===ƒGƒ“ƒWƒ““à•”ˆ—/Engine internal processing===
