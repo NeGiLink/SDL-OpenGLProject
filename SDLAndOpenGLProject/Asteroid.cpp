@@ -1,6 +1,6 @@
 #include "Asteroid.h"
 #include "MoveComponent.h"
-#include "WinMain.h"
+#include "GameWinMain.h"
 #include "Random.h"
 #include "CircleComponent.h"
 /*

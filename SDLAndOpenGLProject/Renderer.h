@@ -1,7 +1,7 @@
 #pragma once
 #include "SDL3.h"
 #include "Typedefs.h"
-#include "WinMain.h"
+#include "GameWinMain.h"
 #include "GameApp.h"
 /*
 * ===ƒGƒ“ƒWƒ““à•”ˆ—/Engine internal processing===

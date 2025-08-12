@@ -21,15 +21,15 @@ public:
 class GameWinMain
 {
 private:
+	class Renderer*		mRenderer;
+
+	//ゲーム内処理
+	class GameApp*		mGameApp;
 	//ゲーム内の全ての描画を行うクラス
 	void				Render();
 	//シーン遷移時の解放処理
 	void				UnloadData();
 
-	class Renderer*		mRenderer;
-
-	//ゲーム内処理
-	class GameApp*		mGameApp;
 public:
 						GameWinMain();
 	//初期化

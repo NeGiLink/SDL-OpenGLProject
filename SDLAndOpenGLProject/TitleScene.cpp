@@ -16,14 +16,7 @@ bool TitleScene::Initialize()
 {
 	BaseScene::Initialize();
 
-	/*
-	mDebugStage = new MeshActor();
-	mDebugStage->Load("DebugStage.fbx");
-	Vector3 pos = Vector3(0.0f, -1.0f, 0.0f);
-	mDebugStage->SetLocalPosition(pos);
-	mDebugStage->SetActorTag(ActorTag::Ground);
-	mDebugStage->AddBoxCollider();
-	*/
+
 	SetMouseMode(MouseMode::Absolute);
 
 	mTitleCanvas = new TitleCanvas();
