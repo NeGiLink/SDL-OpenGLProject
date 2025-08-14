@@ -6,6 +6,8 @@ TargetActor::TargetActor()
 	, mHitCoolDownCount(0)
 	, mRotateCount(2.0f)
 {
+	mActorTag = ActorTag::Enemy;
+
 	mMesh = new MeshActor();
 	mMesh->Load("Target.fbx");
 	AddChildActor(mMesh);
