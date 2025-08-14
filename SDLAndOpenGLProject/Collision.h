@@ -1,7 +1,6 @@
 #pragma once
 #include "Math.h"
 #include "Typedefs.h"
-
 /*
 * ===エンジン内部処理/Engine internal processing===
 */
@@ -61,7 +60,7 @@ struct AABB
 	Vector3		mMax;
 };
 
-//一度これを使うのは保留
+
 struct OBB
 {
 	OBB(const Vector3& center, const Quaternion& rotation, const Vector3& extents);
@@ -106,6 +105,7 @@ bool	OnCollision(const Capsule& capsule, const Sphere& b);
 bool	OnCollision(const LineSegment& l, const Sphere& s, float& outT);
 bool	OnCollision(const LineSegment& l, const Plane& p, float& outT);
 bool	OnCollision(const LineSegment& l, const AABB& b, float& outT,Vector3& outNorm);
+bool	OnRayAABBCollision(const LineSegment& seg, const AABB& box, float& outT, Vector3& outNorm);
 bool	OnRayCastCollision(const LineSegment& rayWorld, OBB& obb, float& outT, Vector3& outNorm);
 
 

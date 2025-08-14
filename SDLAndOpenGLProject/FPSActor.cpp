@@ -68,7 +68,7 @@ void FPSActor::UpdateActor(float deltaTime)
 	Vector3 start = mPosition;
 	//start.y += 0.5f;
 	Vector3 dir = GetUp();
-	dir *= -1;
+	dir *= -0.5f;
 	LineSegment l(start, start + dir * cAimDist);
 	// Segment cast
 	PhysWorld::CollisionInfo info;

@@ -14,26 +14,18 @@ PhysWorld::PhysWorld(BaseScene* game)
 bool PhysWorld::RayCast(const LineSegment& l, CollisionInfo& outColl, int tag)
 {
 	bool collided = false;
-	// closestTを無限大に初期化して、
-	// 最初の交差点が常にclosestTを更新するようにします。
 	float closestT = Math::Infinity;
 	Vector3 norm = Vector3::Zero;
-	// すべてのボックスに対する判定
+
 	for (auto collider : mCollider)
 	{
-		float t = 0;
-		if (tag != -1)
-		{
-			if ((int)collider->GetOwner()->GetActorTag() != tag)
-			{
-				continue;
-			}
-		}
+		if (tag != -1 && (int)collider->GetOwner()->GetActorTag() != tag)
+			continue;
+
 		OBB obb = collider->GetWorldOBB();
-		// その線分はボックスと交差しているか判定
+		float t = 0;
 		if (OnRayCastCollision(l, obb, t, norm))
 		{
-			// これは以前の交差点より近いか
 			if (t >= 0.0f && t < closestT)
 			{
 				closestT = t;
@@ -42,7 +34,6 @@ bool PhysWorld::RayCast(const LineSegment& l, CollisionInfo& outColl, int tag)
 				outColl.mCollider = collider;
 				outColl.mActor = collider->GetOwner();
 				collided = true;
-				break;
 			}
 		}
 	}

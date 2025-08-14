@@ -8,7 +8,8 @@ LineSegment::LineSegment(const Vector3& start, const Vector3& end)
 
 Vector3 LineSegment::PointOnSegment(float t) const
 {
-	return mStart + (mEnd - mStart) * t;
+	float u = std::clamp(t, 0.0f, 1.0f);
+	return mStart + (mEnd - mStart) * u;
 }
 
 float LineSegment::MinDistSq(const Vector3& point) const
@@ -589,10 +590,72 @@ bool OnCollision(const LineSegment& l, const AABB& b, float& outT,
 	return false;
 }
 
+bool OnRayAABBCollision(const LineSegment& seg, const AABB& box, float& outT, Vector3& outNorm)
+{
+	Vector3 dir = seg.mEnd - seg.mStart;
+
+	float tMin = 0.0f;
+	float tMax = 1.0f;
+	Vector3 hitNormal = Vector3::Zero;
+
+	auto checkAxis = [&](float start, float d, float minB, float maxB, const Vector3& axisMinNormal) -> bool
+		{
+			if (Math::NearZero(d))
+			{
+				// 平行 → スラブ外なら交差なし
+				if (start < minB || start > maxB)
+					return false;
+			}
+			else
+			{
+				float ood = 1.0f / d;
+				float t1 = (minB - start) * ood;
+				float t2 = (maxB - start) * ood;
+
+				Vector3 axisNormal = axisMinNormal;
+
+				if (t1 > t2)
+				{
+					std::swap(t1, t2);
+					axisNormal = -1 * axisNormal; // max面が最初に当たる
+				}
+
+				if (t1 > tMin)
+				{
+					tMin = t1;
+					hitNormal = axisNormal;
+				}
+				tMax = Math::Min(tMax, t2);
+
+				if (tMin > tMax)
+					return false;
+			}
+			return true;
+		};
+
+	// X軸
+	if (!checkAxis(seg.mStart.x, dir.x, box.mMin.x, box.mMax.x, Vector3::NegUnitX))
+		return false;
+	// Y軸
+	if (!checkAxis(seg.mStart.y, dir.y, box.mMin.y, box.mMax.y, Vector3::NegUnitY))
+		return false;
+	// Z軸
+	if (!checkAxis(seg.mStart.z, dir.z, box.mMin.z, box.mMax.z, Vector3::NegUnitZ))
+		return false;
+
+	if (tMin >= 0.0f && tMin <= 1.0f)
+	{
+		outT = tMin;
+		outNorm = hitNormal;
+		return true;
+	}
+	return false;
+}
+
 bool OnRayCastCollision(const LineSegment& rayWorld, OBB& obb, float& outT, Vector3& outNorm)
 {
-	obb.mRotation.Conjugate(); // 逆回転でローカル変換
 	Quaternion invRot = obb.mRotation;
+	invRot.Conjugate(); // 逆回転を取得
 	Vector3 localStart = Vector3::Transform(rayWorld.mStart - obb.mCenter, invRot);
 	Vector3 localEnd = Vector3::Transform(rayWorld.mEnd - obb.mCenter, invRot);
 	LineSegment localRay(localStart, localEnd);
@@ -602,10 +665,11 @@ bool OnRayCastCollision(const LineSegment& rayWorld, OBB& obb, float& outT, Vect
 	float localT;
 	Vector3 localNormal;
 
-	if (OnCollision(localRay, localBox, localT, localNormal))
+	if (OnRayAABBCollision(localRay, localBox, localT, localNormal))
 	{
 		outT = localT;
 		outNorm = Vector3::Transform(localNormal, obb.mRotation);
+		outNorm.Normalize();
 		return true;
 	}
 	return false;

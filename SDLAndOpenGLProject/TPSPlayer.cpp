@@ -61,7 +61,7 @@ void TPSPlayer::UpdateActor(float deltaTime)
 	Vector3 start = mPosition;
 	start.y += 0.5f;
 	Vector3 dir = GetUp();
-	dir *= -1;
+	dir *= -0.2f;
 	LineSegment l(start, start + dir * cAimDist);
 	// Segment cast
 	PhysWorld::CollisionInfo info;

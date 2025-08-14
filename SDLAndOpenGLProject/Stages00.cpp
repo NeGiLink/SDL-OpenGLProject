@@ -27,13 +27,14 @@ Stages00::Stages00()
 void Stages00::Initialize()
 {
 	Quaternion q;
-
+	Vector3 pos;
 	mDebugStage = new MeshActor();
 	mDebugStage->Load("DebugStage.fbx");
-	Vector3 pos = Vector3(0.0f, -1.0f, 0.0f);
+	pos = Vector3(0.0f, -1.0f, 0.0f);
 	mDebugStage->SetLocalPosition(pos);
 	mDebugStage->SetActorTag(ActorTag::Ground);
 	mDebugStage->AddBoxCollider();
+
 
 
 	mFloor00 = new MeshActor();
@@ -42,7 +43,6 @@ void Stages00::Initialize()
 	mFloor00->SetLocalPosition(pos);
 	mFloor00->SetActorTag(ActorTag::Ground);
 	mFloor00->AddBoxCollider();
-	/*
 	mDebugStage2 = new MeshActor();
 	mDebugStage2->Load("DebugStage.fbx");
 	pos = Vector3(0.0f, 9.5f, 10.5f);
@@ -88,7 +88,6 @@ void Stages00::Initialize()
 	mWall02->SetLocalPosition(pos);
 	mWall02->SetLocalRotation(Quaternion(Vector3::UnitY, Math::Pi));
 	mWall02->AddBoxCollider();
-	*/
 
 
 	// 的オブジェクト生成

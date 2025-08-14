@@ -40,9 +40,9 @@ void GunActor::Fire()
 	LineSegment l(screenPos, screenPos + screenDir * cAimDist);
 	// Segment cast
 	PhysWorld::CollisionInfo info;
-	ActorTag tag = ActorTag::Ground;
+	ActorTag tag = ActorTag::Enemy;
 	Vector3 targetPoint;
-	if (mGame->GetPhysWorld()->RayCast(l, info))
+	if (mGame->GetPhysWorld()->RayCast(l, info,tag))
 	{
 		targetPoint = info.mPoint;
 	}
