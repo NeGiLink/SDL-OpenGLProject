@@ -1,4 +1,5 @@
 #include "TPSCanvas.h"
+#include "PauseMenu.h"
 
 TPSCanvas::TPSCanvas()
 	: Canvas()
@@ -64,4 +65,13 @@ TPSCanvas::TPSCanvas()
 void TPSCanvas::Update(float deltaTime)
 {
 	Canvas::Update(deltaTime);
+}
+
+void TPSCanvas::ProcessInput(const InputState& keys)
+{
+	Canvas::ProcessInput(keys);
+	if (keys.Keyboard.GetKeyDown(KEY_ESCAPE))
+	{
+		new PauseMenu();
+	}
 }

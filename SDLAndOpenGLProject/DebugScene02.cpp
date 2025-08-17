@@ -54,21 +54,3 @@ bool DebugScene02::Update()
 	BaseScene::Update();
 	return true;
 }
-
-void DebugScene02::HandleKeyPress(int key)
-{
-	switch (key)
-	{
-	case SDLK_ESCAPE:
-		// ポートメニューの作成
-		new PauseMenu();
-		break;
-	case SDL_BUTTON_LEFT:
-	{
-		break;
-	}
-	default:
-		break;
-	}
-	BaseScene::HandleKeyPress(key);
-}

@@ -8,7 +8,6 @@
 #include "Text.h"
 
 #include "Button.h"
-
 /*
 * ===ƒGƒ“ƒWƒ““à•”ˆ—/Engine internal processing===
 */
@@ -58,7 +57,6 @@ public:
 	virtual void			Update(float deltaTime);
 	virtual void			Draw(class Shader* shader);
 	virtual void			ProcessInput(const struct InputState& keys);
-	virtual void			HandleKeyPress(int key);
 
 	// ó‘Ô‚ğ•Â½‚Éİ’è
 	virtual void					Close();

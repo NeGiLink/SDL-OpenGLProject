@@ -75,16 +75,3 @@ bool DebugScene01::Update()
 	BaseScene::Update();
 	return true;
 }
-
-void DebugScene01::HandleKeyPress(int key)
-{
-	switch (key)
-	{
-	case SDLK_ESCAPE:
-		mPauseMenu = new PauseMenu();
-		break;
-	default:
-		break;
-	}
-	BaseScene::HandleKeyPress(key);
-}

@@ -64,8 +64,6 @@ public:
 	virtual bool									FixedUpdate();
 	//更新
 	virtual bool									Update();
-	
-	virtual void									HandleKeyPress(int key);
 	//解放
 	void											UnloadData();
 	//ゲーム終了時の解放

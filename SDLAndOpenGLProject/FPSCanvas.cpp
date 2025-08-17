@@ -1,5 +1,5 @@
 #include "FPSCanvas.h"
-
+#include "PauseMenu.h"
 
 FPSCanvas::FPSCanvas()
 	:Canvas()
@@ -161,6 +161,11 @@ void FPSCanvas::ProcessInput(const InputState& keys)
 			fill = 1;
 		}
 		mCrosshair->SetFillAmount(fill);
+	}
+
+	if (keys.Keyboard.GetKeyDown(KEY_ESCAPE))
+	{
+		new PauseMenu();
 	}
 }
 

@@ -28,6 +28,4 @@ public:
 	bool							InputUpdate(const InputState& state)override;
 
 	bool							Update()override;
-
-	void							HandleKeyPress(int key)override;
 };
