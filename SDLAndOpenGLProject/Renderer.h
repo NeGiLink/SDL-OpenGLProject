@@ -162,4 +162,6 @@ public:
 	void												SetBaseScene(class BaseScene* scene) { mNowScene = scene; }
 	//mWindow‚ÌGetter
 	SDL_Window*											GetWindow() { return mWindow; }
+	// mContext‚ÌGetter
+	SDL_GLContext										GetContext() { return mContext; }
 };

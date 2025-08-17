@@ -45,8 +45,3 @@ bool TitleScene::Update()
 	BaseScene::Update();
 	return true;
 }
-
-void TitleScene::HandleKeyPress(int key)
-{
-	BaseScene::HandleKeyPress(key);
-}

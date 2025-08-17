@@ -12,6 +12,5 @@ private:
 public:
 			PauseMenu();
 			~PauseMenu();
-
-	void	HandleKeyPress(int key) override;
+	void	ProcessInput(const struct InputState& keys)override;
 };

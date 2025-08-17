@@ -42,6 +42,8 @@ public:
 
 	void									Update(float deltaTime) override;
 
+	void									ProcessInput(const InputState& keys) override;
+
 
 	Image*									GetHelthBar() { return mHelthBar; }
 };

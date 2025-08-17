@@ -1,6 +1,10 @@
 #pragma once
 #include "SDOpenLib.h"
 
+#include "imgui.h"
+#include "imgui_impl_sdl3.h"
+#include "imgui_impl_opengl3.h"
+
 enum GameState
 {
 	GamePlay,
@@ -32,6 +36,7 @@ private:
 
 public:
 						GameWinMain();
+						~GameWinMain();
 	//‰Šú‰»
 	bool				Initialize();
 	//ƒQ[ƒ€ˆ—

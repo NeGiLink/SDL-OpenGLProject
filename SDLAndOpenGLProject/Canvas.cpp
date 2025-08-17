@@ -112,29 +112,12 @@ void Canvas::ProcessInput(const struct InputState& keys)
 			{
 				b->SetHighlighted(false);
 			}
-		}
-	}
-}
 
-void Canvas::HandleKeyPress(int key)
-{
-	switch (key)
-	{
-	case SDL_BUTTON_LEFT:
-		if (!mButtons.empty())
-		{
-			for (auto b : mButtons)
+			if( b->GetHighlighted() && keys.Mouse.GetButtonDown(SDL_BUTTON_LEFT))
 			{
-				if (b->GetHighlighted())
-				{
-					b->OnClick();
-					break;
-				}
+				b->OnClick();
 			}
 		}
-		break;
-	default:
-		break;
 	}
 }
 

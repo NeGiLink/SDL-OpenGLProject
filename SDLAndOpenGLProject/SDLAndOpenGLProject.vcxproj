@@ -105,7 +105,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;SDL_VERSION=SDL3-3.2.8;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>Default</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)SDL3-3.2.8\include;$(ProjectDir)SDL3_image-3.2.4\include;$(ProjectDir)FMOD Studio API Windows\api\lowlevel\inc;$(ProjectDir)FMOD Studio API Windows\api\studio\inc;$(ProjectDir)SDL3_ttf-3.1.0\include;$(ProjectDir)\rapidjson-master\rapidjson-master\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)SDL3-3.2.8\include;$(ProjectDir)SDL3_image-3.2.4\include;$(ProjectDir)FMOD Studio API Windows\api\lowlevel\inc;$(ProjectDir)FMOD Studio API Windows\api\studio\inc;$(ProjectDir)SDL3_ttf-3.1.0\include;$(ProjectDir)rapidjson-master\rapidjson-master\include;$(ProjectDir)ImGui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
@@ -127,7 +127,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_NDEBUG;_WINDOWS;SDL_VERSION=SDL3-3.2.8;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>Default</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)SDL3-3.2.8\include;$(ProjectDir)SDL3_image-3.2.4\include;$(ProjectDir)FMOD Studio API Windows\api\lowlevel\inc;$(ProjectDir)FMOD Studio API Windows\api\studio\inc;$(ProjectDir)SDL3_ttf-3.1.0\include;$(ProjectDir)\rapidjson-master\rapidjson-master\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)SDL3-3.2.8\include;$(ProjectDir)SDL3_image-3.2.4\include;$(ProjectDir)FMOD Studio API Windows\api\lowlevel\inc;$(ProjectDir)FMOD Studio API Windows\api\studio\inc;$(ProjectDir)SDL3_ttf-3.1.0\include;$(ProjectDir)rapidjson-master\rapidjson-master\include;$(ProjectDir)ImGui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
@@ -186,6 +186,13 @@
     <ClCompile Include="GameApp.cpp" />
     <ClCompile Include="GunActor.cpp" />
     <ClCompile Include="Image.cpp" />
+    <ClCompile Include="ImGui\imgui.cpp" />
+    <ClCompile Include="ImGui\imgui_demo.cpp" />
+    <ClCompile Include="ImGui\imgui_draw.cpp" />
+    <ClCompile Include="ImGui\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="ImGui\imgui_impl_sdl3.cpp" />
+    <ClCompile Include="ImGui\imgui_tables.cpp" />
+    <ClCompile Include="ImGui\imgui_widgets.cpp" />
     <ClCompile Include="InputSystem.cpp" />
     <ClCompile Include="MeshActor.cpp" />
     <ClCompile Include="ParticleSystem.cpp" />
@@ -290,6 +297,15 @@
     <ClInclude Include="GameFunctions.h" />
     <ClInclude Include="GunActor.h" />
     <ClInclude Include="Image.h" />
+    <ClInclude Include="ImGui\imconfig.h" />
+    <ClInclude Include="ImGui\imgui.h" />
+    <ClInclude Include="ImGui\imgui_impl_opengl3.h" />
+    <ClInclude Include="ImGui\imgui_impl_opengl3_loader.h" />
+    <ClInclude Include="ImGui\imgui_impl_sdl3.h" />
+    <ClInclude Include="ImGui\imgui_internal.h" />
+    <ClInclude Include="ImGui\imstb_rectpack.h" />
+    <ClInclude Include="ImGui\imstb_textedit.h" />
+    <ClInclude Include="ImGui\imstb_truetype.h" />
     <ClInclude Include="InputSystem.h" />
     <ClInclude Include="FilePath.h" />
     <ClInclude Include="MeshActor.h" />

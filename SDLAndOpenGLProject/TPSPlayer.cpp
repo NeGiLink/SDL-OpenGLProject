@@ -73,14 +73,6 @@ void TPSPlayer::UpdateActor(float deltaTime)
 			mMovement->SetJumping(false);
 		}
 	}
-	if (mMovement->IsJumping())
-	{
-		Debug::Log("Jumping");
-	}
-	else
-	{
-		Debug::Log("Landing");
-	}
 }
 
 void TPSPlayer::ActorInput(const InputState& keys)

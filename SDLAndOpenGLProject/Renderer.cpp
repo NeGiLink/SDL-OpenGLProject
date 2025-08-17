@@ -352,6 +352,9 @@ void Renderer::Draw()
 		}
 	}
 
+	ImGui::Render();
+	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
 	// バッファを入れ替える
 	SDL_GL_SwapWindow(mWindow);
 }
