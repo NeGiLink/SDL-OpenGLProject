@@ -184,6 +184,8 @@
     <ClCompile Include="FreeCamera.cpp" />
     <ClCompile Include="FreeCameraActor.cpp" />
     <ClCompile Include="GameApp.cpp" />
+    <ClCompile Include="GUITexture.cpp" />
+    <ClCompile Include="GUIWinMain.cpp" />
     <ClCompile Include="GunActor.cpp" />
     <ClCompile Include="Image.cpp" />
     <ClCompile Include="ImGui\imgui.cpp" />
@@ -295,6 +297,8 @@
     <ClInclude Include="FreeCameraActor.h" />
     <ClInclude Include="GameApp.h" />
     <ClInclude Include="GameFunctions.h" />
+    <ClInclude Include="GUITexture.h" />
+    <ClInclude Include="GUIWinMain.h" />
     <ClInclude Include="GunActor.h" />
     <ClInclude Include="Image.h" />
     <ClInclude Include="ImGui\imconfig.h" />
