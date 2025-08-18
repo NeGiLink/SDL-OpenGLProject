@@ -118,6 +118,12 @@
     <Filter Include="SourceFiles\G_GUI">
       <UniqueIdentifier>{3cf9cb92-2e30-439e-a012-e07721b82c7a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="SourceFiles\G_GUI\ImGui">
+      <UniqueIdentifier>{d0c717c0-6127-4845-80c2-ba43af620543}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceFiles\G_GUI\Images">
+      <UniqueIdentifier>{b9ab2b00-76dd-4f0e-8fa6-be245a7253e1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Component.cpp">
@@ -414,26 +420,32 @@
     <ClCompile Include="SkyBoxRenderer.cpp">
       <Filter>SourceFiles\F_Editor\Renderers</Filter>
     </ClCompile>
-    <ClCompile Include="ImGui\imgui_demo.cpp">
-      <Filter>SourceFiles\G_GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="ImGui\imgui_draw.cpp">
-      <Filter>SourceFiles\G_GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="ImGui\imgui_impl_opengl3.cpp">
-      <Filter>SourceFiles\G_GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="ImGui\imgui_impl_sdl3.cpp">
-      <Filter>SourceFiles\G_GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="ImGui\imgui_tables.cpp">
-      <Filter>SourceFiles\G_GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="ImGui\imgui_widgets.cpp">
-      <Filter>SourceFiles\G_GUI</Filter>
+    <ClCompile Include="GUIWinMain.cpp">
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="ImGui\imgui.cpp">
-      <Filter>SourceFiles\G_GUI</Filter>
+      <Filter>SourceFiles\G_GUI\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\imgui_demo.cpp">
+      <Filter>SourceFiles\G_GUI\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\imgui_draw.cpp">
+      <Filter>SourceFiles\G_GUI\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\imgui_impl_opengl3.cpp">
+      <Filter>SourceFiles\G_GUI\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\imgui_impl_sdl3.cpp">
+      <Filter>SourceFiles\G_GUI\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\imgui_tables.cpp">
+      <Filter>SourceFiles\G_GUI\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\imgui_widgets.cpp">
+      <Filter>SourceFiles\G_GUI\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="GUITexture.cpp">
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -767,32 +779,38 @@
     <ClInclude Include="SkyBoxRenderer.h">
       <Filter>SourceFiles\F_Editor\Renderers</Filter>
     </ClInclude>
-    <ClInclude Include="ImGui\imgui.h">
-      <Filter>SourceFiles\G_GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="ImGui\imgui_impl_opengl3.h">
-      <Filter>SourceFiles\G_GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="ImGui\imgui_impl_opengl3_loader.h">
-      <Filter>SourceFiles\G_GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="ImGui\imgui_impl_sdl3.h">
-      <Filter>SourceFiles\G_GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="ImGui\imgui_internal.h">
-      <Filter>SourceFiles\G_GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="ImGui\imstb_rectpack.h">
-      <Filter>SourceFiles\G_GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="ImGui\imstb_textedit.h">
-      <Filter>SourceFiles\G_GUI</Filter>
+    <ClInclude Include="GUIWinMain.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="ImGui\imstb_truetype.h">
-      <Filter>SourceFiles\G_GUI</Filter>
+      <Filter>SourceFiles\G_GUI\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="ImGui\imconfig.h">
-      <Filter>SourceFiles\G_GUI</Filter>
+      <Filter>SourceFiles\G_GUI\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imgui.h">
+      <Filter>SourceFiles\G_GUI\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imgui_impl_opengl3.h">
+      <Filter>SourceFiles\G_GUI\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imgui_impl_opengl3_loader.h">
+      <Filter>SourceFiles\G_GUI\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imgui_impl_sdl3.h">
+      <Filter>SourceFiles\G_GUI\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imgui_internal.h">
+      <Filter>SourceFiles\G_GUI\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imstb_rectpack.h">
+      <Filter>SourceFiles\G_GUI\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imstb_textedit.h">
+      <Filter>SourceFiles\G_GUI\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="GUITexture.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

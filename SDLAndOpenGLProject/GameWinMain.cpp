@@ -16,9 +16,7 @@ GameWinMain::GameWinMain()
 
 GameWinMain::~GameWinMain()
 {
-	ImGui_ImplOpenGL3_Shutdown();
-	ImGui_ImplSDL3_Shutdown();
-	ImGui::DestroyContext();
+	GUIWinMain::ShutdownImGui();
 }
 
 bool GameWinMain::Initialize()
@@ -58,19 +56,7 @@ bool GameWinMain::Initialize()
 	}
 
 	//  ImGuiの初期化処理
-	{
-		//  バージョンの確認
-		IMGUI_CHECKVERSION();
-
-		//  コンテキストの作成
-		ImGui::CreateContext();
-		ImGuiIO& io = ImGui::GetIO();
-		io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // キーボードによるナビゲーションの有効化
-		io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // コントローラーによるナビゲーションの有効化
-
-		ImGui_ImplSDL3_InitForOpenGL(mRenderer->GetWindow(), mRenderer->GetContext());
-		ImGui_ImplOpenGL3_Init("#version 330");
-	}
+	GUIWinMain::InitializeImGui(mRenderer->GetWindow(), mRenderer->GetContext());
 	return true;
 }
 
@@ -86,13 +72,8 @@ void GameWinMain::RunLoop()
 		mGameApp->ProcessInput();
 		//座標更新処理
 		mGameApp->Update();
-		
-		ImGui_ImplOpenGL3_NewFrame();
-		ImGui_ImplSDL3_NewFrame();
-		ImGui::NewFrame();
 
-		//  デモウィンドウの描画
-		ImGui::ShowDemoWindow();
+		GUIWinMain::UpdateImGuiState();
 
 		Render();
 	}
@@ -100,7 +81,13 @@ void GameWinMain::RunLoop()
 
 void GameWinMain::Render()
 {
-	mRenderer->Draw();
+	//ImGuiの描画
+	{
+		GUIWinMain::RenderImGui();
+	}
+	{
+		mRenderer->Draw();
+	}
 }
 
 void GameWinMain::Shutdown()
