@@ -352,9 +352,6 @@ void Renderer::Draw()
 		}
 	}
 
-	ImGui::Render();
-	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-
 	// バッファを入れ替える
 	SDL_GL_SwapWindow(mWindow);
 }
@@ -559,6 +556,12 @@ void Renderer::Shutdown()
 	{
 		delete mShadowMap;
 		mShadowMap = nullptr;
+	}
+
+	if( mSceneViewEditor)
+	{
+		delete mSceneViewEditor;
+		mSceneViewEditor = nullptr;
 	}
 
 	// ポイントライトを削除する
