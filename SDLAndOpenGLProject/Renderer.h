@@ -83,6 +83,8 @@ private:
 	//オブジェクトの方向矢印用の頂点配列
 	class VertexArray*									mAxisVAO;
 
+	class SceneViewEditor*								mSceneViewEditor;
+
 	//3D描画処理
 	void												Draw3DScene(unsigned int framebuffer, const Matrix4& view, const Matrix4& proj,
 		float viewPortScale = 1.0f, bool lit = true);
@@ -164,4 +166,7 @@ public:
 	SDL_Window*											GetWindow() { return mWindow; }
 	// mContextのGetter
 	SDL_GLContext										GetContext() { return mContext; }
+
+	// mSceneViewEditorのGetter
+	class SceneViewEditor*								GetSceneViewEditor() { return mSceneViewEditor; }
 };

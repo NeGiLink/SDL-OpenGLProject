@@ -16,7 +16,7 @@ GameWinMain::GameWinMain()
 
 GameWinMain::~GameWinMain()
 {
-	GUIWinMain::ShutdownImGui();
+
 }
 
 bool GameWinMain::Initialize()
@@ -54,9 +54,6 @@ bool GameWinMain::Initialize()
 		Debug::ErrorLog("Failed to initialize GameScenes");
 		return false;
 	}
-
-	//  ImGui‚Ì‰Šú‰»ˆ—
-	GUIWinMain::InitializeImGui(mRenderer->GetWindow(), mRenderer->GetContext());
 	return true;
 }
 
@@ -73,21 +70,13 @@ void GameWinMain::RunLoop()
 		//À•WXVˆ—
 		mGameApp->Update();
 
-		GUIWinMain::UpdateImGuiState();
-
 		Render();
 	}
 }
 
 void GameWinMain::Render()
 {
-	//ImGui‚Ì•`‰æ
-	{
-		GUIWinMain::RenderImGui();
-	}
-	{
-		mRenderer->Draw();
-	}
+	mRenderer->Draw();
 }
 
 void GameWinMain::Shutdown()

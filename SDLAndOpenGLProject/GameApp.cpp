@@ -46,8 +46,6 @@ bool GameApp::ProcessInput()
 	SDL_Event event;
 	while (SDL_PollEvent(&event))
 	{
-		// ImGui用のイベント処理
-		ImGui_ImplSDL3_ProcessEvent(&event);
 		switch (event.type)
 		{
 			//実行が終了するとtrue
