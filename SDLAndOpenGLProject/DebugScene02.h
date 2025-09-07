@@ -4,6 +4,10 @@
 #include "TPSCanvas.h"
 #include "Stages01.h"
 
+//前方宣言
+class TPSPlayer;
+class Stages01;
+
 //TPS視点のゲームシーン
 //ゲームの処理をここでまとめて行います。
 // UnityのSceneのようなもの。
@@ -12,7 +16,7 @@ class DebugScene02 : public BaseScene
 private:
 	// Game-specific code
 
-	class TPSPlayer*				mTPSPlayer;
+	TPSPlayer*						mTPSPlayer;
 
 	Stages01*						mStages01;
 
@@ -20,7 +24,7 @@ private:
 
 	TPSCanvas*						mTPSCanvas;
 public:
-									DebugScene02(class GameWinMain* winMain);
+									DebugScene02(GameWinMain* winMain);
 	
 	bool							Initialize()override;
 	

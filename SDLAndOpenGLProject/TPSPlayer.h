@@ -19,13 +19,13 @@ public:
 		TPose
 	};
 private:
-	class SkeletonMeshActor*		mSkeletonMeshActor;
+	SkeletonMeshActor*				mSkeletonMeshActor;
 
-	class FollowCamera*				mFollowCamera;
+	FollowCamera*					mFollowCamera;
 
-	class FollowObjectMovement*		mMovement;
+	FollowObjectMovement*			mMovement;
 
-	class BoxCollider*				mBoxCollider;
+	BoxCollider*					mBoxCollider;
 
 public:
 									TPSPlayer();
@@ -34,4 +34,3 @@ public:
 
 	void							ActorInput(const struct InputState& keys) override;
 };
-

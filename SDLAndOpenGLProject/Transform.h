@@ -41,11 +41,11 @@ protected:
 	bool								mRecomputeWorldTransform;
 
 	//親オブジェクト
-	class Transform*					mParentActor;
+	Transform*							mParentActor;
 	//子オブジェクトの配列
-	vector<class Transform*>			mChildActor;
+	vector<Transform*>					mChildActor;
 
-	vector<class Component*>			mComponents;
+	vector<Component*>					mComponents;
 public:
 										Transform();
 
@@ -135,9 +135,9 @@ public:
 	virtual void						LocalBonePositionUpdateActor(Matrix4 boneMatrix, const class Matrix4& parentActor);
 
 	//***子オブジェクト関係の処理***
-	virtual class Transform*			GetParentActor() { return mParentActor; }
+	virtual Transform*					GetParentActor() { return mParentActor; }
 
-	virtual const class Transform*		GetChildActor(Transform* actor);
+	virtual const Transform*			GetChildActor(Transform* actor);
 
 	// Add/remove components
 	virtual void						AddComponent(Component* component);
@@ -153,7 +153,7 @@ public:
 
 	virtual void						RemoveParentActor();
 
-	vector<class Component*>			GetComponents() { return mComponents; }
+	vector<Component*>					GetComponents() { return mComponents; }
 
 	//子オブジェクトの座標更新
 	virtual void						SetActive() { mRecomputeWorldTransform = true; }

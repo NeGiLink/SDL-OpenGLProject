@@ -16,7 +16,7 @@ private:
 	
 	bool			mShouldRotate;
 public:
-					CapsuleCollider(class ActorObject* owner, int updateOrder = 100);
+					CapsuleCollider(ActorObject* owner, int updateOrder = 100);
 					~CapsuleCollider();
 
 	void			OnUpdateWorldTransform() override;

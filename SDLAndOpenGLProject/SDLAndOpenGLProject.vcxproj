@@ -151,8 +151,6 @@
     <ClCompile Include="AudioBankProperty.cpp" />
     <ClCompile Include="AudioComponent.cpp" />
     <ClCompile Include="AudioSystem.cpp" />
-    <ClCompile Include="BallActor.cpp" />
-    <ClCompile Include="BallMove.cpp" />
     <ClCompile Include="BaseScene.cpp" />
     <ClCompile Include="BasicInputAction.cpp" />
     <ClCompile Include="BoneActor.cpp" />
@@ -165,10 +163,8 @@
     <ClCompile Include="BaseCamera.cpp" />
     <ClCompile Include="CapsuleActor.cpp" />
     <ClCompile Include="CapsuleCollider.cpp" />
-    <ClCompile Include="CircleComponent.cpp" />
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="Collision.cpp" />
-    <ClCompile Include="ColliderActor.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="ConvertNumToString.cpp" />
     <ClCompile Include="CubeActor.cpp" />
@@ -216,13 +212,11 @@
     <ClCompile Include="DebugScene02.cpp" />
     <ClCompile Include="GBuffer.cpp" />
     <ClCompile Include="FPSCanvas.cpp" />
-    <ClCompile Include="InputComponent.cpp" />
     <ClCompile Include="Laser.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Math.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="MeshRenderer.cpp" />
-    <ClCompile Include="MoveComponent.cpp" />
     <ClCompile Include="OrbitActor.cpp" />
     <ClCompile Include="OrbitCamera.cpp" />
     <ClCompile Include="PauseMenu.cpp" />
@@ -252,8 +246,6 @@
     <ClInclude Include="AudioBankProperty.h" />
     <ClInclude Include="AudioComponent.h" />
     <ClInclude Include="AudioSystem.h" />
-    <ClInclude Include="BallActor.h" />
-    <ClInclude Include="BallMove.h" />
     <ClInclude Include="BaseScene.h" />
     <ClInclude Include="BasicInputAction.h" />
     <ClInclude Include="BoneActor.h" />
@@ -266,10 +258,8 @@
     <ClInclude Include="BaseCamera.h" />
     <ClInclude Include="CapsuleActor.h" />
     <ClInclude Include="CapsuleCollider.h" />
-    <ClInclude Include="CircleComponent.h" />
     <ClInclude Include="Collider.h" />
     <ClInclude Include="Collision.h" />
-    <ClInclude Include="ColliderActor.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="ConvertNumToString.h" />
     <ClInclude Include="CubeActor.h" />
@@ -328,13 +318,11 @@
     <ClInclude Include="DebugScene02.h" />
     <ClInclude Include="GBuffer.h" />
     <ClInclude Include="FPSCanvas.h" />
-    <ClInclude Include="InputComponent.h" />
     <ClInclude Include="Laser.h" />
     <ClInclude Include="Math.h" />
     <ClInclude Include="MatrixPalette.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="MeshRenderer.h" />
-    <ClInclude Include="MoveComponent.h" />
     <ClInclude Include="OrbitActor.h" />
     <ClInclude Include="OrbitCamera.h" />
     <ClInclude Include="PauseMenu.h" />

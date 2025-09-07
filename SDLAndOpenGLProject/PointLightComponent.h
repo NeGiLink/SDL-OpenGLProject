@@ -6,16 +6,20 @@
 * ===エンジン内部処理/Engine internal processing===
 */
 
+//前方宣言
+class Shader;
+class Mesh;
+
 //書籍部分
 //ポイントライトの処理を行うクラス
 class PointLightComponent : public Component
 {
 public:
-			PointLightComponent(class ActorObject* owner);
+			PointLightComponent(ActorObject* owner);
 			~PointLightComponent();
 
 	// このポイントライトを描画
-	void	Draw(class Shader* shader, class Mesh* mesh);
+	void	Draw(Shader* shader, Mesh* mesh);
 
 	// Diffuse color
 	Vector3 mDiffuseColor;

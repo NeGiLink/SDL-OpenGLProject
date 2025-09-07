@@ -16,15 +16,20 @@ public:
 	static bool			mGameEventFrag;
 	static bool			mDebugFrag;
 };
+
+//前方宣言
+class Renderer;
+class GameApp;
+
 //ゲームの描画処理管理クラス
 //主にRenderernなどの画面の構成を管理しているクラス
 class GameWinMain
 {
 private:
-	class Renderer*		mRenderer;
+	Renderer*			mRenderer;
 
 	//ゲーム内処理
-	class GameApp*		mGameApp;
+	GameApp*			mGameApp;
 	//ゲーム内の全ての描画を行うクラス
 	void				Render();
 	//シーン遷移時の解放処理
@@ -40,5 +45,5 @@ public:
 	//ゲーム終了処理
 	void				Shutdown();
 	//Rendererの取得
-	class Renderer*		GetRenderer() { return mRenderer; }
+	Renderer*			GetRenderer() { return mRenderer; }
 };

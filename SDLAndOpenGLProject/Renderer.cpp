@@ -17,7 +17,7 @@
 #include "DirectionalLightComponent.h"
 #include "SkyBoxRenderer.h"
 
-Renderer::Renderer(GameWinMain* game)
+Renderer::Renderer()
 	: mNowScene(nullptr)
 	, mSpriteShader(nullptr)
 	, mMeshShader(nullptr)

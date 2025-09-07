@@ -36,7 +36,7 @@ private:
 	// Rigidbody.h
 	bool		mIsGrounded = false;
 public:
-				Rigidbody(class ActorObject* owner, int updateOrder = 100);
+				Rigidbody(ActorObject* owner, int updateOrder = 100);
 	//FixedUpdate‚ÅŒÄ‚Ño‚·
 	void		FixedUpdate(float deltaTime)override;
 
