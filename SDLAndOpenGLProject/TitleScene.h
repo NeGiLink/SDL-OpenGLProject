@@ -4,17 +4,18 @@
 #include "TitleCanvas.h"
 #include "MeshActor.h"
 
+
 //タイトルシーンのクラス
 class TitleScene : public BaseScene
 {
 private:
 	MeshActor*						mDebugStage;
 
-	class FreeCameraActor*			mFreeCameraActor;
+	FreeCameraActor*				mFreeCameraActor;
 
-	class TitleCanvas*				mTitleCanvas;
+	TitleCanvas*					mTitleCanvas;
 public:
-									TitleScene(class GameWinMain* winMain);
+									TitleScene(GameWinMain* winMain);
 									~TitleScene();
 
 	bool							Initialize()override;

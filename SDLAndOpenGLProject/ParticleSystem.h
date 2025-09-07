@@ -27,7 +27,7 @@ protected:
 	// パーティクルのインスタンス
 	vector<ParticleStruct*> mParticle;
 	// パーティクルのテクスチャ
-	class Texture*			mParticleTexture;
+	Texture*				mParticleTexture;
 	//
 	bool					mIsAlphaFade;
 	// パーティクルのループフラグ
@@ -56,12 +56,12 @@ protected:
 	// パーティクルの発射タイマー
 	float					mEmitTimer = 0.0f;
 public:
-	ParticleSystem(class ActorObject* owner);
+	ParticleSystem(ActorObject* owner);
 	~ParticleSystem();
 	// パーティクルシステムの更新
 	void						Update(float deltaTime)override;
 	// パーティクルの描画
-	virtual void				Draw(class Shader* shader);
+	virtual void				Draw(Shader* shader);
 	// テクスチャの読み込み
 	void						LoadTexture(string name);
 	//速度を与える
@@ -105,6 +105,6 @@ public:
 
 	ParticleStruct*				GetInactiveParticleOrCreateNew();
 
-	void SetEmitInterval(float interval);
+	void						SetEmitInterval(float interval);
 };
 

@@ -18,7 +18,7 @@ protected:
 
 	Matrix4 mCameraYawRot;
 public:
-	BaseCamera(class ActorObject* owner, int updateOrder = 200);
+	BaseCamera(ActorObject* owner, int updateOrder = 200);
 
 	Vector3 GetCameraForward() { return mCameraForward; }
 	Vector3 GetCameraRight() { return mCameraRight; }

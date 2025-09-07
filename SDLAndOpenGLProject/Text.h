@@ -16,7 +16,7 @@ private:
 	// UTF-8形式のテキスト内容
 	ccp_String      mText;
 	// フォント
-	class Font*		mFont;
+	Font*			mFont;
 	// テキストの位置
 	Vector2			mDimensions;
 	
@@ -26,7 +26,7 @@ private:
 	// テキストの色
 	Vector3			mColor;
 public:
-					Text(class Font* font,const Vector2& pos,int function = 0);
+					Text(Font* font,const Vector2& pos,int function = 0);
 					~Text();
 
 	// Set the name of the button
@@ -39,5 +39,5 @@ public:
 	void			SetColor(Vector3 color);
 
 
-	class Font*		GetFont()const { return mFont; }
+	Font*			GetFont()const { return mFont; }
 };

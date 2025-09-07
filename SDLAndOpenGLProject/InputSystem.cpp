@@ -8,6 +8,8 @@ SDL_Gamepad* InputSystem::mController = nullptr;
 
 SDL_Window* InputSystem::mWindow = nullptr;
 
+InputSystem::MouseMode InputSystem::mMouseMode = Absolute;
+
 bool KeyboardState::GetKeyValue(SDL_Scancode keyCode) const
 {
     return mCurrState[keyCode] == 1;
@@ -205,8 +207,15 @@ void InputSystem::Update()
 		mState.Mouse.mCurrButtons = SDL_GetMouseState(&x, &y);
 	}
 
-	mState.Mouse.mMousePos.x = static_cast<float>(x);
-	mState.Mouse.mMousePos.y = static_cast<float>(y);
+	if (mMouseMode == MouseMode::Relative)
+	{
+		SDL_WarpMouseInWindow(mWindow, mState.Mouse.mMousePos.x, mState.Mouse.mMousePos.y);
+	}
+	else
+	{
+		mState.Mouse.mMousePos.x = static_cast<float>(x);
+		mState.Mouse.mMousePos.y = static_cast<float>(y);
+	}
 
 	// Controller
 	// Buttons
@@ -259,6 +268,46 @@ void InputSystem::SetRelativeMouseMode(bool value)
 	SDL_SetWindowRelativeMouseMode(mWindow,set);
 
 	mState.Mouse.mIsRelative = value;
+}
+
+void InputSystem::SetGameMouseMode(MouseMode mode)
+{
+	if (mode == MouseMode::Relative)
+	{
+		mMouseMode = MouseMode::Relative;
+		// --- 非表示にする瞬間 ---
+		SDL_GetMouseState(&mState.Mouse.mMousePos.x, &mState.Mouse.mMousePos.y);   // 現在位置を保存
+		SDL_HideCursor();                      // カーソル非表示
+		SDL_SetWindowRelativeMouseMode(mWindow, true);
+		//SDL_GetRelativeMouseState(nullptr, nullptr);
+	}
+	else if (mode == MouseMode::Absolute)
+	{
+		mMouseMode = MouseMode::Absolute;
+		SDL_SetWindowRelativeMouseMode(mWindow, false);
+	}
+	else
+	{
+		SDL_Log("Unknown mouse mode");
+	}
+}
+
+void InputSystem::RelativeMouseMode()
+{
+	mMouseMode = MouseMode::Relative;
+	// --- 非表示にする瞬間 ---
+	SDL_GetMouseState(&mState.Mouse.mMousePos.x, &mState.Mouse.mMousePos.y);   // 現在位置を保存
+	SDL_HideCursor();                      // カーソル非表示
+	// 相対モードON（移動量取得可）
+	SDL_SetWindowRelativeMouseMode(mWindow, true);
+}
+
+void InputSystem::AbsoluteMouseMode()
+{
+	mMouseMode = MouseMode::Absolute;
+	SDL_SetWindowRelativeMouseMode(mWindow, false);// 相対モードOFF
+	SDL_ShowCursor();                      // カーソル再表示
+	SDL_WarpMouseInWindow(mWindow, mState.Mouse.mMousePos.x, mState.Mouse.mMousePos.y);  // 元の位置に復元
 }
 
 float InputSystem::Filter1D(int input)

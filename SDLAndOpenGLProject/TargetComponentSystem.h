@@ -21,8 +21,8 @@ public:
 
 	vector<TargetComponent*>			GetTargetComponent() { return mTargetComponent; }
 
-	void								AddTargetComponent(class TargetComponent* tc);
+	void								AddTargetComponent(TargetComponent* tc);
 
-	void								RemoveTargetComponent(class TargetComponent* tc);
+	void								RemoveTargetComponent(TargetComponent* tc);
 };
 

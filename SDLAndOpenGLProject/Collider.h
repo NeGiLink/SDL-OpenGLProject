@@ -28,7 +28,7 @@ protected:
 
 	float					mContactOffset;
 public:
-							Collider(class ActorObject* owner, int updateOrder = 100);
+							Collider(ActorObject* owner, int updateOrder = 100);
 							~Collider();
 
 	enum ColliderType

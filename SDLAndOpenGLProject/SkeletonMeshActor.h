@@ -16,21 +16,21 @@
 class SkeletonMeshActor : public ActorObject
 {
 private:
-	class SkeletalMeshRenderer* mSkeletonMesh;
+	SkeletalMeshRenderer*		mSkeletonMesh;
 
-	class Animator*				mAnimator;
+	Animator*					mAnimator;
 
 	string						mAnimatorName;
 public:
-	SkeletonMeshActor();
-	~SkeletonMeshActor();
+								SkeletonMeshActor();
+								~SkeletonMeshActor();
 
 	void Load(string filePath);
 
-	class SkeletalMeshRenderer* GetSkeletalMeshRenderer() { return mSkeletonMesh; }
+	SkeletalMeshRenderer*		GetSkeletalMeshRenderer() { return mSkeletonMesh; }
 
-	class Animator* GetAnimator() { return mAnimator; }
+	Animator*					GetAnimator() { return mAnimator; }
 
-	void SetAnimatorName(string name);
+	void						SetAnimatorName(string name);
 };
 

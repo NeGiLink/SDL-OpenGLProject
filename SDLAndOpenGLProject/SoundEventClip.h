@@ -16,9 +16,9 @@ protected:
 	// このコンストラクタをprotectedにし、AudioSystemを友達として設定して、
 	// AudioSystemのみがこのコンストラクタにアクセスできるようにします。
 	friend class		AudioSystem;
-						SoundEventClip(class AudioSystem* system, unsigned int id);
+						SoundEventClip(AudioSystem* system, unsigned int id);
 private:
-	class AudioSystem*	mSystem;
+	AudioSystem*		mSystem;
 	unsigned int		mID;
 public:
 						SoundEventClip();

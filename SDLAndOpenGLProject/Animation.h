@@ -28,13 +28,16 @@ struct AnimationBinTransform
 	Vector3		scale = Vector3();
 };
 
+//前方宣言
+class Skeleton;
+
 //アニメーション1つの情報を持つクラス
 //アニメーションのフレーム数、持続時間、各ボーンの変形情報を持つ
 //アニメーションの読み込みはAssimpを使用
 class Animation
 {
 public:
-											Animation(class Skeleton* skeleton);
+											Animation(Skeleton* skeleton);
 
 	bool									Load(const string& fileName);
 
@@ -54,7 +57,7 @@ public:
 	
 	float									GetFrameDuration() const { return mFrameDuration; }
 
-	void									SetSkeleton(class Skeleton* skeleton) { mSkeleton = skeleton; }
+	void									SetSkeleton(Skeleton* skeleton) { mSkeleton = skeleton; }
 
 	bool									IsLoop() const { return isLoop; }
 
@@ -108,7 +111,7 @@ public:
 
 	// 指定されたアニメーションの時間における各ボーンのグローバル（現在の）ポーズ行列を提供されたベクターに充填。
 	// 時間は0.0f以上でmDuration以下であること。
-	void									GetGlobalPoseAtTime(vector<Matrix4>& outPoses, const class Skeleton* inSkeleton, float inTime) const;
+	void									GetGlobalPoseAtTime(vector<Matrix4>& outPoses, const Skeleton* inSkeleton, float inTime) const;
 private:
 	//bool									LoadFromJSON(const string& fileName);
 
@@ -140,7 +143,7 @@ private:
 
 	vector<Vector3*>						mRootPosition;
 
-	class Skeleton*							mSkeleton;
+	Skeleton*								mSkeleton;
 	//アニメーションをループさせるためのフラグ
 	bool									isLoop;
 	//アニメーションが再生終了したかどうか

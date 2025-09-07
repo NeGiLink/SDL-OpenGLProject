@@ -109,9 +109,6 @@
     <Filter Include="SourceFiles\F_Editor\Audios">
       <UniqueIdentifier>{76423572-8a91-4d87-8c40-a9ab28d522a3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="SourceFiles\G_Unused/未使用ファイル">
-      <UniqueIdentifier>{06ed5f55-ba5d-48a9-be9d-a925c0efb940}</UniqueIdentifier>
-    </Filter>
     <Filter Include="SourceFiles\F_Editor\Debugs">
       <UniqueIdentifier>{f2b1f472-34a9-47b3-bfc0-6c7393dc4633}</UniqueIdentifier>
     </Filter>
@@ -227,24 +224,6 @@
     </ClCompile>
     <ClCompile Include="GameWinMain.cpp">
       <Filter>SourceFiles\A_Mains</Filter>
-    </ClCompile>
-    <ClCompile Include="ColliderActor.cpp">
-      <Filter>SourceFiles\G_Unused/未使用ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="BallMove.cpp">
-      <Filter>SourceFiles\G_Unused/未使用ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="BallActor.cpp">
-      <Filter>SourceFiles\G_Unused/未使用ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="InputComponent.cpp">
-      <Filter>SourceFiles\G_Unused/未使用ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="MoveComponent.cpp">
-      <Filter>SourceFiles\G_Unused/未使用ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="CircleComponent.cpp">
-      <Filter>SourceFiles\G_Unused/未使用ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Rigidbody.cpp">
       <Filter>SourceFiles\F_Editor\Rigidbody</Filter>
@@ -541,24 +520,6 @@
     </ClInclude>
     <ClInclude Include="GameApp.h">
       <Filter>SourceFiles\A_Mains</Filter>
-    </ClInclude>
-    <ClInclude Include="ColliderActor.h">
-      <Filter>SourceFiles\G_Unused/未使用ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="BallMove.h">
-      <Filter>SourceFiles\G_Unused/未使用ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="BallActor.h">
-      <Filter>SourceFiles\G_Unused/未使用ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="InputComponent.h">
-      <Filter>SourceFiles\G_Unused/未使用ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="MoveComponent.h">
-      <Filter>SourceFiles\G_Unused/未使用ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="CircleComponent.h">
-      <Filter>SourceFiles\G_Unused/未使用ファイル</Filter>
     </ClInclude>
     <ClInclude Include="SDL_Scancode.h">
       <Filter>SourceFiles\F_Editor\Defines</Filter>

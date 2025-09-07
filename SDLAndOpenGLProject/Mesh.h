@@ -43,17 +43,15 @@ struct MeshBinHeader {
 class Mesh
 {
 private:
-	//JSONファイルの読み込み処理
-	//bool						LoadFromJSON(const string& fileName, class Renderer* renderer, int index);
 	// FBXファイルからJSONに変換処理
-	bool						LoadFromFBX(const string& fileName, class Renderer* renderer, int index);
+	bool						LoadFromFBX(const string& fileName, Renderer* renderer, int index);
 	// AABBの当たり判定を配列で取得
 	vector<AABB>				mBoxs;
 	vector<OBB>					mOBBBoxs;
 	// Meshのテクスチャを取得
-	vector<class Texture*>		mTextures;
+	vector<Texture*>			mTextures;
 	// MeshのVertexArrayの配列
-	vector<class VertexArray*>  mVertexArrays;
+	vector<VertexArray*>		mVertexArrays;
 	// シェーダー名
 	string						mShaderName;
 	// 球の半径
@@ -64,7 +62,7 @@ public:
 								Mesh();
 								~Mesh();
 	// Load
-	bool						Load(const string& fileName, class Renderer* renderer,int index = 0);
+	bool						Load(const string& fileName, Renderer* renderer,int index = 0);
 	// バイナリファイルからの読み込み処理
 	bool						LoadFromMeshBin(const string& fileName, Renderer* renderer, int index = 0);
 	//Meshの数を取得
@@ -73,12 +71,12 @@ public:
 	void						Unload();
 	// Getter
 	// MeshのVertexArrayを配列で取得
-	vector<class VertexArray*>	GetVertexArrays() 
+	vector<VertexArray*>		GetVertexArrays() 
 	{
 		return mVertexArrays; 
 	}
 	// テクスチャを配列で取得
-	class Texture*				GetTexture(size_t index);
+	Texture*					GetTexture(size_t index);
 	// シェーダー名を取得
 	const string&				GetShaderName() const { return mShaderName; }
 	// 球の半径を取得
@@ -87,7 +85,7 @@ public:
 	const vector<AABB>			GetBoxs() const { return mBoxs; }
 	const vector<OBB>			GetOBBBoxs() const { return mOBBBoxs; }
 	//マテリアル情報取得
-	vector<MaterialInfo>	GetMaterialInfo() { return mMaterialInfo; }
+	vector<MaterialInfo>		GetMaterialInfo() { return mMaterialInfo; }
 	void  SetMaterialInfo(const vector<MaterialInfo>& info) 
 	{ 
 		mMaterialInfo = info; 
