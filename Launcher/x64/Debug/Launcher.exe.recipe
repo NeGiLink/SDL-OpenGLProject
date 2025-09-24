@@ -2,7 +2,7 @@
 <Project>
   <ProjectOutputs>
     <ProjectOutput>
-      <FullPath>C:\C++Files\SDL-OpenGLProject\bin\SDLAndOpenGLProject.exe</FullPath>
+      <FullPath>C:\C++Files\SDL-OpenGLProject\Launcher.exe</FullPath>
     </ProjectOutput>
   </ProjectOutputs>
   <ContentFiles />
